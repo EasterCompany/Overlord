@@ -1,15 +1,22 @@
 from flask import Flask, request, redirect
 from platform import uname
-from Overlord.Bionic.Basics import local_db, randint
+from Overlord.Bionic.Basics import local_db, randint, root
 
 
 class __Server__:
-    app = Flask(__name__)
+    app = Flask(
+        __name__,
+        static_url_path='/',
+        static_folder='./Static',
+        root_path=root
+    )
 
     def __init__(self):
         self.os = uname().system
         self.db = local_db()
         self.name = uname().node
+        self.request = request
+        self.goto = redirect
         self.sql = self.db.cursor()
         self.make_user_tables()
         self.db.commit()

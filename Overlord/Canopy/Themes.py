@@ -3,21 +3,26 @@
 #
 default = {
     'html': {
-        'font-family': 'helvetica',
+        'font-family': 'Helvetica',
         'font-weight': 'normal',
-        'color': 'white',
-        'text-align': 'center',
-        'scrollbar-color': '#666 #201c29',
         'overflow-x': 'hidden',
         'min-height': '100%',
         'min-width': '100%',
-        'background-color': 'rgba(55, 55, 55, 1)'
+        'color': 'white',
+        'background-color': '#11151A'
     },
     '::selection': {
         'background': '#b53e31'
     },
     '::-moz-selection': {
         'background': '#b53e31'
+    },
+    '::-webkit-scrollbar': {
+        'width': '6px',
+        'background-color': '#201c29'
+    },
+    '::-webkit-scrollbar-thumb': {
+        'background-color': '#666',
     },
     'svg': {
         'fill': '#fe8605',
@@ -27,21 +32,43 @@ default = {
     'svg:active': {
         'fill': 'white'
     },
+    'img': {
+        'margin': '16px 20% 16px 20%',
+        'width': '60%',
+        'box-shadow': '1px 1px 15px rgba(1,1,1,1)'
+    },
     'h1,h2,h3,h4,h5,h6': {
+        'color': 'white',
         'margin': '.1rem 0 0 0'
     },
     'p': {
         'text-align': 'left',
-        'margin': '0 0 0 0'
+        'margin': '0 0 0 0',
+        'color': 'white'
     },
-    'hr': {
-        'margin': '1% 1% 1% 1%',
+    'input': {
+        'width': '90%',
+        'margin': '0 16px 0 16px'
+    },
+    'button': {
+        'background-color': 'rgba(99, 99, 99, 0.1)'
     },
     '.button': {
         'width': '100%',
+        'color': 'white'
+    },
+    '.tab': {
         'color': 'white',
-        'padding': '2px 0 2px 0',
-        'background-color': 'rgba(99, 99, 99, 0.5)'
+        'font-family': 'Caesar Dressing',
+        'font-size': '2rem',
+        'width': '300px',
+        'height': '64px',
+        'margin': '32px 16px 32px 16px',
+        'border-radius': '0',
+        'background-color': 'rgba(1, 1, 1, 0)'
+    },
+    '.tab:hover': {
+        'background-color': 'rgba(217, 117, 11, 0.5)'
     },
     '.button:hover': {
         'background-color': 'rgba(255, 99, 71, 0.5)',
@@ -61,28 +88,30 @@ default = {
     '.site-body': {
         'text-align': 'center',
         'z-index': '-1',
-        'color': 'black',
         'top': '95px',
-        'overflow-x': 'hidden',
-        'margin': '95px 0 95px 0',
+        'overflow-x': 'hidden'
     },
     '.content': {
-        'top': '48px',
+        'top': '46px',
+        'border': '0',
         'left': '0px',
-        'position': 'fixed',
-        'height': '100%',
         'width': '100%',
-        'background-color': 'rgba(55, 55, 55, 1)'
+        'position': 'fixed',
+        'background-color': 'rgba(55,55,55,1)'
     },
     '.menu': {
-        'width': '250px',
+        'width': '100%',
+        'max-height': '310px',
+        'overflow-y': 'auto',
+        'overflow-x': 'hidden',
         'text-align': 'center',
-        'display': 'none'
+        'display': 'none',
+        'scrollbar-width': '1px',
+        'scrollbar-color': '#666 #201c29'
     },
     '.app-bar': {
-        'background-color': 'rgba(10, 10, 10, 0.7)',
         'box-shadow': '1px 1px 5px rgba(1,1,1,1)',
-        'min-height': '64px',
+        'min-height': '36px',
         'z-index': '99',
         'position': 'fixed',
         'left': '0px',
@@ -90,39 +119,85 @@ default = {
     },
     '.app-bar-option:hover': {
         'background-color': '#fe8605'
+    },
+    '.youtube-video': {
+        'width': '100%',
+        'height': '100%',
+        'max-width': '800px',
+        'min-width': '300px',
+        'min-height': '480px',
+        'margin': '32px 0 32px 0',
+        'background-color': 'black'
+    },
+    'twitter-follow-button': {
+        'margin': '0 0 0 0'
+    },
+    'instagram-media': {
+        'width': '480px',
+        'height': '640px'
+    },
+    '.site-header': {
+        'margin': '32px 0 64px 0'
     }
 }
 
 #
-# DEFAULT MODE FOR DESKTOP CLIENTS
+# DEFAULT MODE FOR DESKTOPS
 #
 landscape = {
     '.app-bar': {
-        'padding': '8px 8px 8px 8px',
+        'background-color': 'rgba(10, 10, 10, 0.9)',
         'margin': '0 0 8px 8px',
-        'width': '250px',
+        'min-width': '210px',
+        'width': '20%'
     },
-    'body': {
-        'padding': '2% 2% 0 2%',
-        'height': 'calc(98% - 48px)',
-        'width': '90%'
+    '.content': {
+        'height': 'calc(100% - 48px)',
     },
+    '.youtube-div': {
+        'padding': '10% 20% 10% 20%',
+        'box-shadow': '1px 1px 15px rgba(1,1,1,1)'
+    },
+    '.youtube-desc': {
+        'margin': '0 20% 0 20%'
+    },
+    '.site-header': {
+        'display': 'flex',
+        'justify-content': 'center'
+    },
+    '.site-header-logo': {
+        'width': '30%',
+        'margin-left': '-10%',
+        'margin-right': '15%'
+    }
 }
 
 #
-# DEFAULT MODE FOR MOBILE CLIENTS
+# DEFAULT MODE FOR MOBILE
 #
 portrait = {
     '.app-bar': {
-        'padding': '8px calc(50% - 132px) 8px calc(50% - 132px)',
+        'background-color': 'rgba(10, 10, 10, 1)',
         'margin': '0 0 0 0',
+        'width': '100%'
+    },
+    '.content': {
+        'height': 'calc(100% - 112px)',
+    },
+    '.youtube-div': {
+        'padding': '10% 5% 10% 5%'
+    },
+    '.youtube-desc': {
+        'margin': '0 20% 0 20%'
+    },
+    '.site-header': {
+        'display': 'block',
+        'justify-content': 'center'
+    },
+    '.site-header-logo': {
         'width': '100%',
-    },
-    'body': {
-        'padding': '2% 1% 0 1%',
-        'height': 'calc(98% - 48px)',
-        'width': '98%',
-    },
+        'margin-left': '0'
+    }
 }
 
 

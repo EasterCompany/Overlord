@@ -1,5 +1,6 @@
 from . import Themes, Templates
-from ..Bionic.Basics import open_file, root
+from ..Bionic.Basics import open_file, root, py_args, \
+    syspath, mkdir
 
 pages = []
 jsenv = {
@@ -9,7 +10,8 @@ jsenv = {
 
 
 def script(function, parameters=''):
-    if function not in jsenv['0'] and function not in jsenv[jsenv['c']]:
+    if function not in jsenv['0'] and function not in jsenv[jsenv['c']] and \
+        syspath.exists(root + '/Static/JS/' + function + '.js'):
         jsenv[jsenv['c']] += \
             open_file(root + '/Static/JS', function + '.js').\
                 replace('\n', ' ') + '\n        '
@@ -20,7 +22,7 @@ def script(function, parameters=''):
 
 def var(variable, value):
     if isinstance(value, str):
-        return variable + """ = `""" + value +  """`;"""
+        return variable + """=`""" + value +  """`;"""
 
 
 '''
@@ -50,7 +52,7 @@ def toggleContent(ID, x, y, display='', UI_MODE=False):
 
 class Document:
 
-    def __init__(self):
+    def __init__(self, template=list()):
         global jsenv
         self.jsenv = str(len(jsenv))
         jsenv['c'] = self.jsenv
@@ -60,36 +62,62 @@ class Document:
             'landscape': Themes.landscape, 
             'portrait': Themes.portrait
         }
-        self.elements = Templates.default
+        self.elements = template
         self.footer = list()
+        self.css_imports = []
+        self._build = self.render()
+
+    def import_css(self, href):
+        return self.css_imports.append(href)
+
+    def set_font(self, family):
+        self.styles['default']['html']['font-family'] = family
 
     def add_elements(self, elements=list()):
         for element in elements:
-            if isinstance(str, element):
-                self.elements.append(str(element))
+            self.elements.append(str(element))
+
+    def minifyBuild(self):
+        self._build = self._build.replace('\n', ' ')
+        while '  ' in self._build:
+            self._build = self._build.replace('  ', ' ')
+        return self._build
+
+    def build(self, filename):
+        mkdir('./Static/MD')
+        build = open('./Static/MD/' + filename + '.html', 'w+')
+        build.write(self.minifyBuild())
+        build.close()
 
     def render(self):
-        return """<!DOCTYPE html>
+        style = Themes.style(
+        self.styles['default'],
+        ) + """
+        """ + Themes.style(
+            self.styles['landscape'], 
+            rules={'orientation': 'landscape'}
+        ) + \
+        Themes.style(
+            self.styles['portrait'],    
+            rules={'orientation': 'portrait'}
+        )
+        import_styles = ""
+        for css_import in self.css_imports:
+            import_styles += """
+                <link rel="stylesheet" href="{new_import}">
+            """.format(new_import=css_import)
+        render = """<!DOCTYPE html>
 <html>
     <head>
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title> Easter Company </title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    """ + import_styles + """
     <script type="text/javascript">
         """ + jsenv['0'] + """
         """ + jsenv[self.jsenv] + """ 
     </script>
     <style> 
-    """ + \
-    Themes.style(
-        self.styles['default'],
-    ) + """
-    """ + Themes.style(
-        self.styles['landscape'], 
-        rules={'orientation': 'landscape'}
-    ) + \
-    Themes.style(
-        self.styles['portrait'],    
-        rules={'orientation': 'portrait'}
-    ) + """ 
+    """ + style + """ 
     </style>
     </head>
     <div id='site.body' class='site-body'>
@@ -97,4 +125,8 @@ class Document:
     </div>
 </html>
 """
+        if '-t' in py_args:
+            return render
+        self._build = render
+        return self.minifyBuild()
 
