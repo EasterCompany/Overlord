@@ -5,7 +5,6 @@
     APPLICATIONS LIBRARY
 """
 
-from . import Atlas
 from . import Bionic
 from . import Canopy
 from . import Dexter
