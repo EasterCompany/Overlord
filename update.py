@@ -1,4 +1,4 @@
-from Overlord.Bionic.Update import *
+from .Overlord.Bionic.Update import *
 
 
 class application:
