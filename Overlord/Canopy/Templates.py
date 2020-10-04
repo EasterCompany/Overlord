@@ -8,24 +8,16 @@ def default_navbar():
         elements=[
             button(
                 Icon=svg('home'),
-                OnClick=script(
-                    'window.open', 
-                    'https://www.facebook.com/eastercompany'
+                OnClick=var(
+                    'window.location.href', 
+                    '/'
                 )
             ),
             button(
-                Icon=svg('user'),
-                OnClick=script(
-                    'window.open', 
-                    'https://www.twitter.com/eastercompany'
-                )
+                Icon=svg('user')
             ),
             button(
-                Icon=svg('search'),
-                OnClick=script(
-                    'window.open', 
-                    'https://github.com/EasterCompany'
-                )
+                Icon=svg('search')
             )
         ]
     )
@@ -158,17 +150,17 @@ default = [
 header = [
     "<div class='site-header'>",
         "<div class='site-header-logo'>",
-            svg('logo'),
+            svg('logo2'),
         """
         </div>
         <div style='display:block;'>
-            <h1 style='margin-top:16px;font-family:Caesar Dressing;'> EASTER COMPANY </h1>
+            <h1 style='margin-top:16px;font-family:Spartan;font-size:36px;'> EASTER COMPANY </h1>
             <br/>
             <h4> Business Contact </h4>
             <br/>
             <h5> owen@easter.company </h5> 
             <h5> +441382527319 </h5>
-            <br/><hr/> 
+            <br/><hr/>
         """,
         flex(
             button(

@@ -162,6 +162,7 @@ landscape = {
         'margin': '0 20% 0 20%'
     },
     '.site-header': {
+        'height': '100%',
         'display': 'flex',
         'justify-content': 'center'
     },

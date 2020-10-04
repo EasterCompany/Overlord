@@ -5,7 +5,7 @@ from Overlord.Canopy.Image import youtube, instagram, img, svg
 # Page Root
 App = Document(template=header)
 App.import_css('https://fonts.googleapis.com/css2?family=Roboto:wght@300&display=swap')
-App.import_css('https://fonts.googleapis.com/css2?family=Caesar+Dressing&display=swap')
+App.import_css('https://fonts.googleapis.com/css2?family=Spartan:wght@700&display=swap')
 App.set_font("Roboto")
 
 # Page Elements
@@ -23,6 +23,15 @@ App.add_elements(
                 product in tensorflow which required much more training for similar results.
                 One remarkable strategy I recognised was that Vi (Dexter) always returns to the 
                 middle of the screen after returning the ball to save time on the next return.
+            '''
+        ),
+        youtube(
+            title="Extensive Dexter A.I. Demonstration (2018)",
+            url="Ud8pgj1g-9s",
+            text='''
+                In this video we demonstrate News, Weather, Music, Search & Chat functionality
+                from Dexter Mark 4 - one of the greatest versions of out unreleased A.I. project.
+                Allow the video to speak for itself. 
             '''
         ),
         youtube(
