@@ -1,4 +1,4 @@
-from .Apps import Home, Library
+from Apps import Home, Library
 
 app_index = {
     'home': Home.App,

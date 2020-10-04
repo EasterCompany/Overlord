@@ -1,6 +1,6 @@
-from ..Overlord.Canopy.Core import Document
-from ..Overlord.Canopy.Templates import header
-from ..Overlord.Canopy.Image import youtube, instagram, img, svg
+from Overlord.Canopy.Core import Document
+from Overlord.Canopy.Templates import header
+from Overlord.Canopy.Image import youtube, instagram, img, svg
 
 # Page Root
 App = Document(template=header)

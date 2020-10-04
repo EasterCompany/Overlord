@@ -1,5 +1,5 @@
-from ..Overlord.Canopy.Core import Document
-from ..Overlord.Canopy.Templates import header
+from Overlord.Canopy.Core import Document
+from Overlord.Canopy.Templates import header
 
 # Page Root
 App = Document(template=header)

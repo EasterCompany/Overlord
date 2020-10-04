@@ -1,9 +1,9 @@
 # Framework Imports
-from .Overlord.Bionic.Local import Index, Server
-from .Overlord.Bionic.Basics import py_args, root
+from Overlord.Bionic.Local import Index, Server
+from Overlord.Bionic.Basics import py_args, root
 # Local App Imports
-from .Apps.ui import App
-from .appIndex import app_index
+from Apps.ui import App
+from appIndex import app_index
 
 wsgi = Server.app
 
