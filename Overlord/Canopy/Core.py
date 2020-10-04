@@ -63,9 +63,7 @@ class Document:
             'portrait': Themes.portrait
         }
         self.elements = template
-        self.footer = list()
         self.css_imports = []
-        self._build = self.render()
 
     def import_css(self, href):
         return self.css_imports.append(href)
@@ -77,17 +75,11 @@ class Document:
         for element in elements:
             self.elements.append(str(element))
 
-    def minifyBuild(self):
-        self._build = self._build.replace('\n', ' ')
-        while '  ' in self._build:
-            self._build = self._build.replace('  ', ' ')
-        return self._build
-
-    def build(self, filename):
-        mkdir('./Static/MD')
-        build = open('./Static/MD/' + filename + '.html', 'w+')
-        build.write(self.minifyBuild())
-        build.close()
+    def minifyBuild(self, target):
+        _build = target.replace('\n', ' ')
+        while '  ' in _build:
+            _build = _build.replace('  ', ' ')
+        return _build
 
     def render(self):
         style = Themes.style(
@@ -127,6 +119,5 @@ class Document:
 """
         if '-t' in py_args:
             return render
-        self._build = render
-        return self.minifyBuild()
+        return self.minifyBuild(render)
 
