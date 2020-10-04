@@ -1,6 +1,6 @@
 from flask import Flask, request, redirect
 from platform import uname
-from Overlord.Bionic.Basics import local_db, randint, root
+from .Basics import local_db, randint, root
 
 
 class __Server__:

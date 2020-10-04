@@ -1,4 +1,4 @@
-from Overlord.Bionic.Basics import open_file
+from ..Bionic.Basics import open_file
 
 
 def img(url):

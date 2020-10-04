@@ -1,5 +1,5 @@
-from Overlord.Bionic.Basics import platform_version, root, py_args, syspath
-from Overlord.Bionic.Local import Server, Index
+from .Basics import platform_version, root, py_args, syspath
+from .Local import Server, Index
 
 
 @Index.add('/o')

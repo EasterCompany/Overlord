@@ -1,6 +1,6 @@
 # Root Document Import
-from Overlord.Canopy.Core import Document
-from Overlord.Canopy.Templates import default
+from ..Overlord.Canopy.Core import Document
+from ..Overlord.Canopy.Templates import default
 
 # Create Document Template
 App = Document(template=default)

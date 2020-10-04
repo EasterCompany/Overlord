@@ -1,4 +1,4 @@
-from Overlord.Bionic.Basics import platform_version
+from .Basics import platform_version
 from urllib import request as req
 
 sources = {
