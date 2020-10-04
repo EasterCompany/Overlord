@@ -5,6 +5,8 @@ from Overlord.Bionic.Basics import py_args, root
 from Apps.ui import App
 from appIndex import app_index
 
+wsgi = Server.app
+
 
 # Site Index
 @Index.add('/')
@@ -27,6 +29,6 @@ def __distribution__():
 # Boot Conditions
 if __name__ == "__main__":
     if '-t' in py_args:
-        Server.app.run(debug=True)
+        wsgi.run(debug=True)
     else:
-        Server.app.run(debug=False)
+        wsgi.run(debug=False)
