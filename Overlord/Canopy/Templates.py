@@ -163,9 +163,9 @@ header = [
             function='random',
             parameters='''`site-header-quote`, [
                 `“Spartans are equal too any man as individuals; <br/> but together as a collective, they surpass all men.” <br/> - Damaratus to Xerxes.`,
-                ` <br/> “Quality before Quanity. <br/> Pruned before Perfect.” <br/> - Ethos.`,
+                ` “Quality before Quanity. <br/> Pruned before Perfect.” <br/> - Ethos. <br/>`,
                 ` “silence over empty words, <br/> simplicity over decoration, <br/> and precision over expansiveness.” <br/> - Ethos `,
-                ` <br/> “Liberty, Equality and Fraternity.” <br/> - Ethos <br/> `,
+                ` “Liberty, Equality <br/> and Fraternity.” <br/> - Ethos <br/> `,
             ]
             ''',
             addon=True

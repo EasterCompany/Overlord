@@ -114,6 +114,7 @@ default = {
         'scrollbar-color': '#666 #201c29'
     },
     '.app-bar': {
+        'font-family': 'Roboto',
         'box-shadow': '1px 1px 5px rgba(1,1,1,1)',
         'min-height': '36px',
         'z-index': '99',
