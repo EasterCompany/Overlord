@@ -9,7 +9,8 @@ default = {
         'min-height': '100%',
         'min-width': '100%',
         'color': 'white',
-        'background-color': '#11151A'
+        'background-color': '#11151A',
+        'scroll-behavior': 'smooth'
     },
     '::selection': {
         'background': '#b53e31'
@@ -125,6 +126,9 @@ default = {
     '.app-bar-option:hover': {
         'background-color': '#fe8605'
     },
+    '.youtube-div': {
+        'box-shadow': '1px 1px 15px rgba(1,1,1,1)'
+    },
     '.youtube-video': {
         'width': '100%',
         'height': '100%',
@@ -141,12 +145,34 @@ default = {
         'width': '480px',
         'height': '640px'
     },
-    '.site-header': {
-        'margin': '32px 0 64px 0'
-    },
     '.site-header-quote': {
         'font-family': 'Roboto'
-    }
+    },
+    '.library-category-section': {
+        'align-content': 'center',
+        'text-align': 'center',
+        'display': 'flex',
+        'padding': '16px 0 20px 0',
+        'justify-content': 'center',
+        'box-shadow': '0 0 15px rgba(1,1,1,1)'
+    },
+    '.library-category': {
+        'display': 'block',
+        'width': '100%',
+        'max-height': '64px',
+        'margin': '0 3% 0 3%',
+        'padding': '16px 16px 32px 16px',
+        'justify-content': 'center',
+        'text-align': 'center',
+        'font-family': 'Roboto'
+    },
+    '.library-category:hover': {
+        'background-color': 'rgba(217, 117, 17, 0.17)'
+    },
+    '.library-category:active': {
+        'color': 'black',
+        'background-color': 'peru'
+    },
 }
 
 #
@@ -164,7 +190,6 @@ landscape = {
     },
     '.youtube-div': {
         'padding': '10% 20% 10% 20%',
-        'box-shadow': '1px 1px 15px rgba(1,1,1,1)'
     },
     '.youtube-desc': {
         'margin': '0 20% 0 20%'
@@ -172,6 +197,7 @@ landscape = {
     '.site-header': {
         'height': '100%',
         'display': 'flex',
+        'margin': '32px 0 64px 0',
         'justify-content': 'center'
     },
     '.site-header-logo': {
@@ -200,12 +226,16 @@ portrait = {
         'margin': '0 20% 0 20%'
     },
     '.site-header': {
+        'margin': '32px 0 16px 0',
         'display': 'block',
         'justify-content': 'center'
     },
     '.site-header-logo': {
         'width': '100%',
         'margin-left': '0'
+    },
+    '.library-category': {
+        'margin': '32px 3px 32px 3px'
     }
 }
 

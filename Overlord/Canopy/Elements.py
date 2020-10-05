@@ -2,15 +2,15 @@
 
 def html(
     _tag=str(), _content=str(), _id=str(), _src=str(), 
-    _class=str(), _style=str(), _onclick=str()
+    _class=str(), _style=str(), _onclick=str(), _href=str()
     ):
-    return """<""" + _tag + _id + _src + _style + _class + _onclick + """> 
+    return """<""" + _tag + _id + _src + _style + _class + _onclick + _href + """> 
         """ + _content + """ </""" + _tag + """>"""
 
 
 def element(
     Tag='div', Items=None, ID=str(), Source=str(),
-    Class=str(), OnClick=str(), Style=str()
+    Class=str(), OnClick=str(), Style=str(), Href=str()
     ):
     # id
     if ID is not None and isinstance(ID, str) and not ID == '':
@@ -54,6 +54,13 @@ def element(
         print("""an elements 'Source' parameter must be a string""", exit(code=104))
     else:
         Source = ""
+    # class
+    if Href is not None and isinstance(Href, str) and not Href == '':
+        Href = " href='" + Href + "'"
+    elif not isinstance(Href, str):
+        print("""an elements 'Href' parameter must be a string""", Href), exit(code=101)
+    else:
+        Href = ""
     # render
     return html(
         _tag=Tag,
@@ -62,7 +69,8 @@ def element(
         _style=Style,
         _class=Class,
         _content=Items,
-        _onclick=OnClick
+        _onclick=OnClick,
+        _href=Href
     )
 
 
