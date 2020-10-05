@@ -170,7 +170,6 @@ default = {
         'background-color': 'rgba(217, 117, 17, 0.17)'
     },
     '.library-category:active': {
-        'color': 'black',
         'background-color': 'peru'
     },
 }
