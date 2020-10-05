@@ -25,6 +25,7 @@ App.add_elements(
             library_category(icon=svg('spanner'), label='Engineering'),
             library_category(icon=svg('gamepad'), label='Entertainment'),
             library_category(icon=svg('badge'), label='Enterprise'),
+            library_category(icon=svg('education'), label='Education')
         ]
     ),
     youtube(
