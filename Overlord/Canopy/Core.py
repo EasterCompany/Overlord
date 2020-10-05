@@ -9,15 +9,19 @@ jsenv = {
 }
 
 
-def script(function, parameters=''):
+def script(function, parameters='', addon=False):
     if function not in jsenv['0'] and function not in jsenv[jsenv['c']] and \
         syspath.exists(root + '/Static/JS/' + function + '.js'):
         jsenv[jsenv['c']] += \
             open_file(root + '/Static/JS', function + '.js').\
                 replace('\n', ' ') + '\n        '
     if not ',' in parameters:
-        return function + """(`""" + str(parameters) + """`);"""
-    return function + """(""" + str(parameters) + """);"""
+        r = function + """(`""" + str(parameters) + """`);"""
+    else:
+        r = function + """(""" + str(parameters) + """);"""
+    if addon:
+        return "<script>" + r + "</script>"
+    return r
 
 
 def var(variable, value):

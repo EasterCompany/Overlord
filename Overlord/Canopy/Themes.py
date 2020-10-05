@@ -39,6 +39,7 @@ default = {
     },
     'h1,h2,h3,h4,h5,h6': {
         'color': 'white',
+        'font-family': 'Spartan',
         'margin': '.1rem 0 0 0'
     },
     'p': {
@@ -59,16 +60,15 @@ default = {
     },
     '.tab': {
         'color': 'white',
-        'font-family': 'Caesar Dressing',
         'font-size': '2rem',
         'width': '300px',
         'height': '64px',
         'margin': '32px 16px 32px 16px',
         'border-radius': '0',
-        'background-color': 'rgba(1, 1, 1, 0)'
+        'background-color': 'rgba(1, 1, 1, 0.1)'
     },
     '.tab:hover': {
-        'background-color': 'rgba(217, 117, 11, 0.5)'
+        'background-color': 'rgba(217, 117, 17, 0.17)'
     },
     '.button:hover': {
         'background-color': 'rgba(255, 99, 71, 0.5)',
@@ -77,6 +77,7 @@ default = {
     '.nav-bar': {
         'background-color': 'rgba(10, 10, 10, 0.5)',
         'box-shadow': '1px 1px 5px rgba(1,1,1,1)',
+        'padding': '3px 0 3px 0',
         'width': '100%',
         'display': 'flex',
         'overflow': 'hidden',
@@ -84,6 +85,9 @@ default = {
         'position': 'fixed',
         'left': '0px',
         'top': '0px'
+    },
+    '.shader': {
+        'background-color': 'rgba(0,0,0,0.3)'
     },
     '.site-body': {
         'text-align': 'center',
@@ -169,7 +173,7 @@ landscape = {
     '.site-header-logo': {
         'width': '30%',
         'margin-left': '-10%',
-        'margin-right': '15%'
+        'margin-right': '10%'
     }
 }
 

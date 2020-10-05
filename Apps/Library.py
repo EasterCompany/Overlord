@@ -94,6 +94,17 @@ App.add_elements(
             which he does quickly and responsively. Allowing us to watch movies or tv shows on any
             device over WLAN or Internet by hosting our file on a Python Flask server.
         '''
+    ),
+    youtube(
+        title='Smart Search Feature Demo (2018)',
+        url='mtHmCCz2ji8',
+        text='''
+            Dexter's intelligence allows him to understand commands in a way other virutal assistants
+            can not! - were open a programmed command he would be limited a scope of either files on 
+            your PC or google search results; however due to his generalised machine learning strategy 
+            he understands when you're speaking about programs on your PC; pictures on the cloud or 
+            even a specific video on youtube. 
+        '''
     )
 )
 
