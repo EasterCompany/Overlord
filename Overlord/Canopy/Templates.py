@@ -155,7 +155,7 @@ header = [
         </div>
         <div style='display:block;'>
             <h1 style='margin-top:16px;font-family:Spartan;font-size:36px;'> EASTER COMPANY </h1>
-            <h4 id='site-header-quote' style='color:#fe8605;margin:32px 0 16px 0;'></h4>
+            <h4 id='site-header-quote' style='color:#fe8605;margin:32px 0 16px 0;font-family:Roboto;'></h4>
             <h5> contact@easter.company </h5>
             <hr/>
         """,

@@ -143,6 +143,9 @@ default = {
     },
     '.site-header': {
         'margin': '32px 0 64px 0'
+    },
+    '.site-header-quote': {
+        'font-family': 'Roboto'
     }
 }
 
