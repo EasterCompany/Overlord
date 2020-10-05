@@ -154,7 +154,7 @@ header = [
             parameters='''`site-header-quote`, [
                 `“Spartans are equal too any man as <br/> individuals; but together as a collective,<br/> they surpass all men.” - Damaratus to Xerxes. <br/><br/>`,
                 ` “Quality before Quanity. <br/> Pruned before Perfect.” <br/> - Ethos. <br/><br/>`,
-                ` “silence over empty words, <br/> simplicity over decoration, <br/> and precision over expansiveness.” <br/> - Ethos `,
+                ` “silence over empty words, <br/> simplicity over decoration and <br/> precision over expansiveness.” <br/> - Ethos `,
                 ` “Liberty, Equality <br/> and Fraternity.” <br/> - Ethos <br/><br/> `,
                 ` “Gradatim Ferociter.” <br/> - Step by Step Ferociously <br/><br/> `,
             ]
