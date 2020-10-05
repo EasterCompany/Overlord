@@ -182,7 +182,7 @@ landscape = {
         'background-color': 'rgba(10, 10, 10, 0.9)',
         'margin': '0 0 8px 8px',
         'min-width': '210px',
-        'width': '20%'
+        'width': '15%'
     },
     '.content': {
         'height': 'calc(100% - 48px)',
