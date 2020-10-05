@@ -152,7 +152,7 @@ header = [
         script(
             function='random',
             parameters='''`site-header-quote`, [
-                `“Spartans are equal too any man as <br/> individuals; but together as a collective,<br/> they surpass all men.” - Damaratus to Xerxes. <br/><br/>`,
+                `“Spartans are equal too any man as <br/> individuals; but together as a collective,<br/> they surpass all other men.” <br/> - Damaratus to Xerxes. <br/>`,
                 ` “Quality before Quanity. <br/> Pruned before Perfect.” <br/> - Ethos. <br/><br/>`,
                 ` “silence over empty words, <br/> simplicity over decoration and <br/> precision over expansiveness.” <br/> - Ethos `,
                 ` “Liberty, Equality <br/> and Fraternity.” <br/> - Ethos <br/><br/> `,
