@@ -5,7 +5,7 @@ from ..Bionic.Basics import open_file, root, py_args, \
 pages = []
 jsenv = {
     'c': '0',
-    '0': """ """.replace('\n', '')
+    '0': ""
 }
 
 
@@ -71,8 +71,8 @@ class Document:
     def set_font(self, family):
         self.styles['default']['html']['font-family'] = family
 
-    def add_elements(self, elements=list()):
-        for element in elements:
+    def add_elements(self, *args):
+        for element in args:
             self.elements.append(str(element))
 
     def minifyBuild(self, target):

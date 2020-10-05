@@ -13,8 +13,7 @@ def youtube(title=str(), url=str(), text=str()):
     <div class='youtube-div'>
         <h2>{title}</h2>
         <iframe class="youtube-video" src="https://www.youtube.com/embed/{src}" 
-        frameborder="0" allow="accelerometer; autoplay; clipboard-write; 
-        encrypted-media; gyroscope; picture-in-picture" allowfullscreen>
+        frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture;" allowfullscreen>
         </iframe>
         <p class='youtube-desc'>{description}</p>
         <br/>

@@ -155,13 +155,26 @@ header = [
         </div>
         <div style='display:block;'>
             <h1 style='margin-top:16px;font-family:Spartan;font-size:36px;'> EASTER COMPANY </h1>
-            <br/>
-            <h4> Business Contact </h4>
-            <br/>
-            <h5> owen@easter.company </h5> 
-            <h5> +441382527319 </h5>
-            <br/><hr/>
+            <h4 id='site-header-quote' style='color:#fe8605;margin:32px 0 16px 0;'> 
+                “Spartans are equal too any man as individuals; <br/> 
+                but together as a collective, they surpass all men.” <br/>
+                    - Damaratus to Xerxes.
+            </h4>
+            <h5> contact@easter.company </h5>
+            <hr/>
         """,
+        "<script>",
+            script(
+                function='random',
+                parameters='''`site-header-quote`, [
+                    `“Spartans are equal too any man as individuals; <br/> but together as a collective, they surpass all men.” <br/> - Damaratus to Xerxes.`,
+                    ` <br/> “Quality before Quanity. Pruned before Perfect.” <br/> - Ethos. <br/> `,
+                    ` “silence over empty words, <br/> simplicity over decoration, <br/> and precision over expansiveness.” <br/> - Ethos `,
+                    ` <br/> “Liberty, Equality and Fraternity.” <br/> - Ethos <br/> `,
+                ]
+                '''
+            ),
+        "</script>",
         flex(
             button(
                 Icon=svg('facebook'),

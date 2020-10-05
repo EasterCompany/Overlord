@@ -1,4 +1,4 @@
-from Overlord.Canopy.Core import Document
+from Overlord.Canopy.Core import Document, script
 from Overlord.Canopy.Templates import header
 
 # Page Root
