@@ -15,9 +15,6 @@ def default_navbar():
             ),
             button(
                 Icon=svg('user')
-            ),
-            button(
-                Icon=svg('search')
             )
         ]
     )
@@ -126,13 +123,6 @@ default = [
                     OnClick=
                         script('toggleBox', 'chat-menu') +
                         script('hide', 'user-menu') +
-                        script('hide', 'media-menu')
-                ),
-                button(
-                    Icon=svg('check'),
-                    OnClick=
-                        script('hide', 'user-menu') +
-                        script('hide', 'chat-menu') +
                         script('hide', 'media-menu')
                 )
             ], Style='padding:8px 8px 8px 8px;display:flex;'

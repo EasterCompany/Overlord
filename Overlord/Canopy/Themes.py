@@ -135,7 +135,7 @@ default = {
         'max-width': '800px',
         'min-width': '300px',
         'min-height': '480px',
-        'margin': '32px 0 32px 0',
+        'margin': '2% 0 2% 0',
         'background-color': 'black'
     },
     'twitter-follow-button': {
