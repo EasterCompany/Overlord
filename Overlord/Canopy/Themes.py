@@ -161,7 +161,7 @@ default = {
         'width': '100%',
         'max-height': '64px',
         'margin': '0 3% 0 3%',
-        'padding': '16px 16px 32px 16px',
+        'padding': '4px 4px 20px 4px',
         'justify-content': 'center',
         'text-align': 'center',
         'font-family': 'Roboto'
@@ -216,7 +216,7 @@ portrait = {
         'width': '100%'
     },
     '.content': {
-        'height': 'calc(100% - 112px)',
+        'height': 'calc(100% - 102px)',
     },
     '.youtube-div': {
         'padding': '10% 5% 10% 5%'
