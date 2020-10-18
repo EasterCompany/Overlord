@@ -57,10 +57,12 @@ default = {
     },
     '.button': {
         'width': '100%',
-        'color': 'white'
+        'color': 'white',
+        'cursor': 'pointer'
     },
     '.tab': {
         'color': 'white',
+        'cursor': 'pointer',
         'font-size': '2rem',
         'width': '300px',
         'height': '64px',
@@ -158,6 +160,7 @@ default = {
     },
     '.library-category': {
         'display': 'block',
+        'cursor': 'pointer',
         'width': '100%',
         'max-height': '64px',
         'margin': '0 3% 0 3%',
