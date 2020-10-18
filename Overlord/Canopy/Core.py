@@ -1,6 +1,6 @@
-from . import Themes, Templates
+from . import Themes
 from ..Bionic.Basics import open_file, root, py_args, \
-    syspath, mkdir
+    syspath
 
 pages = []
 jsenv = {
@@ -14,7 +14,9 @@ def script(function, parameters='', addon=False):
         syspath.exists(root + '/Static/JS/' + function + '.js'):
         jsenv[jsenv['c']] += \
             open_file(root + '/Static/JS', function + '.js').\
-                replace('\n', ' ') + '\n        '
+                replace('\n', ' ')
+        while '  ' in jsenv[jsenv['c']]:
+            jsenv[jsenv['c']] = jsenv[jsenv['c']].replace('  ', ' ')
     if not ',' in parameters:
         r = function + """(`""" + str(parameters) + """`);"""
     else:
