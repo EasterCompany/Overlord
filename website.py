@@ -17,13 +17,10 @@ def __index__():
 # App Distributor
 @Index.add('/dist')
 def __distribution__():
-    if 'app' in Server.request.args:
-        dist_app = Server.request.args['app']
-    else:
-        return Server.goto('/')
-    if dist_app in app_index:
-        return app_index[dist_app]
-    return str()
+    if 'app' in Server.request.args and \
+        Server.request.args['app'] in app_index:
+            return app_index[ Server.request.args['app']]
+    return Server.goto('/')
 
 
 # Boot Conditions

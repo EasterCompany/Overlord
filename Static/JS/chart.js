@@ -70,13 +70,14 @@ class Piechart {
     };
 };
 
-function chart(canvas, data=sampleData, doughnut=0){
+function chart(canvas, data=sampleData, doughnut=0, legend){
     var Chart = new Piechart(
         {
             canvas:document.getElementById(canvas),
             data:data,
-            colors:["#fde23e","#f16e23", "#57d9ff","#937e88"],
-            doughnutHoleSize:doughnut
+            colors:["#009933", "#fde23e","#f16e23","#57d9ff","#937e88"],
+            doughnutHoleSize:doughnut,
+            legend:document.getElementById(legend)
         }
     );
     Chart.draw();

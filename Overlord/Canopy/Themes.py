@@ -50,7 +50,7 @@ default = {
     },
     'input': {
         'width': '90%',
-        'margin': '0 16px 0 16px'
+        'margin': '0 1% 0 1%'
     },
     'button': {
         'background-color': 'rgba(99, 99, 99, 0.1)'
