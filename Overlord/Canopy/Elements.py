@@ -112,7 +112,7 @@ def button(Icon=str(), OnClick=str(), ID='button', Border=False, Text=str()):
 
 def navbar(elements=list()):
     return element(
-        Class="nav-bar",
+        Class="navbar",
         Items=elements
     )
 

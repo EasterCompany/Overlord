@@ -42,12 +42,3 @@ def __client_update__():
         except Exception as err: return str(err)
     return ''
 
-
-if '-t' in py_args and syspath.exists(root + '/Tools'):
-    from Tools import Atlas
-
-
-    @Index.add('/o/atlas')
-    def __library__():
-        return Atlas.Tool.render()
-

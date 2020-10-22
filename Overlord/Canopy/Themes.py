@@ -9,7 +9,7 @@ default = {
         'min-height': '100%',
         'min-width': '100%',
         'color': 'white',
-        'background-color': '#11151A',
+        'background-color': '#202029',
         'scroll-behavior': 'smooth'
     },
     '::selection': {
@@ -79,11 +79,12 @@ default = {
         'background-color': 'rgba(255, 99, 71, 0.5)',
         'border-color': 'rgba(255, 99, 71, 1)',
     },
-    '.nav-bar': {
+    '.navbar': {
         'background-color': 'rgba(10, 10, 10, 0.5)',
         'box-shadow': '1px 1px 5px rgba(1,1,1,1)',
         'padding': '3px 0 3px 0',
         'width': '100%',
+        'max-height': '32px',
         'display': 'flex',
         'overflow': 'hidden',
         'z-index': '99',

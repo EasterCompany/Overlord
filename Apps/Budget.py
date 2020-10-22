@@ -17,17 +17,12 @@ def my_balance():
             element(
                 Tag="h5",
                 Style="color:peru;text-align:left;margin:8px 1% 8px 1%;",
-                Items="MY BALANCE"
+                Items="SAVING"
             ),
             element(
                 Tag="h1",
                 Style="color:orange;text-align:left;margin:8px 1% 8px 1%;",
                 Items="£0.00"
-            ),
-            element(
-                Tag="h5",
-                Style="color:peru;text-align:left;margin:8px 1% 8px 1%;",
-                Items="+ 0.00 pm"
             )
         ]
     )
@@ -40,7 +35,7 @@ def my_change():
             element(
                 Tag="h5",
                 Style="color:peru;text-align:right;margin:8px 1% 8px 1%;",
-                Items="AVG CHANGE"
+                Items="PER MONTH"
             ),
             element(
                 Tag="h1",
@@ -62,6 +57,7 @@ def my_status():
             justify-content:center;
             border-left:6px solid peru;
             background-color:rgba(25,25,25,.5);
+            box-shadow: 1px 1px 32px rgba(1,1,1,1);
             """,
         Items=[
             my_balance(),
@@ -78,7 +74,6 @@ def my_chart():
         Style="""
             width:300px;
             height:300px;
-            margin:32px 0 16px 0;
         """
     )
 
@@ -193,7 +188,7 @@ def my_expenses():
         Items=[
         """<div style='display:flex;height:28px;border-bottom:1px solid grey;
             justify-content:center;align-content:center;text-align:center;
-            padding:2% 0 2% 0;margin-left:8px;'>""", 
+            padding:5% 0 5% 0;'>""", 
             "<input style='width:25%;' placeholder='description' />",
             "<input style='width:25%;' placeholder='amount' />",
             """
@@ -228,26 +223,28 @@ def my_ledger():
         Style="""
             display:block;
             margin:0 auto;
+            margin-bottom: 64px;
             max-width:800px;
-            padding:1% 1%px 16px 1%;
+            font-family:open sans;
+            padding:0 1% 1% 1%;
             border-left:6px solid peru;
-            background-color:rgba(20,20,20,.25);",
+            background-color:rgba(20,20,20,.25);
+            box-shadow: 1px 1px 32px rgba(1,1,1,1);
         """,
         Items=[
         "<div style='display:flex;'>",
             """
         <div id='income-tab' style='
             width:50%;height:32px;cursor:pointer;
-            border:2px solid peru;background-color:none;color:grey;
-            justify-content:center;font-size:1.5rem;padding-top:3px;' 
+            border-bottom:2px solid peru;background-color:none;color:grey;
+            justify-content:center;font-size:1.5rem;' 
             onclick='""" + script('ba_loadIncome') + """'>Income</div>
             """,
             """
         <div id='expense-tab' style='
             width:50%;height:32px;cursor:pointer;
-            border:2px solid peru;background-color:#F77205;
-            justify-content:center;box-shadow:10px 10px 10px rgba(1,1,1,.8);
-            border-left:0 solid peru;font-size:1.5rem;padding-top:3px;'
+            border-bottom:2px solid peru;background-color:#F77205;font-size:1.5rem;
+            justify-content:center;box-shadow:10px 10px 10px rgba(1,1,1,.8);'
             onclick='""" + script('ba_loadExpense') + """'>Expense</div>
             """,
         "</div><div id='ie-content-section'>",

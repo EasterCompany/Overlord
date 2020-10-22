@@ -23,8 +23,8 @@ def default_navbar():
 def footer():
     return element(
         Tag='p',
-        Style='color:grey;text-align:center;',
-        Items='By Easter Company&trade; from the United Kingdom'
+        Style='color:grey;text-align:center;font-size:.7rem;',
+        Items='EASTER COMPANY&trade; COPYRIGHT 2020.'
     )
 
 
@@ -96,20 +96,12 @@ def chat_menu():
     )
 
 
-def media_menu():
-    return element(
-        ID='media-menu',
-        Style='display:none;'
-    )
-
-
 default = [
     default_navbar(),
     appbar(
         block(
             user_menu(),
             chat_menu(),
-            media_menu(),
             element(Items=[
                 button(
                     Icon=svg('menu'),
@@ -133,7 +125,7 @@ default = [
         elements='''
             <h1> Loading... </h1>
         ''',
-        source='/dist?app=budget'
+        source='/dist?app=library'
     )
 ]
 

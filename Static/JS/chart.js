@@ -27,9 +27,9 @@ class Piechart {
         this.canvas.width = 300;
         this.canvas.height = 300;
         this.ctx = this.canvas.getContext("2d");
-        this.ctx.shadowOffsetX = this.canvas.width / 100;
-        this.ctx.shadowOffsetY = this.canvas.height / 100;
-        this.ctx.shadowColor = 'black';
+        this.ctx.shadowOffsetX = 1;
+        this.ctx.shadowOffsetY = 1;
+        this.ctx.shadowColor = '#393945';
         this.ctx.shadowBlur = 20;
         this.colors = options.colors;
         this.draw = function () {
@@ -63,7 +63,7 @@ class Piechart {
                     this.options.doughnutHoleSize * Math.min(this.canvas.width / 2, this.canvas.height / 2),
                     0,
                     2 * Math.PI,
-                    "#11151A"
+                    "#202029"
                 );
             };
         };
