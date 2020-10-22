@@ -27,7 +27,7 @@ def my_balance():
             element(
                 Tag="h5",
                 Style="color:peru;text-align:left;margin:8px 1% 8px 1%;",
-                Items="saving: 0.00 pm"
+                Items="+ 0.00 pm"
             )
         ]
     )
@@ -39,18 +39,13 @@ def my_change():
         Items=[
             element(
                 Tag="h5",
-                Style="color:peru;text-align:left;margin:8px 1% 8px 1%;",
+                Style="color:peru;text-align:right;margin:8px 1% 8px 1%;",
                 Items="AVG CHANGE"
             ),
             element(
                 Tag="h1",
-                Style="color:peru;text-align:left;margin:8px 1% 8px 1%;",
+                Style="color:peru;text-align:right;margin:8px 1% 8px 1%;",
                 Items="0%"
-            ),
-            element(
-                Tag="h5",
-                Style="color:peru;text-align:left;margin:8px 1% 8px 1%;",
-                Items="current: 0%"
             )
         ]
     )
@@ -62,7 +57,8 @@ def my_status():
         Style="""
             display:flex;
             flex-wrap:wrap;
-            margin:6px 0 0 0;
+            margin:0 auto;
+            max-width:800px;
             justify-content:center;
             border-left:6px solid peru;
             background-color:rgba(25,25,25,.5);
@@ -114,7 +110,7 @@ def my_chart_key():
             key_item(color='#57d9ff', label='savings'),
             key_item(color='#f16e23', label='utility'),
             key_item(color='#fde23e', label='entertainment'),
-            key_item(color='#009933', label='food')
+            key_item(color='#009933', label='supply')
         ]
     )
 
@@ -139,7 +135,7 @@ def my_status_chart():
                 parameters='''
                     `budgetChart`,
                     {
-                        "food & drink": 1,
+                        "supply": 1,
                         "entertainment": 2,
                         "utility": 3,
                         "savings": 4,
@@ -158,11 +154,8 @@ def my_status_chart():
 
 def my_incomes():
     return element(
-        Style='''
-            height:32px;
-            width:100%;
-            max-width:600px;
-        ''',
+        ID='incomes',
+        Style='display:none;',
         Items=[
             """
             <h3 style='margin:6px 6px 6px 6px;'> Describe Income </h3>
@@ -184,36 +177,46 @@ def my_incomes():
 
 def my_expenses():
 
-    def expense(desc=str(), cost=str(), cat=str()):
+    def expense(desc=str(), cost=str(), occr=str(), cat=str()):
         return """
             <div style='border-bottom:1px solid grey;padding:3px 3px 3px 3px;display:flex;'>
-                <div style='border-right:1px solid grey;width:33%;padding-top:6px;'>""" + desc + """</div>
-                <div style='border-right:1px solid grey;width:33%;padding-top:6px;'>""" + cost + """</div>
-                <div style='width:33%;padding-top:6px;'>""" + cat + """</div>
+                <div style='border-right:1px solid grey;width:25%;padding-top:6px;overflow:hidden;font-size:.8rem;'>""" + desc + """</div>
+                <div style='border-right:1px solid grey;width:25%;padding-top:6px;overflow:hidden;font-size:.8rem;'>""" + cost + """</div>
+                <div style='border-right:1px solid grey;width:25%;padding-top:6px;overflow:hidden;font-size:.8rem;'>""" + occr + """</div>
+                <div style='border-right:1px solid grey;width:25%;padding-top:6px;overflow:hidden;font-size:.8rem;'>""" + cat + """</div>
             <div style='width:20px;height:20px;padding:4px 4px 4px 4px;'> """ + svg('cross') + """ </div>
             </div>
         """
 
     return element(
+        ID='expenses',
         Items=[
-        "<div style='display:flex;min-width:99%;border-bottom:1px solid grey;justify-content:center;align-content:center;text-align:center;padding:2% 0 1% 1%;'>", 
-            "<input style='width:25%;' placeholder='description' /><input style='width:25%;' placeholder='amount' />",
+        """<div style='display:flex;height:28px;border-bottom:1px solid grey;
+            justify-content:center;align-content:center;text-align:center;
+            padding:2% 0 2% 0;margin-left:8px;'>""", 
+            "<input style='width:25%;' placeholder='description' />",
+            "<input style='width:25%;' placeholder='amount' />",
+            """
+            <select style='width:25%;'> 
+                <option value=''> daily </option> 
+                <option value=''> weekly </option> 
+                <option value='' selected> monthly </option> 
+                <option value=''> annual </option> 
+            </select>
+            """,
             """
             <select style='width:25%;'> 
                 <option value=''> housing </option> 
                 <option value=''> utility </option> 
                 <option value='' selected> entertainment </option> 
-                <option value=''> food & drink </option> 
+                <option value=''> supply </option> 
             </select>
-            <button style='width:48px;margin:0 1% 0 1%;'>""", 
-                svg('plus'), "</button>"
+            <div style='width:28px;height:28px;margin-right:8px;'>""", 
+                svg('plus'), "</div>"
         "</div><div id='expenses'>",
-            expense('hello', 'world', '!'),
-            expense(),
-            expense(),
-            expense(),
-            expense(),
-            expense(),
+            expense('food', '7.00', 'daily', 'supply'),
+            expense('amazon prime', '3.00', 'monthly', 'entertainment'),
+            expense('rent', '150.00', 'monthly', 'housing'),
         "</div>"
         ]
     )
@@ -224,17 +227,33 @@ def my_ledger():
     return element(
         Style="""
             display:block;
+            margin:0 auto;
+            max-width:800px;
             padding:1% 1%px 16px 1%;
-            justify-content:center;
             border-left:6px solid peru;
             background-color:rgba(20,20,20,.25);",
         """,
         Items=[
         "<div style='display:flex;'>",
-            "<div style='width:50%;height:32px;border:2px solid peru;background-color:#F77205;justify-content:center;box-shadow:10px 10px 10px rgba(1,1,1,.8);border-right:0 solid peru'><h2>Income</h2></div>",
-            "<div style='width:50%;height:32px;border:2px solid peru;background-color:none;justify-content:center;'><h2 style='color:grey;'>Expenses</h2></div>",
-        "</div>",
-            my_expenses()
+            """
+        <div id='income-tab' style='
+            width:50%;height:32px;cursor:pointer;
+            border:2px solid peru;background-color:none;color:grey;
+            justify-content:center;font-size:1.5rem;padding-top:3px;' 
+            onclick='""" + script('ba_loadIncome') + """'>Income</div>
+            """,
+            """
+        <div id='expense-tab' style='
+            width:50%;height:32px;cursor:pointer;
+            border:2px solid peru;background-color:#F77205;
+            justify-content:center;box-shadow:10px 10px 10px rgba(1,1,1,.8);
+            border-left:0 solid peru;font-size:1.5rem;padding-top:3px;'
+            onclick='""" + script('ba_loadExpense') + """'>Expense</div>
+            """,
+        "</div><div id='ie-content-section'>",
+            my_expenses(),
+            my_incomes(),
+        "</div>"
         ]
     )
 # -----------------------------------------------------------------------

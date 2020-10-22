@@ -133,8 +133,8 @@ default = [
         elements='''
             <h1> Loading... </h1>
         ''',
-        source='/dist?app=home'
-    ),
+        source='/dist?app=budget'
+    )
 ]
 
 header = [

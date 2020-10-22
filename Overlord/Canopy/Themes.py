@@ -48,9 +48,11 @@ default = {
         'margin': '0 0 0 0',
         'color': 'white'
     },
-    'input': {
+    'input,select': {
         'width': '90%',
-        'margin': '0 1% 0 1%'
+        'margin': '0 1% 0 1%',
+        'color': 'rgba(200,200,200,1)',
+        'background-color': 'rgba(25,25,25,.5)'
     },
     'button': {
         'background-color': 'rgba(99, 99, 99, 0.1)'
@@ -188,7 +190,7 @@ landscape = {
         'width': '15%'
     },
     '.content': {
-        'height': 'calc(100% - 48px)',
+        'height': 'calc(100% - 48px)'
     },
     '.youtube-div': {
         'padding': '10% 20% 10% 20%',
