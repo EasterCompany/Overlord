@@ -20,9 +20,12 @@ def my_balance():
                 Items="SAVING"
             ),
             element(
-                Tag="h1",
-                Style="color:orange;text-align:left;margin:8px 1% 8px 1%;",
-                Items="£0.00"
+                Tag="div",
+                Style="display:flex;margin:8px 1% 8px 1%;",
+                Items=[
+                    "<h1 style='color:orange;text-align:left;'> £0. </h1>",
+                    "<h3 style='color:orange;text-align:left;margin-top:15px;'> 00 </h3>"
+                ]
             )
         ]
     )
@@ -86,7 +89,7 @@ def my_chart_key():
             <span style='display:inline-block;width:20px;background-color:{color};margin:0 6px 6px 6px;'>
             &nbsp;</span>
             <p>{label}</p>
-        </div>  
+        </div>
         """.format(color=color, label=label)
 
     return element(
@@ -101,11 +104,11 @@ def my_chart_key():
             margin:16px 0 32px 0;
         """,
         Items=[
-            key_item(color='#937e88', label='housing'),
-            key_item(color='#57d9ff', label='savings'),
-            key_item(color='#f16e23', label='utility'),
-            key_item(color='#fde23e', label='entertainment'),
-            key_item(color='#009933', label='supply')
+            key_item(color='#937e88', label='Housing'),
+            key_item(color='#57d9ff', label='Savings'),
+            key_item(color='#f16e23', label='Utility'),
+            key_item(color='#fde23e', label='Leisure'),
+            key_item(color='#009933', label='Supply')
         ]
     )
 
@@ -130,11 +133,11 @@ def my_status_chart():
                 parameters='''
                     `budgetChart`,
                     {
-                        "supply": 1,
-                        "entertainment": 2,
-                        "utility": 3,
-                        "savings": 4,
-                        "housing": 5
+                        "Supply": 1,
+                        "Leisure": 2,
+                        "Utility": 3,
+                        "Savings": 4,
+                        "Housing": 5
                     },
                     0.5,
                     `budgetChartKey`
@@ -189,28 +192,31 @@ def my_expenses():
         """<div style='display:flex;height:28px;border-bottom:1px solid grey;
             justify-content:center;align-content:center;text-align:center;
             padding:5% 0 5% 0;'>""", 
-            "<input style='width:25%;' placeholder='description' />",
-            "<input style='width:25%;' placeholder='amount' />",
+            "<input id='expense_desc' style='width:25%;' placeholder='description' maxlength='24'/>",
+            "<input id='expense_cost' type='number' step='0.01' style='width:25%;' placeholder='cost'/>",
             """
-            <select style='width:25%;'> 
-                <option value=''> daily </option> 
-                <option value=''> weekly </option> 
-                <option value='' selected> monthly </option> 
-                <option value=''> annual </option> 
+            <select id='expense_occr' style='width:25%;'> 
+                <option value='Daily'> Daily </option> 
+                <option value='Weekly'> Weekly </option> 
+                <option value='Monthly' selected> Monthly </option> 
+                <option value='Annual'> Annual </option> 
             </select>
             """,
             """
-            <select style='width:25%;'> 
-                <option value=''> housing </option> 
-                <option value=''> utility </option> 
-                <option value='' selected> entertainment </option> 
-                <option value=''> supply </option> 
+            <select id='expense_cat' style='width:25%;'> 
+                <option value='Housing'> Housing </option> 
+                <option value='Utility'> Utility </option> 
+                <option value='Leisure' selected> Leisure </option> 
+                <option value='Supply'> Supply </option> 
             </select>
-            <div style='width:28px;height:28px;margin-right:8px;'>""", 
+            <div 
+                style='width:28px;height:28px;margin-right:8px;'
+                onclick='""" + script('ba_addExpense') +"""'
+            >""", 
                 svg('plus'), "</div>"
         "</div><div id='expenses'>",
             expense('food', '7.00', 'daily', 'supply'),
-            expense('amazon prime', '3.00', 'monthly', 'entertainment'),
+            expense('amazon prime', '3.00', 'monthly', 'Leisure'),
             expense('rent', '150.00', 'monthly', 'housing'),
         "</div>"
         ]
