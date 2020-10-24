@@ -11,8 +11,8 @@ Overlord is a heavily optimized and open source python-javascript full stack dev
 - Python first means: we will use python when and where ever it is possible.
 
 - NO HTML / NO CSS means: we use Overlord python libraries for writing our markdown and styling which is
-then compiled into raw normal html5 & css3 source code when it is distributed to the user device.
-reference "Overlord/Canopy/Themes.py" for an example of our new styling system and "Overlord/Canopy/Elements.py"
+then compiled into regular html5 & css3 source code when it is distributed to the user device.
+reference 'Overlord/Canopy/Themes.py' for an example of our new styling system and 'Overlord/Canopy/Elements.py'
 for an example of our new markdown system.
 
 - JavaScriptless means: we use flexible built in Overlord javascript modules which can be used in many
@@ -21,4 +21,4 @@ different ways and when used appropriately we can mostly avoid writing any funct
 ## Development Scope
 
 With Overlord we hope that you can develop limitless web apps without the need for non-vanilla javascript
-such as Angular, React or other such libraries & frameworks.
+libraries and frameworks such as Angular or React.
