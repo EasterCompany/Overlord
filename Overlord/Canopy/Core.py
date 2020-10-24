@@ -58,7 +58,7 @@ def toggleContent(ID, x, y, display='', UI_MODE=False):
 
 class Document:
 
-    def __init__(self, template=list()):
+    def __init__(self, template=None, styles=None):
         global jsenv
         self.jsenv = str(len(jsenv))
         jsenv['c'] = self.jsenv
@@ -68,8 +68,12 @@ class Document:
             'landscape': Themes.landscape, 
             'portrait': Themes.portrait
         }
+        if template is None:
+            template = []
+        if styles is None:
+            styles = []
         self.elements = template
-        self.css_imports = []
+        self.css_imports = styles
         self.set_font('open sans')
 
     def import_css(self, href):

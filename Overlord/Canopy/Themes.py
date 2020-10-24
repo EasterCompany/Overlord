@@ -48,17 +48,23 @@ default = {
         'margin': '0 0 0 0',
         'color': 'white'
     },
+    'a': {
+        'color': 'peru'
+    },
     'input,select': {
         'width': '90%',
+        'height': '32px',
         'margin': '0 1% 0 1%',
         'color': 'rgba(200,200,200,1)',
-        'background-color': 'rgba(25,25,25,.5)'
+        'background-color': 'rgba(25,25,25,.5)',
+        'border-radius': '6px'
     },
     'button': {
         'background-color': 'rgba(99, 99, 99, 0.1)'
     },
     '.button': {
         'width': '100%',
+        'min-height': '32px',
         'color': 'white',
         'cursor': 'pointer'
     },

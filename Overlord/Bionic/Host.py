@@ -2,23 +2,22 @@ from .Basics import platform_version, root, py_args, syspath
 from .Local import Server, Index
 
 
-@Index.add('/o')
-def __test_end_point__():
+@Index.add('/test')
+def test():
     return Server.test()
 
 
-@Index.add('/o/user/add')
-def __user_add__():
+@Index.add('/user/add')
+def user_add():
     new_user = Index.urp(
-        'fname', 
-        'lname',
+        'email',
         'passw'
     )
     return Server.make_new_user(new_user)
 
 
-@Index.add('/o/user/remove')
-def __user_remove__():
+@Index.add('/user/remove')
+def user_remove():
     user = Index.urp('uid', 'ukey')
     if Server.log_user(user):
         Server.remove_user(user['uid'])
@@ -27,13 +26,13 @@ def __user_remove__():
         return 'Failed to authenticate and remove user.'
 
 
-@Index.add('/o/user/fetch')
-def __user_global__():
+@Index.add('/user/fetch')
+def user_global():
     return Server.fetch_user(Index.urp('uid')['uid'])
 
 
-@Index.add('/o/update')
-def __client_update__():
+@Index.add('/update')
+def client_update():
     request = Index.urp('file')['file']
     if request == 'vers.ctrl':
         return str(platform_version())
