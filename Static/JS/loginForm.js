@@ -15,5 +15,8 @@ async function loginUser(email, passw){
 function loginForm(){
     const email = document.getElementById('email');
     const passw = document.getElementById('passw');
-    loginUser(encodeURI(email.value), encodeURI(passw.value));
+    loginUser(
+        encodeURIComponent(email.value), 
+        encodeURIComponent(passw.value)
+    );
 }

@@ -18,7 +18,10 @@ function registerForm(){
     if(email.value.includes('@') && email.value.includes('.') && email.value.length >= 5){
         if(passw.value === cpass.value){
             if(passw.value.length >= 8){
-                registerUser(encodeURI(email.value), encodeURI(passw.value))
+                registerUser(
+                    encodeURIComponent(email.value), 
+                    encodeURIComponent(passw.value)
+                )
             } else {
                 alert('Password must be at least 8 characters in length.');
                 passw.style.backgroundColor = 'rgba(100,5,5,.8)';
