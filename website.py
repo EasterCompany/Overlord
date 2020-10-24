@@ -23,6 +23,15 @@ def __distribution__():
     return Server.goto('/')
 
 
+# Information postal service
+@Index.add('/post', methods=['POST', 'GET'])
+def __postservice__():
+    if Server.request.method == 'POST':
+        return 'request via POST'
+    else:
+        return 'request via GET'
+
+
 # Boot Conditions
 if __name__ == "__main__":
     if '-t' in py_args:
