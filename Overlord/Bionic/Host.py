@@ -1,5 +1,6 @@
-from .Basics import platform_version, root, py_args, syspath
+from .Basics import platform_version, root
 from .Local import Server, Index
+import urllib.parse
 
 
 @Index.add('/test')
@@ -9,26 +10,31 @@ def test():
 
 @Index.add('/user/add')
 def user_add():
-    new_user = Index.urp(
-        'email',
-        'passw'
+    new_user = Server.parse_user(
+        Index.urp('email', 'passw')
     )
     return Server.make_new_user(new_user)
 
 
 @Index.add('/user/remove')
 def user_remove():
-    user = Index.urp('uid', 'ukey')
+    user = Index.urp('email', 'passw')
     if Server.log_user(user):
-        Server.remove_user(user['uid'])
+        Server.remove_user(user['email'])
         return Server.goto('/')
     else:
         return 'Failed to authenticate and remove user.'
 
 
-@Index.add('/user/fetch')
-def user_global():
-    return Server.fetch_user(Index.urp('uid')['uid'])
+@Index.add('/user/auth')
+def user_auth():
+    user = Server.parse_user(
+        Index.urp('email', 'passw')
+    )
+    if Server.log_user(user):
+        return "success!"
+    else:
+        return "Invalid email or password."
 
 
 @Index.add('/update')

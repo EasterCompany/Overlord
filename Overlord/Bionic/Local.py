@@ -1,6 +1,8 @@
+from os import stat
 from flask import Flask, request, redirect
 from platform import uname
 from hashlib import sha256
+from urllib import parse as urlparse
 from .Basics import local_db, randint, root
 
 
@@ -62,6 +64,13 @@ class __Server__:
     def commit_db(self):
         self.db.commit()
         self.db.close()
+
+    @staticmethod
+    def parse_user(user):
+        return {
+            'email': urlparse.unquote(user['email']),
+            'passw': urlparse.unquote(user['passw'])
+        }
 
     def log_user(self, user):
         self.connect_db()

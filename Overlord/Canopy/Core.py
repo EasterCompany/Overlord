@@ -86,7 +86,8 @@ class Document:
         for element in args:
             self.elements.append(str(element))
 
-    def minifyBuild(self, target):
+    @staticmethod
+    def minifyBuild(target):
         _build = target.replace('\n', ' ')
         while '  ' in _build:
             _build = _build.replace('  ', ' ')
