@@ -167,6 +167,7 @@ def form(*args):
             width:300px;
             z-index:99;
             background-color:#202029;
+            box-shadow: 0 0 10px white;
             border:1px solid grey;
             border-radius:3px;
         '>""" + str(*args) + "</form>"

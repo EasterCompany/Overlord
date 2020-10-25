@@ -185,6 +185,23 @@ default = {
     '.library-category:active': {
         'background-color': 'peru'
     },
+    '.grid-row': {
+        'border-bottom': '1px solid grey',
+        'padding': '3px 3px 3px 3px',
+        'display': 'flex'
+    },
+    '.grid-cell': {
+        'border-right':'1px solid grey',
+        'width': '25%',
+        'padding-top': '6px',
+        'overflow': 'hidden',
+        'font-size': '.8rem'
+    },
+    '.grid-row-delete': {
+        'width': '20px',
+        'height': '20px',
+        'padding': '4px 4px 4px 4px'
+    }
 }
 
 #
