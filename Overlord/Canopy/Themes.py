@@ -41,7 +41,7 @@ default = {
     'h1,h2,h3,h4,h5,h6': {
         'color': 'white',
         'font-family': 'Spartan',
-        'margin': '.1rem 0 0 0'
+        'margin': '.1rem 0 .1rem 0'
     },
     'p': {
         'text-align': 'left',
@@ -64,6 +64,7 @@ default = {
     },
     '.button': {
         'width': '100%',
+        'padding': '4px 0 0 0',
         'min-height': '32px',
         'color': 'white',
         'cursor': 'pointer'

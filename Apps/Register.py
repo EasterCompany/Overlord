@@ -7,6 +7,8 @@ App = Document()
 def register_form():
     return form(
         """
+        <h2 style='text-align:center;font-family:open sans;'> New Account </h2>
+        <br>
         <label for='email'>Email:</label>
         <input type='email' id='email' name='email' placeholder='Email' onclick='document.getElementById(`email`).style.backgroundColor=`rgba(25,25,25,.5)`;'/>
         <br>
