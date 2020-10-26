@@ -8,17 +8,18 @@
     unit tests for overlord modules
 """ 
 
-from . import Test
 from . import Suite
 
-from Overlord import Bionic
-from Overlord import Canopy
-from Overlord import Dexter
-from Overlord import Entropy
+from .. import Bionic
+from .. import Canopy
+from .. import Dexter
+from .. import Entropy
+from .. import Forensic
 
 Bionic.Basics.clear_console()
 Suite.add.library(Bionic)
 Suite.add.library(Canopy)
 Suite.add.library(Dexter)
 Suite.add.library(Entropy)
+Suite.add.library(Forensic)
 Suite.run()

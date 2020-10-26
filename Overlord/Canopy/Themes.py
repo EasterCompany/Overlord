@@ -52,7 +52,7 @@ default = {
         'color': 'peru'
     },
     'input,select': {
-        'width': '90%',
+        'width': '95%',
         'height': '32px',
         'margin': '0 1% 0 1%',
         'color': 'rgba(200,200,200,1)',
@@ -109,7 +109,7 @@ default = {
         'overflow-x': 'hidden'
     },
     '.content': {
-        'top': '46px',
+        'top': '40px',
         'border': '0',
         'left': '0px',
         'width': '100%',
@@ -215,7 +215,7 @@ landscape = {
         'width': '15%'
     },
     '.content': {
-        'height': 'calc(100% - 48px)'
+        'height': 'calc(100% - 40px)'
     },
     '.youtube-div': {
         'padding': '10% 20% 10% 20%',

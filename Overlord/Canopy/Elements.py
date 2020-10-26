@@ -156,21 +156,28 @@ def dropmenu(elements=list(), ID='dropmenu'):
 
 
 def form(*args):
-    return """<form onsubmit='return false;' 
-        style='
-            text-align:left;
-            position:absolute;
-            top:calc(50% - 190px);
-            left:calc(50% - 166px);
-            padding:24px 16px 24px 16px;
-            min-height:320px;
-            width:300px;
-            z-index:99;
-            background-color:#202029;
-            box-shadow: 0 0 10px white;
-            border:1px solid grey;
-            border-radius:3px;
-        '>""" + str(*args) + "</form>"
+    return """
+    <div style='
+        display:flex;
+        justify-content:space-around;
+        width:100%;
+        max-height:90%;
+        margin:5% 0 5% 0;
+    '>
+        <form onsubmit='return false;' 
+            style='
+                text-align:left;
+                padding:24px 24px 24px 24px;
+                min-width:245px;
+                width:20%;
+                background-color:#202029;
+                box-shadow: 0 0 3px white;
+                border:1px solid grey;
+                border-radius:3px;
+            '>""" + str(*args) + """
+        </form>
+    </div>
+    """
 
 
 e = element

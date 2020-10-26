@@ -1,9 +1,10 @@
-from Apps import Home, Register, Login, Library, Budget
+from Apps import \
+    Home, Login, Register, \
+    Budget
 
 app_index = {
     'home': Home.App,
-    'register': Register.App,
     'login': Login.App,
-    'library': Library.App,
+    'register': Register.App,
     'budget': Budget.App
 }

@@ -125,7 +125,7 @@ default = [
         elements='''
             <h1> Loading... </h1>
         ''',
-        source='/dist?app=library'
+        source='/dist?app=register'
     )
 ]
 
