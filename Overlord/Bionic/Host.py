@@ -1,6 +1,5 @@
 from .Basics import platform_version, root
 from .Local import Server, Index
-import urllib.parse
 
 
 @Index.add('/test')
@@ -31,10 +30,11 @@ def user_auth():
     user = Server.parse_user(
         Index.urp('email', 'passw')
     )
-    if Server.log_user(user):
-        return "success!"
+    token = Server.log_user(user)
+    if token is not None:
+        return token
     else:
-        return "Invalid email or password."
+        return str()
 
 
 @Index.add('/update')

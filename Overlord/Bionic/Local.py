@@ -1,9 +1,11 @@
-from os import stat
-from flask import Flask, request, redirect
+from time import time
 from platform import uname
 from hashlib import sha256
+from random import randint
 from urllib import parse as urlparse
-from .Basics import local_db, randint, root
+from flask import Flask, request, redirect
+from .Crypt import spice
+from .Basics import local_db, root
 
 
 class __Server__:
@@ -22,6 +24,7 @@ class __Server__:
         self.goto = redirect
         self.sql = self.db.cursor()
         self.make_user_tables()
+        self.purge_old_tokens()
         self.db.commit()
         self.db.close()
 
@@ -29,8 +32,16 @@ class __Server__:
     def test():
         return "pass"
 
+    def purge_old_tokens(self):
+        self.sql.execute(
+            "DELETE FROM user_tokens WHERE expires<={current_time}".format(
+                current_time=int(time())
+            )
+        )
+
     def make_user_tables(self):
         self.sql.execute("CREATE TABLE IF NOT EXISTS user_private('uid' TEXT, 'email' TEXT, 'passw' TEXT);")
+        self.sql.execute("CREATE TABLE IF NOT EXISTS user_tokens('uid' TEXT, 'token' TEXT, 'expires' INT);")
         self.sql.execute(
             """
             CREATE TABLE IF NOT EXISTS user_data(
@@ -74,15 +85,32 @@ class __Server__:
 
     def log_user(self, user):
         self.connect_db()
+
         pas = sha256(
                 user['passw'].encode()
             ).hexdigest()
-        log = self.sql.execute("SELECT * FROM user_private WHERE email='" + user['email'] + "' AND passw='" + pas + "'").fetchone()
-        self.db.close()
+        
+        log = self.sql.execute(
+            "SELECT * FROM user_private WHERE email='{email}' AND passw='{pas}'".format(
+                email=user['email'],
+                pas=pas
+            )
+        ).fetchone()
+
         if log is not None:
-            return True
+            new_token = spice(log[0])
+            self.sql.execute(
+                "INSERT INTO user_tokens VALUES('{uid}', '{token}', {expires})".format(
+                    uid=log[0],
+                    token=new_token,
+                    expires=int(time() + (60 * 60 * 24 * 30))
+                )
+            )
+            self.commit_db()
+            return new_token
         else:
-            return False
+            self.db.close()
+            return None
 
     def make_new_user(self, user):
         if user['email'] is not None and \

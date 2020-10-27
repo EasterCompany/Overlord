@@ -5,7 +5,7 @@ from ..Bionic.Basics import open_file, root, py_args, \
 pages = []
 jsenv = {
     'c': '0',
-    '0': ""
+    '0': open('./Static/JS/global.js').read()
 }
 
 

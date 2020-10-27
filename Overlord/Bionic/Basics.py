@@ -4,7 +4,6 @@ from sqlite3 import connect as make_db
 from os import getcwd as cwd, path as syspath, mkdir as __mkdir__,\
     system as system_terminal, execl, scandir
 from subprocess import run as terminal
-from random import *
 
 root = cwd()
 
