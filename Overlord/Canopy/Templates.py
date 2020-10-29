@@ -107,15 +107,13 @@ default = [
                     Icon=svg('menu'),
                     OnClick=
                         script('toggleBox', 'user-menu') +
-                        script('hide', 'chat-menu') +
-                        script('hide', 'media-menu')
+                        script('hide', 'chat-menu')
                 ),
                 button(
                     Icon=svg('chat'),
                     OnClick=
                         script('toggleBox', 'chat-menu') +
-                        script('hide', 'user-menu') +
-                        script('hide', 'media-menu')
+                        script('hide', 'user-menu')
                 )
             ], Style='padding:8px 8px 8px 8px;display:flex;'
             ),
