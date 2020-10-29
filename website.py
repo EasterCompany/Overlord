@@ -1,7 +1,8 @@
 # Framework Imports
 from Overlord.Bionic.Local import Index, Server
 from Overlord.Bionic.Basics import py_args
-from Overlord.Bionic.Host import user_add
+from Overlord.Bionic.Host import \
+    user_add, user_end
 # Local App Imports
 from Apps.ui import App
 from appIndex import app_index

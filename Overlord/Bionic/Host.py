@@ -37,6 +37,16 @@ def user_auth():
         return str()
 
 
+@Index.add('/user/end')
+def user_end():
+    print(Index.urp('token')['token'])
+    response = Server.end_user(
+        Index.urp('token')['token']
+    )
+    print(response)
+    return 'logged out'
+
+
 @Index.add('/update')
 def client_update():
     request = Index.urp('file')['file']

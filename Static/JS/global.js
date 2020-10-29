@@ -40,16 +40,25 @@ function __autoLogin__(){
 }
 
 function __logout__(){
+    __update__();
     const expire = new Date();
     expire.setFullYear(expire.getFullYear() - 1);
     document.cookie = `token=; expires=${expire}; path=/`;
     document.cookie = `email=; expires=${expire}; path=/`;
-    window.location.href = '/';
+    fetch(`/user/end?token=${_token_}`).then(
+        location.reload()
+    );
 }
 
-const _cookie_ = __getCookies__();
-const _token_ = _cookie_['token'];
-const _email_ = _cookie_['email'];
+let _cookie_ = __getCookies__();
+let _token_ = _cookie_['token'];
+let _email_ = _cookie_['email'];
+
+function __update__(){
+    _cookie_ = __getCookies__();
+    _token_ = _cookie_['token'];
+    _email_ = _cookie_['email'];
+}
 
 if(document.location.href.includes('/dist?')){
     __autoLogin__();

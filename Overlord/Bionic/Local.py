@@ -61,7 +61,11 @@ class __Server__:
 
     def email_exists(self, email):
         self.connect_db()
-        r = self.sql.execute("SELECT * FROM user_private WHERE email='" + email + "'").fetchone()
+        r = self.sql.execute("SELECT * FROM user_private WHERE email='{email}'".\
+            format(
+                email=email
+            )
+        ).fetchone()
         self.db.close()
         if r is None:
             return False
@@ -82,6 +86,15 @@ class __Server__:
             'email': urlparse.unquote(user['email']),
             'passw': urlparse.unquote(user['passw'])
         }
+
+    def end_user(self, token):
+        self.connect_db()
+        status = self.sql.execute("DELETE FROM user_tokens WHERE token='{token}'".format(
+                token=token
+            )
+        )
+        self.commit_db()
+        return status
 
     def log_user(self, user):
         self.connect_db()
@@ -124,7 +137,7 @@ class __Server__:
 
             def make_uid():
                 return str(
-                    randint(111111111111, 
+                    randint(100000000000, 
                             999999999999
                     )
                 )
