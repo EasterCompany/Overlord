@@ -9,7 +9,7 @@ def default_navbar():
             button(
                 Icon=svg('home'),
                 OnClick=var(
-                    'window.location.href', 
+                    'window.location.href',
                     '/'
                 )
             ),
@@ -34,7 +34,8 @@ def user_menu():
             "<hr>",
             button(
                 Text='Log out',
-                Border=True
+                Border=True,
+                OnClick='__logout__();'
             ),
             button(
                 Text='Settings',
@@ -89,7 +90,7 @@ def chat_menu():
                 Class='menu',
                 Style='margin:3% 0 3% 0;display:block;'
             ),
-            "<input placeholder='search for users...'/>", 
+            "<input placeholder='search for users...'/>",
         ],
         ID='chat-menu',
         Style='display:none;'
@@ -155,21 +156,21 @@ header = [
             button(
                 Icon=svg('facebook'),
                 OnClick=script(
-                    'window.open', 
+                    'window.open',
                     'https://www.facebook.com/eastercompany'
                 )
             ),
             button(
                 Icon=svg('twitter'),
                 OnClick=script(
-                    'window.open', 
+                    'window.open',
                     'https://www.twitter.com/eastercompany'
                 )
             ),
             button(
                 Icon=svg('github'),
                 OnClick=script(
-                    'window.open', 
+                    'window.open',
                     'https://github.com/EasterCompany'
                 )
             )
