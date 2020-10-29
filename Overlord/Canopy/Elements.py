@@ -119,6 +119,7 @@ def navbar(elements=list()):
 
 def appbar(elements=list()):
     return element(
+        ID="app_bar",
         Class="app-bar",
         Items=elements
     )

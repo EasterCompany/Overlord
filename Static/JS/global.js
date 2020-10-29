@@ -25,6 +25,17 @@ function __autoLogin__(){
         ){
             window.location.href = '/dist?app=budget';
         }
+    } else {
+        if( window.location.href !== '/' &&
+            !window.location.href.includes('/dist?app=login') &&
+            !window.location.href.includes('/dist?app=register')
+        ) {
+            if(window.location.href.includes('/dist')){
+                window.location.href = '/dist?app=login';
+            } else {
+                window.location.href = '/';
+            }
+        }
     }
 }
 
