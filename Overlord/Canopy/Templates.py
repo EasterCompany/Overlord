@@ -51,6 +51,26 @@ def user_menu():
     )
 
 
+def no_user_menu():
+    return dropmenu(
+        [
+            "<hr>",
+            button(
+                Text='Login',
+                Border=True,
+                OnClick='document.getElementById(`content`).src = `/dist?app=login`;'
+            ),
+            button(
+                Text='New Account',
+                Border=True,
+                OnClick='document.getElementById(`content`).src = `/dist?app=register`;'
+            ),
+            footer()
+        ],
+        ID='no-user-menu'
+    )
+
+
 def chat_menu():
 
     def chat_user(user='John Doe'):
@@ -101,19 +121,22 @@ default = [
     default_navbar(),
     appbar(
         block(
+            no_user_menu(),
             user_menu(),
             chat_menu(),
             element(Items=[
                 button(
                     Icon=svg('menu'),
                     OnClick=
-                        script('toggleBox', 'user-menu') +
+                        script('userMenu') +
                         script('hide', 'chat-menu')
                 ),
                 button(
+                    ID='chat-btn',
                     Icon=svg('chat'),
                     OnClick=
                         script('toggleBox', 'chat-menu') +
+                        script('hide', 'no-user-menu') +
                         script('hide', 'user-menu')
                 )
             ], Style='padding:8px 8px 8px 8px;display:flex;'
@@ -124,7 +147,7 @@ default = [
         elements='''
             <h1> Loading... </h1>
         ''',
-        source='/dist?app=register'
+        source='/dist?app=home'
     )
 ]
 

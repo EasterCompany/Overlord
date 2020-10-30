@@ -1,16 +1,16 @@
 
 
 def html(
-    _tag=str(), _content=str(), _id=str(), _src=str(), 
-    _class=str(), _style=str(), _onclick=str(), _href=str()
+    _tag=str(), _content=str(), _id=str(), _src=str(), _class=str(),
+    _style=str(), _onclick=str(), _onload=str(), _href=str()
     ):
-    return """<""" + _tag + _id + _src + _style + _class + _onclick + _href + """> 
+    return """<""" + _tag + _id + _src + _style + _class + _onclick + _onload + _href + """>
         """ + _content + """ </""" + _tag + """>"""
 
 
 def element(
     Tag='div', Items=None, ID=str(), Source=str(),
-    Class=str(), OnClick=str(), Style=str(), Href=str()
+    Class=str(), OnClick=str(), OnLoad=str(), Style=str(), Href=str()
     ):
     # id
     if ID is not None and isinstance(ID, str) and not ID == '':
@@ -33,6 +33,13 @@ def element(
         print("""an elements 'OnClick' parameter must be a string""", OnClick), exit(code=102)
     else:
         OnClick = ""
+    # onload
+    if OnLoad is not None and isinstance(OnLoad, str) and not OnLoad == '':
+        OnLoad = " onload='" + OnLoad + "'"
+    elif not isinstance(OnLoad, str):
+        print("""an elements 'OnLoad' parameter must be a string""", OnLoad), exit(code=106)
+    else:
+        OnLoad = ""
     # items
     if Items is not None and isinstance(Items, list) and not len(Items) == 0:
         Items = " ".join(Items)
@@ -70,6 +77,7 @@ def element(
         _class=Class,
         _content=Items,
         _onclick=OnClick,
+        _onload=OnLoad,
         _href=Href
     )
 
@@ -90,19 +98,19 @@ def key_input(Class='search-bar'):
     )
 
 
-def button(Icon=str(), OnClick=str(), ID='button', Border=False, Text=str()): 
+def button(Icon=str(), OnClick=str(), ID='button', Class='button', Border=False, Text=str()):
     _tag = 'div'
     _items = Icon
     if Text is not str():
         _items += element(
-            Tag="h3", 
+            Tag="h3",
             Items=[Text, ]
         )
     r = element(
         Tag=_tag,
         Items=_items,
         ID=ID,
-        Class=ID,
+        Class=Class,
         OnClick=OnClick
     )
     if Border:
@@ -131,6 +139,7 @@ def content(elements=list(), source=str()):
             Tag='iframe',
             ID='content',
             Class='content',
+            OnLoad='__update__();',
             Items=elements,
             Source=source
         )

@@ -23,12 +23,13 @@ function __autoLogin__(){
         if( window.location.href.includes('/dist?app=login') ||
             window.location.href.includes('/dist?app=register')
         ){
-            window.location.href = '/dist?app=budget';
+            window.location.href = '/dist?app=home';
         }
     } else {
         if( window.location.href !== '/' &&
             !window.location.href.includes('/dist?app=login') &&
-            !window.location.href.includes('/dist?app=register')
+            !window.location.href.includes('/dist?app=register') &&
+            !window.location.href.includes('/dist?app=home')
         ) {
             if(window.location.href.includes('/dist')){
                 window.location.href = '/dist?app=login';
@@ -55,9 +56,28 @@ let _token_ = _cookie_['token'];
 let _email_ = _cookie_['email'];
 
 function __update__(){
+
+    function showForUsers(id){
+        if(_token_ === null || _email_ === null){
+            document.getElementById(id).style.display = 'none';
+        } else {
+            document.getElementById(id).style.display = 'block';
+        }
+    }
+
+    /* Update Global Variables */
     _cookie_ = __getCookies__();
     _token_ = _cookie_['token'];
     _email_ = _cookie_['email'];
+
+    /* Reset GUI Menus */
+    document.getElementById('user-menu').style.display = 'none';
+    document.getElementById('no-user-menu').style.display = 'none';
+    document.getElementById('chat-menu').style.display = 'none';
+
+    /* Hide User Only Buttons */
+    showForUsers('chat-btn');
+
 }
 
 if(document.location.href.includes('/dist?')){

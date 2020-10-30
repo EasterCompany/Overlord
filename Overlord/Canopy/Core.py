@@ -17,7 +17,7 @@ def script(function, parameters='', addon=False):
                 replace('\n', ' ')
         while '  ' in jsenv[jsenv['c']]:
             jsenv[jsenv['c']] = jsenv[jsenv['c']].replace('  ', ' ')
-    if not ',' in parameters:
+    if ',' not in parameters and len(parameters) > 0:
         r = function + """(`""" + str(parameters) + """`);"""
     else:
         r = function + """(""" + str(parameters) + """);"""
