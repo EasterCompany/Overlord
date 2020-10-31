@@ -32,25 +32,25 @@ def var(variable, value):
 
 
 '''
-    UI mode enables behaviour to reset 
+    UI mode enables behaviour to reset
     toggled content back to it's 'x'
-    state if another UI element is 
+    state if another UI element is
     selected.
 '''
 def toggleContent(ID, x, y, display='', UI_MODE=False):
     if UI_MODE:
         return script(
-            '''toggleUI''', 
-            '''`''' + ID + '''`, 
-            `''' + x + '''`, 
+            '''toggleUI''',
+            '''`''' + ID + '''`,
+            `''' + x + '''`,
             `''' + y + '''`
             `''' + display + '''`
             '''
         )
     return script(
-            '''toggleInner''', 
-            '''`''' + ID + '''`, 
-            `''' + x + '''`, 
+            '''toggleInner''',
+            '''`''' + ID + '''`,
+            `''' + x + '''`,
             `''' + y + '''`
             '''
         )
@@ -65,7 +65,7 @@ class Document:
         jsenv[self.jsenv] = str()
         self.styles = {
             'default': Themes.default,
-            'landscape': Themes.landscape, 
+            'landscape': Themes.landscape,
             'portrait': Themes.portrait
         }
         if template is None:
@@ -100,11 +100,11 @@ class Document:
         self.styles['default'],
         ) + """
         """ + Themes.style(
-            self.styles['landscape'], 
+            self.styles['landscape'],
             rules={'orientation': 'landscape'}
         ) + \
         Themes.style(
-            self.styles['portrait'],    
+            self.styles['portrait'],
             rules={'orientation': 'portrait'}
         )
         import_styles = ""
@@ -141,14 +141,14 @@ class Document:
     """ + import_styles + """
     <script type="text/javascript">
         """ + jsenv['0'] + """
-        """ + jsenv[self.jsenv] + """ 
+        """ + jsenv[self.jsenv] + """
     </script>
-    <style> 
-    """ + style + """ 
+    <style>
+    """ + style + """
     </style>
     </head>
     <div id='site.body' class='site-body'>
-        """ + ''.join(self.elements) + """ 
+        """ + ''.join(self.elements) + """
     </div>
 </html>
 """

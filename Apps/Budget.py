@@ -191,28 +191,28 @@ def my_expenses():
         Items=[
         """<div style='display:flex;height:28px;border-bottom:1px solid grey;
             justify-content:center;align-content:center;text-align:center;
-            padding:5% 0 5% 0;'>""", 
+            padding:5% 0 5% 0;'>""",
             "<input id='expense_desc' style='width:25%;' placeholder='description' maxlength='24'/>",
             "<input id='expense_cost' type='number' step='0.01' style='width:25%;' placeholder='cost'/>",
             """
-            <select id='expense_occr' style='width:25%;'> 
-                <option value='Daily'> Daily </option> 
-                <option value='Weekly'> Weekly </option> 
-                <option value='Monthly' selected> Monthly </option> 
-                <option value='Annual'> Annual </option> 
+            <select id='expense_occr' style='width:25%;'>
+                <option value='Daily'> Daily </option>
+                <option value='Weekly'> Weekly </option>
+                <option value='Monthly' selected> Monthly </option>
+                <option value='Annual'> Annual </option>
             </select>
             """,
             """
-            <select id='expense_cat' style='width:25%;'> 
-                <option value='Housing'> Housing </option> 
-                <option value='Utility'> Utility </option> 
-                <option value='Leisure' selected> Leisure </option> 
-                <option value='Supply'> Supply </option> 
+            <select id='expense_cat' style='width:25%;'>
+                <option value='Housing'> Housing </option>
+                <option value='Utility'> Utility </option>
+                <option value='Leisure' selected> Leisure </option>
+                <option value='Supply'> Supply </option>
             </select>
-            <div 
+            <div
                 style='width:28px;height:28px;margin-right:8px;'
                 onclick='""" + script('ba_addExpense') +"""'
-            >""", 
+            >""",
                 svg('plus'), "</div>"
         "</div><div id='expenses'>",
             expense('food', '7.00', 'daily', 'supply'),
@@ -243,7 +243,7 @@ def my_ledger():
         <div id='income-tab' style='
             width:50%;height:32px;cursor:pointer;
             border-bottom:2px solid peru;background-color:none;color:grey;
-            justify-content:center;font-size:1.5rem;' 
+            justify-content:center;font-size:1.5rem;'
             onclick='""" + script('ba_loadIncome') + """'>Income</div>
             """,
             """

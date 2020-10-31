@@ -174,7 +174,7 @@ def form(*args):
         max-height:90%;
         margin:5% 0 5% 0;
     '>
-        <form onsubmit='return false;' 
+        <form onsubmit='return false;'
             style='
                 text-align:left;
                 padding:24px 24px 24px 24px;
@@ -188,6 +188,55 @@ def form(*args):
         </form>
     </div>
     """
+
+
+def shader():
+    return element(
+        Style="""
+            margin:32px 0 16px 0;
+            box-shadow: 0px -8px 8px rgba(25, 25, 25, 1);
+        """,
+        Items='&nbsp;'
+    )
+
+
+def story(align='left', header='', text='', image=''):
+
+    image = """<div style='
+            min-width:300px;
+            min-height:300px;
+            max-width:300px;
+            max-height:300px;
+            background-size:100% auto;
+            background-image:url({image});
+            background-repeat:no-repeat;
+        '>""".format(image=image) + \
+            "&nbsp;" + \
+        "</div>"
+
+    text = "<div style='margin:32px 32px 32px 32px;min-width:300px;max-width:600px;'>" + \
+            "<h1>" + header + "</h1>" + \
+            text + \
+        "</div>"
+
+    if align == 'left':
+        this = image + text
+    else:
+        this = text + image
+
+    return element(
+        Items=[
+            """<div style='
+                display:flex;
+                flex-wrap:wrap;
+                justify-content:center;
+                min-width:300px;
+                margin:32px auto;'>
+            """,
+                this,
+            "</div>"
+        ]
+    )
 
 
 e = element

@@ -201,5 +201,6 @@ header = [
     """
         </div>
     </div>
-    """
+    """,
+    shader()
 ]

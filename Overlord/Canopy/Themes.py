@@ -157,6 +157,14 @@ default = {
         'width': '480px',
         'height': '640px'
     },
+    '.site-header': {
+        'max-width': '600px',
+        'margin': '32px auto',
+        'justify-content': 'center'
+    },
+    '.site-header-logo': {
+        'margin': '0 auto'
+    },
     '.site-header-quote': {
         'font-family': 'Roboto'
     },
@@ -222,17 +230,6 @@ landscape = {
     },
     '.youtube-desc': {
         'margin': '0 20% 0 20%'
-    },
-    '.site-header': {
-        'height': '100%',
-        'display': 'flex',
-        'margin': '32px 0 64px 0',
-        'justify-content': 'center'
-    },
-    '.site-header-logo': {
-        'width': '30%',
-        'margin-left': '-10%',
-        'margin-right': '10%'
     }
 }
 
@@ -254,15 +251,6 @@ portrait = {
     '.youtube-desc': {
         'margin': '0 20% 0 20%'
     },
-    '.site-header': {
-        'margin': '32px 0 16px 0',
-        'display': 'block',
-        'justify-content': 'center'
-    },
-    '.site-header-logo': {
-        'width': '100%',
-        'margin-left': '0'
-    },
     '.library-category': {
         'margin': '32px 3px 32px 3px'
     }
@@ -270,7 +258,7 @@ portrait = {
 
 
 #
-# CONVERT STYLE DICTIONARY TO CSS 
+# CONVERT STYLE DICTIONARY TO CSS
 #
 def style(style_dict, rules=None):
     css = """"""

@@ -77,7 +77,6 @@ function __update__(){
 
     /* Hide User Only Buttons */
     showForUsers('chat-btn');
-
 }
 
 if(document.location.href.includes('/dist?')){
