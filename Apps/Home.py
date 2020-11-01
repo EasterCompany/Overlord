@@ -51,15 +51,29 @@ App.add_elements(
         <button
             class='button'
             onclick='window.location.href = `/dist?app=login`'
-            style='background-color:#2B3856;margin-right:1%;border-radius:8px;'>
-            """ + svg('login') + """ <b>LOGIN</b>
+            style='
+                background-color:#2B3856;
+                margin-right:1%;
+                border-radius:8px;
+                height:65px;
+                border: 1px solid black;
+                padding:8px 8px 8px 8px;
+            '>
+            <div>""" + svg('login') + """</div> <h3> Login </h3>
         </button>
         <button
             id='signup-btn'
             class='button'
             onclick='window.location.href = `/dist?app=register`'
-            style='background-color:#008080;margin-left:1%;border-radius:8px;'>
-            """ + svg('signup') + """ <b>NEW ACCOUNT</b>
+            style='
+                background-color:#008080;
+                margin-left:1%;
+                border-radius:8px;
+                height:65px;
+                border: 1px solid black;
+                padding:8px 8px 8px 8px;
+            '>
+            <div>""" + svg('signup') + """</div> <h3> New Account </h3>
         </button>
     </div>
     <div style='max-width:600px;margin:0 auto;'>
