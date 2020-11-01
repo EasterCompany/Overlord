@@ -44,36 +44,40 @@ App.add_elements(
         </div>
         <div>
             <h1 style='margin-top:16px;font-family:Spartan;font-size:36px;'> EASTER COMPANY </h1>
-            <h4 id='site-header-quote' style='color:#fe8605;margin:32px 0 16px 0;font-family:Roboto;'></h4>
-        """,
-        script(
-            function='random',
-            parameters='''`site-header-quote`, [
-                `“Spartans are equal too any man as <br/> individuals; but together as a collective,<br/> they surpass all other men.” <br/> - Damaratus to Xerxes. <br/>`,
-                ` “Quality before Quanity. <br/> Pruned before Perfect.” <br/> - Ethos. <br/><br/>`,
-                ` “silence over empty words, <br/> simplicity over decoration and <br/> precision over expansiveness.” <br/> - Ethos `,
-                ` “Liberty, Equality <br/> and Fraternity.” <br/> - Ethos <br/><br/> `,
-                ` “Gradatim Ferociter.” <br/> - Step by Step Ferociously <br/><br/> `,
-            ]
-            ''',
-            addon=True
-        ),
-        social_links(),
-    """
+            <h4> "Liberty, Fraternity, Equality" </h4>
         </div>
     </div>
+    <div id='no-user' style='max-width:600px;display:flex;margin:0 auto;padding-bottom:32px;'>
+        <button
+            class='button'
+            onclick='window.location.href = `/dist?app=login`'
+            style='background-color:#2B3856;margin-right:1%;border-radius:8px;'>
+            """ + svg('login') + """ <b>LOGIN</b>
+        </button>
+        <button
+            id='signup-btn'
+            class='button'
+            onclick='window.location.href = `/dist?app=register`'
+            style='background-color:#008080;margin-left:1%;border-radius:8px;'>
+            """ + svg('signup') + """ <b>NEW ACCOUNT</b>
+        </button>
+    </div>
+    <div style='max-width:600px;margin:0 auto;'>
+        <hr>
     """,
+    social_links(),
+    "</div>",
     shader(),
     story(
         align="left",
         header='Forensic Financial Software',
         text="""
             Our suite of Forensic Financial tools allows individuals to industrial size organisations to
-            track and manage their budgets with built intelligent automation APIs which give real time
+            track and manage their budgets with intelligent automation APIs which give real time
             feedback and helpful statistics in a pragmatic manner when you need it most.
             <br>
             <br>
-            <a href='/'>read more...</a>
+            <a href='/'>learn more...</a>
             <br>
         """,
         image="/Image/budgetGraph.png"
@@ -84,12 +88,12 @@ App.add_elements(
         header='The Entropy Enviroment',
         text="""
             Entropy is a collection of web based applications for productivity which provides services for
-            Entertainment, Education and Enterprise clients - including but not exclusive too eChat & eDocs.
-            We compete with other common cloud based productivity suites with a focus on efficieny and
+            Entertainment, Education and Enterprise clients - including but not exclusive too E-Chat & E-Docs.
+            We compete with other common cloud based productivity suites with a focus on efficiency and
             all-in-one methodology.
             <br>
             <br>
-            <a href='/'>read more...</a>
+            <a href='/'>learn more...</a>
             <br>
         """,
         image="/Image/entropyLogo.png"
@@ -102,10 +106,10 @@ App.add_elements(
             The Dexter digital intelligence program incorporates a wide scope of machine learning and non-ml features
             to bring together a variety of APIs, Desktop & Mobile applications which may be stand alone or with other
             applications to enhance your daily life with the power of artificial intelligence. From smart homes to
-            digital intefacing - we plan on making the most varied piece of software on the market.
+            digital interfacing - we plan on making the most varied piece of software on the market.
             <br>
             <br>
-            <a href='/'>read more...</a>
+            <a href='/'>learn more...</a>
             <br>
         """,
         image="/Image/dexterLogo.png"
@@ -121,7 +125,7 @@ App.add_elements(
             mind knowing your tech stack stays minimal.
             <br>
             <br>
-            <a href='/'>read more...</a>
+            <a href='/'>learn more...</a>
             <br>
         """,
         image="/Image/canopyLogo.png"
@@ -136,7 +140,7 @@ App.add_elements(
             from an individuals blog to industry leading web applications.
             <br>
             <br>
-            <a href='/'>read more...</a>
+            <a href='/'>learn more...</a>
             <br>
         """,
         image="/Image/bionicLogo.png"
@@ -146,12 +150,12 @@ App.add_elements(
         align="right",
         header='Atlas Automated Testing',
         text="""
-            The atlas automated test library built into our Overlord framework allows bring the 'reliable' to
+            The atlas automated test library built into our Overlord framework brings the 'reliable' to
             Overlords rapid & reliable deployment methodology by allowing developers to quickly deploy new
             software with accurate and automated testing procedures designed by digital intelligence.
             <br>
             <br>
-            <a href='/'>read more...</a>
+            <a href='/'>learn more...</a>
             <br>
         """,
         image="/Image/atlasLogo.png"

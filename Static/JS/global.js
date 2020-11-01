@@ -14,17 +14,18 @@ function __getCookies__(){
         const cookie = document.cookie.split('=');
         cookies[cookie[0]] = cookie[1];
         return cookies;
-    }
+    };
     return cookies;
-}
+};
 
 function __autoLogin__(){
     if(_email_ !== null && _token_ !== null){
         if( window.location.href.includes('/dist?app=login') ||
-            window.location.href.includes('/dist?app=register')
+            window.location.href.includes('/dist?app=register') ||
+            window.location.href.includes('/dist?app=home')
         ){
-            window.location.href = '/dist?app=home';
-        }
+            window.location.href = '/dist?app=library';
+        };
     } else {
         if( window.location.href !== '/' &&
             !window.location.href.includes('/dist?app=login') &&
@@ -35,10 +36,10 @@ function __autoLogin__(){
                 window.location.href = '/dist?app=login';
             } else {
                 window.location.href = '/';
-            }
-        }
-    }
-}
+            };
+        };
+    };
+};
 
 function __logout__(){
     __update__();
@@ -49,7 +50,7 @@ function __logout__(){
     fetch(`/user/end?token=${_token_}`).then(
         location.reload()
     );
-}
+};
 
 let _cookie_ = __getCookies__();
 let _token_ = _cookie_['token'];
@@ -62,8 +63,8 @@ function __update__(){
             document.getElementById(id).style.display = 'none';
         } else {
             document.getElementById(id).style.display = 'block';
-        }
-    }
+        };
+    };
 
     /* Update Global Variables */
     _cookie_ = __getCookies__();
@@ -77,8 +78,9 @@ function __update__(){
 
     /* Hide User Only Buttons */
     showForUsers('chat-btn');
-}
+
+};
 
 if(document.location.href.includes('/dist?')){
     __autoLogin__();
-}
+};

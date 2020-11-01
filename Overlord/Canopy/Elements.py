@@ -214,7 +214,7 @@ def story(align='left', header='', text='', image=''):
             "&nbsp;" + \
         "</div>"
 
-    text = "<div style='margin:32px 32px 32px 32px;min-width:300px;max-width:600px;'>" + \
+    text = "<div style='margin:32px 32px 32px 32px;min-width:280px;max-width:600px;'>" + \
             "<h1>" + header + "</h1>" + \
             text + \
         "</div>"

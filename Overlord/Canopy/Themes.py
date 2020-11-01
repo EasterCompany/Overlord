@@ -243,7 +243,7 @@ portrait = {
         'width': '100%'
     },
     '.content': {
-        'height': 'calc(100% - 102px)',
+        'height': 'calc(100% - 96px)',
     },
     '.youtube-div': {
         'padding': '10% 5% 10% 5%'
