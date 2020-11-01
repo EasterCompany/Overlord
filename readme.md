@@ -1,9 +1,9 @@
-# Easter Company
+# Overlord Web Framework
 
 [![Website](https://img.shields.io/badge/Easter%20Company-website-orange)](https://www.easter.company)
 [![Twitter](https://img.shields.io/twitter/follow/eastercompany?label=Easter%20Company&style=social)](https://twitter.com/eastercompany)
 
-## Overlord
+## Description
 
 Overlord is a heavily optimized and open source python-javascript full stack development framework with an efficiency first development methodology.
 
