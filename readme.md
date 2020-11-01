@@ -1,4 +1,9 @@
-# Overlord Web Framework
+# Easter Company
+
+[![Website](https://img.shields.io/badge/Easter%20Company-website-orange)](https://www.easter.company)
+[![Twitter](https://img.shields.io/twitter/follow/eastercompany?label=Easter%20Company&style=social)](https://twitter.com/eastercompany)
+
+## Overlord
 
 Overlord is a heavily optimized and open source python-javascript full stack development framework with an efficiency first development methodology.
 
@@ -22,3 +27,10 @@ different ways and when used appropriately we can mostly avoid writing any funct
 
 With Overlord we hope that you can develop limitless web apps without the need for non-vanilla javascript
 libraries and frameworks such as Angular or React.
+
+### Follow us
+
+[<img align="left" alt="easter.company" width="22px" src="https://raw.githubusercontent.com/iconic/open-iconic/master/svg/globe.svg" />][website]
+[<img align="left" alt="Easter Company | YouTube" width="22px" src="https://cdn.jsdelivr.net/npm/simple-icons@v3/icons/youtube.svg" />][youtube]
+[<img align="left" alt="Easter Company | Twitter" width="22px" src="https://cdn.jsdelivr.net/npm/simple-icons@v3/icons/twitter.svg" />][twitter]
+[<img align="left" alt="Easter Company | Facebook" width="22px" src="https://image.freepik.com/free-icon/facebook-logo_318-53644.jpg" />][facebook]
