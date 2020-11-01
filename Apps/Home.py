@@ -77,7 +77,7 @@ App.add_elements(
             feedback and helpful statistics in a pragmatic manner when you need it most.
             <br>
             <br>
-            <a href='/'>learn more...</a>
+            <a>learn more...</a>
             <br>
         """,
         image="/Image/budgetGraph.png"
@@ -93,7 +93,7 @@ App.add_elements(
             all-in-one methodology.
             <br>
             <br>
-            <a href='/'>learn more...</a>
+            <a>learn more...</a>
             <br>
         """,
         image="/Image/entropyLogo.png"
@@ -109,7 +109,7 @@ App.add_elements(
             digital interfacing - we plan on making the most varied piece of software on the market.
             <br>
             <br>
-            <a href='/'>learn more...</a>
+            <a>learn more...</a>
             <br>
         """,
         image="/Image/dexterLogo.png"
@@ -125,7 +125,7 @@ App.add_elements(
             mind knowing your tech stack stays minimal.
             <br>
             <br>
-            <a href='/'>learn more...</a>
+            <a>learn more...</a>
             <br>
         """,
         image="/Image/canopyLogo.png"
@@ -140,7 +140,7 @@ App.add_elements(
             from an individuals blog to industry leading web applications.
             <br>
             <br>
-            <a href='/'>learn more...</a>
+            <a>learn more...</a>
             <br>
         """,
         image="/Image/bionicLogo.png"
@@ -155,7 +155,7 @@ App.add_elements(
             software with accurate and automated testing procedures designed by digital intelligence.
             <br>
             <br>
-            <a href='/'>learn more...</a>
+            <a>learn more...</a>
             <br>
         """,
         image="/Image/atlasLogo.png"
