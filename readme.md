@@ -13,7 +13,7 @@ Overlord is a heavily optimized and open source python-javascript full stack dev
 
 - Heavily optimized means: optimized for low budget hardware and minimal infrastructure.
 
-- Python first means: we will use python when and where ever it is possible.
+- Python first means: we only use python when and where ever it is possible.
 
 - NO HTML / NO CSS means: we use Overlord python libraries for writing our markdown and styling which is
 then compiled into regular html5 & css3 source code when it is distributed to the user device.
