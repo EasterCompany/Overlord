@@ -37,7 +37,7 @@ def social_links():
 
 # Page Elements
 App.add_elements(
-        "<div class='site-header'>",
+    "<div class='site-header' style='padding:16px 16px 16px 16px;'>",
         "<div class='site-header-logo'>",
             svg('logo2'),
         """
@@ -47,6 +47,7 @@ App.add_elements(
             <h4> "Liberty, Fraternity, Equality" </h4>
         </div>
     </div>
+    <br>
     <div id='no-user' style='max-width:600px;display:flex;margin:0 auto;padding-bottom:32px;'>
         <button
             class='button'
@@ -76,6 +77,7 @@ App.add_elements(
             <div>""" + svg('signup') + """</div> <h3> New Account </h3>
         </button>
     </div>
+    <br>
     <div style='max-width:600px;margin:0 auto;'>
         <hr>
     """,
