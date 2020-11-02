@@ -20,6 +20,7 @@ default = {
     },
     '::-webkit-scrollbar': {
         'width': '6px',
+        'height': '6px',
         'background-color': '#201c29'
     },
     '::-webkit-scrollbar-thumb': {
@@ -169,22 +170,18 @@ default = {
         'font-family': 'Roboto'
     },
     '.library-category-section': {
-        'align-content': 'center',
-        'text-align': 'center',
+        'overflow-x': 'scroll',
         'display': 'flex',
-        'padding': '16px 0 20px 0',
-        'justify-content': 'center',
-        'box-shadow': '0 0 15px rgba(1,1,1,1)'
+        'width': '100%',
+        'max-height': '80px',
+        'box-shadow': '1px 1px 15px rgba(1,1,1,1)'
     },
     '.library-category': {
-        'display': 'block',
         'cursor': 'pointer',
         'width': '100%',
-        'max-height': '64px',
-        'margin': '0 3% 0 3%',
+        'min-width': '100px',
+        'margin': '0 auto',
         'padding': '4px 4px 20px 4px',
-        'justify-content': 'center',
-        'text-align': 'center',
         'font-family': 'Roboto'
     },
     '.library-category:hover': {
@@ -250,9 +247,6 @@ portrait = {
     },
     '.youtube-desc': {
         'margin': '0 20% 0 20%'
-    },
-    '.library-category': {
-        'margin': '32px 3px 32px 3px'
     }
 }
 
