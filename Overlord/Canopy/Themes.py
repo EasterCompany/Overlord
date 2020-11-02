@@ -24,7 +24,7 @@ default = {
         'background-color': '#201c29'
     },
     '::-webkit-scrollbar-thumb': {
-        'background-color': '#666',
+        'background-color': '#666'
     },
     'svg': {
         'fill': '#fe8605',
@@ -174,12 +174,12 @@ default = {
         'display': 'flex',
         'width': '100%',
         'max-height': '80px',
-        'box-shadow': '1px 1px 15px rgba(1,1,1,1)'
+        'padding-bottom': '6px'
     },
     '.library-category': {
         'cursor': 'pointer',
         'width': '100%',
-        'min-width': '100px',
+        'min-width': '96px',
         'margin': '0 auto',
         'padding': '4px 4px 20px 4px',
         'font-family': 'Roboto'
@@ -189,6 +189,11 @@ default = {
     },
     '.library-category:active': {
         'background-color': 'peru'
+    },
+    '.library-section': {
+        'margin': '0 auto',
+        'padding': '16px 8px 16px 8px',
+        'width': '96%'
     },
     '.grid-row': {
         'border-bottom': '1px solid grey',

@@ -1,7 +1,6 @@
 from Overlord.Canopy.Core import Document
-from Overlord.Canopy.Templates import header
-from Overlord.Canopy.Elements import element, flex, block
-from Overlord.Canopy.Image import youtube, instagram, img, svg
+from Overlord.Canopy.Elements import element
+from Overlord.Canopy.Image import svg
 
 # Page Root
 App = Document()
@@ -17,6 +16,23 @@ def library_category(icon=str(), label=str()):
     )
 
 
+def library_section(ID):
+    return element(
+        ID=ID,
+        Class='library-section',
+        Items='''
+        <h4 style='text-align:left;'>Favourites</h4>
+        <hr>
+        <div style='min-height:250px;'>
+        </div>
+        <h4 style='text-align:left;'>Reccomended</h4>
+        <hr>
+        <div style='min-height:250px;'>
+        </div>
+        '''
+    )
+
+
 # Page Elements
 App.add_elements(
     element(
@@ -28,7 +44,7 @@ App.add_elements(
             library_category(icon=svg('education'), label='Education')
         ]
     ),
-    "<h1 style='margin-top:100px;'> COMING SOON... </h1>"
+    library_section('Favourites')
 )
 
 # Page Render
