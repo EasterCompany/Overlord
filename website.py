@@ -21,8 +21,8 @@ def __index__():
 def __distribution__():
     if 'app' in Server.request.args and \
         Server.request.args['app'] in app_index:
-            return app_index[ Server.request.args['app']]
-    return Server.goto('/')
+            return app_index[Server.request.args['app']]
+    return Server.goto('/dist?app=home')
 
 
 # Information postal service

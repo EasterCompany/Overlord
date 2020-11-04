@@ -81,6 +81,9 @@ function __update__(){
 
 };
 
-if(document.location.href.includes('/dist?')){
+if(document.location.href.includes('/dist')){
     __autoLogin__();
+    if(window.self === window.top){
+        window.location = '/';
+    }
 };
