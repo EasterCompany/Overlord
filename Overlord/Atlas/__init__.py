@@ -1,12 +1,12 @@
 """
-  PROJECT ATLAS: 
+  PROJECT ATLAS:
     "Suite" monitors and recurringly tests
-    live services for reliability and 
+    live services for reliability and
     performance measures.
 
-    "Test" is used to rapidly deploy 
+    "Test" is used to rapidly deploy
     unit tests for overlord modules
-""" 
+"""
 
 from . import Suite
 

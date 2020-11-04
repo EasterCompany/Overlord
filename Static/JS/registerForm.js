@@ -19,7 +19,7 @@ function registerForm(){
         if(passw.value === cpass.value){
             if(passw.value.length >= 8){
                 registerUser(
-                    encodeURIComponent(email.value), 
+                    encodeURIComponent(email.value),
                     encodeURIComponent(passw.value)
                 )
             } else {

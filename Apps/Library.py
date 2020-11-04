@@ -16,26 +16,40 @@ def library_category(icon=str(), label=str()):
     )
 
 
+def library_item(name, image):
+    return element(
+        ID='app_library_' + name,
+        Class='app-library-app',
+        Style='padding:2.5% 2.5% 2.5% 2.5%;',
+        Items="""
+            <div class='app-library-image' style='background-image:url({image});' onclick='window.location.href=`/dist?app={app}`'>
+                </div>
+                <h5 style='margin-top:6px;'>{name}</h5>
+        """.format(name=name.title(), image=image, app=name.lower())
+    )
+
 def library_section(ID):
     return element(
         ID='library_section_' + ID,
         Class='library-section',
         Items='''
-        <h4 style='text-align:left;'>{label}</h4>
-        <hr>
-        <div style='min-height:250px;display:flex;flex-wrap:wrap;padding:15px 15px 5px 15px;'>
-            <div>
-                <div style='
-                    border:1px solid grey;
-                    width:200px;
-                    height:200px;
-                    background-image:url(/Image/budgetGraph.png);
-                    '>
-                </div>
-                <h3 style='margin-top:6px;'>Budget</h3>
+            <h4 style='text-align:left;'>{label}</h4>
+            <hr>
+            <div style='min-height:250px;display:flex;flex-wrap:wrap;padding:15px 15px 5px 15px;'>
+                {apps}
             </div>
-        </div>
-        '''.format(label=ID)
+        '''.format(
+            label=ID,
+            apps=''.join(
+                [
+                    library_item(name='atlas', image='Image/atlasLogo.png'),
+                    library_item(name='bionic', image='Image/bionicLogo.png'),
+                    library_item(name='canopy', image='Image/canopyLogo.png'),
+                    library_item(name='dexter', image='Image/dexterLogo.png'),
+                    library_item(name='forensic', image='Image/forensicLogo.png'),
+                ]
+            )
+        )
     )
 
 

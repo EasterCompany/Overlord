@@ -211,6 +211,21 @@ default = {
         'width': '20px',
         'height': '20px',
         'padding': '4px 4px 4px 4px'
+    },
+    '.app-library-image': {
+        'border-radius': '40%',
+        'min-width': '100px',
+        'min-height': '100px',
+        'background-size': '100%',
+        'background-repeat': 'no-repeat'
+    },
+    '.app-library-app': {
+        'width': '100px',
+        'height': '130px'
+    },
+    '.app-library-app:hover': {
+        'cursor': 'pointer',
+        'background-color': 'rgba(25,25,25,.5)'
     }
 }
 
