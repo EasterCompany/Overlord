@@ -96,7 +96,7 @@ App.add_elements(
             <a>learn more...</a>
             <br>
         """,
-        image="/Image/budgetGraph.png"
+        image="/Image/forensicLogo.png"
     ),
     shader(),
     story(

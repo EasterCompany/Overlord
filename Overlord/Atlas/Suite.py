@@ -38,9 +38,9 @@ class SystemMonitor:
                     }
                 except Exception as import_error:
                     return {
-                        'name': data[1], 
-                        'path': 'sub-module', 
-                        'root': f, 
+                        'name': data[1],
+                        'path': 'sub-module',
+                        'root': f,
                         'test': 'Overlord/Atlas/tests/General/all.py'
                     }
 
@@ -71,7 +71,7 @@ class SystemMonitor:
 
                 if '.' in mod['name']:
                     import_statement = [
-                        "from", 
+                        "from",
                         '.'.join(mod['name'].split('.')[0:-1]),
                         "import",
                         mod['name'].split('.')[-1],
@@ -79,8 +79,8 @@ class SystemMonitor:
                     ]
                 else:
                     import_statement = [
-                        "import", 
-                        mod['name'], 
+                        "import",
+                        mod['name'],
                         'as sut'
                     ]
 
@@ -116,14 +116,14 @@ class TestSuite:
         for LIB in self.target['libs']:
             new_set()
             print(LIB)
-            
+
             for MODULE in self.target['libs'][LIB]['modules']:
                 mod = self.target['libs'][LIB]['modules'][MODULE]
                 test_path = mod['test'].replace('Overlord/Atlas/tests/', '/')
                 spec = importlib.util.spec_from_file_location(mod['name'], mod['test'])
                 mock = importlib.util.module_from_spec(spec)
                 spec.loader.exec_module(mock)
-                
+
                 try:
                     result = mock.test()
                     if result is None:
