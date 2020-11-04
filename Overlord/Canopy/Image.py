@@ -4,6 +4,7 @@ from ..Bionic.Basics import open_file
 def img(url):
     return "<img src='{url}' />".format(url=url)
 
+
 def svg(name, folder='./Static/SVG'):
     return open_file(folder, name + ".svg").replace('\n', ' ')
 

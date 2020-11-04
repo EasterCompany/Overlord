@@ -18,18 +18,24 @@ def library_category(icon=str(), label=str()):
 
 def library_section(ID):
     return element(
-        ID=ID,
+        ID='library_section_' + ID,
         Class='library-section',
         Items='''
-        <h4 style='text-align:left;'>Favourites</h4>
+        <h4 style='text-align:left;'>{label}</h4>
         <hr>
-        <div style='min-height:250px;'>
+        <div style='min-height:250px;display:flex;flex-wrap:wrap;padding:15px 15px 5px 15px;'>
+            <div>
+                <div style='
+                    border:1px solid grey;
+                    width:200px;
+                    height:200px;
+                    background-image:url(/Image/budgetGraph.png);
+                    '>
+                </div>
+                <h3 style='margin-top:6px;'>Budget</h3>
+            </div>
         </div>
-        <h4 style='text-align:left;'>Reccomended</h4>
-        <hr>
-        <div style='min-height:250px;'>
-        </div>
-        '''
+        '''.format(label=ID)
     )
 
 
@@ -44,7 +50,8 @@ App.add_elements(
             library_category(icon=svg('education'), label='Education')
         ]
     ),
-    library_section('Favourites')
+    library_section('Favourites'),
+    library_section('Reccomended')
 )
 
 # Page Render
