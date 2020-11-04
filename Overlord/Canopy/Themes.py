@@ -65,7 +65,7 @@ default = {
     },
     '.button': {
         'width': '100%',
-        'padding': '4px 0 0 0',
+        'padding': '2px 2px 2px 2px',
         'min-height': '32px',
         'color': 'white',
         'cursor': 'pointer'
@@ -88,7 +88,7 @@ default = {
         'border-color': 'rgba(255, 99, 71, 1)',
     },
     '.navbar': {
-        'background-color': 'rgba(10, 10, 10, 0.5)',
+        'background-color': 'rgba(35, 35, 35, 1)',
         'box-shadow': '1px 1px 5px rgba(1,1,1,1)',
         'padding': '3px 0 3px 0',
         'width': '100%',
@@ -129,6 +129,7 @@ default = {
     },
     '.app-bar': {
         'font-family': 'Roboto',
+        'background-color': 'rgba(25, 25, 25, 1)',
         'box-shadow': '1px 1px 5px rgba(1,1,1,1)',
         'min-height': '36px',
         'z-index': '99',
@@ -234,7 +235,6 @@ default = {
 #
 landscape = {
     '.app-bar': {
-        'background-color': 'rgba(10, 10, 10, 0.9)',
         'margin': '0 0 8px 8px',
         'min-width': '210px',
         'width': '15%'
@@ -255,7 +255,6 @@ landscape = {
 #
 portrait = {
     '.app-bar': {
-        'background-color': 'rgba(10, 10, 10, 1)',
         'margin': '0 0 0 0',
         'width': '100%'
     },
