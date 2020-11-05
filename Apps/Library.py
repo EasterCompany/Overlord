@@ -1,4 +1,4 @@
-from Overlord.Canopy.Core import Document
+from Overlord.Canopy.Core import Document, script
 from Overlord.Canopy.Elements import element
 from Overlord.Canopy.Image import svg
 
@@ -9,10 +9,26 @@ App.import_css('https://fonts.googleapis.com/css2?family=Spartan:wght@700&displa
 App.set_font("Roboto")
 
 
-def library_category(icon=str(), label=str()):
+def library_category(icon, label):
+    if not label == 'Everything':
+        on_click = script('hide', 'library_section_Engineering') +\
+            script('hide', 'library_section_Enterprise') +\
+            script('hide', 'library_section_Education') +\
+            script('hide', 'library_section_Entertainment') +\
+            script('toggleBox', 'library_section_' + label)
+    else:
+        on_click = script('hide', 'library_section_Engineering') +\
+            script('hide', 'library_section_Enterprise') +\
+            script('hide', 'library_section_Education') +\
+            script('hide', 'library_section_Entertainment') +\
+            script('toggleBox', 'library_section_Engineering') +\
+            script('toggleBox', 'library_section_Enterprise') +\
+            script('toggleBox', 'library_section_Education') +\
+            script('toggleBox', 'library_section_Entertainment')
     return element(
         Class='library-category',
-        Items=icon + "<h6>" + label + "</h6>"
+        Items=icon + "<h6>" + label + "</h6>",
+        OnClick=on_click
     )
 
 
@@ -66,6 +82,7 @@ def library_section(ID):
     return element(
         ID='library_section_' + ID,
         Class='library-section',
+        Style='display:block;',
         Items='''
             <h4 style='text-align:left;'>{label}</h4>
             <hr>
