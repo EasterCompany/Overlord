@@ -22,33 +22,63 @@ def library_item(name, image):
         Class='app-library-app',
         Style='padding:2.5% 2.5% 2.5% 2.5%;',
         Items="""
-            <div class='app-library-image' style='background-image:url({image});' onclick='window.location.href=`/dist?app={app}`'>
+            <div class='app-library-image'
+            style='background-image:url({image});'
+            onclick='window.location.href=`/dist?app={app}`'>
                 </div>
                 <h5 style='margin-top:6px;'>{name}</h5>
-        """.format(name=name.title(), image=image, app=name.lower())
+        """.format(
+            name=name.title(),
+            image=image,
+            app=name.lower()
+        )
     )
 
+
+def library_engineering():
+    return library_item(name='atlas', image='Image/atlasLogo.png') +\
+        library_item(name='bionic', image='Image/bionicLogo.png') +\
+        library_item(name='canopy', image='Image/canopyLogo.png')
+
+
+def library_entertainment():
+    return ""
+
+
+def library_enterprise():
+    return library_item(name='dexter', image='Image/dexterLogo.png') +\
+        library_item(name='forensic', image='Image/forensicLogo.png')
+
+
+def library_education():
+    return ""
+
+
 def library_section(ID):
+    if ID == 'Engineering':
+        apps = library_engineering()
+    elif ID == 'Entertainment':
+        apps = library_entertainment()
+    elif ID == 'Enterprise':
+        apps = library_enterprise()
+    else:
+        apps = library_education()
     return element(
         ID='library_section_' + ID,
         Class='library-section',
         Items='''
             <h4 style='text-align:left;'>{label}</h4>
             <hr>
-            <div style='min-height:250px;display:flex;flex-wrap:wrap;padding:15px 15px 5px 15px;'>
+            <div style='
+                display:flex;
+                flex-wrap:wrap;
+                padding:15px 15px 5px 15px;
+            '>
                 {apps}
             </div>
         '''.format(
             label=ID,
-            apps=''.join(
-                [
-                    library_item(name='atlas', image='Image/atlasLogo.png'),
-                    library_item(name='bionic', image='Image/bionicLogo.png'),
-                    library_item(name='canopy', image='Image/canopyLogo.png'),
-                    library_item(name='dexter', image='Image/dexterLogo.png'),
-                    library_item(name='forensic', image='Image/forensicLogo.png'),
-                ]
-            )
+            apps=apps
         )
     )
 
@@ -58,14 +88,20 @@ App.add_elements(
     element(
         Class='library-category-section',
         Items=[
+            library_category(icon=svg('folder'), label='Everything'),
             library_category(icon=svg('spanner'), label='Engineering'),
             library_category(icon=svg('gamepad'), label='Entertainment'),
             library_category(icon=svg('badge'), label='Enterprise'),
             library_category(icon=svg('education'), label='Education')
         ]
     ),
-    library_section('Favourites'),
-    library_section('Reccomended')
+    library_section('Engineering'),
+    library_section('Enterprise'),
+    library_section('Education'),
+    library_section('Entertainment'),
+    element(
+        Style='min-height:100px;'
+    )
 )
 
 # Page Render
