@@ -5,23 +5,31 @@ from Overlord.Canopy.Image import svg
 
 # Page Root
 App = Document()
-App.import_css('https://fonts.googleapis.com/css2?family=Spartan:wght@700&display=swap')
-App.set_font('Spartan')
 
 
 # Page Objects
 def my_balance():
     return element(
-        Style="display:block;width:190px;",
+        Style="""
+            display:block;
+            width:190px;
+        """,
         Items=[
             element(
                 Tag="h5",
-                Style="color:peru;text-align:left;margin:8px 1% 8px 1%;",
+                Style="""
+                    color:peru;
+                    text-align:left;
+                    margin:8px 1% 8px 1%;
+                """,
                 Items="SAVING"
             ),
             element(
                 Tag="div",
-                Style="display:flex;margin:8px 1% 8px 1%;",
+                Style="""
+                    display:flex;
+                    margin:8px 1% 8px 1%;
+                """,
                 Items=[
                     "<h1 style='color:orange;text-align:left;'> £0. </h1>",
                     "<h3 style='color:orange;text-align:left;margin-top:15px;'> 00 </h3>"
@@ -37,12 +45,20 @@ def my_change():
         Items=[
             element(
                 Tag="h5",
-                Style="color:peru;text-align:right;margin:8px 1% 8px 1%;",
+                Style="""
+                    color:peru;
+                    text-align:right;
+                    margin:8px 1% 8px 1%;
+                """,
                 Items="PER MONTH"
             ),
             element(
                 Tag="h1",
-                Style="color:peru;text-align:right;margin:8px 1% 8px 1%;",
+                Style="""
+                    color:peru;
+                    text-align:right;
+                    margin:8px 1% 8px 1%;
+                """,
                 Items="0%"
             )
         ]
@@ -188,21 +204,24 @@ def my_expenses():
 
     return element(
         ID='expenses',
-        Items=[
-        """<div style='display:flex;height:28px;border-bottom:1px solid grey;
-            justify-content:center;align-content:center;text-align:center;
-            padding:5% 0 5% 0;'>""",
-            "<input id='expense_desc' style='width:25%;' placeholder='description' maxlength='24'/>",
-            "<input id='expense_cost' type='number' step='0.01' style='width:25%;' placeholder='cost'/>",
-            """
+        Items="""
+        <div style='
+            display:flex;
+            height:28px;
+            border-bottom:1px solid grey;
+            justify-content:center;
+            align-content:center;
+            text-align:center;
+            padding:5% 0 5% 0;
+        '>
+            <input id='expense_desc' style='width:25%;' placeholder='description' maxlength='24'/>
+            <input id='expense_cost' type='number' step='0.01' style='width:25%;' placeholder='cost'/>
             <select id='expense_occr' style='width:25%;'>
                 <option value='Daily'> Daily </option>
                 <option value='Weekly'> Weekly </option>
                 <option value='Monthly' selected> Monthly </option>
                 <option value='Annual'> Annual </option>
             </select>
-            """,
-            """
             <select id='expense_cat' style='width:25%;'>
                 <option value='Housing'> Housing </option>
                 <option value='Utility'> Utility </option>
@@ -212,14 +231,10 @@ def my_expenses():
             <div
                 style='width:28px;height:28px;margin-right:8px;'
                 onclick='""" + script('ba_addExpense') +"""'
-            >""",
-                svg('plus'), "</div>"
-        "</div><div id='expenses'>",
-            expense('food', '7.00', 'daily', 'supply'),
-            expense('amazon prime', '3.00', 'monthly', 'Leisure'),
-            expense('rent', '150.00', 'monthly', 'housing'),
-        "</div>"
-        ]
+            >""" + svg('plus') + """</div>
+        </div>
+        <div id='expenses'> </div>
+        """
     )
 
 
@@ -237,27 +252,24 @@ def my_ledger():
             background-color:rgba(20,20,20,.25);
             box-shadow: 1px 1px 32px rgba(1,1,1,1);
         """,
-        Items=[
-        "<div style='display:flex;'>",
-            """
-        <div id='income-tab' style='
-            width:50%;height:32px;cursor:pointer;
-            border-bottom:2px solid peru;background-color:none;color:grey;
-            justify-content:center;font-size:1.5rem;'
-            onclick='""" + script('ba_loadIncome') + """'>Income</div>
-            """,
-            """
-        <div id='expense-tab' style='
-            width:50%;height:32px;cursor:pointer;
-            border-bottom:2px solid peru;background-color:#F77205;font-size:1.5rem;
-            justify-content:center;box-shadow:10px 10px 10px rgba(1,1,1,.8);'
-            onclick='""" + script('ba_loadExpense') + """'>Expense</div>
-            """,
-        "</div><div id='ie-content-section'>",
-            my_expenses(),
-            my_incomes(),
-        "</div>"
-        ]
+        Items="""
+        <div style='display:flex;'>
+            <div id='income-tab' style='
+                width:50%;height:32px;cursor:pointer;
+                border-bottom:2px solid peru;background-color:none;color:grey;
+                justify-content:center;font-size:1.5rem;'
+                onclick='""" + script('ba_loadIncome') + """'>Income</div>
+            <div id='expense-tab' style='
+                width:50%;height:32px;cursor:pointer;
+                border-bottom:2px solid peru;background-color:#F77205;font-size:1.5rem;
+                justify-content:center;box-shadow:10px 10px 10px rgba(1,1,1,.8);'
+                onclick='""" + script('ba_loadExpense') + """'>Expense</div>
+        </div>
+        <div id='ie-content-section'>
+            """ + my_expenses() + """
+            """ + my_incomes() + """
+        </div>
+        """
     )
 # -----------------------------------------------------------------------
 

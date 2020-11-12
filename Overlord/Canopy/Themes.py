@@ -3,7 +3,6 @@
 #
 default = {
     'html': {
-        'font-family': 'Helvetica',
         'font-weight': 'normal',
         'overflow-x': 'hidden',
         'min-height': '100%',
@@ -34,14 +33,9 @@ default = {
     'svg:active': {
         'fill': 'white'
     },
-    'img': {
-        'margin': '16px 20% 16px 20%',
-        'width': '60%',
-        'box-shadow': '1px 1px 15px rgba(1,1,1,1)'
-    },
     'h1,h2,h3,h4,h5,h6': {
         'color': 'white',
-        'font-family': 'Spartan',
+        'font-family': 'sans-serif',
         'margin': '.1rem 0 .1rem 0'
     },
     'p': {
@@ -52,13 +46,14 @@ default = {
     'a': {
         'color': 'peru'
     },
-    'input,select': {
+    'input, select': {
         'width': '95%',
-        'height': '32px',
+        'min-height': '32px',
         'margin': '0 1% 0 1%',
-        'color': 'rgba(200,200,200,1)',
+        'color': 'rgba(255,255,255,1)',
         'background-color': 'rgba(25,25,25,.5)',
-        'border-radius': '6px'
+        'border-radius': '6px',
+        'border': '1px solid black'
     },
     'button': {
         'background-color': 'rgba(99, 99, 99, 0.1)'

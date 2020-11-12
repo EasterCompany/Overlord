@@ -4,9 +4,6 @@ from Overlord.Canopy.Image import svg
 
 # Page Root
 App = Document()
-App.import_css('https://fonts.googleapis.com/css2?family=Roboto:wght@300&display=swap')
-App.import_css('https://fonts.googleapis.com/css2?family=Spartan:wght@700&display=swap')
-App.set_font("Roboto")
 
 
 def library_category(icon, label):
