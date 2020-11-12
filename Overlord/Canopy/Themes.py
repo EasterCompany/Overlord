@@ -11,6 +11,9 @@ default = {
         'background-color': '#202029',
         'scroll-behavior': 'smooth'
     },
+    '*:focus': {
+        'outline': '0'
+    },
     '::selection': {
         'background': '#b53e31'
     },
@@ -54,6 +57,51 @@ default = {
         'background-color': 'rgba(25,25,25,.5)',
         'border-radius': '6px',
         'border': '1px solid black'
+    },
+    '.form': {
+        'text-align': 'left',
+        'padding': '24px 24px 24px 6px',
+        'min-width': '245px',
+        'width': '20%',
+        'box-shadow': '0 0 3px white',
+        'border-radius': '3px'
+    },
+    '.form input': {
+        'width': '100%',
+        'height': '32px',
+        'color': 'grey',
+        'padding': '20px 0 0 8px',
+        'border': '0',
+        'border-radius': '0',
+        'border-bottom': '1px solid peru'
+    },
+    '.form input::active': {
+        'width': '100%',
+        'height': '32px',
+        'color': 'grey',
+        'padding': '20px 0 0 8px',
+        'border': '0',
+        'border-radius': '0',
+        'border-bottom': '1px solid peru'
+    },
+    '.form label': {
+        'position': 'relative',
+        'color': 'peru',
+        'bottom': '-24px',
+        'left': '8px',
+        'width': '100%',
+        'height': '100%',
+        'pointer-events': 'none'
+    },
+    '.form input::after': {
+        'width': '100%',
+        'height': '32px',
+        'color': 'grey',
+        'padding': '20px 0 0 8px',
+        'border': '0',
+        'border-radius': '0',
+        'background-color': 'black',
+        'border-bottom': '1px solid blue'
     },
     'button': {
         'background-color': 'rgba(99, 99, 99, 0.1)'

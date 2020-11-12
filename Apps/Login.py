@@ -9,13 +9,12 @@ def login_form():
         """
         <h2 style='text-align:center;font-family:open sans;'> Login </h2>
         <br>
+        <label for='email'>Email</label>
+        <input type='text' id='email' name='email' autocomplete="off"  onclick='document.getElementById(`email`).style.backgroundColor=`rgba(25,25,25,.5)`;'/>
         <br>
-        <label for='email'>Email:</label>
-        <input type='email' id='email' name='email' placeholder='Email' onclick='document.getElementById(`email`).style.backgroundColor=`rgba(25,25,25,.5)`;'/>
         <br>
-        <br>
-        <label for='passw'>Password:</label>
-        <input type='password' id='passw' name='passw' placeholder='Password' onclick='document.getElementById(`passw`).style.backgroundColor=`rgba(25,25,25,.5)`;'/>
+        <label for='passw'>Password</label>
+        <input type='password' id='passw' name='passw' autocomplete="off" onclick='document.getElementById(`passw`).style.backgroundColor=`rgba(25,25,25,.5)`;'/>
         <br>
         <br>
         <br>
