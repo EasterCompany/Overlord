@@ -170,21 +170,14 @@ def form(*args):
     <div style='
         display:flex;
         justify-content:space-around;
+        align-items:center;
+        flex-direction:column;
+        position:relative;
         width:100%;
-        max-height:90%;
         margin:5% 0 5% 0;
     '>
-        <form onsubmit='return false;'
-            style='
-                text-align:left;
-                padding:24px 24px 24px 24px;
-                min-width:245px;
-                width:20%;
-                background-color:#202029;
-                box-shadow: 0 0 3px white;
-                border:1px solid grey;
-                border-radius:3px;
-            '>""" + str(*args) + """
+        <form class='form' onsubmit='return false;'>
+            """ + str(*args) + """
         </form>
     </div>
     """
