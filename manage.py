@@ -2,7 +2,7 @@
 """Django's command-line utility for administrative tasks."""
 import os
 import sys
-from _thread import start_new_thread
+from threading import Thread
 
 
 def main():
@@ -28,10 +28,12 @@ def server():
 
 
 if __name__ == '__main__':
-    if 'runclient' in sys.argv:
-        start_new_thread(client, ())
-        server()
-    elif 'build' in sys.argv:
+    serverThread = Thread(None, server, 'django', ())
+    clientThread = Thread(None, client, 'react', ())
+    if sys.argv[-1] == 'client':
+        serverThread.start()
+        clientThread.run()
+    elif sys.argv[-1] == 'build':
         os.chdir('./client')
         os.system('npm run build')
     else:
