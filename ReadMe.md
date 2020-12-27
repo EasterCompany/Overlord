@@ -1,5 +1,5 @@
 
-# Overlord Web Platform
+# Overlord Web Repository
 
 Contained within this repository is a collection of open source applications which are deployed on the [easter.company](https://easter.company) domain and are contained within the Overlord framework. You can find documentation for these applications in this repository [here.](https://github.com/eastercompany/overlord/docs) If you have any queries, bug reports or general requests please do not hesitate to get in touch using [facebook](https://facebook.com/eastercompany) or [twitter](https://twitter.com/eastercompany).
 
