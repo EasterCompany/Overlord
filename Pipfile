@@ -5,9 +5,13 @@ name = "pypi"
 
 [packages]
 django = "==2.2"
+cors = "*"
+django-cors-headers = "*"
+pytest-django = "*"
 
 [dev-packages]
 pylint = "*"
+pytest = "*"
 
 [requires]
 python_version = "3.8"

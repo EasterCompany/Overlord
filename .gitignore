@@ -6,10 +6,10 @@ node_modules
 
 # Testing
 */coverage
+.pytest_cache
 
 # Production
 */build
-__pycache__
 
 # Misc
 .DS_Store
@@ -20,7 +20,8 @@ __pycache__
 npm-debug.log*
 yarn-debug.log*
 yarn-error.log*
-client/.eslintcache
+.eslintcache
+__pycache__
 
 # JetBrains IDE Files
 .idea/

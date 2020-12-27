@@ -2,16 +2,13 @@ from django.db import models
 from django.utils import timezone
 
 
-class Entry(models.Model):
+class JournalEntry(models.Model):
 
     class Meta:
         ordering = ['-id']
 
-    pid = models.TextField(
-        null=False, blank=False
-    )
     uid = models.TextField(
-        null=False, blank=False
+        null=False, blank=False, editable=False
     )
     head = models.TextField(
         null=False, blank=False, default='untitled'
@@ -32,5 +29,8 @@ class Entry(models.Model):
         null=False, default=0
     )
     timestamp = models.DateTimeField(
-        null=False, default=timezone.now
+        null=False, default=timezone.now, editable=False
+    )
+    public = models.BooleanField(
+        null=False, default=True
     )

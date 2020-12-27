@@ -13,12 +13,14 @@ https://docs.djangoproject.com/en/2.2/ref/settings/
 import os
 
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
-
 SECRET_KEY = '_yjf@jtnfwo_))b7w6y0xp-6!b80(ic8ov*pbd)-xej#4u017n'
-
-ALLOWED_HOSTS = ['127.0.0.1', 'localhost', '.easter.company']
-
 DEBUG = True
+
+ALLOWED_HOSTS = [
+    '127.0.0.1',
+    'localhost',
+    '.easter.company'
+]
 
 INSTALLED_APPS = [
     # Django Apps
@@ -31,8 +33,7 @@ INSTALLED_APPS = [
     'corsheaders',
     # Easter Apps
     'api',
-    'core',
-    'client'
+    'core'
 ]
 
 MIDDLEWARE = [

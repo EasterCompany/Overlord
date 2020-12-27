@@ -1,6 +1,6 @@
 from django.urls import path
 from core.views import asset_manifest, index, robots
-from api.views import journal_list, journal_fetch
+from api.views import journal_fetch_entry, journal_fetch_user_entries
 
 urlpatterns = [
     # Core Paths
@@ -8,6 +8,6 @@ urlpatterns = [
     path('robots.txt', robots),
     path('asset-manifest.json', asset_manifest),
     # Journal API Paths
-    path('journal/list', journal_list),
-    path('journal/fetch/<int:entry_id>', journal_fetch),
+    path('journal/<user_id>/entries', journal_fetch_user_entries),
+    path('journal/entry/<int:entry_id>', journal_fetch_entry),
 ]
