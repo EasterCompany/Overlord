@@ -1,8 +1,8 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
 import './index.css';
-import App from './App';
-import reportWebVitals from './reportWebVitals';
+import App from './apps/main/main';
+// import reportWebVitals from './reportWebVitals';
 
 ReactDOM.render(
   <React.StrictMode>
@@ -11,4 +11,4 @@ ReactDOM.render(
   document.getElementById('root')
 );
 
-reportWebVitals(console.log);
+// reportWebVitals(console.log);

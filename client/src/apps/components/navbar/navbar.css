@@ -1,0 +1,54 @@
+
+.global-navbar {
+    display: flex;
+    justify-content: space-around;
+    vertical-align: middle;
+    width: 100%;
+    height: 48px;
+    max-height: 10%;
+}
+
+.global-navbar-right {
+    display: flex;
+    justify-content: space-between;
+    margin-top: 12px;
+    width: 33%;
+    max-width: 300px;
+}
+
+.global-navbar-left {
+    display: flex;
+    justify-content: left;
+    width: fit-content;
+    height: fit-content;
+}
+
+.global-navbar-button {
+    margin: 8px 8px 8px 8px;
+    width: 28px;
+    height: 28px;
+}
+
+.app-logo {
+    margin-top: 8px;
+    height: 48px;
+    max-height: 10%;
+    pointer-events: none;
+}
+
+.site-header {
+    margin-top: 12px;
+}
+
+@media (max-width:520px) {
+    .site-header {
+        display: none;
+    }
+    .global-navbar-right {
+        display: flex;
+        width: 50%;
+    }
+    .mobile-navbar-right {
+        display: block;
+    }
+}

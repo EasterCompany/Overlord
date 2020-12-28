@@ -11,6 +11,10 @@ def create_entry_dict(db_object):
     Returns:
         dict: containing entry information
     '''
+    if db_object is None:
+        return {
+            'error': 'invalid request'
+        }
     return {
         'id': db_object.id,
         'uid': db_object.uid,
@@ -25,7 +29,7 @@ def create_entry_dict(db_object):
     }
 
 
-def fetch_exception(excep):
+def fetch_error(excep):
     '''
     Converts exception to api-friendly format
 
@@ -35,7 +39,9 @@ def fetch_exception(excep):
     Returns:
         dict: containing error message as string
     '''
-    return {'error': str(excep)}
+    return {
+        'error': str(excep)
+    }
 
 
 def entry(entry_id):
@@ -49,10 +55,11 @@ def entry(entry_id):
         dict: containing entry associated with a unique entry_id
     '''
     try:
-        obj = JournalEntry.objects.get(id=entry_id)
-        return create_entry_dict(db_object=obj)
+        return create_entry_dict(
+            JournalEntry.objects.get(id=entry_id)
+        )
     except Exception as e:
-        return fetch_exception(e)
+        return fetch_error(e)
 
 
 def user_entries(user_id):
@@ -67,7 +74,26 @@ def user_entries(user_id):
     '''
     try:
         entries = JournalEntry.objects.filter(uid=user_id)
-        data = [create_entry_dict(obj) for obj in entries]
-        return {user_id: data}
+        return {
+            user_id: [create_entry_dict(obj) for obj in entries]
+        }
     except Exception as e:
-        return fetch_exception(e)
+        return fetch_error(e)
+
+
+def latest_entry(user_id):
+    '''
+    Fetches the latest entry associated with the user_id
+
+    Parameters:
+        user_id (str): unique id for specific user
+
+    Returns:
+        data (dict): containing latest entry from user
+    '''
+    try:
+        return create_entry_dict(
+            JournalEntry.objects.filter(uid=user_id).latest('id')
+        )
+    except Exception as e:
+        return fetch_error(e)

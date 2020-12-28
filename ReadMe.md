@@ -1,7 +1,13 @@
 
 # Overlord Web Repository
 
-Contained within this repository is a collection of open source applications which are deployed on the [easter.company](https://easter.company) domain and are contained within the Overlord framework. You can find documentation for these applications in this repository [here.](https://github.com/eastercompany/overlord/docs) If you have any queries, bug reports or general requests please do not hesitate to get in touch using [facebook](https://facebook.com/eastercompany) or [twitter](https://twitter.com/eastercompany).
+Contained within this repository is a collection of open source applications which are
+deployed on the [easter.company](https://easter.company) domain and are contained within
+the Overlord framework. You can find documentation for these applications in this
+repository [here.](https://github.com/eastercompany/overlord/docs) If you have any
+queries, bug reports or general requests please do not hesitate to get in touch using
+[facebook](https://facebook.com/eastercompany) or
+[twitter](https://twitter.com/eastercompany).
 
 ## Local Host
 
@@ -43,7 +49,8 @@ Tasks left unmarked are currently in development or will begin development soon.
 
    1. Connects to database <span style='color:green'> ✔ </span>
    2. Returns requested journal entry <span style='color:green'> ✔ </span>
-   3. Consumes data for new journal entries
+   3. Returns requested users journal entries <span style='color:green'> ✔ </span>
+   4. Consumes data for new journal entries
 
 ---
 
