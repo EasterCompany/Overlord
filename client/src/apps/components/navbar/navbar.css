@@ -8,6 +8,13 @@
     max-height: 10%;
 }
 
+.global-navbar-divider {
+    width: 90%;
+    height: 1px;
+    margin: 12px 5% 8px 5%;
+    background-color: darkgray;
+}
+
 .global-navbar-right {
     display: flex;
     justify-content: space-between;
@@ -24,31 +31,34 @@
 }
 
 .global-navbar-button {
-    margin: 8px 8px 8px 8px;
+    margin: 4px 8px 8px 8px;
     width: 28px;
     height: 28px;
 }
 
-.app-logo {
+.global-navbar-logo {
     margin-top: 8px;
     height: 48px;
     max-height: 10%;
     pointer-events: none;
 }
 
-.site-header {
+.global-site-header {
     margin-top: 12px;
 }
 
+.global-navbar-menu {
+    display: none;
+    width: 90%;
+    padding: 12px 5% 8px 5%;
+}
+
 @media (max-width:520px) {
-    .site-header {
+    .global-site-header {
         display: none;
     }
     .global-navbar-right {
         display: flex;
         width: 50%;
-    }
-    .mobile-navbar-right {
-        display: block;
     }
 }
