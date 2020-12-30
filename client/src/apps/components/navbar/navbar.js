@@ -4,18 +4,51 @@ import bell from '../../../assets/icons/bell.svg'
 import chat from '../../../assets/icons/chat.svg'
 import menu from '../../../assets/icons/menu.svg'
 
+const navbarMenuHTML = {
+    menu:
+        `<h2> Hello Menu! </h2>`,
+    inbox:
+        `<h2> Hello Inbox! </h2>`,
+    notifications:
+        `<h2> Hello Notifications! </h2>`
+}
+
 let selectedNavbarMenu = null
 
 
-const ToggleNavbarMenu = (menuType) => {
+const toggleNavbarMenu = (menuType) => {
     const menu = document.getElementById('global-navbar-menu')
+
     if (menu.style.display === 'block' && selectedNavbarMenu === menuType) {
         menu.style.display = 'none'
     } else {
         menu.style.display = 'block'
     }
+
     selectedNavbarMenu = menuType
+
+    if (menuType) {
+        menu.innerHTML = `
+            <div style='background-color:black;'>
+                <h6 style='color:white;'>
+                    ${selectedNavbarMenu.toUpperCase()}
+                </h6>
+            </div>
+        ` + navbarMenuHTML[selectedNavbarMenu]
+    }
 }
+
+
+/*
+    THESE FUNCTIONS ARE DECLARED TO AVOID USE OF ARROW FUNCTIONS INSIDE JSX
+    ELEMENTS IN THE NAVBAR/TRAY -> WHICH WOULD CAUSE BAD MEMORY PERFORMANCE
+
+    [Arrow functions inside onClick arguments create a new function on each
+     use.]
+*/
+const toggleInboxTray = () => {toggleNavbarMenu('inbox')}
+const toggleMenuTray  = () => {toggleNavbarMenu('menu')}
+const toggleNotiTray = () => {toggleNavbarMenu('notifications')}
 
 
 const RedirectHome = () => {
@@ -23,6 +56,10 @@ const RedirectHome = () => {
 }
 
 
+/*
+    EXPORTED REACT ELEMENT (NAVBAR) CONTAINS ALL FUNCTIONALITY FROM THIS FILE
+    EMBEDDED DIRECTLY OR RECURSIVELY WITHIN
+*/
 const Navbar = () => {
     return (
         <div className='document-header'>
@@ -38,27 +75,15 @@ const Navbar = () => {
                 <div className='global-navbar-right'>
                     <img className='global-navbar-button'
                         src={bell} alt='Notification Button'
-                        onClick={
-                            () => {
-                                ToggleNavbarMenu('notification')
-                            }
-                        }
+                        onClick={toggleNotiTray}
                     />
                     <img className='global-navbar-button'
                         src={chat} alt='Messages Button'
-                        onClick={
-                            () => {
-                                ToggleNavbarMenu('chat')
-                            }
-                        }
+                        onClick={toggleInboxTray}
                     />
                     <img className='global-navbar-button'
                         src={menu} alt='Menu Button'
-                        onClick={
-                            () => {
-                                ToggleNavbarMenu('menu')
-                            }
-                        }
+                        onClick={toggleMenuTray}
                     />
                 </div>
             </div>

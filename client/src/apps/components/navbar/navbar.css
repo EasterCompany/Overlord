@@ -50,7 +50,7 @@
 .global-navbar-menu {
     display: none;
     width: 90%;
-    padding: 12px 5% 8px 5%;
+    padding: 0 5% 0 5%;
 }
 
 @media (max-width:520px) {
