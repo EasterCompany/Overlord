@@ -3,27 +3,76 @@ import logo from '../../../assets/logo.svg'
 import bell from '../../../assets/icons/bell.svg'
 import chat from '../../../assets/icons/chat.svg'
 import menu from '../../../assets/icons/menu.svg'
+import rightAIcon from '../../../assets/icons/to_right.svg'
+import searchIcon from '../../../assets/icons/search.svg'
+import newMsgIcon from '../../../assets/icons/plus.svg'
+import fulScrIcon from '../../../assets/icons/fullscreen.svg'
+import profileIcon from '../../../assets/icons/user.svg'
+import appsIcon from '../../../assets/icons/folder.svg'
+import settingsIcon from '../../../assets/icons/spanner.svg'
+import logoutIcon from '../../../assets/icons/close.svg'
 
 
-const navbarMenuButton = (title, onClickFunction) => {
+const navbarMenuButton = (title, onClickFunction, icon, expands) => {
+    let ifExpands = `<div style='min-width:10%;'></div>`
+
+    if (expands) {
+        ifExpands = `<img
+            src=${rightAIcon}
+            style='width:10%;height:28px;margin-top:8px;'
+        />`
+    }
+
     return `
-        <div class="global-navbar-menu-button" onClick="${onClickFunction}()">
-            <h3 style='pointer-events:none;'>${title}</h3>
+    <div class="global-navbar-menu-button" onClick="${onClickFunction}()">
+        <img src=${icon} style='width:10%;' />
+        <h3 style='pointer-events:none;width:80%;margin-top:12px;'>${title}</h3>
+        ${ifExpands}
+    </div>
+    `
+}
+
+
+const navbarInboxMsg = (dp, name, preview, status) => {
+    const pinStatus = "<b style='font-size:110%;'>·</b>"
+    let detailStyle = ''
+    let statusText = '...'
+
+    if (status === 0) {
+        detailStyle = 'background-color:rgba(.2,.2,.2,.1);'
+        statusText = pinStatus
+    }
+    if (status === 1) { statusText = 'Read' }
+    if (status === 2) { statusText = 'Sent' }
+    if (status === 3) { statusText = pinStatus }
+
+    return `
+    <div class='global-navbar-inbox-msg'>
+        <img src='${dp}' style='width:15%;'/>
+        <div
+            class='global-navbar-inbox-msg-detail'
+            style='${detailStyle}'
+        >
+            <h4 style='margin:6px 6px 6px 6px;'> ${name} </h4>
+            <h6 style='margin:6px 6px 0 6px;'> ${preview} </h6>
         </div>
+        <p class='global-navbar-inbox-msg-status'> ${statusText} </p>
+    </div>
     `
 }
 
 
 const navbarMenuHTML = {
-    menu:
-        `
-        ${navbarMenuButton("Profile", "console.log")}
+
+    /* --------------------------------------------------------------------- */
+    menu:`
+        ${navbarMenuButton("Profile", "console.log", profileIcon, false)}
         <hr>
-        ${navbarMenuButton("Apps", "console.log")}
+        ${navbarMenuButton("Apps", "console.log", appsIcon, true)}
         <hr>
-        ${navbarMenuButton("Settings", "console.log")}
+        ${navbarMenuButton("Settings", "console.log", settingsIcon, true)}
         <hr>
-        ${navbarMenuButton("Logout", "console.log")}
+        ${navbarMenuButton("Logout", "console.log", logoutIcon, false)}
         <div style='
             text-align:center;
             margin:0 0 -12px 0;
@@ -35,15 +84,43 @@ const navbarMenuHTML = {
             <a class='global-navbar-menu-footer' href='/'> Terms </a> ·
             <a class='global-navbar-menu-copyright'> Easter Company © 2021 </a>
         </div>
-        `,
-    inbox:
-        `
-        <h2> Hello Inbox! </h2>
-        `,
-    notifications:
-        `
+    `,
+
+    /* --------------------------------------------------------------------- */
+    inbox:`
+    <div style='display:flex;justify-content:space-around;'>
+        <div style='display:flex;margin-top:6px;'>
+            <img src=${searchIcon} style='width:28px;height:28px;margin-top:8px;' />
+            <input class='global-navbar-inbox-search' placeholder='Search contacts' />
+        </div>
+        <div style='display:flex;margin-top:6px;'>
+            <img src=${newMsgIcon} style='
+                width:28px;
+                height:28px;
+                margin-top:8px;
+                margin-right:32px;
+            ' />
+            <img src=${fulScrIcon} style='
+                width:28px;
+                height:28px;
+                margin-top:8px;
+                margin-right:16px;
+            ' />
+        </div>
+    </div>
+    <div class='global-navbar-inbox'>
+        ${navbarInboxMsg(logo, 'John Smith', 'This is an unread message!', 0)}
+        ${navbarInboxMsg(logo, 'Jane Doe', 'This is a read message.', 1)}
+        ${navbarInboxMsg(logo, 'Jon Snow', 'This is a sent message.', 2)}
+        ${navbarInboxMsg(logo, 'Julius Ceaser', 'This is a sent/read message.', 3)}
+    </div>
+    `,
+
+    /* --------------------------------------------------------------------- */
+    notifications:`
         <h2> Hello Notifications! </h2>
-        `
+    `
+
 }
 
 
@@ -64,7 +141,7 @@ const toggleNavbarMenu = (menuType) => {
     if (menuType) {
         menu.innerHTML = `
             <div style='background-color:black;'>
-                <h6 style='color:white;text-align:left;margin-bottom:0;'>
+                <h6 style='color:white;text-align:left;margin-bottom:0;margin-left:6px;'>
                     ${selectedNavbarMenu.toUpperCase()}
                 </h6>
             </div>

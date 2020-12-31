@@ -59,15 +59,17 @@ hr {
 }
 
 .global-navbar-menu-button {
+    display:flex;
+    height: 48px;
+    justify-content: space-between;
     text-align: center;
     background-color: white;
     color: black;
     padding: 8px 0 8px 0;
 }
 
-.global-navbar-menu-button:active {
-    background-color: black;
-    color: white;
+.global-navbar-menu-button:hover {
+    background-color: rgba(.1,.1,.1,.1);
 }
 
 .global-navbar-menu-footer {
@@ -85,6 +87,52 @@ hr {
     color: grey;
     font-size: 80%;
     text-decoration: none;
+}
+
+.global-navbar-inbox {
+    margin-bottom: -6px;
+}
+
+.global-navbar-inbox-msg {
+    display: flex;
+    justify-content: space-between;
+    height: 10%;
+    max-height: 64px;
+    margin-top: 6px;
+    padding: 6px 6px 6px 6px;
+}
+
+.global-navbar-inbox-search {
+    height: 32px;
+    width: 80%;
+    min-width: 100px;
+    text-align: center;
+    box-sizing: border-box;
+    border-top-left-radius: 50px;
+    border-top-right-radius: 50px;
+    border-bottom-left-radius: 50px;
+    border-bottom-right-radius: 50px;
+    margin-top: 6px;
+    padding: 6px 6px 6px 6px;
+}
+
+.global-navbar-inbox-search::after {
+    text-align: left;
+}
+
+.global-navbar-inbox-msg:hover {
+    background-color: rgba(.1,.1,.1,.1);
+}
+
+.global-navbar-inbox-msg-detail {
+    width: 80%;
+}
+
+.global-navbar-inbox-msg-status {
+    color: grey;
+    width: 10%;
+    text-align: center;
+    font-size: 80%;
 }
 
 @media (max-width:520px) {
