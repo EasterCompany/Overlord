@@ -4,14 +4,48 @@ import bell from '../../../assets/icons/bell.svg'
 import chat from '../../../assets/icons/chat.svg'
 import menu from '../../../assets/icons/menu.svg'
 
+
+const navbarMenuButton = (title, onClickFunction) => {
+    return `
+        <div class="global-navbar-menu-button" onClick="${onClickFunction}()">
+            <h3 style='pointer-events:none;'>${title}</h3>
+        </div>
+    `
+}
+
+
 const navbarMenuHTML = {
     menu:
-        `<h2> Hello Menu! </h2>`,
+        `
+        ${navbarMenuButton("Profile", "console.log")}
+        <hr>
+        ${navbarMenuButton("Apps", "console.log")}
+        <hr>
+        ${navbarMenuButton("Settings", "console.log")}
+        <hr>
+        ${navbarMenuButton("Logout", "console.log")}
+        <div style='
+            text-align:center;
+            margin:0 0 -12px 0;
+            color:grey;
+            background-color:black;
+        '>
+            <a class='global-navbar-menu-footer' href='/'> Privacy </a> ·
+            <a class='global-navbar-menu-footer' href='/'> Cookies </a> ·
+            <a class='global-navbar-menu-footer' href='/'> Terms </a> ·
+            <a class='global-navbar-menu-copyright'> Easter Company © 2021 </a>
+        </div>
+        `,
     inbox:
-        `<h2> Hello Inbox! </h2>`,
+        `
+        <h2> Hello Inbox! </h2>
+        `,
     notifications:
-        `<h2> Hello Notifications! </h2>`
+        `
+        <h2> Hello Notifications! </h2>
+        `
 }
+
 
 let selectedNavbarMenu = null
 
@@ -30,7 +64,7 @@ const toggleNavbarMenu = (menuType) => {
     if (menuType) {
         menu.innerHTML = `
             <div style='background-color:black;'>
-                <h6 style='color:white;'>
+                <h6 style='color:white;text-align:left;margin-bottom:0;'>
                     ${selectedNavbarMenu.toUpperCase()}
                 </h6>
             </div>

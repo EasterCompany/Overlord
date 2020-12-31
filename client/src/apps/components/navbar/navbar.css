@@ -1,4 +1,9 @@
 
+hr {
+    padding: 0 0 0 0;
+    margin: 0 0 0 0;
+}
+
 .global-navbar {
     display: flex;
     justify-content: space-around;
@@ -51,6 +56,35 @@
     display: none;
     width: 90%;
     padding: 0 5% 0 5%;
+}
+
+.global-navbar-menu-button {
+    text-align: center;
+    background-color: white;
+    color: black;
+    padding: 8px 0 8px 0;
+}
+
+.global-navbar-menu-button:active {
+    background-color: black;
+    color: white;
+}
+
+.global-navbar-menu-footer {
+    color: grey;
+    font-size: 80%;
+    text-decoration: none;
+}
+
+.global-navbar-menu-footer:hover {
+    color: white;
+    text-decoration: underline;
+}
+
+.global-navbar-menu-copyright {
+    color: grey;
+    font-size: 80%;
+    text-decoration: none;
 }
 
 @media (max-width:520px) {
