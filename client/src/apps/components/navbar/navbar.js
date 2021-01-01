@@ -47,6 +47,11 @@ const navbarInboxMsg = (dp, name, preview, status) => {
     if (status === 3) { statusText = pinStatus }
 
     return `
+    <div style='
+        min-width:100%;
+        background-color:rgba(.1,.1,.1,.1);
+        min-height:1px;
+    '></div>
     <div class='global-navbar-inbox-msg'>
         <img src='${dp}' style='width:15%;'/>
         <div
@@ -88,7 +93,7 @@ const navbarMenuHTML = {
 
     /* --------------------------------------------------------------------- */
     inbox:`
-    <div style='display:flex;justify-content:space-around;'>
+    <div style='display:flex;justify-content:space-around;margin-bottom:8px;'>
         <div style='display:flex;margin-top:6px;'>
             <img src=${searchIcon} style='width:28px;height:28px;margin-top:8px;' />
             <input class='global-navbar-inbox-search' placeholder='Search contacts' />
@@ -114,6 +119,7 @@ const navbarMenuHTML = {
         ${navbarInboxMsg(logo, 'Jon Snow', 'This is a sent message.', 2)}
         ${navbarInboxMsg(logo, 'Julius Ceaser', 'This is a sent/read message.', 3)}
     </div>
+    <div style='margin-bottom:-12px;'></div>
     `,
 
     /* --------------------------------------------------------------------- */
@@ -141,7 +147,12 @@ const toggleNavbarMenu = (menuType) => {
     if (menuType) {
         menu.innerHTML = `
             <div style='background-color:black;'>
-                <h6 style='color:white;text-align:left;margin-bottom:0;margin-left:6px;'>
+                <h6 style='
+                    color:white;
+                    text-align:left;
+                    margin-bottom:0;
+                    margin-left:6px;
+                '>
                     ${selectedNavbarMenu.toUpperCase()}
                 </h6>
             </div>

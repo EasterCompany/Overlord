@@ -93,15 +93,6 @@ hr {
     margin-bottom: -6px;
 }
 
-.global-navbar-inbox-msg {
-    display: flex;
-    justify-content: space-between;
-    height: 10%;
-    max-height: 64px;
-    margin-top: 6px;
-    padding: 6px 6px 6px 6px;
-}
-
 .global-navbar-inbox-search {
     height: 32px;
     width: 80%;
@@ -118,6 +109,14 @@ hr {
 
 .global-navbar-inbox-search::after {
     text-align: left;
+}
+
+.global-navbar-inbox-msg {
+    display: flex;
+    justify-content: space-between;
+    height: 10%;
+    max-height: 64px;
+    padding: 6px 6px 6px 6px;
 }
 
 .global-navbar-inbox-msg:hover {
