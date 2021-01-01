@@ -1,11 +1,12 @@
 
 .global-navbar {
+    top: 0;
+    z-index: 99;
     display: flex;
+    position: fixed;
     justify-content: space-around;
     width: 90%;
     margin: 0 5% 0 5%;
-    position: fixed;
-    z-index: 99;
     background-color: white;
 }
 
@@ -52,13 +53,41 @@
     cursor: pointer;
 }
 
+.global-navbar-menu-container {
+    width: 90%;
+    z-index: 99;
+    display: flex;
+    position: fixed;
+    margin: 64px 5% 0 5%;
+    justify-content: space-around;
+    color: rgba(0,0,0,0);
+    background-color: rgba(0,0,0,0);
+}
+
+.global-navbar-menu-spacer {
+    width: 33%;
+    max-width: 300px;
+    color: rgba(0,0,0,0);
+    background-color: rgba(0,0,0,0);
+}
+
 .global-navbar-menu {
     display: none;
-    width: 90%;
-    margin: 64px 5% 0 5%;
-    position: fixed;
-    z-index: 99;
+    width: 33%;
+    max-width: 300px;
+    color: rgba(0,0,0,1);
     background-color: white;
+
+    border-left: 1px solid black;
+    border-right: 1px solid black;
+    border-bottom: 1px solid black;
+    border-radius: 3px;
+
+}
+
+.global-navbar-menu-content {
+    max-height: calc(100vh - 74px);
+    overflow-y: auto;
 }
 
 .global-navbar-menu-button {
@@ -68,7 +97,7 @@
     text-align: center;
     background-color: white;
     color: black;
-    padding: 8px 0 8px 0;
+    padding: 8px 4px 8px 4px;
     cursor: pointer;
     border-bottom: 1px solid black;
 }
@@ -84,7 +113,7 @@
 }
 
 .global-navbar-menu-footer:hover {
-    color: white;
+    color: black;
     text-decoration: underline;
 }
 
@@ -176,8 +205,33 @@
         min-width: 100%;
         margin: 64px 0 0 0;
     }
+    .global-navbar-menu-spacer {
+        width: 0px;
+        max-width: 0px;
+    }
+    .global-navbar-menu-container {
+        width: 100%;
+        justify-content: center;
+        margin: 64px 0 0 0;
+    }
     .global-navbar-menu {
         width: 100%;
+        max-width: unset;
+    }
+}
+
+@media (max-width:999px) and (min-width:521px) {
+    .global-navbar-menu-spacer {
+        width: 0px;
+        max-width: 0px;
+    }
+    .global-navbar-menu-container {
+        width: 100%;
+        justify-content: center;
         margin: 64px 0 0 0;
+    }
+    .global-navbar-menu {
+        width: 90%;
+        max-width: unset;
     }
 }

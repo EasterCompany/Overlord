@@ -71,9 +71,9 @@ const navbarMenuHTML = {
         ${navbarMenuButton("Settings", "console.log", settingsIcon, true)}
         ${navbarMenuButton("Logout", "console.log", logoutIcon, false)}
         <div style='
+            margin:6px 0 6px 0;
             text-align:center;
             color:grey;
-            background-color:black;
         '>
             <a class='global-navbar-menu-footer' href='/'> Privacy </a> ·
             <a class='global-navbar-menu-footer' href='/'> Cookies </a> ·
@@ -86,21 +86,26 @@ const navbarMenuHTML = {
     inbox:`
     <div style='display:flex;justify-content:space-around;margin-bottom:8px;'>
         <div style='display:flex;margin-top:6px;'>
-            <img src=${searchIcon} style='width:28px;height:28px;margin-top:8px;' />
+            <img src=${searchIcon} style='
+                width:28px;
+                height:28px;
+                margin-top:8px;
+                margin-left:12px;
+            ' />
             <input class='global-navbar-inbox-search' placeholder='Search contacts' />
         </div>
         <div style='display:flex;margin-top:6px;'>
             <img src=${newMsgIcon} style='
                 width:28px;
                 height:28px;
-                margin-top:8px;
-                margin-right:32px;
+                margin: 8px 12px 0 8px;
                 cursor: pointer;
             ' />
             <img src=${fulScrIcon} style='
                 width:28px;
                 height:28px;
                 margin-top:8px;
+                margin-right:12px;
                 cursor: pointer;
             ' />
         </div>
@@ -110,14 +115,12 @@ const navbarMenuHTML = {
         ${navbarInboxMsg(logo, 'Jane Doe', 'This is a read message.', 1)}
         ${navbarInboxMsg(logo, 'Jon Snow', 'This is a sent message.', 2)}
         ${navbarInboxMsg(logo, 'Julius Ceaser', 'This is a sent/read message.', 3)}
-        <div style='background-color:black;height:1px;'></div>
     </div>
     `,
 
     /* --------------------------------------------------------------------- */
     notifications:`
         <h2> Hello Notifications! </h2>
-        <div style='background-color:black;height:1px;'></div>
     `
 
 }
@@ -148,7 +151,10 @@ const toggleNavbarMenu = (menuType) => {
                     ${selectedNavbarMenu.toUpperCase()}
                 </h6>
             </div>
-        ` + navbarMenuHTML[selectedNavbarMenu]
+            <div class='global-navbar-menu-content'>
+                ${navbarMenuHTML[selectedNavbarMenu]}
+            </div>
+        `
     }
 }
 
@@ -202,12 +208,16 @@ const Navbar = () => {
                 </div>
                 <div className='global-navbar-divider'></div>
             </div>
-            <div className='global-navbar-menu' id='global-navbar-menu'></div>
+            <div className='global-navbar-menu-container'>
+                <div className='global-navbar-menu-spacer'></div>
+                <div className='global-navbar-menu' id='global-navbar-menu' />
+            </div>
             <div className='global-navbar-pop'>
                 <div className='global-navbar-popapp-selected'> Journal </div>
                 <div className='global-navbar-popapp'> Finance </div>
                 <div className='global-navbar-popapp'> Discover </div>
             </div>
+            <div style={{minHeight: '2000px'}} />
         </div>
     )
 }
