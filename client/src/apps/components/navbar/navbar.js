@@ -47,11 +47,6 @@ const navbarInboxMsg = (dp, name, preview, status) => {
     if (status === 3) { statusText = pinStatus }
 
     return `
-    <div style='
-        min-width:100%;
-        background-color:rgba(.1,.1,.1,.1);
-        min-height:1px;
-    '></div>
     <div class='global-navbar-inbox-msg'>
         <img src='${dp}' style='width:15%;'/>
         <div
@@ -72,15 +67,11 @@ const navbarMenuHTML = {
     /* --------------------------------------------------------------------- */
     menu:`
         ${navbarMenuButton("Profile", "console.log", profileIcon, false)}
-        <hr>
         ${navbarMenuButton("Apps", "console.log", appsIcon, true)}
-        <hr>
         ${navbarMenuButton("Settings", "console.log", settingsIcon, true)}
-        <hr>
         ${navbarMenuButton("Logout", "console.log", logoutIcon, false)}
         <div style='
             text-align:center;
-            margin:0 0 -12px 0;
             color:grey;
             background-color:black;
         '>
@@ -104,12 +95,13 @@ const navbarMenuHTML = {
                 height:28px;
                 margin-top:8px;
                 margin-right:32px;
+                cursor: pointer;
             ' />
             <img src=${fulScrIcon} style='
                 width:28px;
                 height:28px;
                 margin-top:8px;
-                margin-right:16px;
+                cursor: pointer;
             ' />
         </div>
     </div>
@@ -118,13 +110,14 @@ const navbarMenuHTML = {
         ${navbarInboxMsg(logo, 'Jane Doe', 'This is a read message.', 1)}
         ${navbarInboxMsg(logo, 'Jon Snow', 'This is a sent message.', 2)}
         ${navbarInboxMsg(logo, 'Julius Ceaser', 'This is a sent/read message.', 3)}
+        <div style='background-color:black;height:1px;'></div>
     </div>
-    <div style='margin-bottom:-12px;'></div>
     `,
 
     /* --------------------------------------------------------------------- */
     notifications:`
         <h2> Hello Notifications! </h2>
+        <div style='background-color:black;height:1px;'></div>
     `
 
 }
@@ -150,8 +143,7 @@ const toggleNavbarMenu = (menuType) => {
                 <h6 style='
                     color:white;
                     text-align:left;
-                    margin-bottom:0;
-                    margin-left:6px;
+                    margin: 0 0 0 6px;
                 '>
                     ${selectedNavbarMenu.toUpperCase()}
                 </h6>
@@ -208,9 +200,14 @@ const Navbar = () => {
                         onClick={toggleMenuTray}
                     />
                 </div>
+                <div className='global-navbar-divider'></div>
             </div>
             <div className='global-navbar-menu' id='global-navbar-menu'></div>
-            <div className='global-navbar-divider'> &nbsp; </div>
+            <div className='global-navbar-pop'>
+                <div className='global-navbar-popapp-selected'> Journal </div>
+                <div className='global-navbar-popapp'> Finance </div>
+                <div className='global-navbar-popapp'> Discover </div>
+            </div>
         </div>
     )
 }
