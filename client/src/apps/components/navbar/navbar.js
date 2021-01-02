@@ -33,10 +33,9 @@ const navbarMenuButton = (title, onClickFunction, icon, expands) => {
 }
 
 
-const navbarInboxMsg = (dp, name, preview, status) => {
+const navbarInboxMsg = (dp, name, preview, status, timestamp) => {
     let detailStyle = ''
     let statusText = ''
-    let statusTime = '1Y'
 
     if (status === 0) {
         detailStyle = 'background-color:rgba(.2,.2,.2,.1);'
@@ -45,6 +44,8 @@ const navbarInboxMsg = (dp, name, preview, status) => {
     if (status === 1) { statusText = 'Read' }
     if (status === 2) { statusText = 'Sent' }
     if (status === 3) { statusText = 'Seen' }
+
+    if (name.length > 26) {name = name.substring(0, 24) + '..'}
 
     return `
     <div class='global-navbar-inbox-msg'>
@@ -58,7 +59,7 @@ const navbarInboxMsg = (dp, name, preview, status) => {
         </div>
         <div style='display:block'>
             <p class='global-navbar-inbox-msg-status'> ${statusText} </p>
-            <p class='global-navbar-inbox-msg-status'> ${statusTime} </p>
+            <p class='global-navbar-inbox-msg-status'> ${timestamp} </p>
         </div>
     </div>
     `
@@ -118,10 +119,15 @@ const navbarMenuHTML = {
         </div>
     </div>
     <div class='global-navbar-inbox'>
-        ${navbarInboxMsg(logo, 'John Smith', 'This is an unread message!', 0)}
-        ${navbarInboxMsg(logo, 'Jane Doe', 'This is a read message.', 1)}
-        ${navbarInboxMsg(logo, 'Jon Snow', 'This is a sent message.', 2)}
-        ${navbarInboxMsg(logo, 'Julius Ceaser', 'This is a seen message.', 3)}
+        ${navbarInboxMsg(logo, 'John Smith', 'This is an unread message!', 0, '1m')}
+        ${navbarInboxMsg(logo, 'Jane Doe', 'This is a read message.', 1, '2h')}
+        ${navbarInboxMsg(logo, 'Jon Snow', 'This is a sent message.', 2, '3d')}
+        ${navbarInboxMsg(logo, 'Julius Ceaser', 'This is a seen message.', 3, '1W')}
+        ${navbarInboxMsg(logo, 'Julius Salad', 'This is 1 month old.', 3, '2M')}
+        ${navbarInboxMsg(logo, 'Jon Targaryen', 'This is 1 year old.', 3, '1Y')}
+        ${navbarInboxMsg(logo, 'ThisIsA ReallyLongName', 'This is 1 month old.', 3, '1M')}
+        ${navbarInboxMsg(logo, 'ThisIsA ReallyReallyLongName', 'This is 1 month old.', 3, '1M')}
+        ${navbarInboxMsg(logo, 'ThisIsA ReallyReallyReallyReallyLongName', 'This is 1 month old.', 3, '1M')}
     </div>
     `,
 
