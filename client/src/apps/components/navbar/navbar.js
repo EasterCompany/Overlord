@@ -34,17 +34,17 @@ const navbarMenuButton = (title, onClickFunction, icon, expands) => {
 
 
 const navbarInboxMsg = (dp, name, preview, status) => {
-    const pinStatus = "<b style='font-size:110%;'>·</b>"
     let detailStyle = ''
-    let statusText = '...'
+    let statusText = ''
+    let statusTime = '1Y'
 
     if (status === 0) {
         detailStyle = 'background-color:rgba(.2,.2,.2,.1);'
-        statusText = pinStatus
+        statusText = 'New'
     }
     if (status === 1) { statusText = 'Read' }
     if (status === 2) { statusText = 'Sent' }
-    if (status === 3) { statusText = pinStatus }
+    if (status === 3) { statusText = 'Seen' }
 
     return `
     <div class='global-navbar-inbox-msg'>
@@ -56,7 +56,10 @@ const navbarInboxMsg = (dp, name, preview, status) => {
             <h4 style='margin:6px 6px 6px 6px;'> ${name} </h4>
             <h6 style='margin:6px 6px 0 6px;'> ${preview} </h6>
         </div>
-        <p class='global-navbar-inbox-msg-status'> ${statusText} </p>
+        <div style='display:block'>
+            <p class='global-navbar-inbox-msg-status'> ${statusText} </p>
+            <p class='global-navbar-inbox-msg-status'> ${statusTime} </p>
+        </div>
     </div>
     `
 }
@@ -92,7 +95,11 @@ const navbarMenuHTML = {
                 margin-top:8px;
                 margin-left:12px;
             ' />
-            <input class='global-navbar-inbox-search' placeholder='Search contacts' />
+            <input
+                class='global-navbar-inbox-search'
+                placeholder='Search contacts'
+                minlength='1'
+            />
         </div>
         <div style='display:flex;margin-top:6px;'>
             <img src=${newMsgIcon} style='
@@ -114,7 +121,7 @@ const navbarMenuHTML = {
         ${navbarInboxMsg(logo, 'John Smith', 'This is an unread message!', 0)}
         ${navbarInboxMsg(logo, 'Jane Doe', 'This is a read message.', 1)}
         ${navbarInboxMsg(logo, 'Jon Snow', 'This is a sent message.', 2)}
-        ${navbarInboxMsg(logo, 'Julius Ceaser', 'This is a sent/read message.', 3)}
+        ${navbarInboxMsg(logo, 'Julius Ceaser', 'This is a seen message.', 3)}
     </div>
     `,
 

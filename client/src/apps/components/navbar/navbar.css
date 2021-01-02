@@ -81,8 +81,8 @@
     border-left: 1px solid black;
     border-right: 1px solid black;
     border-bottom: 1px solid black;
-    border-radius: 3px;
-
+    border-bottom-left-radius: 3px;
+    border-bottom-right-radius: 3px;
 }
 
 .global-navbar-menu-content {
@@ -97,7 +97,7 @@
     text-align: center;
     background-color: white;
     color: black;
-    padding: 8px 4px 8px 4px;
+    padding: 8px 24px 8px 24px;
     cursor: pointer;
     border-bottom: 1px solid black;
 }
@@ -127,11 +127,22 @@
     height: 32px;
     width: 80%;
     min-width: 100px;
-    text-align: center;
     box-sizing: border-box;
     border-radius: 50px;
     margin-top: 6px;
     padding: 6px 6px 6px 6px;
+}
+
+.global-navbar-inbox-search::placeholder {
+    text-align: center;
+}
+
+.global-navbar-inbox-search:focus::placeholder {
+    color: transparent;
+}
+
+.global-navbar-inbox-search:focus {
+    outline: none;
 }
 
 .global-navbar-inbox-msg {
@@ -154,7 +165,8 @@
 
 .global-navbar-inbox-msg-status {
     color: grey;
-    width: 10%;
+    width: 12%;
+    margin: 5px 0 0 3px;
     text-align: center;
     font-size: 80%;
 }
