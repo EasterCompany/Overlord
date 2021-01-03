@@ -16,3 +16,15 @@ h1,h2,h3,h4,h5,h6,p {
   margin: 0 0 0 0;
   padding: 0 0 0 0;
 }
+
+/*
+
+MEDIA QUERIES FOR MOBILE / TABLET / DESKTOP LAYOUT
+
+@media (max-width:520px) {
+}
+
+@media (max-width:999px) and (min-width:521px) {
+}
+
+*/

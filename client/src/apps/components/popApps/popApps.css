@@ -1,0 +1,25 @@
+
+.popApp-container {
+    display: none;
+}
+
+.popApp-container-selected {
+    display: block;
+    z-index: -1;
+    width: 90%;
+    word-wrap: break-word;
+    max-width: 100vw;
+    height: calc(100vh - 100px);
+    margin: -64px 5% 0 5%;
+    padding: 64px 0 0 0 0;
+}
+
+@media (max-width:520px) {
+    .popApp-container-selected {
+        width: 98%;
+        margin: 0 1% 0 1%;
+    }
+}
+
+@media (max-width:999px) and (min-width:521px) {
+}

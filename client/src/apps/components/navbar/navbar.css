@@ -7,6 +7,7 @@
     justify-content: space-around;
     width: 90%;
     margin: 0 5% 0 5%;
+    padding-bottom: 10px;
     background-color: white;
 }
 
@@ -16,7 +17,7 @@
     margin: 64px 5% 0 5%;
     background-color: darkgray;
     position: fixed;
-    z-index: 98;
+    z-index: 97;
 }
 
 .global-navbar-right {
@@ -55,9 +56,10 @@
 
 .global-navbar-menu-container {
     width: 90%;
-    z-index: 99;
+    height: 0px;
     display: flex;
     position: fixed;
+    z-index: 99;
     margin: 64px 5% 0 5%;
     justify-content: space-around;
     color: rgba(0,0,0,0);
@@ -67,14 +69,17 @@
 .global-navbar-menu-spacer {
     width: 33%;
     max-width: 300px;
+    height: 0px;
     color: rgba(0,0,0,0);
     background-color: rgba(0,0,0,0);
 }
 
 .global-navbar-menu {
     display: none;
+    z-index: 99;
     width: 33%;
     max-width: 300px;
+    height: fit-content;
     color: rgba(0,0,0,1);
     background-color: white;
 
@@ -174,19 +179,19 @@
 
 .global-navbar-pop {
     display: flex;
-    align-items: center;
-    justify-content: center;
-    width: 300px;
-    margin: 64px 0 12px calc(50% - 150px);
+    width: 100%;
+    z-index: 98;
+    margin-top: 64px;
+    padding-left: calc(50% - 150px);
     position: fixed;
-    z-index: 99;
+    background-color: white;
 }
 
 .global-navbar-popapp {
     font-size: 120%;
     color: rgba(180, 180, 180, 0.9);
     background-color: rgba(.2,.2,.2,.1);
-    margin: 6px 12px 6px 12px;
+    margin: 6px 12px 0 12px;
     padding: 4px 8px 4px 8px;
     border-radius: 50px;
     max-height: 24px;
@@ -197,7 +202,7 @@
     font-size: 130%;
     color: rgba(50, 50, 50, 0.9);
     background-color: rgba(.2,.2,.2,.1);
-    margin: 6px 12px 6px 12px;
+    margin: 6px 12px 0 12px;
     padding: 5px 9px 5px 9px;
     border-radius: 50px;
     cursor: pointer;

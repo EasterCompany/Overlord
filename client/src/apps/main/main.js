@@ -5,8 +5,11 @@ import PopApps from './../components/popApps/popApps'
 
 const Main = () => {
   return <div>
-    <Navbar />
-    <PopApps />
+    <Navbar/>
+    <div className='main-app-divider' />
+    <div className='main-app-container'>
+      <PopApps/>
+    </div>
   </div>
 }
 

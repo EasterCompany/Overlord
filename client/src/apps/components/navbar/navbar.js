@@ -193,16 +193,28 @@ let selectedPopApp = 'journal'
 
 
 const popAppSelect = (selected) => {
-    let target = null
+    let targetBtn = null
+    let targetBod = null
 
     for(const popApp in popAppID){
-        target = 'global-navbar-popapp-' + popAppID[popApp]
+        targetBtn = 'global-navbar-popapp-' + popAppID[popApp]
+        targetBod = 'popApp-container-' + popAppID[popApp]
 
         if (popAppID[popApp] === selected){
             selectedPopApp = selected
-            document.getElementById(target).className = 'global-navbar-popapp-selected'
+            document.getElementById(
+                targetBod
+            ).className = 'popApp-container-selected'
+            document.getElementById(
+                targetBtn
+            ).className = 'global-navbar-popapp-selected'
         } else {
-            document.getElementById(target).className = 'global-navbar-popapp'
+            document.getElementById(
+                targetBod
+            ).className = 'popApp-container'
+            document.getElementById(
+                targetBtn
+            ).className = 'global-navbar-popapp'
         }
 
     }
@@ -279,7 +291,6 @@ const Navbar = () => {
                 onClick={popAppSelectDiscover}
             > Discover </div>
         </div>
-        <div style={{minHeight: '128px'}} />
     </div>
 }
 
