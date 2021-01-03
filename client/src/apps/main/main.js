@@ -1,14 +1,14 @@
-import Navbar from './../components/navbar/navbar';
-import './main.css';
+import './main.css'
+import Navbar from './../components/navbar/navbar'
+import PopApps from './../components/popApps/popApps'
 
 
-export const App = () => {
-  return (
-    <div>
-      <Navbar/>
-    </div>
-  );
+const Main = () => {
+  return <div>
+    <Navbar />
+    <PopApps />
+  </div>
 }
 
 
-export default App;
+export default Main;

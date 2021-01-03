@@ -174,11 +174,12 @@
 
 .global-navbar-pop {
     display: flex;
+    align-items: center;
     justify-content: center;
-    width: 90%;
-    margin: 64px 5% 12px 5%;
+    width: 300px;
+    margin: 64px 0 12px calc(50% - 150px);
     position: fixed;
-    z-index: 96;
+    z-index: 99;
 }
 
 .global-navbar-popapp {

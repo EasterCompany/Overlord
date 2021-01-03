@@ -13,6 +13,11 @@ import settingsIcon from '../../../assets/icons/spanner.svg'
 import logoutIcon from '../../../assets/icons/close.svg'
 
 
+const navbarNotification = () => {
+    return `<div>hello!</div>`
+}
+
+
 const navbarMenuButton = (title, onClickFunction, icon, expands) => {
     let ifExpands = `<div style='min-width:10%;'></div>`
 
@@ -132,8 +137,10 @@ const navbarMenuHTML = {
     `,
 
     /* --------------------------------------------------------------------- */
-    notifications:`
-        <h2> Hello Notifications! </h2>
+    notifications: `
+        ${navbarNotification()}
+        ${navbarNotification()}
+        ${navbarNotification()}
     `
 
 }
@@ -172,6 +179,37 @@ const toggleNavbarMenu = (menuType) => {
 }
 
 
+const RedirectHome = () => {
+    document.location.href = '/'
+}
+
+
+const popAppID = [
+    'journal',
+    'finance',
+    'discover'
+]
+let selectedPopApp = 'journal'
+
+
+const popAppSelect = (selected) => {
+    let target = null
+
+    for(const popApp in popAppID){
+        target = 'global-navbar-popapp-' + popAppID[popApp]
+
+        if (popAppID[popApp] === selected){
+            selectedPopApp = selected
+            document.getElementById(target).className = 'global-navbar-popapp-selected'
+        } else {
+            document.getElementById(target).className = 'global-navbar-popapp'
+        }
+
+    }
+
+}
+
+
 /*
     THESE FUNCTIONS ARE DECLARED TO AVOID USE OF ARROW FUNCTIONS INSIDE JSX
     ELEMENTS IN THE NAVBAR/TRAY -> WHICH WOULD CAUSE BAD MEMORY PERFORMANCE
@@ -184,9 +222,9 @@ const toggleMenuTray  = () => {toggleNavbarMenu('menu')}
 const toggleNotiTray = () => {toggleNavbarMenu('notifications')}
 
 
-const RedirectHome = () => {
-    document.location.href = '/'
-}
+const popAppSelectJournal = () => {popAppSelect('journal')}
+const popAppSelectFinance = () => {popAppSelect('finance')}
+const popAppSelectDiscover = () => {popAppSelect('discover')}
 
 
 /*
@@ -194,46 +232,57 @@ const RedirectHome = () => {
     EMBEDDED DIRECTLY OR RECURSIVELY WITHIN
 */
 const Navbar = () => {
-    return (
-        <div className='document-header'>
-            <div className='global-navbar'>
-                <div className='global-navbar-left' onClick={RedirectHome}>
-                    <img
-                        src={logo}
-                        className='global-navbar-logo'
-                        alt='Easter Company Logo'
-                    />
-                    <h1 className='global-site-header'> Easter Company </h1>
-                </div>
-                <div className='global-navbar-right'>
-                    <img className='global-navbar-button'
-                        src={bell} alt='Notification Button'
-                        onClick={toggleNotiTray}
-                    />
-                    <img className='global-navbar-button'
-                        src={chat} alt='Messages Button'
-                        onClick={toggleInboxTray}
-                    />
-                    <img className='global-navbar-button'
-                        src={menu} alt='Menu Button'
-                        onClick={toggleMenuTray}
-                    />
-                </div>
-                <div className='global-navbar-divider'></div>
+    return <div id='document-header' className='document-header'>
+        <div className='global-navbar'>
+            <div className='global-navbar-left' onClick={RedirectHome}>
+                <img
+                    src={logo}
+                    className='global-navbar-logo'
+                    alt='Easter Company Logo'
+                />
+                <h1 className='global-site-header'> Easter Company </h1>
             </div>
-            <div className='global-navbar-menu-container'>
-                <div className='global-navbar-menu-spacer'></div>
-                <div className='global-navbar-menu' id='global-navbar-menu' />
+            <div className='global-navbar-right'>
+                <img className='global-navbar-button'
+                    src={bell} alt='Notification Button'
+                    onClick={toggleNotiTray}
+                />
+                <img className='global-navbar-button'
+                    src={chat} alt='Messages Button'
+                    onClick={toggleInboxTray}
+                />
+                <img className='global-navbar-button'
+                    src={menu} alt='Menu Button'
+                    onClick={toggleMenuTray}
+                />
             </div>
-            <div className='global-navbar-pop'>
-                <div className='global-navbar-popapp-selected'> Journal </div>
-                <div className='global-navbar-popapp'> Finance </div>
-                <div className='global-navbar-popapp'> Discover </div>
-            </div>
-            <div style={{minHeight: '2000px'}} />
+            <div className='global-navbar-divider'></div>
         </div>
-    )
+        <div className='global-navbar-menu-container'>
+            <div className='global-navbar-menu-spacer'></div>
+            <div className='global-navbar-menu' id='global-navbar-menu' />
+        </div>
+        <div className='global-navbar-pop'>
+            <div
+                id='global-navbar-popapp-journal'
+                className='global-navbar-popapp-selected'
+                onClick={popAppSelectJournal}
+            > Journal </div>
+            <div
+                id='global-navbar-popapp-finance'
+                className='global-navbar-popapp'
+                onClick={popAppSelectFinance}
+            > Finance </div>
+            <div
+                id='global-navbar-popapp-discover'
+                className='global-navbar-popapp'
+                onClick={popAppSelectDiscover}
+            > Discover </div>
+        </div>
+        <div style={{minHeight: '128px'}} />
+    </div>
 }
 
 
-export default Navbar;
+export default Navbar
+export { selectedPopApp }
