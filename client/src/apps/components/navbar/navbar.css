@@ -91,8 +91,8 @@
 }
 
 .global-navbar-menu-content {
-    max-height: calc(100vh - 74px);
-    overflow-y: hidden;
+    max-height: calc(100vh - 80px);
+    overflow-y: auto;
     overflow-x: hidden;
 }
 
@@ -164,8 +164,6 @@
     padding: 6px 6px 6px 6px;
     cursor: pointer;
     border-top: 1px solid lightgrey;
-    overflow-x: hidden;
-    overflow-y: hidden;
 }
 
 .global-navbar-inbox-msg:hover {
