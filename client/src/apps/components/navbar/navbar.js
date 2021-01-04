@@ -59,7 +59,7 @@ const navbarInboxMsg = (dp, name, preview, status, timestamp) => {
             class='global-navbar-inbox-msg-detail'
             style='${detailStyle}'
         >
-            <h4 style='margin:6px 6px 6px 6px;'> ${name} </h4>
+            <h4 style='margin:6px 3px 6px 3px;'> ${name} </h4>
             <h6 style='margin:6px 6px 0 6px;'> ${preview} </h6>
         </div>
         <div style='display:block'>
@@ -93,7 +93,11 @@ const navbarMenuHTML = {
 
     /* --------------------------------------------------------------------- */
     inbox:`
-    <div style='display:flex;justify-content:space-around;margin-bottom:8px;'>
+    <div style='
+        display:flex;
+        margin-bottom:8px;
+        justify-content:space-around;
+    '>
         <div style='display:flex;margin-top:6px;'>
             <img src=${searchIcon} style='
                 width:28px;
