@@ -15,7 +15,7 @@
     min-width: 90%;
     min-height: 1px;
     margin: 64px 5% 0 5%;
-    background-color: darkgray;
+    background-color: lightgrey;
     position: fixed;
     z-index: 97;
 }
@@ -187,7 +187,7 @@
     width: 100%;
     z-index: 98;
     margin-top: 64px;
-    padding-left: calc(50% - 150px);
+    padding-left: calc(50% - 164px);
     position: fixed;
     background-color: white;
 }
