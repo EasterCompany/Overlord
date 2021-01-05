@@ -2,8 +2,9 @@ import './popApps.css'
 import newIcon from '../../../assets/icons/pen.svg'
 import oldIcon from '../../../assets/icons/journal.svg'
 import nwfIcon from '../../../assets/icons/news.svg'
+import expIcon from '../../../assets/icons/expand.svg'
 
-
+let toolbarTrayOpen = false;
 const toolbarButtons = [
     'journal-new', 'journal-old', 'journal-nwf'
 ]
@@ -26,6 +27,23 @@ const toolbarButtonPress = (pressed) => {
 }
 
 
+const toolbarExpanderPress = () => {
+    const el = document.getElementById('app-toolbar-expander')
+    const tb = document.getElementById('app-toolbar-container')
+
+    if (toolbarTrayOpen) {
+        el.style.transform = 'scaleY(1)'
+        tb.className = 'app-toolbar-container hideOnMobile'
+        toolbarTrayOpen = false
+    } else {
+        el.style.transform = 'scaleY(-1)'
+        tb.className = 'app-toolbar-container showOnMobile'
+        toolbarTrayOpen = true
+    }
+
+}
+
+
 const journalNewPressed = () => {toolbarButtonPress('journal-new')}
 const journalOldPressed = () => {toolbarButtonPress('journal-old')}
 const journalNwfPressed = () => {toolbarButtonPress('journal-nwf')}
@@ -33,8 +51,18 @@ const journalNwfPressed = () => {toolbarButtonPress('journal-nwf')}
 
 const PopApps = () => {
     return <div id='document-body' className='document-body'>
+        <img
+            id='app-toolbar-expander'
+            alt='expanding arrow icon'
+            className='app-toolbar-expander'
+            src={expIcon}
+            onClick={toolbarExpanderPress}
+        />
         <div id='popApp-container-journal' className='popApp-container-selected'>
-            <div id='app-toolbar-container' className='app-toolbar-container'>
+            <div
+                id='app-toolbar-container'
+                className='app-toolbar-container hideOnMobile'
+            >
                 <img
                     id='app-toolbar-journal-nwf'
                     src={nwfIcon}
@@ -69,7 +97,6 @@ const PopApps = () => {
         <div id='popApp-container-discover' className='popApp-container'>
             <h1> Discover </h1>
         </div>
-
     </div>
 }
 

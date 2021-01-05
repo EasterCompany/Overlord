@@ -18,23 +18,37 @@
     border-right: 1px solid lightgrey;
 }
 
+.app-toolbar-expander {
+    bottom: 16px;
+    right: 16px;
+    height: 38px;
+    background-color: whitesmoke;
+    border: 1px solid darkgrey;
+    border-radius: 25%;
+    padding: 3px 3px 3px 3px;
+    position: fixed;
+    transform: scaleY(1);
+    z-index: 90;
+}
+
 .app-toolbar-container {
     top: calc(124px + 5vh);
     right: calc(5% - 36px);
+    bottom: unset;
     width: 36px;
-    display: block;
     position: fixed;
+    z-index: 90;
 }
 
 .app-toolbar-button {
     width: 38px;
     height: 38px;
-    border-radius: 50%;
-    margin: 6px 0 6px 6px;
+    margin: 6px 6px 6px 6px;
     padding: 2px 2px 2px 2px;
 }
 
 .atb-selected {
+    border-radius: 50%;
     border: 1px solid black;
     background-color: lightgrey;
 }
@@ -44,13 +58,36 @@
         width: 96%;
         margin: -64px 1% 0 1%;
     }
-    .app-toolbar-container {
+}
+
+@media (min-width:1000px) {
+    .hideOnMobile {
+        display: block;
+    }
+    .showOnMobile {
+        display: block;
+    }
+    .app-toolbar-expander {
         display: none;
     }
 }
 
-@media (max-width:999px) and (min-width:521px) {
-    .app-toolbar-container {
+@media (max-width:999px) {
+    .hideOnMobile {
         display: none;
+    }
+    .showOnMobile {
+        display: block;
+    }
+    .app-toolbar-container {
+        top: unset;
+        bottom: 64px;
+        right: 16px;
+        width: fit-content;
+        padding: 3px 3px 3px 3px;
+        max-width: 300px;
+        background-color: whitesmoke;
+        border: 1px solid darkgrey;
+        border-radius: 10px;
     }
 }
