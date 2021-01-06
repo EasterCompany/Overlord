@@ -129,6 +129,17 @@ Tasks left unmarked are currently in development or will begin development soon.
             <p align='center'> Node.js </p>
          </a>
       </td>
+      <td valign="middle">
+         <a href='https://www.djangoproject.com/'>
+            <img
+               alt='Django'
+               src='https://raw.githubusercontent.com/github/explore/80688e429a7d4ef2fca1e82350fe8e3517d3494d/topics/django/django.png'
+               width='64px'
+               height='64px'
+            />
+            <p align='center'> Django </p>
+         </a>
+      </td>
    </tr>
 </table>
 <br />
