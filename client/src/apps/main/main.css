@@ -4,6 +4,7 @@
     width: 100%;
     height: 64px;
     position: fixed;
+    pointer-events: none;
 
     /* FF3.6-15 */
     background: -moz-linear-gradient(

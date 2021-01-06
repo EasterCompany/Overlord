@@ -18,16 +18,28 @@ h1,h2,h3,h4,h5,h6,p {
 }
 
 ::-webkit-scrollbar {
-  width: 4px;
-}
+  width: 5px;
+  background-color: lightgrey;
 
-::-webkit-scrollbar-track {
-  box-shadow: inset 0 0 4px rgba(0, 0, 0, 0.3);
+  border-top-left-radius: 2.5px;
+  border-top-right-radius: 2.5px;
+  border-bottom-left-radius: 2.5px;
+  border-bottom-right-radius: 2.5px;
+
+  background: linear-gradient(
+    to bottom,
+    whitesmoke 0%,
+    lightgrey 100%
+  );
 }
 
 ::-webkit-scrollbar-thumb {
   background-color: darkgrey;
-  outline: 1px solid slategrey;
+
+  border-top-left-radius: 2.5px;
+  border-top-right-radius: 2.5px;
+  border-bottom-left-radius: 2.5px;
+  border-bottom-right-radius: 2.5px;
 }
 
 /*

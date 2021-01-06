@@ -11,8 +11,6 @@ queries, bug reports or general requests please do not hesitate to get in touch 
 
 ## Local Host
 
----
-
 ### Start Server
 
 Server will run on port 8000
@@ -42,8 +40,6 @@ Tasks marked (<span style='color:red'> ⨯ </span>) have been discarded. <br>
 Tasks left unmarked are currently in development or will begin development soon. <br>
 
 ## Patch 0.0.1
-
----
 
 ### API
 
@@ -95,24 +91,40 @@ Tasks left unmarked are currently in development or will begin development soon.
    2. Direct Messages
    3. Explore Hashtags
 
----
-
 <h2 style='text-align:center;margin:16px 0 16px 0'> Technology </h2>
 <div style='display:flex;justify-content:space-around;'>
 
-   <div style='height:64px;width:64px;'>
-      <image src='https://raw.githubusercontent.com/github/explore/80688e429a7d4ef2fca1e82350fe8e3517d3494d/topics/react/react.png'>
-      <h4 style='text-align:center;'> React.js </h4>
-   </div>
+   <a href='https://reactjs.org/'>
+      <div style='height:64px;width:64px;'>
+         <img
+            alt='React.js Logo'
+            src='https://raw.githubusercontent.com/github/explore/80688e429a7d4ef2fca1e82350fe8e3517d3494d/topics/react/react.png'
+            style='height:64px;width:64px;'
+         />
+         <h4 style='text-align:center;'> React.js </h4>
+      </div>
+   </a>
 
-   <div style='height:64px;width:64px;'>
-      <image src='https://raw.githubusercontent.com/github/explore/80688e429a7d4ef2fca1e82350fe8e3517d3494d/topics/python/python.png'>
-      <h4 style='text-align:center;'> Python </h4>
-   </div>
+   <a href='https://www.python.org/'>
+      <div style='height:64px;width:64px;'>
+         <img
+            alt='Python Logo'
+            src='https://raw.githubusercontent.com/github/explore/80688e429a7d4ef2fca1e82350fe8e3517d3494d/topics/python/python.png'
+            style='height:64px;width:64px;'
+         />
+         <h4 style='text-align:center;'> Python </h4>
+      </div>
+   </a>
 
-   <div style='height:64px;width:64px;'>
-      <image src='https://raw.githubusercontent.com/github/explore/80688e429a7d4ef2fca1e82350fe8e3517d3494d/topics/nodejs/nodejs.png'>
-      <h4 style='text-align:center;'> Node.js </h4>
-   </div>
+   <a href='https://nodejs.org/'>
+      <div style='height:64px;width:64px;'>
+         <img
+            alt='Node.js Logo'
+            src='https://raw.githubusercontent.com/github/explore/80688e429a7d4ef2fca1e82350fe8e3517d3494d/topics/nodejs/nodejs.png'
+            style='height:64px;width:64px;'
+         />
+         <h4 style='text-align:center;'> Node.js </h4>
+      </div>
+   </a>
 
 </div>

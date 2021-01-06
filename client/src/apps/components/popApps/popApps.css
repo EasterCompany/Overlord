@@ -6,9 +6,8 @@
 .popApp-container-selected {
     display: block;
     z-index: -1;
-    width: 90%;
+    width: calc(88% - 2px);
     word-wrap: break-word;
-    width: 88%;
     min-height: calc(100vh - 148px);
 
     margin: -64px 5% 0 5%;
