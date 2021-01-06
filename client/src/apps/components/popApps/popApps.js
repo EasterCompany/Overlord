@@ -5,8 +5,13 @@ import nwfIcon from '../../../assets/icons/news.svg'
 import expIcon from '../../../assets/icons/expand.svg'
 
 let toolbarTrayOpen = false;
+
 const toolbarButtons = [
     'journal-new', 'journal-old', 'journal-nwf'
+]
+
+const journalViews = [
+    'newentry', 'myentries', 'newsfeed'
 ]
 
 
@@ -44,9 +49,34 @@ const toolbarExpanderPress = () => {
 }
 
 
-const journalNewPressed = () => {toolbarButtonPress('journal-new')}
-const journalOldPressed = () => {toolbarButtonPress('journal-old')}
-const journalNwfPressed = () => {toolbarButtonPress('journal-nwf')}
+const journalViewSelect = (selected) => {
+    for(const i in journalViews){
+        const el = document.getElementById('popApp-journal-' + journalViews[i])
+        if (selected === journalViews[i]) {
+            el.style.display = 'block'
+        } else {
+            el.style.display = 'none'
+        }
+    }
+}
+
+
+const journalNewPressed = () => {
+    toolbarButtonPress('journal-new')
+    journalViewSelect('newentry')
+}
+
+
+const journalOldPressed = () => {
+    toolbarButtonPress('journal-old')
+    journalViewSelect('myentries')
+}
+
+
+const journalNwfPressed = () => {
+    toolbarButtonPress('journal-nwf')
+    journalViewSelect('newsfeed')
+}
 
 
 const PopApps = () => {
@@ -85,9 +115,38 @@ const PopApps = () => {
                     onClick={journalOldPressed}
                 />
             </div>
-            <h1>
-                Sample text
-            </h1>
+            <div id='popApp-journal-newsfeed'>
+                <h1>
+                    News Feed
+                </h1>
+            </div>
+            <div id='popApp-journal-newentry'>
+                <form>
+                    <div style={{display:'flex'}}>
+                        <div className='journal-entry-head-divider' />
+                        <input
+                            id='journal-new-entry-head'
+                            required
+                            maxLength='90'
+                            placeholder='New Entry'
+                        />
+                        <div className='journal-entry-head-divider' />
+                    </div>
+                    <textarea
+                        id='journal-new-entry-body'
+                        required
+                        placeholder='Write your entry here...'
+                    />
+                    <button id='journal-new-entry-submit' type='submit'>
+                        Submit
+                    </button>
+                </form>
+            </div>
+            <div id='popApp-journal-myentries'>
+                <h1>
+                    View my entries
+                </h1>
+            </div>
         </div>
 
         <div id='popApp-container-finance' className='popApp-container'>
