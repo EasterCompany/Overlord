@@ -93,10 +93,10 @@ Tasks left unmarked are currently in development or will begin development soon.
 
 <br />
 <br />
-<h2 style='margin:16px 0 16px 0'> Technology </h2>
+<h2> Technology </h2>
 <table>
    <tr>
-      <td valign="top">
+      <td valign="middle">
          <a href='https://reactjs.org/'>
             <img
                alt='React.js'
@@ -104,10 +104,10 @@ Tasks left unmarked are currently in development or will begin development soon.
                width='64px'
                height='64px'
             />
-            <h4 style='text-align:center;'> React.js </h4>
+            <p align='center'> React.js </p>
          </a>
       </td>
-      <td valign="top">
+      <td valign="middle">
          <a href='https://www.python.org/'>
             <img
                alt='Python'
@@ -115,10 +115,10 @@ Tasks left unmarked are currently in development or will begin development soon.
                width='64px'
                height='64px'
             />
-            <h4 style='text-align:center;'> Python </h4>
+            <p align='center'> Python </p>
          </a>
       </td>
-      <td valign="top">
+      <td valign="middle">
          <a href='https://nodejs.org/'>
             <img
                alt='Node.js'
@@ -126,10 +126,12 @@ Tasks left unmarked are currently in development or will begin development soon.
                width='64px'
                height='64px'
             />
-            <h4 style='text-align:center;'> Node.js </h4>
+            <p align='center'> Node.js </p>
          </a>
       </td>
    </tr>
 </table>
 <br />
 <br />
+
+<p align='center'> Easter Company © 2021 </p>
