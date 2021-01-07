@@ -59,8 +59,8 @@ const navbarInboxMsg = (dp, name, preview, status, timestamp) => {
             class='global-navbar-inbox-msg-detail'
             style='${detailStyle}'
         >
-            <h4 style='margin:6px 3px 6px 3px;'> ${name} </h4>
-            <h6 style='margin:6px 6px 0 6px;'> ${preview} </h6>
+            <h4 style='margin:6px 3px 6px 3px;user-select:none;'> ${name} </h4>
+            <h6 style='margin:6px 6px 0 6px;user-select:none;'> ${preview} </h6>
         </div>
         <div style='display:block'>
             <p class='global-navbar-inbox-msg-status'> ${statusText} </p>
@@ -193,7 +193,6 @@ const popAppID = [
     'finance',
     'discover'
 ]
-let selectedPopApp = 'journal'
 
 
 const popAppSelect = (selected) => {
@@ -205,7 +204,6 @@ const popAppSelect = (selected) => {
         targetBod = 'popApp-container-' + popAppID[popApp]
 
         if (popAppID[popApp] === selected){
-            selectedPopApp = selected
             document.getElementById(
                 targetBod
             ).className = 'popApp-container-selected'
@@ -275,7 +273,7 @@ const Navbar = () => {
             <div className='global-navbar-divider'></div>
         </div>
         <div className='global-navbar-menu-container'>
-            <div className='global-navbar-menu-spacer'></div>
+            <div className='global-navbar-menu-spacer' />
             <div className='global-navbar-menu' id='global-navbar-menu' />
         </div>
         <div className='global-navbar-pop'>
@@ -283,21 +281,20 @@ const Navbar = () => {
                 id='global-navbar-popapp-journal'
                 className='global-navbar-popapp-selected'
                 onClick={popAppSelectJournal}
-            > Journal </div>
+            > <span style={{userSelect:'none'}}> Journal </span> </div>
             <div
                 id='global-navbar-popapp-finance'
                 className='global-navbar-popapp'
                 onClick={popAppSelectFinance}
-            > Finance </div>
+            > <span style={{userSelect:'none'}}> Finance </span> </div>
             <div
                 id='global-navbar-popapp-discover'
                 className='global-navbar-popapp'
                 onClick={popAppSelectDiscover}
-            > Discover </div>
+            > <span style={{userSelect:'none'}}> Discover </span> </div>
         </div>
     </div>
 }
 
 
 export default Navbar
-export { selectedPopApp }

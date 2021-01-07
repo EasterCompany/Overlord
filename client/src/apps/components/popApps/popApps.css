@@ -34,6 +34,7 @@
     top: calc(124px + 5vh);
     right: calc(5% - 36px);
     bottom: unset;
+    height: 42px;
     width: 36px;
     position: fixed;
     z-index: 90;
@@ -42,7 +43,7 @@
 .app-toolbar-button {
     width: 38px;
     height: 38px;
-    margin: 6px 6px 6px 6px;
+    margin: 0 6px 0 6px;
     padding: 2px 2px 2px 2px;
 }
 
@@ -54,7 +55,7 @@
 }
 
 .journal-entry-head-divider {
-    width: 100%;
+    width: 30%;
     background-color: lightgrey;
     height: 1px;
     margin: 1.3em 2% 0 2%;
@@ -67,6 +68,7 @@
 #popApp-journal-newentry {
     display: none;
     margin-top: 1%;
+    justify-content: space-around;
 }
 
 #popApp-journal-myentries {
@@ -75,12 +77,14 @@
 
 #journal-new-entry-head {
     color:rgba(.1,.1,.1,.75);
-    width: 375px;
+    width: 40%;
+    min-width: 270px;
     height: 38px;
     font-size: 28px;
     text-align: center;
-    margin: 0 0 16px 0;
+    margin: 0 auto 16px auto;
     border: 0 solid black;
+    border-radius: 5px;
 }
 
 #journal-new-entry-head::placeholder{
@@ -88,24 +92,32 @@
 }
 
 #journal-new-entry-head:focus{
+    width: 40%;
+    height: 38px;
     color: black;
     outline: unset;
+    border-left: 2px solid #3498DB;
+    border-right: 2px solid #3498DB;
     border-radius: 10px;
-    background-color: whitesmoke;
+    background-color: rgba(.9,.9,.9,.025);
 }
 
 #journal-new-entry-body {
-    width: calc(94% - 12px);
-    height: 50vh;
+    width: 40%;
+    min-width: 290px;
+    display: flex;
+    justify-content: space-around;
+    height: 30vh;
+    min-height: 250px;
     font-size: 14px;
     padding: 12px 6px 6px 6px;
-    margin: 16px 3% 16px 3%;
+    margin: 16px auto 32px auto;
     resize: vertical;
 
     border-top: unset;
     border-bottom: unset;
-    border-left: 1px dashed darkgrey;
-    border-right: 1px dashed darkgrey;
+    border-left: 1px solid darkgrey;
+    border-right: 1px solid darkgrey;
     border-radius: 10px;
 }
 
@@ -115,20 +127,26 @@
 
 #journal-new-entry-body:focus{
     outline: unset;
+    border-left: 2px solid #3498DB;
+    border-right: 2px solid #3498DB;
     border-radius: 10px;
-    background-color: whitesmoke;
+    background-color: rgba(.9,.9,.9,.025);
 }
 
 #journal-new-entry-submit {
-    width: 80%;
+    width: 40%;
+    min-width: 300px;
     height: 48px;
     font-size: 20px;
-    color: grey;
+    display: flex;
+    justify-content: space-around;
+    color: whitesmoke;
     cursor: pointer;
-    margin: 64px 10% 64px 10%;
+    padding: 10px 0 10px 0;
+    margin: 32px auto 64px auto;
 
-    background-color: whitesmoke;
-    border: 2px solid darkgrey;
+    background-color: #3498DB;
+    border: 3px solid #5DADE2;
     border-radius: 10px;
 }
 
@@ -138,14 +156,37 @@
     background-color: lightblue;
 }
 
-@media (max-width:520px) {
-    .popApp-container-selected {
-        width: 96%;
-        margin: -64px 1% 0 1%;
-    }
-    #journal-new-entry-head {
-        width: 300px;
-    }
+#journal-new-entry-img-container {
+    width: 40%;
+    min-width: 300px;
+    height: fit-content;
+    display: flex;
+    flex-wrap: wrap;
+    padding: 16px 0 16px 0;
+    margin: 16px auto 48px auto;
+    justify-content: space-around;
+    overflow: hidden;
+    border-radius: 15px;
+    border: 1px dashed lightgrey;
+
+    background-position: center;
+    background-repeat: no-repeat;
+    background-size: cover;
+}
+
+#journal-new-entry-img-container:hover {
+    background-color: grey;
+    opacity: 10%;
+}
+
+#journal-new-entry-img-upload {
+    width: 0px;
+}
+
+.journal-new-entry-detail {
+    width: 150px;
+    color: darkgrey;
+    user-select: none;
 }
 
 @media (min-width:1000px) {
@@ -157,6 +198,9 @@
     }
     .app-toolbar-expander {
         display: none;
+    }
+    .app-toolbar-button {
+        margin-bottom: 18px;
     }
 }
 
@@ -177,5 +221,22 @@
         background-color: whitesmoke;
         border: 1px solid darkgrey;
         border-radius: 10px;
+    }
+}
+
+@media (max-width:520px) {
+    .popApp-container-selected {
+        width: 96%;
+        margin: -64px 1% 0 1%;
+    }
+    .app-toolbar-expander {
+        height: 28px;
+    }
+    .app-toolbar-container {
+        bottom: 54px;
+        padding: 1px 1px 1px 1px;
+    }
+    #journal-new-entry-head {
+        width: 300px;
     }
 }

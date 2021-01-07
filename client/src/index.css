@@ -17,29 +17,38 @@ h1,h2,h3,h4,h5,h6,p {
   padding: 0 0 0 0;
 }
 
+img {
+  user-select: none;
+}
+
+button {
+  user-select: none;
+}
+
 ::-webkit-scrollbar {
   width: 5px;
+  height: 5px;
   background-color: lightgrey;
 
   border-top-left-radius: 2.5px;
-  border-top-right-radius: 2.5px;
+  border-top-right-radius: 50px;
   border-bottom-left-radius: 2.5px;
-  border-bottom-right-radius: 2.5px;
+  border-bottom-right-radius: 50px;
 
   background: linear-gradient(
     to bottom,
-    whitesmoke 0%,
-    lightgrey 100%
+    #ECF0F1 0%,
+    #D0D3D4 100%
   );
 }
 
 ::-webkit-scrollbar-thumb {
-  background-color: darkgrey;
+  background-color: #3498DB;
 
   border-top-left-radius: 2.5px;
-  border-top-right-radius: 2.5px;
+  border-top-right-radius: 50px;
   border-bottom-left-radius: 2.5px;
-  border-bottom-right-radius: 2.5px;
+  border-bottom-right-radius: 50px;
 }
 
 /*
