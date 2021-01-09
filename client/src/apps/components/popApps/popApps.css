@@ -189,6 +189,16 @@
     user-select: none;
 }
 
+.submit-error {
+    background-color: rgba(203, 67, 53, .5);
+}
+
+.submit-error-msg {
+    display: none;
+    color: rgba(203, 67, 53, 1);
+    text-align: center;
+}
+
 @media (min-width:1000px) {
     .hideOnMobile {
         display: block;

@@ -7,6 +7,7 @@ import nwfIcon from '../../../assets/icons/news.svg'
 import expIcon from '../../../assets/icons/expand.svg'
 
 let toolbarTrayOpen = false;
+let entryImg = null;
 
 const toolbarButtons = [
     'journal-new', 'journal-old', 'journal-nwf'
@@ -25,6 +26,7 @@ const addImagePreview = () => {
         if (newImg) {
             const reader = new FileReader()
             reader.addEventListener('load', function() {
+                entryImg = this.result
                 cntEl.style.backgroundImage = `url(${this.result})`
                 cntEl.style.border = '2px solid #3498DB'
             })
@@ -37,7 +39,6 @@ const addImagePreview = () => {
 
 const toolbarButtonPress = (pressed) => {
     for (const btn in toolbarButtons) {
-
         const el = document.getElementById(
             'app-toolbar-' + toolbarButtons[btn]
         )
@@ -105,6 +106,53 @@ const journalNwfPressed = () => {
 }
 
 
+const newEntrySubmit = () => {
+    // UPDATE 'My Entries' with new Entry data
+    const entryHead = document.getElementById('journal-new-entry-head')
+    const entryBody = document.getElementById('journal-new-entry-body')
+    const entryImgE = `<img src="${entryImg}"` || ``
+    if (entryHead.value.length > 0 && entryBody.value.length > 0) {
+        document.getElementById('popApp-journal-myentries').innerHTML += `
+            ${entryImgE}
+            <h2> ${entryHead.value} </h2>
+            <p> ${entryBody.value} </p>
+        `
+        // RETURN function by emulating press 'My Entries'
+        return journalOldPressed()
+    } else {
+        // UPDATE 'New Entry' with validation request
+        if (entryHead.value.length === 0) {
+            entryHead.classList.add('submit-error')
+            document.getElementById('submit-error-no-head').style.display = 'block'
+        }
+        if (entryBody.value.length === 0) {
+            entryBody.classList.add('submit-error')
+            document.getElementById('submit-error-no-body').style.display = 'block'
+        }
+    }
+}
+
+
+const newEntryHeadClick = () => {
+    document.getElementById(
+        'journal-new-entry-head'
+    ).classList.remove('submit-error')
+    document.getElementById(
+        'submit-error-no-head'
+    ).style.display = 'none'
+}
+
+
+const newEntryBodyClick = () => {
+    document.getElementById(
+        'journal-new-entry-body'
+    ).classList.remove('submit-error')
+    document.getElementById(
+        'submit-error-no-body'
+    ).style.display = 'none'
+}
+
+
 const PopApps = () => {
     return <div id='document-body' className='document-body'>
         <img
@@ -150,7 +198,7 @@ const PopApps = () => {
                 </h1>
             </div>
 
-            <form id='popApp-journal-newentry'>
+            <div id='popApp-journal-newentry'>
                 <div style={{display:'flex'}}>
                     <div className='journal-entry-head-divider' />
                     <input
@@ -159,14 +207,24 @@ const PopApps = () => {
                         required
                         maxLength='90'
                         placeholder='New Entry'
+                        onClick={newEntryHeadClick}
                     />
                     <div className='journal-entry-head-divider' />
                 </div>
+                <p
+                    id='submit-error-no-head'
+                    className='submit-error-msg'
+                > ・ You need to title your entry </p>
+                <p
+                    id='submit-error-no-body'
+                    className='submit-error-msg'
+                > ・ You need to write your entry </p>
                 <textarea
                     id='journal-new-entry-body'
                     name='content'
                     required
                     placeholder='Write your entry here...'
+                    onClick={newEntryBodyClick}
                 />
                 <label id='journal-new-entry-img-container' onClick={addImagePreview}>
                     <input id='journal-new-entry-img-upload' type='file' hidden />
@@ -201,10 +259,13 @@ const PopApps = () => {
                         {shortDate()}
                     </p>
                 </div>
-                <button id='journal-new-entry-submit' type='submit'>
-                    <p> Submit </p>
+                <button
+                    id='journal-new-entry-submit'
+                    onClick={newEntrySubmit}
+                >
+                    Submit
                 </button>
-            </form>
+            </div>
 
             <div id='popApp-journal-myentries'>
                 <h1>
