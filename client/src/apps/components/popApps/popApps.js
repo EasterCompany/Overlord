@@ -1,10 +1,12 @@
 import './popApps.css'
-import { shortDate } from '../../../library/dateTime.js'
+import sanitize from '../../../library/sanitize.js'
 import camera from '../../../assets/icons/camera.svg'
 import newIcon from '../../../assets/icons/pen.svg'
 import oldIcon from '../../../assets/icons/journal.svg'
 import nwfIcon from '../../../assets/icons/news.svg'
 import expIcon from '../../../assets/icons/expand.svg'
+import ex2Icon from '../../../assets/icons/expand2.svg'
+import { shortDate, date } from '../../../library/dateTime.js'
 
 let toolbarTrayOpen = false;
 let entryImg = null;
@@ -106,21 +108,94 @@ const journalNwfPressed = () => {
 }
 
 
+const longJournalExpanderPress = (pid) => {
+    const el = document.getElementById(`pid_${pid}`);
+    const ex = document.getElementById(`pid_${pid}_expander`);
+    const im = document.getElementById(`pid_${pid}_expanderImg`);
+    if(el.style.maxHeight !== 'unset') {
+        el.style.maxHeight = 'unset';
+        el.style.overflowY = 'visible';
+        ex.style.height  = '36px';
+        ex.style.marginTop = '-16px';
+        ex.style.paddingTop = 'unset';
+        im.style.transform = 'scaleY(-1)';
+    } else {
+        el.style.maxHeight = '';
+        el.style.overflowY = '';
+        ex.style.height  = '';
+        ex.style.marginTop = '';
+        ex.style.paddingTop = '';
+        im.style.transform = '';
+    }
+}
+
+
+const makeEntry = (pid, head, body, img=null) => {
+    if (img) img = `<img src='${img}' class='journal-entry-img'>`
+    else img = ``
+
+    head = sanitize(head)
+    body = sanitize(body)
+
+    if (body.length > 999){
+        return `
+        <div class='journal-entry'>
+            ${img}
+            <p class='journal-entry-head'> ${head} </p>
+            <p class='journal-entry-time'> ${date()} </p>
+            <p id='pid_${pid}' class='journal-entry-body-long'>
+                ${body}
+            </p>
+            <div
+                id='pid_${pid}_expander'
+                class='journal-entry-expander'
+                onClick="
+                    const expand = ${longJournalExpanderPress};
+                    expand('${pid}');
+                "
+            >
+                <img
+                    id='pid_${pid}_expanderImg'
+                    class='journal-entry-expander-img'
+                    src='${ex2Icon}'
+                >
+            </div>
+        </div>
+        `
+    } else {
+        return `<div class='journal-entry'>
+            ${img}
+            <p class='journal-entry-head'> ${head} </p>
+            <p class='journal-entry-time'> ${date()} </p>
+            <p class='journal-entry-body'> ${body} </p>
+        </div>`
+    }
+}
+
+
 const newEntrySubmit = () => {
     // UPDATE 'My Entries' with new Entry data
     const entryHead = document.getElementById('journal-new-entry-head')
     const entryBody = document.getElementById('journal-new-entry-body')
-    const entryImgE = `<img src="${entryImg}"` || ``
+
     if (entryHead.value.length > 0 && entryBody.value.length > 0) {
-        document.getElementById('popApp-journal-myentries').innerHTML += `
-            ${entryImgE}
-            <h2> ${entryHead.value} </h2>
-            <p> ${entryBody.value} </p>
-        `
+        const feed = document.getElementById('journal-myentries-feed')
+        feed.innerHTML = makeEntry(
+            entryHead.value, entryHead.value, entryBody.value, entryImg
+        ) + feed.innerHTML
+        entryHead.value = ''
+        entryBody.value = ''
+        entryImg = null
+        const entryImgUp = document.getElementById(
+            'journal-new-entry-img-container'
+        )
+        entryImgUp.style.backgroundImage = 'none'
+        entryImgUp.style.border = ''
         // RETURN function by emulating press 'My Entries'
         return journalOldPressed()
+
     } else {
-        // UPDATE 'New Entry' with validation request
+        // UPDATE 'New Entry' with invalid inputs error
         if (entryHead.value.length === 0) {
             entryHead.classList.add('submit-error')
             document.getElementById('submit-error-no-head').style.display = 'block'
@@ -130,6 +205,7 @@ const newEntrySubmit = () => {
             document.getElementById('submit-error-no-body').style.display = 'block'
         }
     }
+
 }
 
 
@@ -268,9 +344,40 @@ const PopApps = () => {
             </div>
 
             <div id='popApp-journal-myentries'>
-                <h1>
-                    View my entries
-                </h1>
+                <div id='journal-myentries'>
+                    <div className='journal-myentries-spacer'> &nbsp; </div>
+                    <div id='journal-myentries-details'>
+                        <img
+                            alt='user'
+                            src={camera}
+                            className='journal-user-image'
+                        />
+                        <p style={{fontSize:'20px', textAlign:'center'}}>
+                            Owen Cameron Easter
+                        </p>
+                        <div id='journal-myentries-userinfo'>
+                            <p> <b>22</b> years old </p>
+                            <p> Software Engineer </p>
+                            <p> Easter Company </p>
+                            <hr />
+                            <p> Entries: <b>23</b> </p>
+                            <p> Last Updated: 01/01/2021 </p>
+                            <hr />
+                            <div id='journal-myentries-followContainer'>
+                                <div id='journal-myentries-followTags'>
+                                    <p> Followers </p>
+                                    <p> Following </p>
+                                </div>
+                                <div id='journal-myentries-followInfo'>
+                                    <p> 25 </p>
+                                    <p> 5000 </p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div id='journal-myentries-feed'>
+                    </div>
+                </div>
             </div>
 
         </div>

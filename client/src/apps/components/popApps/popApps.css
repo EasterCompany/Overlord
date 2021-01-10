@@ -50,8 +50,8 @@
 .atb-selected {
     padding: 1px 1px 1px 1px;
     border-radius: 50%;
-    border: 1px solid black;
-    background-color: lightgrey;
+    border: 1px solid rgba(.1,.1,.1,.75);
+    background-color: rgba(66, 222, 228, 0.5);
 }
 
 .journal-entry-head-divider {
@@ -113,6 +113,7 @@
     padding: 12px 6px 6px 6px;
     margin: 16px auto 32px auto;
     resize: vertical;
+    white-space: pre-wrap;
 
     border-top: unset;
     border-bottom: unset;
@@ -169,6 +170,7 @@
     border-radius: 15px;
     border: 1px dashed lightgrey;
 
+    background-image: none;
     background-position: center;
     background-repeat: no-repeat;
     background-size: cover;
@@ -197,6 +199,148 @@
     display: none;
     color: rgba(203, 67, 53, 1);
     text-align: center;
+}
+
+#journal-myentries {
+    display: flex;
+    min-width: 100%;
+}
+
+#journal-myentries-details {
+    position: fixed;
+    width: 25%;
+    min-width: 200px;
+    max-width: 300px;
+    height: fit-content;
+    margin-left: 3%;
+    box-shadow: 1px 1px 3px lightgrey;
+}
+
+.journal-myentries-spacer {
+    width: 48%;
+    min-width: 200px;
+    max-width: 350px;
+}
+
+#journal-myentries-details > p {
+    margin: 3% 6px 3% 6px;
+}
+
+#journal-myentries-userinfo {
+    font-size: 14px;
+    margin: 6% 6px 14px 6px;
+}
+
+.journal-user-image {
+    width: 86%;
+    margin: 5% 5% 5% 5%;
+    padding: 2% 2% 2% 2%;
+    border-radius: 50%;
+    box-shadow: 1px 1px 3px lightgrey;
+}
+
+#journal-myentries-feed {
+    display: flexbox;
+    width: 100%;
+    margin: 0 3% 0 3%;
+    padding: 0 1% 1% 1%;
+    justify-content: center;
+}
+
+.journal-entry {
+    width: 100%;
+    position: relative;
+    z-index: 0;
+    overflow: hidden;
+    margin-bottom: 50px;
+    padding: 1.5% 0 1.5% 0;
+    word-wrap: break-word;
+    border-radius: 3px;
+    border: 1px solid lightgrey;
+    box-shadow: 3px 3px 10px lightgrey;
+}
+
+.journal-entry-expander {
+    text-align: center;
+    position: absolute;
+    height: 64px;
+    width: 100%;
+    margin-top: -96px;
+    padding-top: 68px;
+    background: linear-gradient(
+        to top,
+        rgba(255,255,255,1) 50%,
+        rgba(255,255,255,0) 75%
+    );
+}
+
+.journal-entry-expander:hover {
+    background: linear-gradient(
+        to top,
+        rgb(245,245,245,1) 50%,
+        rgba(0,0,0,0) 100%
+    );
+}
+
+.journal-entry-expander-img {
+    width: 32px;
+    height: 32px;
+}
+
+.journal-entry-img {
+    width: 95%;
+    margin: 0 2.5% 1.5% 2.5%;
+    height: 300px;
+    border-radius: 5px;
+    object-fit: cover;
+    box-shadow: 3px 3px 10px lightgrey;
+}
+
+.journal-entry-head {
+    text-align: center;
+    font-size: 32px;
+}
+
+.journal-entry-body {
+    text-align: left;
+    font-size: 16px;
+    margin: 1% 5% 1% 5%;
+    white-space: pre-wrap;
+}
+
+.journal-entry-body-long {
+    overflow-y: hidden;
+    max-height: 300px;
+    text-align: left;
+    font-size: 16px;
+    margin: 1% 5% 32px 5%;
+    white-space: pre-wrap;
+}
+
+.journal-entry-time {
+    text-align: right;
+    font-size: 12px;
+    color: darkgrey;
+    margin: 0 5% 1% 0;
+}
+
+#journal-myentries-followContainer {
+    display: block;
+    justify-content: center;
+}
+
+#journal-myentries-followTags {
+    display: flex;
+    margin: 3% 0 1.5% 0;
+    font-size: 14px;
+    justify-content: space-around;
+}
+
+#journal-myentries-followInfo {
+    display: flex;
+    font-size: 16px;
+    font-weight: bold;
+    justify-content: space-around;
 }
 
 @media (min-width:1000px) {
@@ -232,12 +376,49 @@
         border: 1px solid darkgrey;
         border-radius: 10px;
     }
+    #journal-myentries {
+        display: block;
+    }
+    .journal-myentries-spacer {
+        width: 0px;
+        max-width: unset;
+        min-width: unset;
+    }
+    .journal-entry {
+        width: 100%;
+        margin: 25px 1% 0 1%;
+        padding: 1.5% 0 1.5% 0;
+    }
+    #journal-myentries-details {
+        position: unset;
+        width: 90%;
+        margin: 0 auto 0 auto;
+        padding: 0 0 1% 0;
+        min-width: unset;
+        max-width: unset;
+    }
+    #journal-myentries-userinfo {
+        text-align: center;
+        width: fit-content;
+        margin: 0 auto 14px auto;
+    }
+    .journal-user-image {
+        width: 250px;
+        margin: 14px 0 1% calc(48% - 125px);
+    }
+    #journal-myentries-feed {
+        width: 98%;
+        margin: 0 0 0 0;
+        padding: 0 0 64px 0;
+    }
 }
 
 @media (max-width:520px) {
     .popApp-container-selected {
-        width: 96%;
-        margin: -64px 1% 0 1%;
+        width: 98%;
+        margin: -64px 0 0 0;
+        border-left: unset;
+        border-right: unset;
     }
     .app-toolbar-expander {
         height: 28px;
