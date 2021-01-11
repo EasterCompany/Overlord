@@ -1,12 +1,16 @@
+// LIBRARY IMPORTS
 import './popApps.css'
 import sanitize from '../../../library/sanitize.js'
+import { shortDate, date } from '../../../library/dateTime.js'
+
+// ASSET IMPORTS
 import camera from '../../../assets/icons/camera.svg'
-import newIcon from '../../../assets/icons/pen.svg'
-import oldIcon from '../../../assets/icons/journal.svg'
-import nwfIcon from '../../../assets/icons/news.svg'
+import userImg from '../../../assets/icons/user.svg'
+import newIcon from '../../../assets/icons/edit.svg'
+import oldIcon from '../../../assets/icons/book.svg'
+import nwfIcon from '../../../assets/icons/newspaper.svg'
 import expIcon from '../../../assets/icons/expand.svg'
 import ex2Icon from '../../../assets/icons/expand2.svg'
-import { shortDate, date } from '../../../library/dateTime.js'
 
 let toolbarTrayOpen = false;
 let entryImg = null;
@@ -130,22 +134,23 @@ const longJournalExpanderPress = (pid) => {
 }
 
 
-const makeEntry = (pid, head, body, img=null) => {
+const makeEntry = (pid, user, head, body, img=null) => {
     if (img) img = `<img src='${img}' class='journal-entry-img'>`
     else img = ``
 
     head = sanitize(head)
     body = sanitize(body)
 
-    if (body.length > 999){
+    if (body.length > 999 || (body.match(/\n/g) || []).length >= 10){
         return `
         <div class='journal-entry'>
             ${img}
-            <p class='journal-entry-head'> ${head} </p>
-            <p class='journal-entry-time'> ${date()} </p>
-            <p id='pid_${pid}' class='journal-entry-body-long'>
-                ${body}
-            </p>
+            <p class='journal-entry-head'>${head}</p>
+            <div class='journal-entry-info'>
+                <p class='journal-entry-user'>${user}</p>
+                <p class='journal-entry-time'>${date()}</p>
+            </div>
+            <p id='pid_${pid}' class='journal-entry-body-long'>${body}</p>
             <div
                 id='pid_${pid}_expander'
                 class='journal-entry-expander'
@@ -165,9 +170,12 @@ const makeEntry = (pid, head, body, img=null) => {
     } else {
         return `<div class='journal-entry'>
             ${img}
-            <p class='journal-entry-head'> ${head} </p>
-            <p class='journal-entry-time'> ${date()} </p>
-            <p class='journal-entry-body'> ${body} </p>
+            <p class='journal-entry-head'>${head}</p>
+            <div class='journal-entry-info'>
+                <p class='journal-entry-user'>${user}</p>
+                <p class='journal-entry-time'>${date()}</p>
+            </div>
+            <p class='journal-entry-body'>${body}</p>
         </div>`
     }
 }
@@ -180,9 +188,16 @@ const newEntrySubmit = () => {
 
     if (entryHead.value.length > 0 && entryBody.value.length > 0) {
         const feed = document.getElementById('journal-myentries-feed')
-        feed.innerHTML = makeEntry(
-            entryHead.value, entryHead.value, entryBody.value, entryImg
-        ) + feed.innerHTML
+        const news = document.getElementById('journal-newsfeed')
+        const post = makeEntry(
+            entryHead.value,
+            'Owen Cameron Easter',
+            entryHead.value,
+            entryBody.value,
+            entryImg
+        )
+        feed.innerHTML = post + feed.innerHTML
+        news.innerHTML = post + news.innerHTML
         entryHead.value = ''
         entryBody.value = ''
         entryImg = null
@@ -239,6 +254,7 @@ const PopApps = () => {
             onClick={toolbarExpanderPress}
         />
 
+
         {/* ------------------ JOURNAL APP ------------------ */}
         <div id='popApp-container-journal' className='popApp-container-selected'>
             <div
@@ -268,11 +284,56 @@ const PopApps = () => {
                 />
             </div>
 
+
             <div id='popApp-journal-newsfeed'>
-                <h1>
-                    News Feed
-                </h1>
+                <input
+                    id='journal-newsfeed-search'
+                    placeholder='search users & entries'
+                />
+                <div id='journal-newsfeed-container'>
+                    <div id='journal-sidefeed-container'>
+                        <div id='journal-newsfeed-trends'>
+                            <h5 style={{
+                                marginBottom:'10px',
+                                color:'darkgrey'
+                            }}>
+                                popular topic
+                            </h5>
+                            <img
+                                id='journal-trend-img'
+                                src={userImg}
+                                alt='suggested trend'
+                            />
+                            <p id='journal-trend-name'
+                            > Software </p>
+                            <button
+                                id='journal-feed-follow-btn'
+                            > Follow </button>
+                        </div>
+                        <div id='journal-newsfeed-follow'>
+                            <h5 style={{
+                                marginBottom:'10px',
+                                color:'darkgrey'
+                            }}>
+                                popular user
+                            </h5>
+                            <img
+                                id='journal-trend-img'
+                                src={userImg}
+                                alt='suggested trend'
+                            />
+                            <p id='journal-trend-name'
+                            > John Smitherssssss Smith </p>
+                            <button
+                                id='journal-feed-follow-btn'
+                            > Follow </button>
+                        </div>
+                    </div>
+                    <div id='journal-newsfeed'>
+                    </div>
+                </div>
             </div>
+
 
             <div id='popApp-journal-newentry'>
                 <div style={{display:'flex'}}>
@@ -343,13 +404,14 @@ const PopApps = () => {
                 </button>
             </div>
 
+
             <div id='popApp-journal-myentries'>
                 <div id='journal-myentries'>
                     <div className='journal-myentries-spacer'> &nbsp; </div>
                     <div id='journal-myentries-details'>
                         <img
                             alt='user'
-                            src={camera}
+                            src={userImg}
                             className='journal-user-image'
                         />
                         <p style={{fontSize:'20px', textAlign:'center'}}>
@@ -380,12 +442,15 @@ const PopApps = () => {
                 </div>
             </div>
 
+
         </div>
+
 
         {/* ------------------ FINANCE APP ------------------ */}
         <div id='popApp-container-finance' className='popApp-container'>
             <h1> Finance </h1>
         </div>
+
 
         {/* ------------------ DISCOVER APP ------------------ */}
         <div id='popApp-container-discover' className='popApp-container'>

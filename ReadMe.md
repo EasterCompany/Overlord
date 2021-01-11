@@ -59,10 +59,11 @@ Tasks left unmarked are currently in development or will begin development soon.
       1. Display picture
       2. Profile biography
       3. Follow button
+      4. Displays user entries
    5. Feed
-      1. Displays your posts
-      2. Displays posts from followed users
-      3. Displays popular posts from followed topics
+      1. Displays posts from followed users
+      2. Displays popular posts from followed topics
+      3. Suggests new topics to follow
 
 ---
 
