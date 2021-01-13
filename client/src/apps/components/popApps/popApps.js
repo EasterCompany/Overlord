@@ -5,6 +5,7 @@ import { shortDate, date } from '../../../library/dateTime.js'
 
 // ASSET IMPORTS
 import camera from '../../../assets/icons/camera.svg'
+import prvIcon from '../../../assets/icons/lock.svg'
 import userImg from '../../../assets/icons/user.svg'
 import newIcon from '../../../assets/icons/edit.svg'
 import oldIcon from '../../../assets/icons/book.svg'
@@ -134,23 +135,30 @@ const longJournalExpanderPress = (pid) => {
 }
 
 
-const makeEntry = (pid, user, head, body, img=null) => {
+const makeEntry = (pid, user, head, body, img=null, isPrivate) => {
     if (img) img = `<img src='${img}' class='journal-entry-img'>`
     else img = ``
 
-    head = sanitize(head)
-    body = sanitize(body)
+    const Type = isPrivate ? `
+        <div class='journal-entry-type'>
+            <img src='${prvIcon}' alt='private' />
+        </div>` : ``
+    const Head = sanitize(head)
+    const Body = sanitize(body)
+
+    console.log(isPrivate, Type)
 
     if (body.length > 999 || (body.match(/\n/g) || []).length >= 10){
         return `
         <div class='journal-entry'>
+            ${Type}
             ${img}
-            <p class='journal-entry-head'>${head}</p>
+            <p class='journal-entry-head'>${Head}</p>
             <div class='journal-entry-info'>
                 <p class='journal-entry-user'>${user}</p>
                 <p class='journal-entry-time'>${date()}</p>
             </div>
-            <p id='pid_${pid}' class='journal-entry-body-long'>${body}</p>
+            <p id='pid_${pid}' class='journal-entry-body-long'>${Body}</p>
             <div
                 id='pid_${pid}_expander'
                 class='journal-entry-expander'
@@ -169,13 +177,14 @@ const makeEntry = (pid, user, head, body, img=null) => {
         `
     } else {
         return `<div class='journal-entry'>
+            ${Type}
             ${img}
-            <p class='journal-entry-head'>${head}</p>
+            <p class='journal-entry-head'>${Head}</p>
             <div class='journal-entry-info'>
                 <p class='journal-entry-user'>${user}</p>
                 <p class='journal-entry-time'>${date()}</p>
             </div>
-            <p class='journal-entry-body'>${body}</p>
+            <p class='journal-entry-body'>${Body}</p>
         </div>`
     }
 }
@@ -185,19 +194,19 @@ const newEntrySubmit = () => {
     // UPDATE 'My Entries' with new Entry data
     const entryHead = document.getElementById('journal-new-entry-head')
     const entryBody = document.getElementById('journal-new-entry-body')
+    let privateOptn = document.getElementById('journal-new-entry-private')
 
     if (entryHead.value.length > 0 && entryBody.value.length > 0) {
         const feed = document.getElementById('journal-myentries-feed')
-        const news = document.getElementById('journal-newsfeed')
         const post = makeEntry(
             entryHead.value,
             'Owen Cameron Easter',
             entryHead.value,
             entryBody.value,
-            entryImg
+            entryImg,
+            privateOptn.checked
         )
         feed.innerHTML = post + feed.innerHTML
-        news.innerHTML = post + news.innerHTML
         entryHead.value = ''
         entryBody.value = ''
         entryImg = null
@@ -392,6 +401,17 @@ const PopApps = () => {
                     <p className='journal-new-entry-detail' style={{textAlign:'left'}}>
                         Owen Cameron Easter
                     </p>
+                    <div>
+                        <input
+                            type='checkbox'
+                            id='journal-new-entry-private'
+                            value='private'
+                        />
+                        <label
+                            htmlFor='journal-new-entry-private'
+                            className='journal-new-entry-detail'
+                        > Private Entry </label>
+                    </div>
                     <p className='journal-new-entry-detail' style={{textAlign:'right'}}>
                         {shortDate()}
                     </p>

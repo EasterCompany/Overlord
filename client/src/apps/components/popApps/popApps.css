@@ -188,7 +188,8 @@
 
 .journal-new-entry-detail {
     width: 150px;
-    color: darkgrey;
+    color: grey;
+    text-align: right;
     user-select: none;
 }
 
@@ -302,6 +303,14 @@
     font-size: 32px;
 }
 
+.journal-entry-type {
+    display: flex;
+    font-size: 11px;
+    height: 18px;
+    max-width: 18px;
+    padding: 0 0 10px 2.5%;
+}
+
 .journal-entry-info {
     display: flex;
     justify-content: space-between;
@@ -412,7 +421,7 @@
     max-width: 200px;
     position: fixed;
     text-align: center;
-    padding: 18px 0 0 0;
+    top: 164px;
 }
 
 #journal-newsfeed-search {
@@ -510,8 +519,10 @@
         position: relative;
         display: flex;
         justify-content: space-around;
-        height: 200px;
+        height: fit-content;
         width: 100%;
+        top: unset;
+        padding-top: 18px;
         max-width: unset;
     }
     #journal-newsfeed-trends {
