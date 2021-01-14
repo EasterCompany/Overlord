@@ -176,7 +176,8 @@ const makeEntry = (pid, user, head, body, img=null, isPrivate) => {
         </div>
         `
     } else {
-        return `<div class='journal-entry'>
+        return `
+        <div class='journal-entry'>
             ${Type}
             ${img}
             <p class='journal-entry-head'>${Head}</p>
@@ -185,7 +186,8 @@ const makeEntry = (pid, user, head, body, img=null, isPrivate) => {
                 <p class='journal-entry-time'>${date()}</p>
             </div>
             <p class='journal-entry-body'>${Body}</p>
-        </div>`
+        </div>
+        `
     }
 }
 

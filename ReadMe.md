@@ -13,23 +13,38 @@ queries, bug reports or general requests please do not hesitate to get in touch 
 
 ### Start Server
 
-Server will run on port 8000
+Server will run on <b>port 8000</b>
 ```bash
-cd server && ./manage.py runserver
+./manage.py server
 ```
 
 ### Start Client
 
-Client will run on port 8100
+Client will run on <b>port 8100</b>
 ```bash
-cd client && npm start
+./manage.py client
 ```
 
-### Start Both
+### Start Test Suite
 
-Server will run on port 8000 and client will run on port 8100
+Pytest Suite will run on your local machine
 ```bash
-./run.py
+./manage.py test
+```
+
+### Start Server & Client
+
+<b>Server</b> will run on <b>port 8000</b><br/>
+and <b>client</b> will run on <b>port 8100</b>
+```bash
+./manage.py run
+```
+
+### Start Production Build Process
+
+When the production build is the latest version you won't need to run the client.
+```bash
+./manage.py build
 ```
 
 # Task List
@@ -39,14 +54,37 @@ Tasks marked (<span style='color:green'> ✔ </span>) have been completed. <br>
 Tasks marked (<span style='color:red'> ⨯ </span>) have been discarded. <br>
 Tasks left unmarked are currently in development or will begin development soon. <br>
 
-## Patch 0.0.1
+# Patch 0.0.1
 
-### API
+### User API
+
+   1. Registers new users
+   2. Approves user login
+   3. ends user on logout
+
+---
+
+### Journal API
 
    1. Connects to database <span style='color:green'> ✔ </span>
    2. Returns requested journal entry <span style='color:green'> ✔ </span>
    3. Returns requested users journal entries <span style='color:green'> ✔ </span>
    4. Consumes data for new journal entries
+      1. Head
+      2. Body
+      3. Type
+      4. Image
+      5. Set date
+      6. Set user
+
+---
+
+### Following API
+
+   1. Follow user
+   2. Unfollow user
+   3. Return list of following
+   4. Return list of followers
 
 ---
 
@@ -54,35 +92,31 @@ Tasks left unmarked are currently in development or will begin development soon.
 
    1. Register
    2. Login
-   3. Logout
-   4. Profile
-      1. Display picture
-      2. Profile biography
-      3. Follow button
-      4. Displays user entries
-   5. Feed
-      1. Displays posts from followed users
-      2. Displays popular posts from followed topics
-      3. Suggests new topics to follow
 
 ---
 
-### Entries
+### Journal Pages
 
-   1. Create
-      1. Add text
-      2. Add image
-   2. Delete
-      1. Confirmation
-   3. Sharing
-
----
-
-### Following
-
-   1. Follow
-   2. Unfollow
-   3. Followers
+   1. New Entry Page
+      1. Consumes entry head
+      2. Consumes entry body
+      3. Consumes entry date
+      4. Consumes entry user
+      5. Consumes entry type
+      6. Consumes entry image
+   2. My Entries Page
+      1. Display entries
+      2. Display picture
+      3. Updates picture
+      4. Profile biography
+      5. Followers
+      6. Following
+      7. Follow Button
+   3. My Feed Page
+      1. Displays entries from followed users
+      2. Displays entries from followed topics
+      3. Suggests new users to follow
+      4. Suggests new topics to follow
 
 ---
 
@@ -90,7 +124,9 @@ Tasks left unmarked are currently in development or will begin development soon.
 
    1. Notifications
    2. Direct Messages
-   3. Explore Hashtags
+   3. Hashtags & Topics
+   4. User Settings
+   5. Easter Company Global Profile
 
 <br />
 <br />
