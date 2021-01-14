@@ -109,9 +109,15 @@ USE_TZ = True
 STATIC_URL = '/static/'
 STATICFILES_DIRS = (
     os.path.join(BASE_DIR, 'client', 'build', 'static'),
+    os.path.join(BASE_DIR, 'data'),
 )
 
 # Solves cors issue while serving React Apps
 # https://blog.usejournal.com/serving-react-and-django-together-2089645046e4
 CORS_ORIGIN_ALLOW_ALL = True
 CORS_URLS_REGEX = r'^/api/.*$'
+
+# Adds media upload path
+# https://www.geeksforgeeks.org/python-uploading-images-in-django/
+MEDIA_URL = '/data/'
+MEDIA_ROOT =  os.path.join(BASE_DIR, 'data')

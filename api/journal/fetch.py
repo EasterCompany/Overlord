@@ -15,15 +15,21 @@ def create_entry_dict(db_object):
         return {
             'error': 'invalid request'
         }
+
+    if db_object.image:
+        image = db_object.image.path
+    else:
+        image = None
+
     return {
         'id': db_object.id,
         'uid': db_object.uid,
         'head': db_object.head,
+        'image': image,
         'body': db_object.body,
         'likes': db_object.likes,
         'laughs': db_object.laughs,
         'sads': db_object.sads,
-        'shares': db_object.shares,
         'timestamp': db_object.timestamp,
         'public': db_object.public
     }

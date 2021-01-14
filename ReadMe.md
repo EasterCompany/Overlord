@@ -1,5 +1,5 @@
 
-# Overlord Web Repository
+# Easter Company Web Repository
 
 Contained within this repository is a collection of open source applications which are
 deployed on the [easter.company](https://easter.company) domain and are contained within
@@ -13,21 +13,21 @@ queries, bug reports or general requests please do not hesitate to get in touch 
 
 ### Start Server
 
-Server will run on <b>port 8000</b>
+<b>Server</b> will run on <b>port 8000</b>
 ```bash
 ./manage.py server
 ```
 
 ### Start Client
 
-Client will run on <b>port 8100</b>
+<b>Client</b> will run on <b>port 8100</b>
 ```bash
 ./manage.py client
 ```
 
 ### Start Test Suite
 
-Pytest Suite will run on your local machine
+<b>Pytest</b> Suite will run on your local machine
 ```bash
 ./manage.py test
 ```
@@ -35,7 +35,7 @@ Pytest Suite will run on your local machine
 ### Start Server & Client
 
 <b>Server</b> will run on <b>port 8000</b><br/>
-and <b>client</b> will run on <b>port 8100</b>
+<b>client</b> will run on <b>port 8100</b>
 ```bash
 ./manage.py run
 ```
@@ -45,6 +45,13 @@ and <b>client</b> will run on <b>port 8100</b>
 When the production build is the latest version you won't need to run the client.
 ```bash
 ./manage.py build
+```
+
+### Build, Test & Deploy
+
+This command will build the client, test the server & deploy on <b>port 8000</b>
+```bash
+./manage.py start
 ```
 
 # Task List
@@ -98,25 +105,28 @@ Tasks left unmarked are currently in development or will begin development soon.
 ### Journal Pages
 
    1. New Entry Page
-      1. Consumes entry head
-      2. Consumes entry body
-      3. Consumes entry date
-      4. Consumes entry user
-      5. Consumes entry type
-      6. Consumes entry image
+      1. Consumes entry head  <span style='color:green'> ✔ </span>
+      2. Consumes entry body  <span style='color:green'> ✔ </span>
+      3. Consumes entry date  <span style='color:green'> ✔ </span>
+      4. Consumes entry user  <span style='color:green'> ✔ </span>
+      5. Consumes entry type  <span style='color:green'> ✔ </span>
+      6. Consumes entry image <span style='color:green'> ✔ </span>
+      7. Posts data to API
    2. My Entries Page
-      1. Display entries
-      2. Display picture
+      1. Display entries      <span style='color:green'> ✔ </span>
+      2. Display picture      <span style='color:green'> ✔ </span>
       3. Updates picture
       4. Profile biography
-      5. Followers
-      6. Following
+      5. Followers            <span style='color:green'> ✔ </span>
+      6. Following            <span style='color:green'> ✔ </span>
       7. Follow Button
+      8. Fetches data from API
    3. My Feed Page
       1. Displays entries from followed users
       2. Displays entries from followed topics
-      3. Suggests new users to follow
-      4. Suggests new topics to follow
+      3. Suggests new users to follow           <span style='color:green'> ✔ </span>
+      4. Suggests new topics to follow          <span style='color:green'> ✔ </span>
+      5. Fetches data from API
 
 ---
 

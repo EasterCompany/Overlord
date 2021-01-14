@@ -13,6 +13,9 @@ class JournalEntry(models.Model):
     head = models.TextField(
         null=False, blank=False, default='untitled'
     )
+    image = models.FileField(
+        null=True, upload_to='./data'
+    )
     body = models.TextField(
         null=False, blank=False, default='content'
     )
@@ -23,9 +26,6 @@ class JournalEntry(models.Model):
         null=False, default=0
     )
     sads = models.IntegerField(
-        null=False, default=0
-    )
-    shares = models.IntegerField(
         null=False, default=0
     )
     timestamp = models.DateTimeField(

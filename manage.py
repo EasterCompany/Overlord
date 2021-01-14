@@ -62,6 +62,15 @@ if __name__ == '__main__':
             serverThread.start()
             clientThread.run()
 
+    elif len(argv) > 1 and argv[1] == 'start':
+        server(start=False, migrate=True)
+        if pytest.main(['./']):
+            exit(1)
+        else:
+            client(build=True)
+            system('clear')
+            serverThread.run()
+
     elif len(argv) > 1 and argv[1] == 'build':
         client(build=True)
 
