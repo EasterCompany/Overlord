@@ -1,20 +1,22 @@
 // LIBRARY IMPORTS
 import './popApps.css'
-import sanitize from '../../../library/sanitize.js'
-import { shortDate, date } from '../../../library/dateTime.js'
+import { shortDate } from '../../../library/dateTime.js'
+import {
+    fetchMyEntries,
+    submitEntry
+} from '../../../library/journal/api.js'
 
 // ASSET IMPORTS
 import camera from '../../../assets/icons/camera.svg'
-import prvIcon from '../../../assets/icons/lock.svg'
 import userImg from '../../../assets/icons/user.svg'
 import newIcon from '../../../assets/icons/edit.svg'
 import oldIcon from '../../../assets/icons/book.svg'
 import nwfIcon from '../../../assets/icons/newspaper.svg'
 import expIcon from '../../../assets/icons/expand.svg'
-import ex2Icon from '../../../assets/icons/expand2.svg'
 
-let toolbarTrayOpen = false;
+// GLOBAL DECLERATIONS
 let entryImg = null;
+let toolbarTrayOpen = false;
 
 const toolbarButtons = [
     'journal-new', 'journal-old', 'journal-nwf'
@@ -23,6 +25,9 @@ const toolbarButtons = [
 const journalViews = [
     'newentry', 'myentries', 'newsfeed'
 ]
+
+// PROMISE DECLERATIONS
+fetchMyEntries('123')
 
 
 const addImagePreview = () => {
@@ -113,128 +118,6 @@ const journalNwfPressed = () => {
 }
 
 
-const longJournalExpanderPress = (pid) => {
-    const el = document.getElementById(`pid_${pid}`);
-    const ex = document.getElementById(`pid_${pid}_expander`);
-    const im = document.getElementById(`pid_${pid}_expanderImg`);
-    if(el.style.maxHeight !== 'unset') {
-        el.style.maxHeight = 'unset';
-        el.style.overflowY = 'visible';
-        ex.style.height  = '36px';
-        ex.style.marginTop = '-16px';
-        ex.style.paddingTop = 'unset';
-        im.style.transform = 'scaleY(-1)';
-    } else {
-        el.style.maxHeight = '';
-        el.style.overflowY = '';
-        ex.style.height  = '';
-        ex.style.marginTop = '';
-        ex.style.paddingTop = '';
-        im.style.transform = '';
-    }
-}
-
-
-const makeEntry = (pid, user, head, body, img=null, isPrivate) => {
-    if (img) img = `<img src='${img}' class='journal-entry-img'>`
-    else img = ``
-
-    const Type = isPrivate ? `
-        <div class='journal-entry-type'>
-            <img src='${prvIcon}' alt='private' />
-        </div>` : ``
-    const Head = sanitize(head)
-    const Body = sanitize(body)
-
-    console.log(isPrivate, Type)
-
-    if (body.length > 999 || (body.match(/\n/g) || []).length >= 10){
-        return `
-        <div class='journal-entry'>
-            ${Type}
-            ${img}
-            <p class='journal-entry-head'>${Head}</p>
-            <div class='journal-entry-info'>
-                <p class='journal-entry-user'>${user}</p>
-                <p class='journal-entry-time'>${date()}</p>
-            </div>
-            <p id='pid_${pid}' class='journal-entry-body-long'>${Body}</p>
-            <div
-                id='pid_${pid}_expander'
-                class='journal-entry-expander'
-                onClick="
-                    const expand = ${longJournalExpanderPress};
-                    expand('${pid}');
-                "
-            >
-                <img
-                    id='pid_${pid}_expanderImg'
-                    class='journal-entry-expander-img'
-                    src='${ex2Icon}'
-                >
-            </div>
-        </div>
-        `
-    } else {
-        return `
-        <div class='journal-entry'>
-            ${Type}
-            ${img}
-            <p class='journal-entry-head'>${Head}</p>
-            <div class='journal-entry-info'>
-                <p class='journal-entry-user'>${user}</p>
-                <p class='journal-entry-time'>${date()}</p>
-            </div>
-            <p class='journal-entry-body'>${Body}</p>
-        </div>
-        `
-    }
-}
-
-
-const newEntrySubmit = () => {
-    // UPDATE 'My Entries' with new Entry data
-    const entryHead = document.getElementById('journal-new-entry-head')
-    const entryBody = document.getElementById('journal-new-entry-body')
-    let privateOptn = document.getElementById('journal-new-entry-private')
-
-    if (entryHead.value.length > 0 && entryBody.value.length > 0) {
-        const feed = document.getElementById('journal-myentries-feed')
-        const post = makeEntry(
-            entryHead.value,
-            'Owen Cameron Easter',
-            entryHead.value,
-            entryBody.value,
-            entryImg,
-            privateOptn.checked
-        )
-        feed.innerHTML = post + feed.innerHTML
-        entryHead.value = ''
-        entryBody.value = ''
-        entryImg = null
-        const entryImgUp = document.getElementById(
-            'journal-new-entry-img-container'
-        )
-        entryImgUp.style.backgroundImage = 'none'
-        entryImgUp.style.border = ''
-        // RETURN function by emulating press 'My Entries'
-        return journalOldPressed()
-
-    } else {
-        // UPDATE 'New Entry' with invalid inputs error
-        if (entryHead.value.length === 0) {
-            entryHead.classList.add('submit-error')
-            document.getElementById('submit-error-no-head').style.display = 'block'
-        }
-        if (entryBody.value.length === 0) {
-            entryBody.classList.add('submit-error')
-            document.getElementById('submit-error-no-body').style.display = 'block'
-        }
-    }
-
-}
-
-
 const newEntryHeadClick = () => {
     document.getElementById(
         'journal-new-entry-head'
@@ -252,6 +135,48 @@ const newEntryBodyClick = () => {
     document.getElementById(
         'submit-error-no-body'
     ).style.display = 'none'
+}
+
+
+const newEntrySubmitPressed = () => {
+    const entryHead = document.getElementById('journal-new-entry-head')
+    const entryBody = document.getElementById('journal-new-entry-body')
+    const privacyOp = document.getElementById('journal-new-entry-private')
+    const post = submitEntry(
+        entryHead.value,
+        entryBody.value,
+        entryImg,
+        privacyOp.checked
+    )
+    if(post){
+        // UPDATE 'My Entries' with new entry
+        const feed = document.getElementById('journal-myentries-feed')
+        const count = document.getElementById('journal-myentries-count')
+        count.innerText = parseInt(count.innerText) + 1
+        feed.innerHTML = post + feed.innerHTML
+        // RESET 'New Entry' form to be empty
+        const entryImgUp = document.getElementById(
+            'journal-new-entry-img-container'
+        )
+        entryImg = null
+        entryHead.value = ''
+        entryBody.value = ''
+        entryImgUp.style.backgroundImage = 'none'
+        entryImgUp.style.border = ''
+        privacyOp.checked = false
+        return journalOldPressed()
+    } else {
+        // UPDATE 'New Entry' with invalid inputs error
+        if (entryHead.value.length === 0) {
+            entryHead.classList.add('submit-error')
+            document.getElementById('submit-error-no-head').style.display = 'block'
+        }
+        if (entryBody.value.length === 0) {
+            entryBody.classList.add('submit-error')
+            document.getElementById('submit-error-no-body').style.display = 'block'
+        }
+        return null
+    }
 }
 
 
@@ -420,7 +345,7 @@ const PopApps = () => {
                 </div>
                 <button
                     id='journal-new-entry-submit'
-                    onClick={newEntrySubmit}
+                    onClick={newEntrySubmitPressed}
                 >
                     Submit
                 </button>
@@ -444,7 +369,11 @@ const PopApps = () => {
                             <p> Software Engineer </p>
                             <p> Easter Company </p>
                             <hr />
-                            <p> Entries: <b>23</b> </p>
+                            <p> Entries:&nbsp;
+                                <b id='journal-myentries-count'>
+                                    0
+                                </b>
+                            </p>
                             <p> Last Updated: 01/01/2021 </p>
                             <hr />
                             <div id='journal-myentries-followContainer'>

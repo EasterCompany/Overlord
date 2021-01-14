@@ -19,7 +19,8 @@ DEBUG = True
 ALLOWED_HOSTS = [
     '127.0.0.1',
     'localhost',
-    '.easter.company'
+    '.easter.company',
+    'eastercompany.eu.pythonanywhere.com'
 ]
 
 INSTALLED_APPS = [
@@ -41,7 +42,6 @@ MIDDLEWARE = [
     'django.middleware.common.CommonMiddleware',
     'django.middleware.security.SecurityMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
-    'django.middleware.common.CommonMiddleware',
     'django.middleware.csrf.CsrfViewMiddleware',
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
@@ -114,8 +114,11 @@ STATICFILES_DIRS = (
 
 # Solves cors issue while serving React Apps
 # https://blog.usejournal.com/serving-react-and-django-together-2089645046e4
-CORS_ORIGIN_ALLOW_ALL = True
-CORS_URLS_REGEX = r'^/api/.*$'
+CORS_ORIGIN_ALLOW_ALL = False
+CORS_ORIGIN_WHITELIST = (
+    'http://localhost:8000',
+    'http://localhost:8100'
+)
 
 # Adds media upload path
 # https://www.geeksforgeeks.org/python-uploading-images-in-django/

@@ -8,18 +8,18 @@ const months = [
 ]
 
 
-const date = () => {
-    return _.getDate() + '/' + months[_.getMonth()] + '/' + _.getFullYear()
+const date = (d=_) => {
+    return d.getDate() + '/' + months[d.getMonth()] + '/' + d.getFullYear()
 }
 
 
-const shortDate = () => {
-    return prefixedNumeral(_.getDate()) + ' ' + months[_.getMonth()]
+const shortDate = (d=_) => {
+    return prefixedNumeral(d.getDate()) + ' ' + months[d.getMonth()]
 }
 
 
-const time = () => {
-    return _.getHours() + ':' + _.getMinutes()
+const time = (d=_) => {
+    return d.getHours() + ':' + d.getMinutes()
 }
 
 
