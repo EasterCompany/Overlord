@@ -1,4 +1,3 @@
-#!/usr/bin/env python
 import pytest
 from sys import argv
 from os import chdir, system, environ, path
