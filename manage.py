@@ -30,7 +30,7 @@ def client(build=False):
 
 def server(start=True, migrate=False):
     def run(_cmd):
-        system("{dir}/manage.py {command}".\
+        system("python {dir}/manage.py {command}".\
             format(dir=BASE_DIR, command=_cmd)
         )
     if migrate:

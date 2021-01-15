@@ -8,23 +8,24 @@ import prvIcon from '../../assets/icons/lock.svg'
 
 
 export const longJournalExpanderPress = (pid) => {
-    const el = document.getElementById(`pid_${pid}`)
-    const ex = document.getElementById(`pid_${pid}_expander`)
-    const im = document.getElementById(`pid_${pid}_expanderImg`)
+    const id = 'pid_'.concat(pid);
+    const el = document.getElementById(id);
+    const ex = document.getElementById(id + '_expander');
+    const im = document.getElementById(id + '_expanderImg');
     if(el.style.maxHeight !== 'unset') {
-        el.style.maxHeight = 'unset'
-        el.style.overflowY = 'visible'
-        ex.style.height  = '36px'
-        ex.style.marginTop = '-16px'
-        ex.style.paddingTop = 'unset'
-        im.style.transform = 'scaleY(-1)'
+        el.style.maxHeight = 'unset';
+        el.style.overflowY = 'visible';
+        ex.style.height  = '36px';
+        ex.style.marginTop = '-16px';
+        ex.style.paddingTop = 'unset';
+        im.style.transform = 'scaleY(-1)';
     } else {
-        el.style.maxHeight = ''
-        el.style.overflowY = ''
-        ex.style.height  = ''
-        ex.style.marginTop = ''
-        ex.style.paddingTop = ''
-        im.style.transform = ''
+        el.style.maxHeight = '';
+        el.style.overflowY = '';
+        ex.style.height  = '';
+        ex.style.marginTop = '';
+        ex.style.paddingTop = '';
+        im.style.transform = '';
     }
 }
 
@@ -55,10 +56,10 @@ export const makeEntry = (pid, user, head, body, img=null, isPublic, timeStamp) 
             <div
                 id='pid_${pid}_expander'
                 class='journal-entry-expander'
-                onClick="
+                onClick='
                     const expand = ${longJournalExpanderPress};
-                    expand('${pid}');
-                "
+                    expand("${pid}");
+                '
             >
                 <img
                     id='pid_${pid}_expanderImg'
