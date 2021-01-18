@@ -1,5 +1,5 @@
 import pytest
-from sys import argv
+from sys import argv, executable
 from os import chdir, system, environ, path
 from threading import Thread
 
@@ -29,13 +29,16 @@ def client(build=False):
 
 
 def server(start=True, migrate=False):
+
     def run(_cmd):
-        system("python {dir}/manage.py {command}".\
-            format(dir=BASE_DIR, command=_cmd)
+        system("{python} {dir}/manage.py {command}".\
+            format(python=executable, dir=BASE_DIR, command=_cmd)
         )
+
     if migrate:
         run('makemigrations')
         run('migrate')
+
     if start:
         run('runserver')
 
