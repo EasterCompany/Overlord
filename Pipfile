@@ -8,6 +8,7 @@ django = "==2.2.13"
 cors = "*"
 django-cors-headers = "*"
 pytest-django = "*"
+django-developer-panel = "*"
 
 [dev-packages]
 pylint = "*"
