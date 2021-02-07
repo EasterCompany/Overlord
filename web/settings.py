@@ -20,7 +20,7 @@ ALLOWED_HOSTS = [
     '127.0.0.1',
     'localhost',
     '.easter.company',
-    'eastercompany.eu.pythonanywhere.com'
+    '.eastercompany.eu.pythonanywhere.com'
 ]
 
 INSTALLED_APPS = [

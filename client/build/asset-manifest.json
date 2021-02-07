@@ -1,0 +1,39 @@
+{
+  "files": {
+    "main.css": "/static/css/main.2ea3d697.chunk.css",
+    "main.js": "/static/js/main.fcea45be.chunk.js",
+    "main.js.map": "/static/js/main.fcea45be.chunk.js.map",
+    "runtime-main.js": "/static/js/runtime-main.27fe85ca.js",
+    "runtime-main.js.map": "/static/js/runtime-main.27fe85ca.js.map",
+    "static/js/2.ee1934c4.chunk.js": "/static/js/2.ee1934c4.chunk.js",
+    "static/js/2.ee1934c4.chunk.js.map": "/static/js/2.ee1934c4.chunk.js.map",
+    "index.html": "/index.html",
+    "static/css/main.2ea3d697.chunk.css.map": "/static/css/main.2ea3d697.chunk.css.map",
+    "static/js/2.ee1934c4.chunk.js.LICENSE.txt": "/static/js/2.ee1934c4.chunk.js.LICENSE.txt",
+    "static/media/bell.f77ff2d3.svg": "/static/media/bell.f77ff2d3.svg",
+    "static/media/book.6369e535.svg": "/static/media/book.6369e535.svg",
+    "static/media/camera.a56506e5.svg": "/static/media/camera.a56506e5.svg",
+    "static/media/chat.36bb39c0.svg": "/static/media/chat.36bb39c0.svg",
+    "static/media/close.056de53a.svg": "/static/media/close.056de53a.svg",
+    "static/media/edit.995d0b3b.svg": "/static/media/edit.995d0b3b.svg",
+    "static/media/expand.41d1e4ce.svg": "/static/media/expand.41d1e4ce.svg",
+    "static/media/expand2.9bcdcd13.svg": "/static/media/expand2.9bcdcd13.svg",
+    "static/media/folder.1572fa0c.svg": "/static/media/folder.1572fa0c.svg",
+    "static/media/fullscreen.9a63a6bc.svg": "/static/media/fullscreen.9a63a6bc.svg",
+    "static/media/lock.eee65054.svg": "/static/media/lock.eee65054.svg",
+    "static/media/logo.60435fa5.svg": "/static/media/logo.60435fa5.svg",
+    "static/media/menu.430a3461.svg": "/static/media/menu.430a3461.svg",
+    "static/media/newspaper.e2f5d21a.svg": "/static/media/newspaper.e2f5d21a.svg",
+    "static/media/plus.3695c148.svg": "/static/media/plus.3695c148.svg",
+    "static/media/search.ef4ff28a.svg": "/static/media/search.ef4ff28a.svg",
+    "static/media/spanner.36259bb2.svg": "/static/media/spanner.36259bb2.svg",
+    "static/media/to_right.1b6e5db2.svg": "/static/media/to_right.1b6e5db2.svg",
+    "static/media/user.10a93f10.svg": "/static/media/user.10a93f10.svg"
+  },
+  "entrypoints": [
+    "static/js/runtime-main.27fe85ca.js",
+    "static/js/2.ee1934c4.chunk.js",
+    "static/css/main.2ea3d697.chunk.css",
+    "static/js/main.fcea45be.chunk.js"
+  ]
+}
