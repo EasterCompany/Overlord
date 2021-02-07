@@ -1,0 +1,3 @@
+[submodule "clients"]
+	path = clients
+	url = http://github.com/eastercompany/Overlord-Clients
