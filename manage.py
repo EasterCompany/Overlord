@@ -2,6 +2,7 @@ import pytest
 from sys import argv, executable
 from os import chdir, system, environ, path
 from threading import Thread
+from tools import tools
 
 BASE_DIR = path.dirname(path.abspath(__file__))
 
@@ -20,7 +21,7 @@ def main():
 
 
 def client(build=False):
-    chdir('./client')
+    chdir('./clients/Global')
     if build:
         system('npm run build')
     else:
@@ -47,7 +48,10 @@ if __name__ == '__main__':
     serverThread = Thread(None, server, 'django', ())
     clientThread = Thread(None, client, 'react', ())
 
-    if len(argv) > 1 and argv[1] == 'server':
+    if len(argv) > 1 and argv[1] == 'tools':
+        tools.run()
+
+    elif len(argv) > 1 and argv[1] == 'server':
         serverThread.run()
 
     elif len(argv) > 1 and argv[1] == 'client':
