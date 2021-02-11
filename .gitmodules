@@ -1,6 +1,6 @@
 [submodule "clients"]
 	path = clients
-	url = https://github.com/eastercompany/Overlord-Clients
+	url = git@github.com:EasterCompany/Overlord-Clients.git
 [submodule "tools"]
 	path = tools
-	url = https://github.com/eastercompany/Overlord-Tools
+	url = git@github.com:EasterCompany/Overlord-Tools.git
