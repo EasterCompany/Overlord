@@ -51,12 +51,6 @@ if __name__ == '__main__':
     if len(argv) > 1 and argv[1] == 'tools':
         tools.run()
 
-    elif len(argv) > 1 and argv[1] == 'server':
-        serverThread.run()
-
-    elif len(argv) > 1 and argv[1] == 'client':
-        clientThread.run()
-
     elif len(argv) > 1 and argv[1] == 'test':
         pytest.main(['./'])
 
@@ -76,9 +70,6 @@ if __name__ == '__main__':
             client(build=True)
             system('clear')
             serverThread.run()
-
-    elif len(argv) > 1 and argv[1] == 'build':
-        client(build=True)
 
     else:
         main()
