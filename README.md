@@ -3,8 +3,8 @@
 
 Contained within this repository is a collection of open source applications which are
 deployed on the [easter.company](https://easter.company) domain and are contained within
-the Overlord framework. You can find documentation for these applications in their
-repositories `README`:
+the Overlord framework. You can find documentation for these applications in each
+repositories readme file:
 <br/>
 
 [Overlord-Server](https://github.com/eastercompany/Overlord-Server/blob/main/README.md)
@@ -17,7 +17,8 @@ repositories `README`:
 <br/>
 
 If you have any queries, bug reports or general requests please do not hesitate to get in
-touch using [facebook](https://facebook.com/eastercompany) or
+touch using <br/>
+[facebook](https://facebook.com/eastercompany) or
 [twitter](https://twitter.com/eastercompany).
 
 ## Local Host
