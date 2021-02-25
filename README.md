@@ -40,7 +40,7 @@ And then you can use the following command to build, test and run your applicati
 ## Patch Notes 0.3.0
 
 Listed below is `new features`, `bug fixes` & planned features for the next release.<br>
-Tasks marked (:green_check_mark:) have been completed.<br>
+Tasks marked (:check_mark:) have been completed.<br>
 Tasks marked (:x:) have been discarded.<br>
 Tasks left unmarked are currently in development or will begin development soon.<br>
 
