@@ -4,12 +4,16 @@
 Contained within this repository is a collection of open source applications which are
 deployed on the [easter.company](https://easter.company) domain and are contained within
 the Overlord framework. You can find documentation for these applications in their
-repositories `README`:<br/>
+repositories `README`:
 <br/>
 
 [Overlord-Server](https://github.com/eastercompany/Overlord-Server/blob/main/README.md)
+<br/>
+
 [Overlord-Clients](https://github.com/eastercompany/Overlord-Clients/blob/main/README.md)
-[Overlord-Tools](https://github.com/eastercompany/Overlord-Tools/blob/main/README.md)<br/>
+<br/>
+
+[Overlord-Tools](https://github.com/eastercompany/Overlord-Tools/blob/main/README.md)
 <br/>
 
 If you have any queries, bug reports or general requests please do not hesitate to get in
