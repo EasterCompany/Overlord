@@ -3,7 +3,7 @@ cd ~/Easter/Dev/Ext/Overlord
 
 # Output Script Header
 echo
-echo "   [PURGE GIT HISTORY SCRIPT]   "
+echo "     [DEPLOY BRANCH SCRIPT]     "
 echo
 echo " [WARNING] -------------------- "
 echo "  This will purge the git       "
