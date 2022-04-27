@@ -1,0 +1,54 @@
+
+.full-modal {
+    display: flex;
+    flex-direction: column;
+    position: fixed;
+    justify-content: space-around;
+    top: 0px;
+    left: 0px;
+    min-width: 100vw;
+    min-height: 100vh;
+    max-width: 100vw;
+    max-height: 100vh;
+    z-index: 9999999999;
+    background-image: radial-gradient(rgba(0, 0, 0, 0.795), rgba(0, 0, 0, 0.925));
+
+    border-width: 3px;
+    border-style: solid;
+    border-image: linear-gradient(
+        to bottom, red, rgba(0, 0, 0, 0)
+    ) 1 100%;
+}
+
+.full-modal-query {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    min-width: 100vw;
+    min-height: 70vh;
+    max-width: 100vw;
+    max-height: 70vh;
+}
+
+.full-modal-options {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-around;
+    min-width: 100vw;
+    min-height: 30vh;
+    max-width: 100vw;
+    max-height: 30vh;
+}
+
+.full-modal p {
+    margin: 25vh 25vw;
+}
+
+.full-modal button {
+    margin: 0 auto;
+    height: 24px + 2vmin;
+}
+
+.full-modal label, .full-modal input {
+    margin: 12px;
+}

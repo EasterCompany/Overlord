@@ -1,0 +1,29 @@
+{
+  "e_panel": {
+    "path": "clients/e_panel/src/shared",
+    "file": [
+      "assets/icons/settings.svg",
+      "assets/icons/lock.svg",
+      "assets/icons/linkedin.svg",
+      "assets/icons/warning.svg",
+      "assets/icons/loading.svg"
+    ],
+    "module": [
+      "components/",
+      "library/"
+    ]
+  },
+  "pardoewray": {
+    "path": "clients/pardoewray/src/shared",
+    "file": [
+      "assets/icons/linkedin.svg",
+      "assets/icons/lock.svg",
+      "assets/icons/menu.svg"
+    ],
+    "module": [
+      "library/server/",
+      "components/routes/",
+      "library/local/"
+    ]
+  }
+}

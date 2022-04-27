@@ -1,0 +1,43 @@
+
+#login-page {
+    display: flex;
+    flex-direction: column;
+
+    align-content: center;
+    align-items: center;
+    justify-content: center;
+
+    margin: 10vmin auto 0 auto;
+    padding: 0 auto 0 auto;
+}
+
+form {
+    display: flex;
+    flex-direction: column;
+    align-content: center;
+    align-items: center;
+    justify-content: center;
+}
+
+input {
+    width: 300px;
+    height: 32px;
+    margin: 12px 0;
+    padding: 6px 0 0 6px;
+
+    background-color: rgba(0,0,0,0);
+    border: 0 solid rgba(0,0,0,0);
+    border-radius: 0;
+    border-bottom: 6px solid rgba(180, 20, 20, 0.815);
+
+    font-family: Helvetica;
+    font-size: large;
+    color: #ffffff;
+}
+
+.label {
+    display: none;
+    border-radius: 4px;
+    padding: 8px;
+    background-color: rgba(180, 20, 20, 0.815);
+}

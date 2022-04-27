@@ -1,0 +1,102 @@
+
+.navbar-menu-open {
+  width: 38px;
+  height: 38px;
+  display: none;
+  transition: all .8s;
+  margin: 12.5px 5% 0 5%;
+  background-repeat: no-repeat;
+  background-image: url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="white"><path d="M12 0c-6.627 0-12 5.373-12 12s5.373 12 12 12 12-5.373 12-12-5.373-12-12-12zm4.151 17.943l-4.143-4.102-4.117 4.159-1.833-1.833 4.104-4.157-4.162-4.119 1.833-1.833 4.155 4.102 4.106-4.16 1.849 1.849-4.1 4.141 4.157 4.104-1.849 1.849z"/></svg>');
+}
+
+.navbar-menu-closed {
+  width: 38px;
+  height: 38px;
+  display: none;
+  transition: all .8s;
+  margin: 12.5px 5% 0 5%;
+  background-repeat: no-repeat;
+  background-image: url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="white"><path d="M12 0c-6.627 0-12 5.373-12 12s5.373 12 12 12 12-5.373 12-12-5.373-12-12-12zm6 17h-12v-2h12v2zm0-4h-12v-2h12v2zm0-4h-12v-2h12v2z"/></svg>');
+}
+
+#nav-header {
+  position: fixed;
+  display: flex;
+  z-index: 100;
+  padding: 0 1vw 0 2vw;
+  top: 0vh;
+  left: 0vw;
+  width: 98%;
+  height: 58px;
+  filter: drop-shadow(1px 1px 5px rgba(55,55,55,.5));
+  background-color: rgba(55,55,55,0.1);
+}
+
+#header {
+  cursor: pointer;
+  width: 120px;
+  height: 32px;
+  padding: 13px 0 13px 0;
+  filter: drop-shadow(1px 1px 1px black);
+  background-position: center;
+  background-repeat: no-repeat;
+}
+
+nav {
+  display: flex;
+  min-width: 50%;
+  width: 88vw;
+  padding: 0 1vw 0 5vw;
+}
+
+nav a {
+  display: grid;
+  cursor: pointer;
+  user-select: none;
+  place-items: center;
+  text-decoration: none;
+
+  width: 100%;
+  height: 100%;
+  margin: unset;
+  color: white;
+
+  font-weight: normal;
+  font-size: calc(14px + 1vmin);
+}
+
+nav a:hover, #header:hover {
+  transition: all .3s;
+  background-color: rgba(92, 17, 17, 0.644);
+  border-bottom: 5px solid #ceb733;
+}
+
+@media (max-width: 767px) {
+  .navbar-menu-open {
+    display: flex;
+  }
+  .navbar-menu-closed {
+    display: flex;
+  }
+  .navbar-closed {
+    display: none;
+  }
+  .navbar-open {
+    top: 48px;
+    left: 0px;
+    width: 100vw;
+    margin: unset;
+    padding: unset;
+    display: block;
+    position: fixed;
+    overflow-y: auto;
+    background-color: #482020;
+    max-height: calc(100vh - 58px);
+  }
+  nav a {
+    padding: 5% 0 5% 0;
+  }
+  #header {
+    width: 100%;
+  }
+}

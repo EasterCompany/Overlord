@@ -1,0 +1,39 @@
+
+.loading-asset {
+    display: flex;
+    flex-direction: column;
+    position: absolute;
+    top: 0;
+    left: 0;
+    min-width: 100%;
+    min-height: 100%;
+    text-align: center;
+    align-items: center;
+    justify-content: center;
+    color: white;
+    background-color: rgba(25,25,25,.75);
+}
+
+.loading-asset h3 {
+    user-select: none;
+}
+
+.loading-img {
+    user-select: none;
+    width: 50vmin;
+    height: 50vmin;
+    animation: loading-spin 9s infinite linear;
+}
+
+.loading-spin {
+    animation: loading-spin 9s infinite linear;
+}
+
+@keyframes loading-spin {
+    from {
+        transform: rotate(0deg);
+    }
+    to {
+        transform: rotate(359deg);
+    }
+}

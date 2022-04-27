@@ -1,0 +1,40 @@
+# Files
+.env
+.env.local
+.env.development.local
+.env.test.local
+.env.production.local
+# --- *
+*.key
+*.scripts.log
+*.tsbuildinfo
+# --- .py
+web/urls.py
+api/migrations/*.py
+api/migrations/__init__.py
+# --- Sqlite
+*.sqlite3
+*.sqlite3-journal
+
+
+# Directories
+__pycache__
+.pytest_cache
+.eslintcache
+node_modules
+.temp
+.vscode
+.idea
+.logs
+.config
+# --- Clients
+!clients/e-panel/*
+clients/e-panel/.env
+clients/e-panel/node_modules
+clients/e-panel/package-lock.json
+!clients/shared/*
+
+clients/__react__
+clients/__angular__
+clients/pardoewray
+clients/*/src/shared/*
