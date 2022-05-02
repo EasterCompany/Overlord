@@ -10,7 +10,7 @@ if exists(getcwd() + '/.config/secret.json'):
         secret_data = loads(secret_file.read())
 else:
     secret_data = {
-        'SECRET_KEY': '',
+        'SERVER_KEY': '',
         'PA_USER_ID': '',
         'PA_API_KEY': '',
         'DOMAIN_URL': ''
@@ -20,7 +20,7 @@ else:
 username = secret_data['PA_USER_ID']
 token = secret_data['PA_API_KEY']
 domain = secret_data['DOMAIN_URL']
-secret = secret_data['SECRET_KEY']
+secret = secret_data['SERVER_KEY']
 
 
 def fetch_api(api, args=None, method='GET'):

@@ -8,7 +8,7 @@ def new(project_path='.'):
 
     with open(project_path + '/.config/secret.json') as old_file:
         data = loads(old_file.read())
-        data['SECRET_KEY'] = new_key
+        data['SERVER_KEY'] = new_key
 
     with open(project_path + '/.config/secret.json', 'w') as conf_file:
         dump(

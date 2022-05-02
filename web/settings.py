@@ -21,7 +21,7 @@ from tools.commands.install import (
 # Load Custom Project Settings
 BASE_DIR = path[0]
 SECRET_DATA = {
-    'SECRET_KEY': 'no secret key',
+    'SERVER_KEY': 'no secret key',
 }
 
 # Load Settings
@@ -43,7 +43,7 @@ with open(BASE_DIR + '/.config/clients.json') as CLIENT_FILE:
 if not os.path.exists(BASE_DIR + '/.config/secret.json'):
     SECRET_DATA = {
         'ROOT_EMAIL': '',
-        'SECRET_KEY': '',
+        'SERVER_KEY': '',
         'PA_USER_ID': '',
         'PA_API_KEY': '',
         'DOMAIN_URL': ''
@@ -54,7 +54,8 @@ else:
 
 # Set Settings
 ROOT_EMAIL = SECRET_DATA['ROOT_EMAIL']
-SECRET_KEY = SECRET_DATA['SECRET_KEY']
+SERVER_KEY = SECRET_DATA['SERVER_KEY']
+SECRET_KEY = SECRET_DATA['SERVER_KEY']
 
 INDEX = SERVER_DATA['INDEX']
 DEBUG = SERVER_DATA['DEBUG']

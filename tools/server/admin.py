@@ -46,7 +46,7 @@ def update_logs(new_log):
 
 
 def verify_request(req, secret):
-    if secret == secrets_data['SECRET_KEY']:
+    if secret == secrets_data['SERVER_KEY']:
         return True
     update_logs(
         {

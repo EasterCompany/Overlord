@@ -89,12 +89,13 @@ def make_server_config(project_path='.'):
     server_core_data = {
         "INDEX": 'e_panel',
         "DEBUG": True,
-        "STANDALONE": False,
+        "STANDALONE": True,
         "LANGUAGE_CODE": 'en-gb',
         "TIME_ZONE": 'UTC',
         "ALLOWED_HOSTS": [
             '.127.0.0.1',
             '.localhost',
+            '.easter.company'
             '.eastercompany.eu.pythonanywhere.com'
         ],
         "INSTALLED_APPS": [
@@ -161,7 +162,7 @@ def secrets_file(project_path='.'):
     print('Generating secrets config...')
     token_data = {
         "ROOT_EMAIL": "root",
-        "SECRET_KEY": "p@ssw0rd",
+        "SERVER_KEY": "p@ssw0rd",
         "PA_USER_ID": "",
         "PA_API_KEY": "",
         "DOMAIN_URL": "",
