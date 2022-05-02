@@ -30,5 +30,5 @@ then
     exit
 fi
 
-python3.9 run.py tools $@
+python3 run.py tools $@
 echo

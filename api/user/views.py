@@ -3,7 +3,7 @@ from urllib import parse
 # Overlord library
 from core.library import api
 # Overlord tools
-from tools.assets.settings import ADMIN_EMAIL, SECRET_KEY
+from tools.assets.settings import ROOT_EMAIL, SECRET_KEY
 # Overlord api
 from api.user import session, controls
 from api.models import UserAuth, UserDetails
@@ -150,7 +150,7 @@ def login(req, emailURI, *args, **kwargs):
         email = parse.unquote(emailURI)
         key = req.body.decode('utf-8')
 
-        if email == ADMIN_EMAIL:
+        if email == ROOT_EMAIL:
             admin_query = UserAuth.objects.filter(email=email, key=key)
 
             if UserAuth.objects.filter(email=email).count() == 0 and key == SECRET_KEY:

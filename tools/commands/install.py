@@ -160,8 +160,8 @@ def django_files(project_path='.'):
 def secrets_file(project_path='.'):
     print('Generating secrets config...')
     token_data = {
-        "ADMIN_EMAIL": "admin@overlord.db",
-        "SECRET_KEY": get_random_secret_key(),
+        "ROOT_EMAIL": "root",
+        "SECRET_KEY": "p@ssw0rd",
         "PA_USER_ID": "",
         "PA_API_KEY": "",
         "DOMAIN_URL": "",

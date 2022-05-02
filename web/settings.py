@@ -42,7 +42,7 @@ with open(BASE_DIR + '/.config/clients.json') as CLIENT_FILE:
 
 if not os.path.exists(BASE_DIR + '/.config/secret.json'):
     SECRET_DATA = {
-        'ADMIN_EMAIL': '',
+        'ROOT_EMAIL': '',
         'SECRET_KEY': '',
         'PA_USER_ID': '',
         'PA_API_KEY': '',
@@ -53,7 +53,7 @@ else:
         SECRET_DATA = loads(SECRET_FILE.read())
 
 # Set Settings
-ADMIN_EMAIL = SECRET_DATA['ADMIN_EMAIL']
+ROOT_EMAIL = SECRET_DATA['ROOT_EMAIL']
 SECRET_KEY = SECRET_DATA['SECRET_KEY']
 
 INDEX = SERVER_DATA['INDEX']
