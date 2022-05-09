@@ -17,13 +17,29 @@ def delete(req, uuid, *args, **kwargs):
     :param uuid str: unique identifier for user
     :return bool: true if user data was successfully purged
     """
-    if UserAuth.objects.filter(uuid=uuid).count() > 0:
-        try: UserAuth.objects.filter(uuid=uuid).delete()
-        except Exception as exception: return api.std(message=str(exception), status=api.BAD)
-        try: UserDetails.objects.filter(uuid=uuid).delete()
-        except Exception as exception: return api.std(message=str(exception), status=api.BAD)
+    user = parse.unquote(uuid).strip()
+    obj = UserAuth.objects.filter(uuid=user)
+
+    if obj.count() > 0:
+
+        try:
+            obj = obj.first()
+            obj.delete()
+        except Exception as exception:
+            return api.error(exception)
+
+        try:
+            obj = UserDetails.objects.filter(uuid=user).first()
+            obj.delete()
+        except Exception as exception:
+            return api.error(exception)
+
         return api.std(message="success", status=api.OK)
-    return api.std(message="failed", status=api.BAD)
+
+    return api.error(
+        "    When trying to delete a user,\n    no `UserAuth Table` db record matching the"
+        f"\n    uuid <{uuid}> parameter was found."
+    )
 
 
 def list_all(req, *args, **kwargs):
@@ -173,7 +189,7 @@ def login(req, emailURI, *args, **kwargs):
                 return api.std(api.OK, session_json)
 
             else:
-                return api.error()
+                return api.error("""\n    [ERROR: Authentication]     \n""")
 
     except Exception as exception:
         return api.error(exception)
