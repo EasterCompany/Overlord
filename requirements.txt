@@ -1,6 +1,6 @@
 
 # Essential Overlord Packages
-django==4.0.3
+django==4.0.4
 cors==1.0.1
 django-cors-headers==3.11.0
 whitenoise==6.0.0
