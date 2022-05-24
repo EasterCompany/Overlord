@@ -14,6 +14,7 @@ With a single Overlord server we can host many front end applications across the
 
 
 ### Overlord Tools
+#### [Read More](https://github.com/EasterCompany/Overlord/blob/main/tools)
 
 
 You can access Overlord-Tools via the `o` file in your root directory. If this file is missing you can run the following command to reinstall it.
@@ -48,6 +49,7 @@ isn't that just glorious. And that's only scratching the surface. Read OLT (Over
 
 
 ### Overlord Clients
+#### [Read More](https://github.com/EasterCompany/Overlord/tree/main/clients)
 
 As of release 1.0; we only support a single React-PWA client option. We will soon transition to supporting React-Native for mobile & web development under one solution and then coming in release 2.0 we will support an Angular web client option.
 
