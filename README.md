@@ -15,6 +15,7 @@ With a single Overlord server we can host many front end applications across the
 
 ### Overlord Tools
 
+
 You can access Overlord-Tools via the `o` file in your root directory. If this file is missing you can run the following command to reinstall it.
 
 ```bash
@@ -40,7 +41,7 @@ Overlord is designed with a core developer philosophy. Where most projects desig
 For example; we can automate `git add . && git commit -am "insert meaningful message here" && git push origin master` into the following OLT command:
 
 ```bash
-./o commit
+./o commit -all -"100% optional message argument"
 ```
 
 isn't that just glorious. And that's only scratching the surface. Read OLT (Overlord-Tools) documentation for more on commands and automation.
