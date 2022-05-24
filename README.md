@@ -1,7 +1,7 @@
 
 <div style="margin:0 0 128px 0;">
-    <p align="center" style="border-bottom:0px;padding:9px 0 0 0;"> [OVERLORD] </p>
-    <h1 align="center" style="margin-bottom:64px;border-bottom:0px;"> Core Repository </h1>
+    <p align="center" style="border-bottom:0px;padding:9px 0 0 0;"> [ 1.0.0 27/April/2022 ] </p>
+    <h1 align="center" style="margin-bottom:64px;border-bottom:0px;"> Overlord </h1>
 </div>
 
 
