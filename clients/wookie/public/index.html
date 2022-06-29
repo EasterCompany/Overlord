@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+
+<html lang="en-gb">
+
+  <head>
+
+    <!-- BASE OBJECT TAG -->
+    <base href="%PUBLIC_URL%" target="_blank" />
+
+    <!-- HTML CONTENT TAGS -->
+    <link rel="manifest" href="/static/e_panel/manifest.json" />
+    <link rel="icon" href="/static/e_panel/favicon.ico" />
+    <link rel="shortcut icon" href="/static/e_panel/favicon.ico" />
+    <link rel="apple-touch-icon" href="/static/e_panel/logo192.png"/>
+
+    <!-- HTML META TAGS -->
+    <meta charset="utf-8"/>
+    <meta content="text/html; charset=UTF-8; X-Content-Type-Options=nosniff" http-equiv="Content-Type" />
+    <meta name="viewport" content="width=device-width, initial-scale=1"/>
+    <meta name="theme-color" content="#000000"/>
+    <meta
+      name="E-Panel" content="E-Panel is Overlord's Native Client for Content Management and Server Administration"
+    />
+    <meta name="robots" content="index,follow,max-snippet:-1,max-video-preview:-1,max-image-preview:large"/>
+    <meta property="og:locale" content="en_GB"/>
+    <meta property="og:type" content="website"/>
+    <meta property="og:title" content="[E-Panel]"/>
+    <meta property="og:updated_time" content="{#time_of_last_build#}"/>
+
+    <title>[E PANEL] Login</title>
+
+  </head>
+
+  <body>
+
+    <style>
+      body {
+        width: 100vw;
+        height: 100vh;
+        overflow: hidden;
+        background-position: -5vw -5vh;
+        background-image: radial-gradient(rgba(131, 53, 39, 0.8), rgba(66, 28, 19, 0.8));
+        background-color: #206b6e;
+      }
+      #global-django-tags { display: none; }
+    </style>
+
+    <p id="global-django-tags">
+      {% load static %}
+    </p>
+
+    <noscript>You need to enable JavaScript to run this app.</noscript>
+    <div id="root"></div>
+
+  </body>
+
+</html>

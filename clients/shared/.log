@@ -25,5 +25,18 @@
       "components/routes/",
       "library/local/"
     ]
+  },
+  "wookie": {
+    "path": "clients/wookie/src/shared",
+    "file": [
+      "assets/icons/settings.svg",
+      "assets/icons/lock.svg",
+      "assets/icons/warning.svg",
+      "assets/icons/loading.svg"
+    ],
+    "module": [
+      "components/",
+      "library/"
+    ]
   }
 }

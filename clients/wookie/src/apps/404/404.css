@@ -1,0 +1,18 @@
+
+#page-not-found {
+  display: grid;
+  margin: 0 auto;
+  width: fit-content;
+  place-items: center;
+  min-height: calc(78vh - 58px);
+}
+
+#page-not-found h1, #page-not-found h2 {
+  text-align: center;
+  margin-bottom: 2vh;
+}
+
+#page-not-found img {
+  height: 50vh;
+  margin: 2vh 0 2vh 0;
+}
