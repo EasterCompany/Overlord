@@ -1,13 +1,14 @@
 # Django library
-from django.conf import settings
 from django.http import JsonResponse
-
 # Overlord library
 from .console import Console
 
 OK = 'OK'
 BAD = 'BAD'
 CON = Console()
+
+
+# Overlord Standard Response Function ----------------------------------------------------------------------------------
 
 
 def std(status, message="Invalid Status Response"):
@@ -26,18 +27,42 @@ def std(status, message="Invalid Status Response"):
     })
 
 
+# Overlord API Specific Response Types ---------------------------------------------------------------------------------
+
+
+def success():
+    """
+    Request was executed successfully response
+
+    :return: api.std showing a HTTP 200 Success
+    """
+    return std(OK, "Request was executed successfully.")
+
+
 def error(exception=None):
     """
     Internal server error standard response method
 
+    :param exception str: message caught upon error exception
     :return: api.std showing a HTTP 500 Error
     """
     if exception is not None:
         print(f"""
-            [{CON.output("API ERROR 500", "red")}]
+            [{CON.output("INTERNAL SERVER ERROR", "red")}]
+
+        {exception}
         """)
-        print(exception, "\n")
-    return std(BAD, "Error 500: internal server error")
+    return std(BAD, "[500] Internal server error.")
+
+
+def data(JSON):
+    """
+    Request has successfully produced data to return to the user
+
+    :param JSON dict: usually a dictionary containing fields and values
+    :return: api.std with OK status and dictionary as the message parameter.
+    """
+    return std(OK, JSON)
 
 
 def table(Table, Headers, Body, filter={ "order_by": str() }):

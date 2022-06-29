@@ -10,7 +10,7 @@ from os import environ
 from tools import tools
 
 
-def main():
+if __name__ == '__main__':
     if len(argv) > 1 and argv[1] == 'tools':
         tools.run()
     else:
@@ -24,7 +24,3 @@ def main():
                 "forget to activate a virtual environment?"
             )
         execute_from_command_line(argv)
-
-
-if __name__ == '__main__':
-        main()
