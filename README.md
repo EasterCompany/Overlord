@@ -12,7 +12,9 @@ So, what is Overlord?
 
 Overlord is the worlds most extensive **full stack framework** which majorily streamlines development by utilizing a single code base (Python & JavaScript) for Desktop, Android and iOS applications. Also offering an optional package called E-Panel which provides you with pop up software & server infrastructure or the ability to deploy from your own virtual or physical server. All ready to go with a single command.
 
-The server will host a Python-Django based API and serve a React-Native-Web application to any web browsers that attempt to visit it. By default this is your administration panel app `E-Panel`.
+The server will host a Python-Django based API and serve a React-Native-Web application to any web browsers that attempt to visit it. 
+
+By default your administration panel and content-management-system interface is `E-Panel` and can be accessed by going to the `/e_panel` route for your app in a web browser.
 
 Your React-Native based application is deployable to Android & iOS through their respective dedicated app stores.
 
@@ -23,10 +25,11 @@ Also includes:
 - A few free UI Templates
 - Code sharing across all your apps/clients/servers
 - Great CLI tools (including integrations for administrating your staging or produciton server remotely)
-- Single code base support for Desktop (via the web browser), Native Android, Native iOS and potentially with a little tweaking on your part... probably anything else.
-- Android Phone Emulator with all your overlord clients pre-installed
-- iOS Phone Emulator with all your overlord clients pre-installed
-- Hot reloading when editing code and emulator simaltaneously
+- Single code base support for Desktop (via the web browser), native Android and native iOS
+- Android Phone Emulator with all your overlord clients pre-installed available for Linux & Windows Users
+- iOS Phone Emulator with all your overlord clients pre-installed available for Apple M1 Users
+- Remote device testing tool for QA testing on iOS or Android if your development station does not support emulation
+- Hot reloading when editing code while emulating devices simaltaneously
 - User registration, login, logout, profile features
 - Optional administration panel app
 
