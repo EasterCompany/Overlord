@@ -3,8 +3,8 @@ from sys import argv, path
 
 # Overlord library
 from core.library.console import Console
-from .library import console
-from .commands import install, git, django, node, pytest, pa
+from tools.library import console
+from tools.commands import install, git, django, node, pytest, pa
 
 tools_path = '/'.join(__file__.split('/')[:-1])
 project_path = path[0]
@@ -18,7 +18,7 @@ def help():
  Overlord tools go to this github
  address
 
- https://github.com/EasterCompany/Overlord-Tools/blob/main/README.md
+ https://github.com/EasterCompany/Overlord/blob/main/README.md
 
  or read your local README.md
  ------------------------------

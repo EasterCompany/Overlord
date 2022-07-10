@@ -4,9 +4,6 @@ from sys import path
 from os.path import exists, join as pathjoin
 from os import scandir, mkdir
 
-# Django imports
-from django.core.management.utils import get_random_secret_key
-
 
 # --------------------------- CREATE & CONFIRM CONFIG EXISTS --------------------------- #
 def __init_config_directory__(project_path='.'):

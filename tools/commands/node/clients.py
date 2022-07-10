@@ -8,9 +8,6 @@ from threading import Thread
 from datetime import datetime
 from os import chdir, system, rename, remove
 
-# Overlord-Web import
-from web import settings
-
 # Overlord-Tools import
 from tools.library import console
 
@@ -135,52 +132,67 @@ def build_all():
 
 
 # Create new client
-def create(name):
+def create(name, native=False):
 
     # Make directory checks
-    if exists('clients/' + name):
-        return print("\n ABORTED: %s already exists \n" % name)
+    if exists(f'clients/{name}'):
+        return print(
+            console.col('\n[ABORTED]', 'red') + f"client with name '{name}' already exists.\n"
+        )
 
-    # Fetch template from github
-    system('''
+    # Fetch native app template from github
+    if native:
+        print("Downloading native-client template...")
+        system(f'''
             echo '' && cd clients &&
-            git clone git@github.com:EasterCompany/PWA-Template.git {name} &&
+            git clone git@github.com:EasterCompany/Overlord-Native-Client.git {name} &&
             cd .. && echo ''
-        '''.format(name=name)
-    )
+        ''')
+
+    # Fetch default web template from github
+    else:
+        print("Downloading web-client template...")
+        system(f'''
+            echo '' && cd clients &&
+            git clone git@github.com:EasterCompany/Overlord-React-Client.git {name} &&
+            cd .. && echo ''
+        ''')
 
     # De-git repository
     print('De-git repository...')
-    remove('clients/{name}/.gitignore'.format(name=name))
-    rmtree('clients/{name}/.git'.format(name=name))
+    rmtree(f'clients/{name}/.git')
 
     # Update meta_data
     print('Update index data...')
-    rename(
-        'clients/{name}/public/static/app-name'.format(name=name),
-        'clients/{name}/public/static/{name}'.format(name=name)
-    )
 
-    with open('clients/{name}/public/index.html'.format(name=name)) as index_content:
-        content = index_content.read()
-        content = content.replace('{#app_name#}', name)
-        with open('clients/%s/public/index.html' % name, 'w') as new_file:
-            new_file.write(content)
+    # TODO: Unsure if this line is needed anymore, possibly deprecated.
+    # rename(f'clients/{name}/public/static/app-name', f'clients/{name}/public/static/{name}')
 
-    # Update manifest.json
-    print('Update manifest data...')
-    with open('clients/{name}/public/manifest.json'.format(name=name)) as manifest:
-        content = manifest.read()
-        content = content.replace('app-name', name)
-        with open('clients/%s/public/manifest.json' % name, 'w') as new_file:
-            new_file.write(content)
+    if native:
+        return
+
+    else:
+        # Update index.html
+        with open(f'clients/{name}/public/index.html') as index_content:
+            content = index_content.read()
+            content = content.replace('{#app_name#}', name)
+            with open(f'clients/{name}/public/index.html', 'w') as new_file:
+                new_file.write(content)
+
+        # Update manifest.json
+        print('Update manifest data...')
+        with open(f'clients/{name}/public/manifest.json') as manifest:
+            content = manifest.read()
+            content = content.replace('app-name', name)
+            with open(f'clients/{name}/public/manifest.json', 'w') as new_file:
+                new_file.write(content)
 
     # Update package.json
     print('Update package data...')
-    with open('clients/{name}/package.json'.format(name=name)) as package:
+    with open(f'clients/{name}/package.json') as package:
         content = package.read()
         content = content.replace('app-name', name)
-        with open('clients/%s/package.json' % name, 'w') as new_file:
+        with open(f'clients/{name}/package.json', 'w') as new_file:
             new_file.write(content)
 
     # Update environment variables
@@ -190,17 +202,18 @@ def create(name):
     with open('.config/clients.json') as clients_json:
         clients_data = loads(clients_json.read())
         next_port += len(clients_data)
-    with open('clients/%s/.env' % name, 'w+') as env_file:
+    with open(f'clients/{name}/.env', 'w+') as env_file:
         env_file.write('PORT=%s' % next_port)
 
-    print(console.col(' Done!', 'green'))
-    print('\ninstall this app with `./o install -client -%s` \n' % name)
+    system('./o && clear')
+    print(console.col(f'\n\n\nSuccessfully created a web client: {name} !', 'green'))
+    print(f'To install your client use this command `./o install -client -{name}` \n\n\n')
 
 
 # Module error message
 def error_message():
     return print('''
-    `CLIENTS` tool requires atleast one argument beggining with `-`
+    `CLIENTS` tool requires at least one argument beginning with `-`
 
         ./o runclient -client_name
         ./o build -client_name
@@ -210,4 +223,8 @@ def error_message():
 
         ./o runclient -all
         ./o build -all
+
+    to create a native client use the `-native` argument first
+
+        ./o create -native -client_name
     ''')

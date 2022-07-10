@@ -10,26 +10,30 @@
 
 So, what is Overlord?
 
-Overlord is the worlds most extensive **full stack framework** which majorily streamlines development by utilizing a single code base (Python & JavaScript) for Desktop, Android and iOS applications. Also offering an optional package called E-Panel which provides you with pop up software & server infrastructure or the ability to deploy from your own virtual or physical server. All ready to go with a single command.
+**Overlord is the worlds most extensive full stack framework** which majorly streamlines development by utilizing a
+single code base (Python & JavaScript) for Desktop, Android and iOS applications. Also offering an optional package
+called E-Panel which provides you with pop up software & server infrastructure or the ability to deploy from your own
+virtual or physical server. All ready to go with a single command.
 
-The server will host a Python-Django based API and serve a React-Native-Web application to any web browsers that attempt to visit it. 
+The server will host a Python-Django based API and serve a React-Native-Web application to any web browsers that attempt
+to visit it.
 
-By default your administration panel and content-management-system interface is `E-Panel` and can be accessed by going to the `/e_panel` route for your app in a web browser.
+By default your administration panel and content-management-system interface is `E Panel` and can be accessed by going
+to the `/e_panel` route for your app in a web browser.
 
 Your React-Native based application is deployable to Android & iOS through their respective dedicated app stores.
 
-Also includes: 
+Also includes:
 
 - Additional built in Libraries
-- Lots of free UI Components
-- A few free UI Templates
+- Lots of free UI Components & Templates
 - Code sharing across all your apps/clients/servers
-- Great CLI tools (including integrations for administrating your staging or produciton server remotely)
+- CLI tools /w integrations for administrating your Dev, Lab, Staging or Production servers remotely)
 - Single code base support for Desktop (via the web browser), native Android and native iOS
 - Android Phone Emulator with all your overlord clients pre-installed available for Linux & Windows Users
 - iOS Phone Emulator with all your overlord clients pre-installed available for Apple M1 Users
 - Remote device testing tool for QA testing on iOS or Android if your development station does not support emulation
-- Hot reloading when editing code while emulating devices simaltaneously
+- Hot reloading when editing code while emulating devices simultaneously
 - User registration, login, logout, profile features
 - Optional administration panel app
 
@@ -39,9 +43,12 @@ Also includes:
 ## Overlord Tools
 #### [Read More](https://github.com/EasterCompany/Overlord/blob/main/tools)
 
-Overlord-Tools is a single CLI interface to interact with our 'Custom Django Backend' ready to deploy alongside any number of React-Native based clients (built in PWA, Android & iOS support) locally on our development computers and also remotely control the production versions of the clients you have installed.
+Overlord-Tools is a single CLI interface to interact with our 'Custom Django Backend' ready to deploy alongside any
+number of React-Native based clients (built in PWA, Android & iOS support) locally on our development computers and also
+remotely control the production versions of the clients you have installed.
 
-You can access Overlord-Tools via the `o` file in your root directory. If you don't have this file or this file is missing you can run the following command to (re)install it.
+You can access Overlord-Tools via the `o` file in your root directory. If you don't have this file or this file is
+missing you can run the following command to (re)install it.
 
 ```bash
 python run.py tools install

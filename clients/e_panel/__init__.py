@@ -2,7 +2,7 @@
 from core.library import client
 
 
-class Client(client.ClientObject):
+class Client(client.WebClient):
 
     # Client.ENVIRONMENT [ local, staging, production... ]
     ENV = __file__.replace('__init__.py', '.env')
