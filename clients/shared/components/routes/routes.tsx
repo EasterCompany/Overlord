@@ -2,6 +2,9 @@
 import { Route as NewRoute, Link as NewLink, Switch } from "react-router-dom";
 
 
+const endpoint = process.env.REACT_APP_ENDPOINT === undefined ? null : process.env.REACT_APP_ENDPOINT
+
+
 const scrollContentToTop = () => {
   const content = document.querySelector('#article') as HTMLElement;
   return content.scrollTop = 0;
@@ -19,7 +22,7 @@ export const setAppTitle = (title: string) => {
 */
 export const dp = (path: string) => {
   if (process.env.REACT_APP_IS_INDEX === "true") { return '/' + path; }
-  return `/${process.env.REACT_APP_ENDPOINT}/` + path;
+  return endpoint === null ? '/' + path : `/${process.env.REACT_APP_ENDPOINT}/` + path;
 }
 
 

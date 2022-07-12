@@ -60,7 +60,7 @@ Using the clients argument you can install all of your clients currently within 
 Or you can specifically install a single client with the following command
 
 ```bash
-./o install -clients -"client_name_here"
+./o install -"client_name_here"
 ```
 
 ## Pulling Changes

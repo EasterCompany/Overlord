@@ -76,12 +76,21 @@ new_client = lambda app_name, app_data, build: Thread(
     (app_data, build)
 )
 
-# All clients data from config file
-if exists(path[0] + '/.config/clients.json'):
-    with open(path[0] + '/.config/clients.json') as clients_file:
-        clients_json = loads(clients_file.read())
-else:
-    clients_json = {}
+clients_json = {}
+
+
+def update_client_json():
+    global clients_json
+    # All clients data from config file
+    if exists(path[0] + '/.config/clients.json'):
+        with open(path[0] + '/.config/clients.json') as clients_file:
+            clients_json = loads(clients_file.read())
+    else:
+        clients_json = {}
+    return clients_json
+
+
+update_client_json()
 
 
 # Install client
@@ -91,13 +100,16 @@ def install(target=None):
         chdir(client_path)
         system('npm install')
 
+    update_client_json()
+
     if target is None:
         for client in clients_json:
             print('\n', client, '----------------')
             run_install(clients_json[client]['src'])
-        print()
+        print('')
     else:
         run_install(clients_json[target]['src'])
+        print('')
 
     return chdir(path[0])
 
@@ -144,10 +156,10 @@ def create(name, native=False):
     # Make directory checks
     if exists(f'clients/{name}'):
         return print(
-            console.col('\n[ABORTED]', 'red') + f"client with name '{name}' already exists.\n"
+            console.col('\n[ABORTED]', 'red') + f" client with name '{name}' already exists.\n"
         )
 
-    # Fetch native app template from github
+    # Fetch react-native app template from github
     if native:
         print("Downloading native-client template...")
         system(f'''
@@ -156,7 +168,7 @@ def create(name, native=False):
             cd .. && echo ''
         ''')
 
-    # Fetch default web template from github
+    # Fetch default react-web template from github
     else:
         print("Downloading web-client template...")
         system(f'''
@@ -176,7 +188,13 @@ def create(name, native=False):
     # rename(f'clients/{name}/public/static/app-name', f'clients/{name}/public/static/{name}')
 
     if native:
-        return
+        # Update native app.json
+        print('Update app data...')
+        with open(f'clients/{name}/app.json') as package:
+            content = package.read()
+            content = content.replace('app-name', name.lower())
+            with open(f'clients/{name}/app.json', 'w') as new_file:
+                new_file.write(content)
 
     else:
         # Update index.html
@@ -233,8 +251,8 @@ def create(name, native=False):
     load_order = url.make_client_load_order(client_data, server_data['INDEX'])
     url.write_django_urls(load_order, path[0] + '/web/urls.py')
 
-    print(console.col(f'\n\n\nSuccessfully created a web client: {name} !', 'green'))
-    print(f'To install your client use this command `./o install -client -{name}` \n\n\n')
+    print(console.col(f'\nSuccessfully created a web client: {name} !', 'green'))
+    print(f'To install your client use this command `./o install -{name}`\n')
 
 
 # Module error message

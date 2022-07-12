@@ -30,14 +30,6 @@ def _server(start=True, migrate=False, collectstatic=False):
             cmd('runserver')
 
 
-# Server thread
-thread = Thread(
-    None,
-    _server,
-    'django-server',
-    ()
-)
-
 # Server database migration shortcut
 migrate_database = lambda: _server(start=False, migrate=True, collectstatic=False)
 
@@ -46,10 +38,24 @@ collect_staticfs = lambda: _server(start=False, migrate=False, collectstatic=Tru
 
 
 def run():
+    # Server thread
+    thread = Thread(
+        None,
+        _server,
+        'django-server',
+        ()
+    )
     migrate_database()
     return thread.run()
 
 
 def start():
+    # Server thread
+    thread = Thread(
+        None,
+        _server,
+        'django-server',
+        ()
+    )
     _server(start=False, migrate=True, collectstatic=True)
     return thread.start()

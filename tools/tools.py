@@ -3,7 +3,7 @@ from os import system
 from sys import argv, path
 
 # Overlord library
-from tools.library import console
+from tools.library import console, gracefulExit
 from tools.commands import install, git, django, node, pytest, pa
 
 tools_path = '/'.join(__file__.split('/')[:-1])
@@ -12,9 +12,11 @@ command_line = argv[2:]
 len_cmd_line = len(command_line)
 
 
-def awaitInput():
+def awaitInput(ascii_art=True):
     global command_line
-    print('''
+
+    if ascii_art:
+        print('''
     -------------------------------------------------------------------
 
      ██████╗ ██╗   ██╗███████╗██████╗ ██╗      ██████╗ ██████╗ ██████╗
@@ -32,12 +34,17 @@ def awaitInput():
     or read your local README.md
 
     -------------------------------------------------------------------
+        ''')
+    else:
+        print('')
 
-    ''')
+    flag = gracefulExit.GracefulExit()
     while True:
         Input = input(console.col('@> ', 'green'))
         command_line = Input.split(' ')
         run()
+        if flag.exit():
+            break
 
 
 def run_tool(command, index=0):
@@ -69,14 +76,11 @@ def run_tool(command, index=0):
 
     elif command == 'install':
         # Install a specific or various Overlord Clients
-        if arguments_remaining > 0 and \
-        (arguments[0] == 'clients' or arguments[0] == 'client'):
-            if arguments_remaining == 1:
-                print(" Installing all clients:")
-                return node.clients.install()
+        if arguments_remaining == 1 and (arguments[0] == 'clients' or arguments[0] == 'all'):
+            print(" Installing all clients:")
+            return node.clients.install()
 
-        elif arguments_remaining > 0 and \
-        (arguments[0] != 'clients' or arguments[0] != 'client'):
+        elif arguments_remaining > 0:
             for argument in arguments:
                 print(f"\n Installing client: {argument}")
                 print(" ----------------------------------- ")
@@ -97,13 +101,11 @@ def run_tool(command, index=0):
             git.update.branch_origins('main', repo)
 
         set_branch_origins()
-        set_branch_origins('clients')
-        set_branch_origins('tools')
         print(' ')
         install.make_server_config(project_path)
         install.django_files(project_path)
         install.secrets_file(project_path)
-        print('\n', console.col('Done.', 'green'), '\n')
+        print('\n', console.col('Success!.', 'green'), '\n')
 
     elif command == 'pull':
         system('./o pull')
@@ -116,9 +118,9 @@ def run_tool(command, index=0):
 
     elif command == 'merge':
         if arguments_remaining == 2:
-            if arguments[0] == 'all': git.merge.all(git_message), exit()
-            else: git.merge.with_message(git_message, git_repo), exit()
-        git.merge.error_message(), exit()
+            if arguments[0] == 'all': git.merge.all(git_message), gracefulExit()
+            else: git.merge.with_message(git_message, git_repo), gracefulExit()
+        git.merge.error_message(), gracefulExit()
 
     elif command == 'push':
         system('./o push')
@@ -169,7 +171,7 @@ def run_tool(command, index=0):
             node.clients.build_all()
             django.server.start()
         else:
-            exit(99)
+            gracefulExit(99)
 
     elif command == 'server':
 
@@ -198,6 +200,8 @@ def run_tool(command, index=0):
     elif command == 'create':
         if arguments_remaining == 1:
             return node.clients.create(arguments[0])
+        if arguments_remaining == 2 and arguments[0] == 'native':
+            return node.clients.create(arguments[1], native=True)
         else:
             return node.clients.error_message()
 
@@ -209,14 +213,19 @@ def run_tool(command, index=0):
 
     elif command == 'help': awaitInput()
 
+    elif command == 'ls':
+        for _client in node.clients.update_client_json():
+            print(f'\n -> {_client}')
+
     elif command == 'clear': system('clear')
 
+    elif command == 'exit': exit()
+
     else:
-        system('clear')
         bad_input = ' '.join(command_line)
         print(console.col(f'\n [ERROR] No command matching input\n > ./o {bad_input}', 'red'))
 
-    return awaitInput()
+    return awaitInput(False)
 
 
 def run():

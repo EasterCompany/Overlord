@@ -86,7 +86,7 @@ def make_server_config(project_path='.'):
     server_core_data = {
         "INDEX": 'e_panel',
         "DEBUG": True,
-        "STANDALONE": True,
+        "STANDALONE": False,
         "LANGUAGE_CODE": 'en-gb',
         "TIME_ZONE": 'UTC',
         "ALLOWED_HOSTS": [
