@@ -1,8 +1,8 @@
 # Standard library
+from os import system
 from sys import argv, path
 
 # Overlord library
-from core.library.console import Console
 from tools.library import console
 from tools.commands import install, git, django, node, pytest, pa
 
@@ -12,25 +12,40 @@ command_line = argv[2:]
 len_cmd_line = len(command_line)
 
 
-def help():
-    return print(
-        ''' To get help & information on
- Overlord tools go to this github
- address
+def awaitInput():
+    global command_line
+    print('''
+    -------------------------------------------------------------------
 
- https://github.com/EasterCompany/Overlord/blob/main/README.md
+     ██████╗ ██╗   ██╗███████╗██████╗ ██╗      ██████╗ ██████╗ ██████╗
+    ██╔═══██╗██║   ██║██╔════╝██╔══██╗██║     ██╔═══██╗██╔══██╗██╔══██╗
+    ██║   ██║██║   ██║█████╗  ██████╔╝██║     ██║   ██║██████╔╝██║  ██║
+    ██║   ██║╚██╗ ██╔╝██╔══╝  ██╔══██╗██║     ██║   ██║██╔══██╗██║  ██║
+    ╚██████╔╝ ╚████╔╝ ███████╗██║  ██║███████╗╚██████╔╝██║  ██║██████╔╝
+     ╚═════╝   ╚═══╝  ╚══════╝╚═╝  ╚═╝╚══════╝ ╚═════╝ ╚═╝  ╚═╝╚═════╝
 
- or read your local README.md
- ------------------------------
+    To get help & information on Overlord tools go to this github
+    address:
+
+    https://github.com/EasterCompany/Overlord/blob/main/README.md
+
+    or read your local README.md
+
+    -------------------------------------------------------------------
+
     ''')
+    while True:
+        Input = input(console.col('@> ', 'green'))
+        command_line = Input.split(' ')
+        run()
 
 
 def run_tool(command, index=0):
     # General input variables
     arguments_remaining = 0
     arguments = []
-    con = Console()
 
+    # Collect arguments and count them
     for arg in command_line[index + 1:]:
         if arg.startswith('-'):
             arguments_remaining += 1
@@ -38,7 +53,7 @@ def run_tool(command, index=0):
         else:
             break
 
-    # Used for commit & merge commands
+    # Used for commit, merge & deploy commands
     if arguments_remaining >= 2:
         git_repo = ''.join(
             command_line[index + 1].split('-')[1:]
@@ -49,18 +64,31 @@ def run_tool(command, index=0):
     else:
         git_repo, git_message = None, None
 
+    # Return an error prompt if the command string is an argument
     if command.startswith('-'): return None
 
     elif command == 'install':
+        # Install a specific or various Overlord Clients
         if arguments_remaining > 0 and \
         (arguments[0] == 'clients' or arguments[0] == 'client'):
             if arguments_remaining == 1:
+                print(" Installing all clients:")
                 return node.clients.install()
-            elif arguments_remaining > 1:
-                for argument in arguments[1:]:
-                    node.clients.install(argument)
-                return
 
+        elif arguments_remaining > 0 and \
+        (arguments[0] != 'clients' or arguments[0] != 'client'):
+            for argument in arguments:
+                print(f"\n Installing client: {argument}")
+                print(" ----------------------------------- ")
+                node.clients.install(argument)
+            return
+
+        elif arguments_remaining > 0:
+            return print(console.col(
+                f"\n [ERROR] Received too many invalid arguments\n {' '.join(command_line)}", "red"
+            ))
+
+        # Install Overlord Server
         print('\nInstalling Overlord-Tools...')
         git.update.all()
 
@@ -92,8 +120,8 @@ def run_tool(command, index=0):
             else: git.merge.with_message(git_message, git_repo), exit()
         git.merge.error_message(), exit()
 
-    elif command == 'push':
-        git.push.all()
+    elif command == 'commit':
+        system('./o commit')
 
     elif command == 'new_secret_key':
         django.secret_key.new()
@@ -179,16 +207,22 @@ def run_tool(command, index=0):
         else:
             return node.share.error_message()
 
-    elif command == 'help': help()
+    elif command == 'help': awaitInput()
 
-    else: print('invalid input \n  >> ./o', ' '.join(command_line))
+    elif command == 'clear': system('clear')
 
-    return exit()
+    else:
+        system('clear')
+        bad_input = ' '.join(command_line)
+        print(console.col(f'\n [ERROR] No command matching input\n > ./o {bad_input}', 'red'))
+
+    return awaitInput()
 
 
 def run():
-    if len(argv) <= 2: help()
-    else: [run_tool(arg, index) for index, arg in enumerate(command_line)]
+    if len(command_line) <= 0:
+        return awaitInput()
+    [run_tool(arg, index) for index, arg in enumerate(command_line)]
 
 
 if __name__ == '__main__':

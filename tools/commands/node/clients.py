@@ -8,7 +8,14 @@ from threading import Thread
 from datetime import datetime
 from os import chdir, system, rename, remove
 
-# Overlord-Tools import
+# Overlord-Tools
+from ..install import (
+    __init_config_directory__,
+    __init_logs_directory__,
+    make_clients_config,
+    make_server_config
+)
+from ..node.share import __update_shared_files__
 from tools.library import console
 
 # Variable app meta data
@@ -205,7 +212,27 @@ def create(name, native=False):
     with open(f'clients/{name}/.env', 'w+') as env_file:
         env_file.write('PORT=%s' % next_port)
 
-    system('./o && clear')
+    # Setup environment
+    __init_config_directory__()
+    __init_logs_directory__()
+
+    # Default environment configuration
+    client_data = make_clients_config(path[0])
+    server_data = path[0] + '/.config/server.json'
+
+    if exists(server_data):
+        with open(server_data) as server_data_file:
+            server_data = loads(server_data_file.read())
+    else:
+        server_data = make_server_config(path[0])
+
+    # Default start-up behavior
+    __update_shared_files__()
+
+    from core.library import url
+    load_order = url.make_client_load_order(client_data, server_data['INDEX'])
+    url.write_django_urls(load_order, path[0] + '/web/urls.py')
+
     print(console.col(f'\n\n\nSuccessfully created a web client: {name} !', 'green'))
     print(f'To install your client use this command `./o install -client -{name}` \n\n\n')
 

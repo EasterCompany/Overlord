@@ -6,7 +6,7 @@
 
 ## Welcome to the Overlord framework!
 
-**This is not a new JavaScript Framework!** and we aren't reinventing the wheel on the back end either.
+**This is not a new JavaScript Framework!** and we aren't reinventing the wheel on the server either.
 
 So, what is Overlord?
 
