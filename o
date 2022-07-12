@@ -10,9 +10,9 @@ then
     exit
 fi
 
-if [ "$1" = "commit" ]
+if [ "$1" = "push" ]
 then
-    ./tools/scripts/commit.sh && exit
+    ./tools/scripts/push.sh && exit
     exit
 fi
 

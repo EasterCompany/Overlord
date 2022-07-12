@@ -105,8 +105,8 @@ def run_tool(command, index=0):
         install.secrets_file(project_path)
         print('\n', console.col('Done.', 'green'), '\n')
 
-    elif command == 'update':
-        git.update.all()
+    elif command == 'pull':
+        system('./o pull')
 
     elif command == 'dev' or command == 'development':
         git.branch.switch('dev')
@@ -120,8 +120,8 @@ def run_tool(command, index=0):
             else: git.merge.with_message(git_message, git_repo), exit()
         git.merge.error_message(), exit()
 
-    elif command == 'commit':
-        system('./o commit')
+    elif command == 'push':
+        system('./o push')
 
     elif command == 'new_secret_key':
         django.secret_key.new()
