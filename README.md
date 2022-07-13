@@ -47,20 +47,8 @@ Overlord-Tools is a single CLI interface to interact with our 'Custom Django Bac
 number of React-Native based clients (built in PWA, Android & iOS support) locally on our development computers and also
 remotely control the production versions of the clients you have installed.
 
-You can access Overlord-Tools via the `o` file in your root directory. If you don't have this file or this file is
-missing you can run the following command to (re)install it.
-
-```bash
-python run.py tools install
-```
-
-or access tools directly like such
-
-```bash
-python run.py tools [insert command and arguments here]
-```
-
-The generic input format when using the `./o` file is usually like this
+You can access Overlord-Tools via the `o` file in your root directory. The generic input format when using the `./o`
+file is usually like this
 
 ```bash
 ./o command -arg1 -arg2
