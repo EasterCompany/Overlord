@@ -66,12 +66,20 @@ The generic input format when using the `./o` file is usually like this
 ./o command -arg1 -arg2
 ```
 
+If you would like to isolate a terminal window to Overlord run an empty command line like this:
+
+```bash
+./o
+```
+
+And you'll no longer need to include `./o` at the beginning of each command line.
+
+
 ### Setup a local Server
 
-
-
+...
 
 ## Overlord Clients
 #### [Read More](https://github.com/EasterCompany/Overlord/tree/main/clients)
 
-
+...
