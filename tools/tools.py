@@ -47,6 +47,63 @@ def awaitInput(ascii_art=True):
             break
 
 
+def help():
+    return print('''
+    Welcome to Overlord.
+
+    This command is here to help you get started with the basics.
+    To begin with lets go over some simple developer commands that'll
+    help make your experience here - fast and easy.
+
+    01. ls
+        - Lists all the clients in your clients directory that are either
+          installed or ready-to-install.
+
+    02. clear
+        - Clears the terminal window of any input/output allowing you to
+          free up space on your screen.
+
+    03. code
+        - Opens vscode in the root directory of your current project.
+        - Only works for vscode stable release channel, not insiders.
+        - "code ." command must also work on your environment.
+
+    04. exit
+        - Close the Overlord-CLI and stop running any background threads
+          for clients & servers.
+
+    05. pull
+        - Automatically detect all git repositories within this projects
+          scope and pull latest commits from the current branch.
+
+    06. push
+        - Automatically detect all git repositories within this projects
+          scope and push the latest commits to the current branch.
+
+    07. main
+        - Automatically detect all git repositories within this projects
+          scope and switch them to the `main` branch.
+
+    08. dev
+        - Automatically detect all git repositories within this projects
+          scope and switch them to the `dev` branch.
+
+    09. create
+        - Used to create a new web based or multi-platform client.
+        - Run the command with no arguments to receive detailed usage
+          instructions
+
+    10. share
+        - Used to share an Asset, Component or Library from one client
+          with another client inside this project.
+        - Run the command with no arguments to receive detailed usage
+          instructions
+
+    Detailed and up-to-date documentation is kept on our GitHub Repo
+    Read this for more [https://github.com/EasterCompany/Overlord#readme]
+    ''')
+
+
 def run_tool(command, index=0):
     # General input variables
     arguments_remaining = 0
@@ -211,13 +268,15 @@ def run_tool(command, index=0):
         else:
             return node.share.error_message()
 
-    elif command == 'help': awaitInput()
+    elif command == 'help': help()
 
     elif command == 'ls':
         for _client in node.clients.update_client_json():
             print(f'\n -> {_client}')
 
     elif command == 'clear': system('clear')
+
+    elif command == 'code': system('code .')
 
     elif command == 'exit': exit()
 

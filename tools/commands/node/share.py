@@ -13,6 +13,8 @@ within the `clients` root directory.
 
 Example Usage (template):
 
+        to share an entire folder
+
     ./o share -"module_path" -"client_name"
 
         or for a single file
@@ -21,11 +23,13 @@ Example Usage (template):
 
 Example Usage (working example):
 
-    ./o share -library/server -admin
+        to share an entire folder
+
+    ./o share -library/server -e_panel
 
         or for a single file
 
-    ./o share -library/server/request.ts -admin
+    ./o share -library/server/request.ts -e_panel
 
 '''
 
@@ -266,11 +270,11 @@ def file_updater_thread():
 
 def error_message():
     return print('''
-    `SHARE` tool requires 2 arguments beggining with `-`
+    `SHARE` tool requires 2 arguments beginning with `-`
 
-        ./o share -"module_path" -"client_name"
+        ./o share -"path_to_folder" -"client_name"
 
         or
 
-        ./o share -"file_path" -"client_name"
+        ./o share -"path_to_file" -"client_name"
     ''')
