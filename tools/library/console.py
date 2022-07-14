@@ -9,6 +9,7 @@ def col(text, colour):
     if colour == 'red': r = '\33[31m' + text
     elif colour == 'green': r = '\33[32m' + text
     elif colour == 'yellow': r = '\33[33m' + text
+    elif colour == 'blue': r = '\e]4;4;#6495ed\a' + text
     else: r = '\33[0m' + text
     return r + '\33[0m'
 

@@ -41,7 +41,7 @@ Also includes:
 
 
 ## Overlord Tools
-#### [Read More](https://github.com/EasterCompany/Overlord/blob/main/tools)
+#### [Read More](https://github.com/EasterCompany/Overlord/blob/main/tools#readme)
 
 Overlord-Tools is a single CLI interface to interact with our 'Custom Django Backend' ready to deploy alongside any
 number of React-Native based clients (built in PWA, Android & iOS support) locally on our development computers and also
@@ -68,6 +68,6 @@ And you'll no longer need to include `./o` at the beginning of each command line
 ...
 
 ## Overlord Clients
-#### [Read More](https://github.com/EasterCompany/Overlord/tree/main/clients)
+#### [Read More](https://github.com/EasterCompany/Overlord/tree/main/clients#readme)
 
 ...

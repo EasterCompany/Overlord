@@ -1,9 +1,7 @@
 # Standard library
-from distutils.log import warn
 import subprocess
 from os import system, getcwd
-from sys import argv, path
-from pathlib import Path
+from sys import argv, path, executable
 
 # Overlord library
 from tools.library import console, gracefulExit
@@ -19,8 +17,7 @@ def awaitInput(ascii_art=True):
     global command_line
 
     if ascii_art:
-        print('''
-    -------------------------------------------------------------------
+        print('''    -------------------------------------------------------------------
 
      ██████╗ ██╗   ██╗███████╗██████╗ ██╗      ██████╗ ██████╗ ██████╗
     ██╔═══██╗██║   ██║██╔════╝██╔══██╗██║     ██╔═══██╗██╔══██╗██╔══██╗
@@ -29,12 +26,10 @@ def awaitInput(ascii_art=True):
     ╚██████╔╝ ╚████╔╝ ███████╗██║  ██║███████╗╚██████╔╝██║  ██║██████╔╝
      ╚═════╝   ╚═══╝  ╚══════╝╚═╝  ╚═╝╚══════╝ ╚═════╝ ╚═╝  ╚═╝╚═════╝
 
-    To get help & information on Overlord tools go to this github
-    address:
+    To get help & information about the Overlord-CLI go to this github
+    address or read your local README.md.
 
     https://github.com/EasterCompany/Overlord/blob/main/README.md
-
-    or read your local README.md
 
     -------------------------------------------------------------------
         ''')
@@ -169,13 +164,8 @@ def run_tool(command, index=0):
                 node.clients.install(argument)
             return
 
-        elif arguments_remaining > 0:
-            return print(console.col(
-                f"\n [ERROR] Received too many invalid arguments\n {' '.join(command_line)}", "red"
-            ))
-
         # Install Overlord Server
-        print('\nInstalling Overlord-Tools...')
+        output('\nInstalling Overlord-Tools...')
         git.update.all()
 
         def set_branch_origins(repo=None):
@@ -192,6 +182,9 @@ def run_tool(command, index=0):
     elif command == 'pull':
         system('./o pull')
 
+    elif command == 'push':
+        system('./o push')
+
     elif command == 'dev' or command == 'development':
         git.branch.switch('dev')
 
@@ -203,9 +196,6 @@ def run_tool(command, index=0):
             if arguments[0] == 'all': git.merge.all(git_message), gracefulExit()
             else: git.merge.with_message(git_message, git_repo), gracefulExit()
         git.merge.error_message(), gracefulExit()
-
-    elif command == 'push':
-        system('./o push')
 
     elif command == 'new_secret_key':
         django.secret_key.new()
@@ -313,9 +303,19 @@ def run_tool(command, index=0):
                 "`node` command doesn't take any arguments",
                 error=True
             )
-        output(console.col('Starting Node.JS', 'green'))
+        output(console.col('\nStarting Node.', 'green') + '\n[type: .exit to return] ')
         system('node')
-        output(console.col('Closed Node.JS', 'red'))
+        output(console.col('Closed Node.', 'red'))
+
+    elif command == 'django':
+        if not arguments_remaining == 0:
+            return output(
+                "`django` command doesn't take any arguments",
+                error=True
+            )
+        output(console.col('\nStarting Django.', 'green') + '\n[type: exit() to return] ')
+        system(f'{executable} run.py shell_plus')
+        output(console.col('Closed Django.', 'red'))
 
     elif command == 'status': system('git status')
 
@@ -331,7 +331,7 @@ def run_tool(command, index=0):
 
     else:
         bad_input = ' '.join(command_line)
-        print(console.col(f'\n [ERROR] No command matching input\n > ./o {bad_input}', 'red'))
+        output(f"No command matching input\n > ./o {bad_input}", error=True)
 
     return awaitInput(False)
 
