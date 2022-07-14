@@ -1,4 +1,5 @@
 # Standard library
+from distutils.log import warn
 import subprocess
 from os import system, getcwd
 from sys import argv, path
@@ -49,10 +50,26 @@ def awaitInput(ascii_art=True):
             break
 
 
-def output(line):
+def output(line, error=False, success=False, warning=False):
+    _output = "\n"
+
+    if error:
+        _output += " [ERROR] "
+    elif warning:
+        _output += " [WARNING] "
+
     if callable(line):
-        return print(f'\n{line()}')
-    return print(f'\n{line}')
+        _output += f'{line()}\n'
+    else:
+        _output += f'{line}\n'
+
+    if error:
+        return print(console.col(_output, 'red'))
+    elif warning:
+        return print(console.col(_output, 'yellow'))
+    elif success:
+        return print(console.col(_output, 'green'))
+    return print(_output)
 
 
 def help():
@@ -63,7 +80,7 @@ def help():
     To begin with lets go over some simple developer commands that'll
     help make your experience here - fast and easy.
 
-    01. ls
+    01. clients
         - Lists all the clients in your clients directory that are either
           installed or ready-to-install.
 
@@ -278,7 +295,7 @@ def run_tool(command, index=0):
 
     elif command == 'help': help()
 
-    elif command == 'ls':
+    elif command == 'clients':
         for _client in node.clients.update_client_json():
             output(f' -> {_client}')
 
@@ -290,9 +307,25 @@ def run_tool(command, index=0):
         dir_size = _process.stdout.split()[0] + 'B'
         output(dir_size)
 
+    elif command == 'node':
+        if not arguments_remaining == 0:
+            return output(
+                "`node` command doesn't take any arguments",
+                error=True
+            )
+        output(console.col('Starting Node.JS', 'green'))
+        system('node')
+        output(console.col('Closed Node.JS', 'red'))
+
+    elif command == 'status': system('git status')
+
     elif command == 'clear': system('clear')
 
     elif command == 'code': system('code .')
+
+    elif command == 'sh':
+        _process = subprocess.run(arguments, capture_output=True, text=True)
+        output(_process.stdout)
 
     elif command == 'exit': exit()
 
