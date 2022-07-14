@@ -1,6 +1,8 @@
 # Standard library
-from os import system
+import subprocess
+from os import system, getcwd
 from sys import argv, path
+from pathlib import Path
 
 # Overlord library
 from tools.library import console, gracefulExit
@@ -45,6 +47,12 @@ def awaitInput(ascii_art=True):
         run()
         if flag.exit():
             break
+
+
+def output(line):
+    if callable(line):
+        return print(f'\n{line()}')
+    return print(f'\n{line}')
 
 
 def help():
@@ -272,7 +280,15 @@ def run_tool(command, index=0):
 
     elif command == 'ls':
         for _client in node.clients.update_client_json():
-            print(f'\n -> {_client}')
+            output(f' -> {_client}')
+
+    elif command == 'cwd': output(getcwd)
+
+    elif command == 'size':
+        dir_path = getcwd()
+        _process = subprocess.run(['du', '-sh', dir_path], capture_output=True, text=True)
+        dir_size = _process.stdout.split()[0] + 'B'
+        output(dir_size)
 
     elif command == 'clear': system('clear')
 
