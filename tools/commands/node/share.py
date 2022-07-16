@@ -1,6 +1,6 @@
 '''
 
-React Code Sharing Tool
+React (Client) Code Sharing Tool
 
 Share your apps, assets, components and libraries across multiple React clients.
 All sharable components will be housed in `clients/shared` directory and any client they
@@ -65,12 +65,18 @@ def add_to_log(shared_path, client_name, share_type):
 
     # Append client to log
     if client_name not in log:
+        _path = 'clients/' + client_name + '/shared'            # Native Client Shared Directory
+
+        if exists(f'clients/{client_name}/src'):
+            _path = 'clients/' + client_name + '/src/shared'    # Web Client Shared Directory
+
         log[client_name] = {
-            "path": 'clients/' + client_name + '/src/shared',
+            "path": _path,
             "file": [],
             "module": []
         }
-    if shared_path == '.log': return None
+
+    if shared_path == '.log': return None                       # Totally fucking forgot what this does...
 
     # Optimize file sharing
     for ms in log[client_name]['module']:
