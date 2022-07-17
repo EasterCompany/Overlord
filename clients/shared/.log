@@ -29,7 +29,7 @@
   "inverair": {
     "path": "clients/inverair/src/shared",
     "file": [
-      "/assets/icons/error.svg"
+      "assets/icons/error.svg"
     ],
     "module": [
       "components/routes/"
