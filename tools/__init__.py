@@ -19,10 +19,10 @@ from .commands.node.share import __update_shared_files__
 # Version Configuration
 __version_control__ = {
     'type': 'DEV',
-    'major': 0,
-    'minor': 0,
-    'patch': 0,
-    'release': 0
+    'major': 1,
+    'minor': 1,
+    'patch': 1,
+    'release': 1
 }
 __version__ = Version(version_data=__version_control__)
 

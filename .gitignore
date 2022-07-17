@@ -18,13 +18,12 @@ static/.temp/
 static/assets/users/
 build/
 # ---
-!static/admin/
-!static/default_react/
+!static/e_panel/*
 
 # Overlord (Clients)
 clients/
-!clients/e_panel/
-!clients/shared/
+!clients/e_panel/*
+!clients/shared/*
 
 # Sqlite (Files)
 *.sqlite3
