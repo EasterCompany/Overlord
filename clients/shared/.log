@@ -25,5 +25,14 @@
       "components/routes/",
       "library/local/"
     ]
+  },
+  "inverair": {
+    "path": "clients/inverair/src/shared",
+    "file": [
+      "/assets/icons/error.svg"
+    ],
+    "module": [
+      "components/routes/"
+    ]
   }
 }

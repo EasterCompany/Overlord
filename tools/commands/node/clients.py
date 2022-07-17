@@ -204,7 +204,7 @@ def create(name, native=False, custom_repo=None):
     # Fetch default react-web template from github
     else:
         print("\nDownloading web-client template...")
-        system('git@github.com:EasterCompany/Overlord-React-Client.git', name)
+        download_repo('git@github.com:EasterCompany/Overlord-React-Client.git', name)
 
     # De-git repository
     print('De-git repository...')
@@ -260,7 +260,7 @@ def create(name, native=False, custom_repo=None):
 
     update_overlord_configuration()
 
-    print(console.col(f'\nSuccessfully created a web client: {name} !', 'green'))
+    print(console.col(f'Successfully created a web client: {name} !', 'green'))
     print(f'To install your client use this command `./o install -{name}`\n')
 
 

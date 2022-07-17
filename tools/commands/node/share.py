@@ -63,6 +63,15 @@ def save_log(log_content):
 def add_to_log(shared_path, client_name, share_type):
     log = get_log()
 
+    # All shared files must be within the directory
+    if not shared_path.startswith('/'):
+        shared_path = '/' + shared_path
+
+    # Prevents sharing of the .log file
+    if shared_path == '/.log':
+        print(console.col("You can't share the log file.", 'red'))
+        return None
+
     # Append client to log
     if client_name not in log:
         _path = 'clients/' + client_name + '/shared'            # Native Client Shared Directory
@@ -75,8 +84,6 @@ def add_to_log(shared_path, client_name, share_type):
             "file": [],
             "module": []
         }
-
-    if shared_path == '.log': return None                       # Prevents sharing of the .log file
 
     # Optimize file sharing
     for ms in log[client_name]['module']:
