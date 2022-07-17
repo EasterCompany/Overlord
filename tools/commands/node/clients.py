@@ -190,12 +190,12 @@ def create(name, native=False, custom_repo=None):
 
     # Fetch react-native app template from github
     if native:
-        print("Downloading native-client template...")
+        print("\nDownloading native-client template...")
         download_repo('git@github.com:EasterCompany/Overlord-Native-Client.git', name)
 
     # Fetch custom or existing client template from any SSH or HTML based repository
     elif custom_repo is not None:
-        print("Downloading custom-client template...")
+        print("\nDownloading custom-client template...")
         download_repo(custom_repo, name)
         print(console.col(f'Successfully created a custom client: {name} !', 'green'))
         print(f'To install your client use this command `./o install -{name}`\n')
@@ -203,7 +203,7 @@ def create(name, native=False, custom_repo=None):
 
     # Fetch default react-web template from github
     else:
-        print("Downloading web-client template...")
+        print("\nDownloading web-client template...")
         system('git@github.com:EasterCompany/Overlord-React-Client.git', name)
 
     # De-git repository
