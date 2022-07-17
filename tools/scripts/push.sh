@@ -25,44 +25,6 @@ git push origin main &>> ~/.scripts.log
 echo "    Success                 ✔️ "
 echo
 
-if [ -d "clients/__react__" ]
-then
-    # Add Files, Commit & Push 'Overlord-React'
-    echo
-    echo " >> Overlord-React "
-    cd ~/Easter/Dev/Ext/Overlord/clients/__react__
-    echo "      branch:             main "
-    git checkout main &> ~/.scripts.log
-    echo "      adding files         ... "
-    git add . &>> ~/.scripts.log
-    echo "      making commit        ... "
-    git commit -m "$AUTO_MESSAGE" &>> ~/.scripts.log
-    echo "      Pushing              ... "
-    git push origin main &>> ~/.scripts.log
-    echo "    Success                 ✔️ "
-    cd ~/Easter/Dev/Ext/Overlord
-    echo
-fi
-
-if [ -d "clients/__angular__" ]
-then
-    # Add Files, Commit & Push 'Overlord-React'
-    echo
-    echo " >> Overlord-Angular "
-    cd ~/Easter/Dev/Ext/Overlord/clients/__angular__
-    echo "      branch:             main "
-    git checkout main &> ~/.scripts.log
-    echo "      adding files         ... "
-    git add . &>> ~/.scripts.log
-    echo "      making commit        ... "
-    git commit -m "$AUTO_MESSAGE" &>> ~/.scripts.log
-    echo "      Pushing              ... "
-    git push origin main &>> ~/.scripts.log
-    echo "    Success                 ✔️ "
-    cd ~/Easter/Dev/Ext/Overlord
-    echo
-fi
-
 if [ -d "clients/pardoewray" ]
 then
     # Add Files, Commit & Push '@Ext/Pardoewray'
