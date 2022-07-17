@@ -275,8 +275,10 @@ def run_tool(command, index=0):
     elif command == 'create':
         if arguments_remaining == 1:
             return node.clients.create(arguments[0])
-        if arguments_remaining == 2 and arguments[0] == 'native':
+        elif arguments_remaining == 2 and arguments[0] == 'native':
             return node.clients.create(arguments[1], native=True)
+        elif arguments_remaining == 2 and (arguments[0].startswith('https://') or arguments[0].startswith('git@')):
+            return node.clients.create(arguments[1], custom_repo=arguments[0])
         else:
             return node.clients.error_message()
 

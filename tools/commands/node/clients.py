@@ -151,7 +151,36 @@ def build_all():
 
 
 # Create new client
-def create(name, native=False):
+def create(name, native=False, custom_repo=None):
+
+    def download_repo(repo_link, name):
+        return system(f'''
+            echo '' && cd clients &&
+            git clone {repo_link} {name} &&
+            cd .. && echo ''
+        ''')
+
+    def update_overlord_configuration():
+        from core.library import url
+
+        # Setup environment
+        __init_config_directory__()
+        __init_logs_directory__()
+
+        # Default environment configuration
+        client_data = make_clients_config(path[0])
+        server_data = path[0] + '/.config/server.json'
+
+        if exists(server_data):
+            with open(server_data) as server_data_file:
+                server_data = loads(server_data_file.read())
+        else:
+            server_data = make_server_config(path[0])
+
+        # Default start-up behavior
+        __update_shared_files__()
+        load_order = url.make_client_load_order(client_data, server_data['INDEX'])
+        url.write_django_urls(load_order, path[0] + '/web/urls.py')
 
     # Make directory checks
     if exists(f'clients/{name}'):
@@ -162,30 +191,29 @@ def create(name, native=False):
     # Fetch react-native app template from github
     if native:
         print("Downloading native-client template...")
-        system(f'''
-            echo '' && cd clients &&
-            git clone git@github.com:EasterCompany/Overlord-Native-Client.git {name} &&
-            cd .. && echo ''
-        ''')
+        download_repo('git@github.com:EasterCompany/Overlord-Native-Client.git', name)
+
+    # Fetch custom or existing client template from any SSH or HTML based repository
+    elif custom_repo is not None:
+        print("Downloading custom-client template...")
+        download_repo(custom_repo, name)
+        print(console.col(f'Successfully created a custom client: {name} !', 'green'))
+        print(f'To install your client use this command `./o install -{name}`\n')
+        return update_overlord_configuration()
 
     # Fetch default react-web template from github
     else:
         print("Downloading web-client template...")
-        system(f'''
-            echo '' && cd clients &&
-            git clone git@github.com:EasterCompany/Overlord-React-Client.git {name} &&
-            cd .. && echo ''
-        ''')
+        system('git@github.com:EasterCompany/Overlord-React-Client.git', name)
 
     # De-git repository
     print('De-git repository...')
     rmtree(f'clients/{name}/.git')
 
     # Update meta_data
-    print('Update index data...')
-
-    # TODO: Unsure if this line is needed anymore, possibly deprecated.
-    # rename(f'clients/{name}/public/static/app-name', f'clients/{name}/public/static/{name}')
+    if exists(f'clients/{name}/public/static/app-name'):
+        print('Update index data...')
+        rename(f'clients/{name}/public/static/app-name', f'clients/{name}/public/static/{name}')
 
     if native:
         # Update native app.json
@@ -230,26 +258,7 @@ def create(name, native=False):
     with open(f'clients/{name}/.env', 'w+') as env_file:
         env_file.write('PORT=%s' % next_port)
 
-    # Setup environment
-    __init_config_directory__()
-    __init_logs_directory__()
-
-    # Default environment configuration
-    client_data = make_clients_config(path[0])
-    server_data = path[0] + '/.config/server.json'
-
-    if exists(server_data):
-        with open(server_data) as server_data_file:
-            server_data = loads(server_data_file.read())
-    else:
-        server_data = make_server_config(path[0])
-
-    # Default start-up behavior
-    __update_shared_files__()
-
-    from core.library import url
-    load_order = url.make_client_load_order(client_data, server_data['INDEX'])
-    url.write_django_urls(load_order, path[0] + '/web/urls.py')
+    update_overlord_configuration()
 
     print(console.col(f'\nSuccessfully created a web client: {name} !', 'green'))
     print(f'To install your client use this command `./o install -{name}`\n')
