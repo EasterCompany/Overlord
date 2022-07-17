@@ -1,6 +1,6 @@
 {
   "name": "e_panel",
-  "version": "0.8.A",
+  "version": "0.9.0",
   "private": true,
   "dependencies": {
     "@testing-library/jest-dom": "^5.11.9",
