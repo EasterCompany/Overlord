@@ -76,7 +76,7 @@ def add_to_log(shared_path, client_name, share_type):
             "module": []
         }
 
-    if shared_path == '.log': return None                       # Totally fucking forgot what this does...
+    if shared_path == '.log': return None                       # Prevents sharing of the .log file
 
     # Optimize file sharing
     for ms in log[client_name]['module']:
