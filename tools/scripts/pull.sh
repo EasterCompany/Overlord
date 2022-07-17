@@ -17,37 +17,9 @@ git pull origin main --recurse-submodules &>> ~/.scripts.log
 echo "    Success                 ✔️ "
 echo
 
-if [ -d "clients/__react__" ]
-then
-    # Add Files, Commit & Push 'Overlord-React'
-    echo
-    echo " >> Overlord-React "
-    cd ~/Easter/Dev/Ext/Overlord/clients/__react__
-    echo "      branch:             main "
-    git checkout main &> ~/.scripts.log
-    echo "      pulling files        ... "
-    git pull origin main --recurse-submodules &>> ~/.scripts.log
-    echo "    Success                 ✔️ "
-    echo
-fi
-
-if [ -d "clients/__angular__" ]
-then
-    # Add Files, Commit & Push 'Overlord-React'
-    echo
-    echo " >> Overlord-Angular "
-    cd ~/Easter/Dev/Ext/Overlord/clients/__angular__
-    echo "      branch:             main "
-    git checkout main &> ~/.scripts.log
-    echo "      pulling files        ... "
-    git pull origin main --recurse-submodules &>> ~/.scripts.log
-    echo "    Success                 ✔️ "
-    echo
-fi
-
 if [ -d "clients/pardoewray" ]
 then
-    # Add Files, Commit & Push '@Ext/Pardoewray'
+    # Add Files, Commit & Push '@Ext/PardoeWray'
     echo
     echo " >> Pardoewray "
     cd ~/Easter/Dev/Ext/Overlord/clients/pardoewray
@@ -56,12 +28,13 @@ then
     echo "      pulling files        ... "
     git pull origin main --recurse-submodules &>> ~/.scripts.log
     echo "    Success                 ✔️ "
+    cd ~/Easter/Dev/Ext/Overlord
     echo
 fi
 
 if [ -d "clients/inverair" ]
 then
-    # Add Files, Commit & Push '@Ext/Pardoewray'
+    # Add Files, Commit & Push '@Ext/InverAir'
     echo
     echo " >> Inverair "
     cd ~/Easter/Dev/Ext/Overlord/clients/inverair
@@ -70,6 +43,7 @@ then
     echo "      pulling files        ... "
     git pull origin main --recurse-submodules &>> ~/.scripts.log
     echo "    Success                 ✔️ "
+    cd ~/Easter/Dev/Ext/Overlord
     echo
 fi
 
