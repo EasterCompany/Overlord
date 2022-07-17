@@ -38,7 +38,7 @@ def awaitInput(ascii_art=True):
 
     flag = gracefulExit.GracefulExit()
     while True:
-        Input = input(console.col('@> ', 'green'))
+        Input = input(console.col('./o ', 'green'))
         command_line = Input.split(' ')
         run()
         if flag.exit():
@@ -154,7 +154,7 @@ def run_tool(command, index=0):
     elif command == 'install':
         # Install a specific or various Overlord Clients
         if arguments_remaining == 1 and (arguments[0] == 'clients' or arguments[0] == 'all'):
-            print(" Installing all clients:")
+            print("\n Installing all clients:")
             return node.clients.install()
 
         elif arguments_remaining > 0:
