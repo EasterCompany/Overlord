@@ -273,12 +273,20 @@ def run_tool(command, index=0):
             return pa.api.error_message()
 
     elif command == 'create':
-        if arguments_remaining == 1:
-            return node.clients.create(arguments[0])
+        # Custom client
+        if arguments_remaining == 1 and (arguments[0].startswith('https://') or arguments[0].startswith('git@')):
+            new_client_name = arguments[0].split('/')[-1].split('.git')[0].lower()
+            return node.clients.create(new_client_name, custom_repo=arguments[0])
+        # Default web client
+        elif arguments_remaining == 1:
+            return node.clients.create(arguments[0].lower())
+        # Default native client
         elif arguments_remaining == 2 and arguments[0] == 'native':
-            return node.clients.create(arguments[1], native=True)
+            return node.clients.create(arguments[1].lower(), native=True)
+        # Custom client with `name` argument
         elif arguments_remaining == 2 and (arguments[0].startswith('https://') or arguments[0].startswith('git@')):
-            return node.clients.create(arguments[1], custom_repo=arguments[0])
+            return node.clients.create(arguments[1].lower(), custom_repo=arguments[0])
+        # Invalid input error
         else:
             return node.clients.error_message()
 
