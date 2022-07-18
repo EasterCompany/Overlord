@@ -3,18 +3,18 @@
   "name": "Inverair Drone Services",
   "icons": [
     {
-      "src": "static/favicon.ico",
+      "src": "static/inverair/favicon.ico",
       "sizes": "64x64 32x32 24x24 16x16",
       "type": "image/x-icon"
     },
     {
-      "src": "static/logo192.png",
+      "src": "static/inverair/logo192.png",
       "type": "image/png",
       "sizes": "192x192",
       "purpose": "any maskable"
     },
     {
-      "src": "static/logo512.png",
+      "src": "static/inverair/logo512.png",
       "type": "image/png",
       "sizes": "512x512"
     }
