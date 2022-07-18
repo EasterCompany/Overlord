@@ -1,7 +1,7 @@
 {
   "files": {
-    "main.css": "/static/inverair/static/css/main.1695007f.css",
-    "main.js": "/static/inverair/static/js/main.315c8f13.js",
+    "main.css": "/static/inverair/static/css/main.a6b985b5.css",
+    "main.js": "/static/inverair/static/js/main.0dba846e.js",
     "static/js/377.1a454e8f.chunk.js": "/static/inverair/static/js/377.1a454e8f.chunk.js",
     "static/media/homeBanner.jpg": "/static/inverair/static/media/homeBanner.cc9b1ed52a62b856067d.jpg",
     "static/media/four.jpg": "/static/inverair/static/media/four.eaeaaa0eb5939624f8cd.jpg",
@@ -17,14 +17,14 @@
     "index.html": "/static/inverair/index.html",
     "static/media/star.svg": "/static/inverair/static/media/star.e424de38f36d4bf71639a2c346965913.svg",
     "static/media/linkedin.svg": "/static/inverair/static/media/linkedin.033b1683dcd2583d7ff2c6ce56160dac.svg",
-    "static/media/error.svg": "/static/inverair/static/media/error.c246bb9100771f9286cca1e7bc750b89.svg",
+    "static/media/error.svg": "/static/inverair/static/media/error.34b9bc03d8aeb6322895018c3fee09f8.svg",
     "static/media/facebook.svg": "/static/inverair/static/media/facebook.98aa70376eaf18b2af8d225e0a1e3552.svg",
-    "main.1695007f.css.map": "/static/inverair/static/css/main.1695007f.css.map",
-    "main.315c8f13.js.map": "/static/inverair/static/js/main.315c8f13.js.map",
+    "main.a6b985b5.css.map": "/static/inverair/static/css/main.a6b985b5.css.map",
+    "main.0dba846e.js.map": "/static/inverair/static/js/main.0dba846e.js.map",
     "377.1a454e8f.chunk.js.map": "/static/inverair/static/js/377.1a454e8f.chunk.js.map"
   },
   "entrypoints": [
-    "static/css/main.1695007f.css",
-    "static/js/main.315c8f13.js"
+    "static/css/main.a6b985b5.css",
+    "static/js/main.0dba846e.js"
   ]
 }
