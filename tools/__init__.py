@@ -21,7 +21,7 @@ __version_control__ = {
     'type': 'DEV',
     'major': 1,
     'minor': 1,
-    'patch': 1,
+    'patch': 2,
     'release': 1
 }
 __version__ = Version(version_data=__version_control__)

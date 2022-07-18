@@ -92,7 +92,7 @@ def make_server_config(project_path='.'):
         "ALLOWED_HOSTS": [
             '.127.0.0.1',
             '.localhost',
-            '.easter.company'
+            '.easter.company',
             '.eastercompany.eu.pythonanywhere.com'
         ],
         "INSTALLED_APPS": [
