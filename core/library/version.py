@@ -1,20 +1,10 @@
 
-init_version = {
-    'type': 'DEV',
-    'major': 0,
-    'minor': 0,
-    'patch': 0,
-    'release': 0
-}
-
-
 class Version():
 
     def __init__(self, version_data=None):
         # Default version control
-        if version_data is None:
-            version_data = init_version
-
+        from tools import __version_control__
+        version_data = __version_control__
         # Initialize version data
         self.type = version_data['type']
         self.major = version_data['major']

@@ -4,6 +4,7 @@ from os import system, getcwd
 from sys import argv, path, executable
 
 # Overlord library
+from core.library.version import Version
 from tools.library import console, gracefulExit
 from tools.commands import install, git, django, node, pytest, pa
 
@@ -11,13 +12,14 @@ tools_path = '/'.join(__file__.split('/')[:-1])
 project_path = path[0]
 command_line = argv[2:]
 len_cmd_line = len(command_line)
+_version = Version()
 
 
 def awaitInput(ascii_art=True):
     global command_line
 
     if ascii_art:
-        print('''    -------------------------------------------------------------------
+        print(f'''    -------------------------------------------------------------------
 
      ██████╗ ██╗   ██╗███████╗██████╗ ██╗      ██████╗ ██████╗ ██████╗
     ██╔═══██╗██║   ██║██╔════╝██╔══██╗██║     ██╔═══██╗██╔══██╗██╔══██╗
@@ -25,6 +27,7 @@ def awaitInput(ascii_art=True):
     ██║   ██║╚██╗ ██╔╝██╔══╝  ██╔══██╗██║     ██║   ██║██╔══██╗██║  ██║
     ╚██████╔╝ ╚████╔╝ ███████╗██║  ██║███████╗╚██████╔╝██║  ██║██████╔╝
      ╚═════╝   ╚═══╝  ╚══════╝╚═╝  ╚═╝╚══════╝ ╚═════╝ ╚═╝  ╚═╝╚═════╝
+                              Ver {_version.major}.{_version.minor}.{_version.patch}
 
     To get help & information about the Overlord-CLI go to this github
     address or read your local README.md.
