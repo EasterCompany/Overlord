@@ -27,7 +27,7 @@ def awaitInput(ascii_art=True):
     ██║   ██║╚██╗ ██╔╝██╔══╝  ██╔══██╗██║     ██║   ██║██╔══██╗██║  ██║
     ╚██████╔╝ ╚████╔╝ ███████╗██║  ██║███████╗╚██████╔╝██║  ██║██████╔╝
      ╚═════╝   ╚═══╝  ╚══════╝╚═╝  ╚═╝╚══════╝ ╚═════╝ ╚═╝  ╚═╝╚═════╝
-                              Ver {_version.major}.{_version.minor}.{_version.patch}
+                                Ver {_version.major}.{_version.minor}.{_version.patch}
 
     To get help & information about the Overlord-CLI go to this github
     address or read your local README.md.
