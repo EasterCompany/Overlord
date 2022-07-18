@@ -1,7 +1,7 @@
 {
   "files": {
-    "main.css": "/static/inverair/static/css/main.ba6397dc.css",
-    "main.js": "/static/inverair/static/js/main.0dba846e.js",
+    "main.css": "/static/inverair/static/css/main.9810c310.css",
+    "main.js": "/static/inverair/static/js/main.cf28a3b8.js",
     "static/js/377.1a454e8f.chunk.js": "/static/inverair/static/js/377.1a454e8f.chunk.js",
     "static/media/homeBanner.jpg": "/static/inverair/static/media/homeBanner.cc9b1ed52a62b856067d.jpg",
     "static/media/four.jpg": "/static/inverair/static/media/four.eaeaaa0eb5939624f8cd.jpg",
@@ -19,12 +19,12 @@
     "static/media/linkedin.svg": "/static/inverair/static/media/linkedin.033b1683dcd2583d7ff2c6ce56160dac.svg",
     "static/media/error.svg": "/static/inverair/static/media/error.34b9bc03d8aeb6322895018c3fee09f8.svg",
     "static/media/facebook.svg": "/static/inverair/static/media/facebook.98aa70376eaf18b2af8d225e0a1e3552.svg",
-    "main.ba6397dc.css.map": "/static/inverair/static/css/main.ba6397dc.css.map",
-    "main.0dba846e.js.map": "/static/inverair/static/js/main.0dba846e.js.map",
+    "main.9810c310.css.map": "/static/inverair/static/css/main.9810c310.css.map",
+    "main.cf28a3b8.js.map": "/static/inverair/static/js/main.cf28a3b8.js.map",
     "377.1a454e8f.chunk.js.map": "/static/inverair/static/js/377.1a454e8f.chunk.js.map"
   },
   "entrypoints": [
-    "static/css/main.ba6397dc.css",
-    "static/js/main.0dba846e.js"
+    "static/css/main.9810c310.css",
+    "static/js/main.cf28a3b8.js"
   ]
 }
