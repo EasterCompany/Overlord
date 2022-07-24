@@ -167,3 +167,43 @@ def secrets_file(project_path='.'):
         "EMAIL_PASS": ""
     }
     return dump_json('secret', token_data, project_path)
+
+
+def o_file(project_path='.'):
+    with open(f"{project_path}/o", "w") as o_file:
+        o_file.write(
+"""#!/bin/bash
+cd {project_path}
+clear
+echo
+
+if [ "$1" == "pull" ]
+then
+    ./tools/scripts/pull.sh && exit
+    exit
+fi
+
+if [ "$1" = "push" ]
+then
+    ./tools/scripts/push.sh && exit
+    exit
+fi
+
+if [ "$1" = "deploy" ]
+then
+    ./tools/scripts/git/deploy.sh "$2" && exit
+fi
+
+if [ "$1" = "django" ]
+then
+    if [ "$2" = "purge" ]
+    then
+        ./tools/scripts/django/purge.sh && exit
+    fi
+    exit
+fi
+
+python3 run.py tools $@
+echo
+"""
+        )
