@@ -5,7 +5,7 @@ from datetime import date
 from web.settings import BASE_DIR, CLIENT_DATA
 
 COMMIT_DATE = date.today().strftime("%d/%b/%y")
-AUTO_COMMIT_MESSAGE=f"🤖 {COMMIT_DATE}"
+AUTO_COMMIT_MESSAGE=f"🤖 [AUTO] {COMMIT_DATE}".upper()
 
 
 def all():
