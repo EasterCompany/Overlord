@@ -5,7 +5,7 @@ from os import system
 from datetime import datetime
 
 # Local Module Imports
-from tools.commands.git import update
+from tools.commands.git import pull
 
 # Load requests logs file for logging
 with open(path[0] + '/.logs/requests.json') as requests_file:
@@ -69,7 +69,7 @@ def upgrade_request(secret):
     print('    succeeded.\n')
 
     try:
-        update.all()                            # Pull updates from git repository
+        pull.all()                              # Pull updates from git repository
         system(path[0] + '/o collectstatic')    # Collect new static files
         status = OK_status
     except Exception as e:

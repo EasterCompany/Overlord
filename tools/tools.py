@@ -169,24 +169,25 @@ def run_tool(command, index=0):
 
         # Install Overlord Server
         output('\nInstalling Overlord-Tools...')
-        git.update.all()
+        git.pull.all()
 
         def set_branch_origins(repo=None):
-            git.update.branch_origins('dev', repo)
-            git.update.branch_origins('main', repo)
+            git.pull.branch_origins('dev', repo)
+            git.pull.branch_origins('main', repo)
 
         set_branch_origins()
         print(' ')
         install.make_server_config(project_path)
         install.django_files(project_path)
         install.secrets_file(project_path)
+        install.o_file(project_path)
         print('\n', console.col('Success!.', 'green'), '\n')
 
     elif command == 'pull':
-        system('./o pull')
+        git.pull.all()
 
     elif command == 'push':
-        system('./o push')
+        git.push.all()
 
     elif command == 'dev' or command == 'development':
         git.branch.switch('dev')
