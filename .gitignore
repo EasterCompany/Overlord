@@ -3,6 +3,7 @@
 .idea/
 
 # Overlord (Files)
+o
 *.key
 /web/urls.py
 api/migrations/*.py

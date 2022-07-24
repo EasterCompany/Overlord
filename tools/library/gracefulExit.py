@@ -1,5 +1,4 @@
 import signal
-from . import console
 
 
 class GracefulExit():
