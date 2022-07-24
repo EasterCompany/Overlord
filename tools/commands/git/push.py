@@ -27,3 +27,4 @@ def all():
       os.chdir(source_dir)
       os.system(f'''git add . && git commit -m "{AUTO_COMMIT_MESSAGE}" && git push''')
       os.chdir(BASE_DIR)
+      print("\n")
