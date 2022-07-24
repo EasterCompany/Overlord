@@ -172,7 +172,7 @@ def secrets_file(project_path='.'):
 def o_file(project_path='.'):
   print("Generating o file...")
   with open(f"{project_path}/o", "w") as o_file:
-    o_file.write("""#!/bin/bash
+    o_file.write(f"""#!/bin/bash
 cd {project_path}
 clear
 echo
