@@ -1,6 +1,6 @@
 # Standard imports
 import json
-from sys import path
+from sys import path, executable
 from os.path import exists, join as pathjoin
 from os import scandir, mkdir, system
 
@@ -176,7 +176,7 @@ def o_file(project_path='.'):
 cd {project_path}
 clear
 echo
-python3 run.py tools $@
+{executable} run.py tools $@
 echo
 """)
   system("chmod +x ./o")
