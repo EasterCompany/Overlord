@@ -162,20 +162,15 @@ def run_tool(command, index=0):
 
         elif arguments_remaining > 0:
             for argument in arguments:
-                print(f"\n Installing client: {argument}")
-                print(" ----------------------------------- ")
+                print(f"\nInstalling client: {argument}")
+                print("----------------------------------- ")
                 node.clients.install(argument)
             return
 
         # Install Overlord Server
         output('\nInstalling Overlord-Tools...')
-        git.pull.all()
-
-        def set_branch_origins(repo=None):
-            git.pull.branch_origins('dev', repo)
-            git.pull.branch_origins('main', repo)
-
-        set_branch_origins()
+        git.pull.branch_origins('dev', None)
+        git.pull.branch_origins('main', None)
         print(' ')
         install.make_server_config(project_path)
         install.django_files(project_path)
