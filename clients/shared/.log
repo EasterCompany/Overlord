@@ -34,5 +34,15 @@
     "module": [
       "components/routes/"
     ]
+  },
+  "eastercompany": {
+    "path": "clients/eastercompany/src/shared",
+    "file": [
+      "assets/icons/error.svg"
+    ],
+    "module": [
+      "components/routes/",
+      "library/"
+    ]
   }
 }

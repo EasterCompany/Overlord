@@ -149,21 +149,20 @@ export const logout = () => {
 
 
 // Log in
-export const login = async (email:any, password:any) => {
+export const login = async (email:any, password:any, callback:any=null) => {
   const encodedEmail = encodeURIComponent(email);
   await POST(
     `user/login/${encodedEmail}`,
     password,
-    (resp:any) => null,
+    (resp:any) => callback === null ? null : callback(resp),
     (user:any) => {
       __INIT_USER__(
         user.uuid, user.email, user.session, "", "", "", "", "",
         "", "", ""
       )
-      window.location.reload();
+      callback === null ? window.location.reload() : callback(user)
     }
   )
-
 }
 
 
