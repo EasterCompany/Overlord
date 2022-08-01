@@ -1,7 +1,7 @@
 {
   "files": {
     "main.css": "/static/eastercompany/static/css/main.1e10bd82.css",
-    "main.js": "/static/eastercompany/static/js/main.a9a99076.js",
+    "main.js": "/static/eastercompany/static/js/main.bcd4d577.js",
     "static/js/377.80265db8.chunk.js": "/static/eastercompany/static/js/377.80265db8.chunk.js",
     "static/media/overlord_light.png": "/static/eastercompany/static/media/overlord_light.4ab364221049f43c7e64.png",
     "static/media/spartanIconBlur.png": "/static/eastercompany/static/media/spartanIconBlur.9bc4748d1b0e4a64e259.png",
@@ -20,11 +20,11 @@
     "static/media/link.svg": "/static/eastercompany/static/media/link.ed284958b9a96778abf2888f042e7edf.svg",
     "static/media/email.svg": "/static/eastercompany/static/media/email.8bf10b709170505d6462fc2c51a06af1.svg",
     "main.1e10bd82.css.map": "/static/eastercompany/static/css/main.1e10bd82.css.map",
-    "main.a9a99076.js.map": "/static/eastercompany/static/js/main.a9a99076.js.map",
+    "main.bcd4d577.js.map": "/static/eastercompany/static/js/main.bcd4d577.js.map",
     "377.80265db8.chunk.js.map": "/static/eastercompany/static/js/377.80265db8.chunk.js.map"
   },
   "entrypoints": [
     "static/css/main.1e10bd82.css",
-    "static/js/main.a9a99076.js"
+    "static/js/main.bcd4d577.js"
   ]
 }
