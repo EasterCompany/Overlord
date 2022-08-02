@@ -4,6 +4,7 @@ django==4.0.6
 cors==1.0.1
 django-cors-headers==3.11.0
 whitenoise==6.0.0
+cryptography==37.0.4
 
 # Overlord Developer Packages
 pylint==3.0.0a4

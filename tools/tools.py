@@ -1,6 +1,7 @@
 # Standard library
 import subprocess
 from os import system, getcwd
+from os.path import exists
 from sys import argv, path, executable
 
 # Overlord library
@@ -167,7 +168,19 @@ def run_tool(command, index=0):
                 node.clients.install(argument)
             return
 
+        # System Overwrite Warning
+        if exists('./db.sqlite3'):
+            output(
+                "You are about to overwrite your current installation.\n"
+                "This will cause you to lose access to all your encrypted data.\n"
+            )
+            _input = input('Type "confirm" to continue anyway: ')
+            if not _input.lower() == "confirm":
+                return output("User did not confirm to a system overwrite.")
+
         # Install Overlord Server
+        output('Installing requirements.txt...')
+        system(f'{executable} -m pip install -r requirements.txt')
         output('\nInstalling Overlord-Tools...')
         git.pull.branch_origins('dev', None)
         git.pull.branch_origins('main', None)
@@ -176,6 +189,7 @@ def run_tool(command, index=0):
         install.django_files(project_path)
         install.secrets_file(project_path)
         install.o_file(project_path)
+        django.secret_key.new(project_path)
         print('\n', console.col('Success!.', 'green'), '\n')
 
     elif command == 'pull':

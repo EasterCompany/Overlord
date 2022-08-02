@@ -29,7 +29,7 @@ URLS = [
     ),
 
     path(
-        API("create/<str:email>/<str:key>/<str:permissions>"),
+        API("create/<str:email>/<str:permissions>"),
         User.create,
         name="Create New User"
     ),

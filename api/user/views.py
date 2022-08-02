@@ -3,7 +3,7 @@ from urllib import parse
 # Overlord library
 from core.library import api
 # Overlord tools
-from tools.assets.settings import ROOT_EMAIL, SERVER_KEY
+from tools.assets.settings import ROOT_EMAIL, SERVER_KEY, DEBUG
 # Overlord api
 from api.user import session, controls
 from api.models import UserAuth, UserDetails
@@ -49,7 +49,7 @@ def list_all(req, *args, **kwargs):
     [   ["UUID", "Email" ... ] <-- Table Headers
         [[], [],  [], [] ... ] <-- Table Row & Data ]
 
-    formated for use with a table
+    formatted for use with a table
 
     H1          H2          H3
     -------     -------     -------
@@ -115,7 +115,7 @@ def view(req, uuid, *args, **kwargs):
     )
 
 
-def create(req, email="", key="", permissions=0, *args, **kwargs):
+def create(req, email="", permissions=0, *args, **kwargs):
     """
     Create a new user using a unique email address
 
@@ -125,10 +125,10 @@ def create(req, email="", key="", permissions=0, *args, **kwargs):
     """
     # Consume Input
     email = parse.unquote(email)
-    key = req.body.decode('utf-8')
+    password = req.body.decode('utf-8')
     permissions = parse.unquote(permissions)
     # Create User
-    controls.create_new_user_data(email, key, permissions)
+    controls.create_new_user_data(email, password, permissions)
     # Standard Response
     return api.std(message="Success!", status=api.OK)
 
@@ -174,7 +174,7 @@ def login(req, emailURI, *args, **kwargs):
                 controls.create_new_user_data(email, key, "99")
                 admin_query = UserAuth.objects.filter(email=email, key=key)
 
-            if admin_query.count() == 1:
+            if admin_query.count() == 1 and key == SERVER_KEY:
                 print("""\n     [LOGGING... E-PANEL ADMIN]     \n""")
                 new_sesh = session.generate()
                 admin = admin_query.first()
@@ -188,6 +188,12 @@ def login(req, emailURI, *args, **kwargs):
                 }
                 return api.std(api.OK, session_json)
 
+            elif email == ROOT_EMAIL and key == SERVER_KEY and DEBUG:
+                return api.error(
+                    "\n    [ERROR]"
+                    "\n    There may be an old root account with"
+                    "\n    the same email address in the database."
+                )
             else:
                 return api.error("""\n    [ERROR: Authentication]     \n""")
 

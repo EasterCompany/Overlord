@@ -1,3 +1,6 @@
+# Standard library
+from cryptography.fernet import Fernet
+from rsa import decrypt, encrypt
 # Overlord library
 from core.library import api
 # Overlord api
@@ -23,14 +26,19 @@ def purge_all_user_data(uuid):
     return False
 
 
-def create_new_user_data(email, key, permissions):
-    # Email Exists
+def create_new_user_data(email, password, permissions):
+    # Check if email already exists
     if UserAuth.objects.filter(email=email).count() > 0:
         return api.std(message="Email already exists", status=api.BAD)
-    # Create User
+    # Encrypt password
+    encrypted_password = Fernet.encrypt(password)
+    print(encrypted_password)
+    decrypted_password = Fernet.decrypt(encrypted_password)
+    print(decrypted_password)
+    # Create new user
     UserAuth.objects.create(
         email=email,
-        key=key,
+        key=password,
         permissions=int(permissions),
         session=session.generate()
     )

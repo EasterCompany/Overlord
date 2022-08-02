@@ -1,6 +1,7 @@
 # Django library
 from django.http import JsonResponse
 # Overlord library
+from web.settings import DEBUG
 from .console import Console
 
 OK = 'OK'
@@ -46,7 +47,7 @@ def error(exception=None):
     :param exception str: message caught upon error exception
     :return: api.std showing a HTTP 500 Error
     """
-    if exception is not None:
+    if exception is not None and not DEBUG:
         print(f"""
             [{CON.output("INTERNAL SERVER ERROR", "red")}]
 

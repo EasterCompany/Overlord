@@ -1,14 +1,14 @@
 from json import loads, dump
-from django.core.management.utils import get_random_secret_key
+from cryptography.fernet import Fernet
 
 
 def new(project_path='.'):
-    print('Creating new secret key...')
-    new_key = get_random_secret_key()
+    print('Generating new secret key...')
+    new_key = Fernet.generate_key()
 
     with open(project_path + '/.config/secret.json') as old_file:
         data = loads(old_file.read())
-        data['SERVER_KEY'] = new_key
+        data['SERVER_KEY'] = new_key.decode('utf-8')
 
     with open(project_path + '/.config/secret.json', 'w') as conf_file:
         dump(
@@ -17,4 +17,5 @@ def new(project_path='.'):
             indent=2
         )
 
-    return print('Success!')
+    print(new_key)
+    return new_key
