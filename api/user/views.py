@@ -2,8 +2,7 @@
 from urllib import parse
 # Overlord library
 from core.library import api
-# Overlord tools
-from tools.assets.settings import ROOT_EMAIL, SERVER_KEY, DEBUG
+from core.library.cryptography import decrypt
 # Overlord api
 from api.user import session, controls
 from api.models import UserAuth, UserDetails
@@ -123,14 +122,17 @@ def create(req, email="", permissions=0, *args, **kwargs):
     :param key str: pre-hashed user password key
     :return: api.std
     """
-    # Consume Input
-    email = parse.unquote(email)
-    password = req.body.decode('utf-8')
-    permissions = parse.unquote(permissions)
-    # Create User
-    controls.create_new_user_data(email, password, permissions)
-    # Standard Response
-    return api.std(message="Success!", status=api.OK)
+    try:
+        # Consume Input
+        email = parse.unquote(email)
+        password = req.body.decode('utf-8')
+        permissions = parse.unquote(permissions)
+        # Create User
+        controls.create_new_user_data(email, password, permissions)
+        # Standard Response
+        return api.std(message="Success!", status=api.OK)
+    except Exception as exception:
+        return api.error(exception)
 
 
 def verify(req, target, key, *args, **kwargs):
@@ -144,7 +146,7 @@ def verify(req, target, key, *args, **kwargs):
     try:
         user = UserAuth.objects.get(email=target, key=key, active=False)
     except Exception as exception:
-        return api.std(message=str(exception), status=api.BAD)
+        return api.error(exception)
 
     user.active = True
     user.authenticated_email = True
@@ -161,55 +163,14 @@ def login(req, emailURI, *args, **kwargs):
     :param key str: encrypted login secret key
     :return: api.std
     """
-    # Admin User Login
-    try:
-        email = parse.unquote(emailURI)
-        key = req.body.decode('utf-8')
-
-        if email == ROOT_EMAIL:
-            admin_query = UserAuth.objects.filter(email=email, key=key)
-
-            if UserAuth.objects.filter(email=email).count() == 0 and key == SERVER_KEY:
-                print("""\n     [CREATING.. E-PANEL ADMIN]     \n""")
-                controls.create_new_user_data(email, key, "99")
-                admin_query = UserAuth.objects.filter(email=email, key=key)
-
-            if admin_query.count() == 1 and key == SERVER_KEY:
-                print("""\n     [LOGGING... E-PANEL ADMIN]     \n""")
-                new_sesh = session.generate()
-                admin = admin_query.first()
-                admin.session = new_sesh
-                admin.save()
-                session_json = {
-                    "uuid": admin.uuid, "email": admin.email, "sms": admin.sms, "key": admin.key,
-                    "auth_email": admin.authenticated_email, "auth_sms": admin.authenticated_sms,
-                    "session": admin.session, "last_activity": admin.last_activity,
-                    "active": admin.active, "permissions": admin.permissions
-                }
-                return api.std(api.OK, session_json)
-
-            elif email == ROOT_EMAIL and key == SERVER_KEY and DEBUG:
-                return api.error(
-                    "\n    [ERROR]"
-                    "\n    There may be an old root account with"
-                    "\n    the same email address in the database."
-                )
-            else:
-                return api.error("""\n    [ERROR: Authentication]     \n""")
-
-    except Exception as exception:
-        return api.error(exception)
-
-    # Regular User Login
-    try:
-        user = UserAuth.objects.filter(email=email, key=key).first()
-        sesh = session.generate()
-        user.session = sesh
-        user.save()
-        return api.std(api.OK, sesh)
-
-    except Exception as exception:
-        return api.error(exception)
+    email = parse.unquote(emailURI)
+    password = req.body.decode('utf-8')
+    user = UserAuth.objects.filter(email=email).first()
+    if password == decrypt(user.key):
+        return api.data({
+            'uuid': user.uuid, 'email': user.email, 'session': user.session
+        })
+    return api.error()
 
 
 def edit(req, *args, **kwargs):
@@ -228,4 +189,4 @@ def edit(req, *args, **kwargs):
         details.display_name = req.post.get('display_name')
         return api.std(message="User database records successfully modified", status=api.OK)
     except Exception as exception:
-        return api.std(api.BAD, exception)
+        return api.error(exception)

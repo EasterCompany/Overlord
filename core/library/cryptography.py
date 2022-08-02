@@ -9,8 +9,10 @@ ENGINE = Fernet(bytes(SECRET_DATA['SERVER_KEY'], 'utf-8'))
 def encrypt(data):
   if not isinstance(data, bytes):
     data = bytes(str(data), 'utf-8')
-  return ENGINE.encrypt(data)
+  return ENGINE.encrypt(data).decode('utf-8')
 
 
 def decrypt(data):
+  if not isinstance(data, bytes):
+    data = bytes(str(data), 'utf-8')
   return ENGINE.decrypt(data).decode('utf-8')
