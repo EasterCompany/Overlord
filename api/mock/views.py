@@ -2954,3 +2954,925 @@ def ex_boyfriend_jeans(req, *args, **kwargs):
     }
   ]
 })
+
+
+def ex_boyfriend_high_rise(reqs, *args, **kwargs):
+  return JsonResponse({
+  "product": [
+    {
+      "id": 4367719,
+      "identifier": {
+        "productUrl": "/shop/product/ag-ex-boyfriend-high-rise-ankle-jeans-in-california?ID=4367719",
+        "productId": 4367719,
+        "topLevelCategoryID": "2910",
+        "topLevelCategoryName": "Women"
+      },
+      "detail": {
+        "name": "Ex Boyfriend High Rise Ankle Jeans in California",
+        "description": "",
+        "secondaryDescription": "",
+        "seoKeywords": "AG, AG Ex Boyfriend High Rise Ankle Jeans in California",
+        "flags": {
+          "chanel": False,
+          "hermes": False,
+          "coach": False,
+          "hasWarranty": False,
+          "bigTicketItem": False,
+          "phoneOnly": False,
+          "registrable": False,
+          "masterProduct": False,
+          "memberProduct": False,
+          "gwpIndicator": False,
+          "truefitEligible": True,
+          "fitPredictorEligible": True,
+          "isStoreOnlyProductOnline": False,
+          "eligibleForPreOrder": False,
+          "countryEligible": True,
+          "hasColors": True,
+          "rebates": False,
+          "giftCard": False,
+          "suppressColorSwatches": False,
+          "hasColorSwatches": False,
+          "beauty": False,
+          "eligibleForShopRunner": True,
+          "hasAdditionalImages": True,
+          "bigTicketV2CItem": False,
+          "onlineExclusive": False,
+          "storeOnlySpecial": False,
+          "finishLine": False,
+          "sitewidesale": True,
+          "protectionPlanEligible": False,
+          "bannerForKidsChokeHazard": False,
+          "sizePersistForMen": False,
+          "bigTicketDeliveryFeeRestructureEligible": False,
+          "dimensionsCopyGroupEnabled": False,
+          "materialCareSectionEnabled": False,
+          "sizeAndFitEnabled": False,
+          "arBeauty": False,
+          "arFurniture": False,
+          "virtualTryOn": False,
+          "experience3D": False,
+          "experience360": False,
+          "backInStockOptOut": False,
+          "consolidatedProductComplex": False,
+          "writeAReviewRedesignExpEnabled": False,
+          "siteMonetizationProduct": False,
+          "consolidatedMaster": False,
+          "processedProdDesc": False,
+          "esecRemoveSecureUserTokenQueryParamEnabled": False,
+          "pickUpStore": True,
+          "bcomsyndigoEnabled": False,
+          "styleMeEnabled": False,
+          "zeekitEnabled": False,
+          "seeMoreExperienceEnabled": False,
+          "seeMoreAndSizeChartExperienceEnabled": False,
+          "sizeChartExperienceEnabled": False,
+          "gwpExperienceEnabled": False,
+          "altModelSizesExperimentEnabled": False,
+          "PDPColorized": False,
+          "isEligibleForColorwayPromoBadging": False,
+          "isFewLeftMessageRedesignEnabled": False,
+          "isTrueFitSizeAutoSelectEnabled": False,
+          "klarnaEligible": True,
+          "modiFaceEligible": False,
+          "isPdpBVReviewFormUpdatesEnabled": False,
+          "phase2DesktopBVApiTrt1Enabled": False,
+          "phase2DesktopBVApiTrt2Enabled": False,
+          "phase2MobileBVApiTrt1Enabled": False,
+          "homeFOB": False,
+          "isFindationEnabled": False,
+          "isBestSeller": False,
+          "isReviewPhotosUploadEnabled": False,
+          "isWebCollageOutFromTabs": False,
+          "isVideoImageRailEnabled": False,
+          "isTrueCollectionsEnabled": False,
+          "isNew": False,
+          "isReviewsPage": False,
+          "isBeautyGiftSet": False
+        },
+        "reviewStatistics": {},
+        "orderedMasterGroupList": [],
+        "memberDisplayGroupsMap": {},
+        "bulletText": [
+          "Zip fly with button closure, five-pocket silhouette",
+          "Contrast stitching, silver-tone hardware, belt loops",
+          "Faded, whiskered & distressed",
+          "Light blue wash, straight-leg silhouette, ripped hem",
+          "Imported"
+        ],
+        "dimensionsBulletText": [
+          "Fits True to size, order your normal size",
+          "High rise: 10\"",
+          "Ankle inseam: 28\"",
+          "Leg opening: 13.25\"",
+          "All measurements based on a size 26",
+          "Model measurements: 5'10\" height, 33.5\" bust, 23.5\" waist, 34.5\" hips, wearing a size 26"
+        ],
+        "materialsAndCare": [
+          "72% cotton/26% lyocell/2% spandex",
+          "Machine wash"
+        ],
+        "maxQuantity": 6,
+        "typeName": "JEANS",
+        "additionalImagesCount": 4,
+        "numberOfColors": 1,
+        "brand": {
+          "name": "AG",
+          "id": 8509,
+          "url": "/buy/ag",
+          "subBrand": "",
+          "brandBreakout": True
+        },
+        "bulletLinks": [],
+        "pdfEmailDescription": "Ex Boyfriend High Rise Ankle Jeans in California",
+        "skinCareType": "",
+        "memberProductCount": 0,
+        "completeName": "AG Ex Boyfriend High Rise Ankle Jeans in California",
+        "dimensionsHeaderText": "",
+        "dressOccasion": "",
+        "sizeLabel": "",
+        "kidsChokingHazardLabel": "",
+        "klarna": {
+          "klarnaDataClientId": "ea7f7a8d-2691-5374-a5d6-464857665749",
+          "klarnaOnsiteJsSdkPath": "https://na-library.klarnaservices.com/lib.js"
+        },
+        "salesFloorBrand": {
+          "salesFloorBrandUrl": "",
+          "salesFloorBrand": False
+        }
+      },
+      "relationships": {
+        "taxonomy": {
+          "categories": [
+            {
+              "name": "Women",
+              "url": "/shop/womens-apparel?id=2910",
+              "id": 2910
+            }
+          ],
+          "defaultCategoryId": 2910
+        },
+        "upcs": {
+          "6429077": {
+            "id": 6429077,
+            "identifier": {
+              "upcNumber": "195565618224"
+            },
+            "relationships": {},
+            "availability": {
+              "checkInStoreEligibility": True,
+              "available": False,
+              "shipDays": -1,
+              "message": "Not available for shipping",
+              "lowAvailability": False,
+              "orderType": "NA",
+              "bopsAvailability": False,
+              "bossAvailability": False,
+              "storeAvailability": False,
+              "shipFees": {}
+            },
+            "traits": {
+              "colors": {
+                "selectedColor": 2215259
+              },
+              "sizes": {
+                "selectedSize": 0
+              }
+            },
+            "holidayMessageEligible": False
+          },
+          "6429089": {
+            "id": 6429089,
+            "identifier": {
+              "upcNumber": "195565618248"
+            },
+            "relationships": {},
+            "availability": {
+              "checkInStoreEligibility": True,
+              "available": True,
+              "shipDays": 2,
+              "message": "Usually leaves our facility within 2 business days.",
+              "availabilityMessage": "Just a few left",
+              "lowAvailability": True,
+              "lowAvailabilityMessage": "Just a few left!",
+              "orderType": "POOL",
+              "bopsAvailability": False,
+              "bossAvailability": False,
+              "storeAvailability": False,
+              "shipFees": {
+                "standard": 0,
+                "premium": 10,
+                "express": 15,
+                "sameDay": 15
+              }
+            },
+            "traits": {
+              "colors": {
+                "selectedColor": 2215259
+              },
+              "sizes": {
+                "selectedSize": 1
+              }
+            },
+            "holidayMessageEligible": False
+          },
+          "6429107": {
+            "id": 6429107,
+            "identifier": {
+              "upcNumber": "195565618255"
+            },
+            "relationships": {},
+            "availability": {
+              "checkInStoreEligibility": True,
+              "available": True,
+              "shipDays": 2,
+              "message": "Usually leaves our facility within 2 business days.",
+              "availabilityMessage": "Just a few left",
+              "lowAvailability": True,
+              "lowAvailabilityMessage": "Just a few left!",
+              "orderType": "POOL",
+              "bopsAvailability": False,
+              "bossAvailability": False,
+              "storeAvailability": False,
+              "shipFees": {
+                "standard": 0,
+                "premium": 10,
+                "express": 15,
+                "sameDay": 15
+              }
+            },
+            "traits": {
+              "colors": {
+                "selectedColor": 2215259
+              },
+              "sizes": {
+                "selectedSize": 2
+              }
+            },
+            "holidayMessageEligible": False
+          },
+          "6429124": {
+            "id": 6429124,
+            "identifier": {
+              "upcNumber": "195565618262"
+            },
+            "relationships": {},
+            "availability": {
+              "checkInStoreEligibility": True,
+              "available": True,
+              "shipDays": 2,
+              "message": "Usually leaves our facility within 2 business days.",
+              "availabilityMessage": "Just a few left",
+              "lowAvailability": True,
+              "lowAvailabilityMessage": "Just a few left!",
+              "orderType": "POOL",
+              "bopsAvailability": False,
+              "bossAvailability": False,
+              "storeAvailability": False,
+              "shipFees": {
+                "standard": 0,
+                "premium": 10,
+                "express": 15,
+                "sameDay": 15
+              }
+            },
+            "traits": {
+              "colors": {
+                "selectedColor": 2215259
+              },
+              "sizes": {
+                "selectedSize": 3
+              }
+            },
+            "holidayMessageEligible": False
+          },
+          "6429137": {
+            "id": 6429137,
+            "identifier": {
+              "upcNumber": "195565618279"
+            },
+            "relationships": {},
+            "availability": {
+              "checkInStoreEligibility": True,
+              "available": True,
+              "shipDays": 2,
+              "message": "Usually leaves our facility within 2 business days.",
+              "availabilityMessage": "Just a few left",
+              "lowAvailability": True,
+              "lowAvailabilityMessage": "Just a few left!",
+              "orderType": "POOL",
+              "bopsAvailability": False,
+              "bossAvailability": False,
+              "storeAvailability": False,
+              "shipFees": {
+                "standard": 0,
+                "premium": 10,
+                "express": 15,
+                "sameDay": 15
+              }
+            },
+            "traits": {
+              "colors": {
+                "selectedColor": 2215259
+              },
+              "sizes": {
+                "selectedSize": 4
+              }
+            },
+            "holidayMessageEligible": False
+          },
+          "6429149": {
+            "id": 6429149,
+            "identifier": {
+              "upcNumber": "195565618286"
+            },
+            "relationships": {},
+            "availability": {
+              "checkInStoreEligibility": True,
+              "available": True,
+              "shipDays": 2,
+              "message": "Usually leaves our facility within 2 business days.",
+              "availabilityMessage": "Just a few left",
+              "lowAvailability": True,
+              "lowAvailabilityMessage": "Just a few left!",
+              "orderType": "POOL",
+              "bopsAvailability": False,
+              "bossAvailability": False,
+              "storeAvailability": False,
+              "shipFees": {
+                "standard": 0,
+                "premium": 10,
+                "express": 15,
+                "sameDay": 15
+              }
+            },
+            "traits": {
+              "colors": {
+                "selectedColor": 2215259
+              },
+              "sizes": {
+                "selectedSize": 5
+              }
+            },
+            "holidayMessageEligible": False
+          },
+          "6429167": {
+            "id": 6429167,
+            "identifier": {
+              "upcNumber": "195565618293"
+            },
+            "relationships": {},
+            "availability": {
+              "checkInStoreEligibility": True,
+              "available": True,
+              "shipDays": 2,
+              "message": "Usually leaves our facility within 2 business days.",
+              "availabilityMessage": "Just a few left",
+              "lowAvailability": True,
+              "lowAvailabilityMessage": "Just a few left!",
+              "orderType": "POOL",
+              "bopsAvailability": False,
+              "bossAvailability": False,
+              "storeAvailability": False,
+              "shipFees": {
+                "standard": 0,
+                "premium": 10,
+                "express": 15,
+                "sameDay": 15
+              }
+            },
+            "traits": {
+              "colors": {
+                "selectedColor": 2215259
+              },
+              "sizes": {
+                "selectedSize": 6
+              }
+            },
+            "holidayMessageEligible": False
+          },
+          "6429179": {
+            "id": 6429179,
+            "identifier": {
+              "upcNumber": "195565618309"
+            },
+            "relationships": {},
+            "availability": {
+              "checkInStoreEligibility": True,
+              "available": True,
+              "shipDays": 2,
+              "message": "Usually leaves our facility within 2 business days.",
+              "availabilityMessage": "Just a few left",
+              "lowAvailability": True,
+              "lowAvailabilityMessage": "Just a few left!",
+              "orderType": "POOL",
+              "bopsAvailability": False,
+              "bossAvailability": False,
+              "storeAvailability": False,
+              "shipFees": {
+                "standard": 0,
+                "premium": 10,
+                "express": 15,
+                "sameDay": 15
+              }
+            },
+            "traits": {
+              "colors": {
+                "selectedColor": 2215259
+              },
+              "sizes": {
+                "selectedSize": 7
+              }
+            },
+            "holidayMessageEligible": False
+          },
+          "6429191": {
+            "id": 6429191,
+            "identifier": {
+              "upcNumber": "195565618316"
+            },
+            "relationships": {},
+            "availability": {
+              "checkInStoreEligibility": True,
+              "available": True,
+              "shipDays": 2,
+              "message": "Usually leaves our facility within 2 business days.",
+              "availabilityMessage": "Just a few left",
+              "lowAvailability": True,
+              "lowAvailabilityMessage": "Just a few left!",
+              "orderType": "POOL",
+              "bopsAvailability": False,
+              "bossAvailability": False,
+              "storeAvailability": False,
+              "shipFees": {
+                "standard": 0,
+                "premium": 10,
+                "express": 15,
+                "sameDay": 15
+              }
+            },
+            "traits": {
+              "colors": {
+                "selectedColor": 2215259
+              },
+              "sizes": {
+                "selectedSize": 8
+              }
+            },
+            "holidayMessageEligible": False
+          },
+          "6429206": {
+            "id": 6429206,
+            "identifier": {
+              "upcNumber": "195565618323"
+            },
+            "relationships": {},
+            "availability": {
+              "checkInStoreEligibility": True,
+              "available": True,
+              "shipDays": 2,
+              "message": "Usually leaves our facility within 2 business days.",
+              "availabilityMessage": "Just a few left",
+              "lowAvailability": True,
+              "lowAvailabilityMessage": "Just a few left!",
+              "orderType": "STR1",
+              "bopsAvailability": False,
+              "bossAvailability": False,
+              "storeAvailability": False,
+              "shipFees": {
+                "standard": 0,
+                "premium": 10,
+                "express": 15,
+                "sameDay": 15
+              }
+            },
+            "traits": {
+              "colors": {
+                "selectedColor": 2215259
+              },
+              "sizes": {
+                "selectedSize": 9
+              }
+            },
+            "holidayMessageEligible": False
+          },
+          "6429221": {
+            "id": 6429221,
+            "identifier": {
+              "upcNumber": "195565618330"
+            },
+            "relationships": {},
+            "availability": {
+              "checkInStoreEligibility": True,
+              "available": False,
+              "shipDays": -1,
+              "message": "Not available for shipping",
+              "lowAvailability": False,
+              "orderType": "NA",
+              "bopsAvailability": False,
+              "bossAvailability": False,
+              "storeAvailability": False,
+              "shipFees": {}
+            },
+            "traits": {
+              "colors": {
+                "selectedColor": 2215259
+              },
+              "sizes": {
+                "selectedSize": 10
+              }
+            },
+            "holidayMessageEligible": False
+          },
+          "6429237": {
+            "id": 6429237,
+            "identifier": {
+              "upcNumber": "195565618231"
+            },
+            "relationships": {},
+            "availability": {
+              "checkInStoreEligibility": True,
+              "available": True,
+              "shipDays": 2,
+              "message": "Usually leaves our facility within 2 business days.",
+              "availabilityMessage": "Just a few left",
+              "lowAvailability": True,
+              "lowAvailabilityMessage": "Just a few left!",
+              "orderType": "POOL",
+              "bopsAvailability": False,
+              "bossAvailability": False,
+              "storeAvailability": False,
+              "shipFees": {
+                "standard": 0,
+                "premium": 10,
+                "express": 15
+              }
+            },
+            "traits": {
+              "colors": {
+                "selectedColor": 2215259
+              },
+              "sizes": {
+                "selectedSize": 11
+              }
+            },
+            "holidayMessageEligible": False
+          }
+        }
+      },
+      "imagery": {
+        "images": [
+          {
+            "filePath": "3/optimized/12194823_fpx.tif",
+            "name": "12194823.fpx",
+            "showJumboSwatch": False,
+            "swatchSpriteOffset": 0,
+            "swatchSpriteUrlIndex": 0
+          },
+          {
+            "filePath": "0/optimized/12195500_fpx.tif",
+            "name": "12195500.fpx",
+            "showJumboSwatch": False,
+            "swatchSpriteOffset": 62,
+            "swatchSpriteUrlIndex": 0
+          },
+          {
+            "filePath": "1/optimized/12195501_fpx.tif",
+            "name": "12195501.fpx",
+            "showJumboSwatch": False,
+            "swatchSpriteOffset": 124,
+            "swatchSpriteUrlIndex": 0
+          }
+        ],
+        "smallImagesSprites": {
+          "spriteUrls": [
+            "?&$b=BLM/swatches/&hei=50&wid=186&cropN=0,0,3,1&resMode=sharp2&fmt=jpeg&qlt=100,0&layer=0&size=186,50&anchor=0,0&layer=1&size=40,50&src=is{$b$3/optimized/12194823_fpx.tif}&anchor=0,0&posN=0.000000,0&layer=2&size=40,50&src=is{$b$0/optimized/12195500_fpx.tif}&anchor=0,0&posN=0.333333,0&layer=3&size=40,50&src=is{$b$1/optimized/12195501_fpx.tif}&anchor=0,0&posN=0.666667,0"
+          ],
+          "imagesWidth": 40,
+          "imagesHeight": 50,
+          "imagesPerSprite": 16
+        },
+        "largeImagesSprites": {
+          "spriteUrls": [
+            "?&$b=BLM/swatches/&hei=75&wid=186&cropN=0,0,3,1&resMode=sharp2&fmt=jpeg&qlt=100,0&layer=0&size=186,75&anchor=0,0&layer=1&size=60,75&src=is{$b$3/optimized/12194823_fpx.tif}&anchor=0,0&posN=0.000000,0&layer=2&size=60,75&src=is{$b$0/optimized/12195500_fpx.tif}&anchor=0,0&posN=0.333333,0&layer=3&size=60,75&src=is{$b$1/optimized/12195501_fpx.tif}&anchor=0,0&posN=0.666667,0"
+          ],
+          "imagesWidth": 60,
+          "imagesHeight": 75,
+          "imagesPerSprite": 16
+        }
+      },
+      "availability": {
+        "checkInStoreEligibility": False,
+        "available": True,
+        "lowAvailability": False,
+        "lowAvailabilityMessage": "Almost sold out",
+        "bopsAvailability": False,
+        "bossAvailability": False,
+        "storeAvailability": False
+      },
+      "traits": {
+        "colors": {
+          "selectedColor": 2215259,
+          "colorMap": {
+            "2215259": {
+              "id": 2215259,
+              "name": "California",
+              "normalName": "Blue",
+              "swatchImage": {
+                "filePath": "",
+                "name": "",
+                "showJumboSwatch": False,
+                "swatchSpriteOffset": 0,
+                "swatchSpriteUrlIndex": 0
+              },
+              "imagery": {
+                "images": [
+                  {
+                    "filePath": "3/optimized/12194823_fpx.tif",
+                    "name": "12194823.fpx",
+                    "showJumboSwatch": False,
+                    "swatchSpriteOffset": 0,
+                    "swatchSpriteUrlIndex": 0
+                  },
+                  {
+                    "filePath": "0/optimized/12195500_fpx.tif",
+                    "name": "12195500.fpx",
+                    "showJumboSwatch": False,
+                    "swatchSpriteOffset": 62,
+                    "swatchSpriteUrlIndex": 0
+                  },
+                  {
+                    "filePath": "1/optimized/12195501_fpx.tif",
+                    "name": "12195501.fpx",
+                    "showJumboSwatch": False,
+                    "swatchSpriteOffset": 124,
+                    "swatchSpriteUrlIndex": 0
+                  }
+                ],
+                "smallImagesSprites": {
+                  "spriteUrls": [
+                    "?&$b=BLM/swatches/&hei=50&wid=186&cropN=0,0,3,1&resMode=sharp2&fmt=jpeg&qlt=100,0&layer=0&size=186,50&anchor=0,0&layer=1&size=40,50&src=is{$b$3/optimized/12194823_fpx.tif}&anchor=0,0&posN=0.000000,0&layer=2&size=40,50&src=is{$b$0/optimized/12195500_fpx.tif}&anchor=0,0&posN=0.333333,0&layer=3&size=40,50&src=is{$b$1/optimized/12195501_fpx.tif}&anchor=0,0&posN=0.666667,0"
+                  ],
+                  "imagesWidth": 40,
+                  "imagesHeight": 50,
+                  "imagesPerSprite": 16
+                },
+                "largeImagesSprites": {
+                  "spriteUrls": [
+                    "?&$b=BLM/swatches/&hei=75&wid=186&cropN=0,0,3,1&resMode=sharp2&fmt=jpeg&qlt=100,0&layer=0&size=186,75&anchor=0,0&layer=1&size=60,75&src=is{$b$3/optimized/12194823_fpx.tif}&anchor=0,0&posN=0.000000,0&layer=2&size=60,75&src=is{$b$0/optimized/12195500_fpx.tif}&anchor=0,0&posN=0.333333,0&layer=3&size=60,75&src=is{$b$1/optimized/12195501_fpx.tif}&anchor=0,0&posN=0.666667,0"
+                  ],
+                  "imagesWidth": 60,
+                  "imagesHeight": 75,
+                  "imagesPerSprite": 16
+                },
+                "primaryImage": {
+                  "filePath": "3/optimized/12194823_fpx.tif",
+                  "name": "12194823.fpx",
+                  "showJumboSwatch": False,
+                  "swatchSpriteOffset": 0,
+                  "swatchSpriteUrlIndex": 0
+                }
+              },
+              "sizes": [
+                0,
+                1,
+                2,
+                3,
+                4,
+                5,
+                6,
+                7,
+                8,
+                9,
+                10,
+                11
+              ],
+              "pricing": {
+                "price": {
+                  "priceType": {
+                    "onEdv": False,
+                    "onSale": False,
+                    "upcOnSale": False,
+                    "upcOnEdv": False,
+                    "memberProductOnSale": False,
+                    "willBe": False,
+                    "applicableToAllUpcs": True,
+                    "selectItemsOnSale": False,
+                    "isMasterNonRanged": False
+                  },
+                  "tieredPrice": [
+                    {
+                      "label": "[PRICE]",
+                      "values": [
+                        {
+                          "value": 210,
+                          "formattedValue": "$210.00",
+                          "type": "regular"
+                        }
+                      ]
+                    }
+                  ],
+                  "priceTypeId": 0
+                }
+              }
+            }
+          },
+          "swatchSprite": {
+            "swatchSpriteUrls": [
+              "?&$b=BLM/swatches/&hei=45&wid=47&cropN=0,0,1,1&resMode=sharp2&fmt=jpeg&qlt=100,0&layer=0&size=47,45&anchor=0,0"
+            ],
+            "spriteSwatchSize": 54,
+            "swatchesPerSprite": 16
+          },
+          "largeSwatchSprite": {
+            "swatchSpriteUrls": [
+              "?&$b=BLM/swatches/&hei=35&wid=47&cropN=0,0,1,1&resMode=sharp2&fmt=jpeg&qlt=100,0&layer=0&size=47,35&anchor=0,0"
+            ],
+            "spriteSwatchSize": 54,
+            "swatchesPerSprite": 16
+          },
+          "orderedColorsById": [
+            2215259
+          ],
+          "orderedColorsByName": [
+            2215259
+          ]
+        },
+        "sizes": {
+          "orderedSizesBySeqNumber": [
+            0,
+            11,
+            1,
+            2,
+            3,
+            4,
+            5,
+            6,
+            7,
+            8,
+            9,
+            10
+          ],
+          "sizeChartId": "421106",
+          "sizeMap": {
+            "0": {
+              "id": 0,
+              "name": "22",
+              "displayName": "22",
+              "colors": [
+                2215259
+              ]
+            },
+            "1": {
+              "id": 1,
+              "name": "24",
+              "displayName": "24",
+              "colors": [
+                2215259
+              ]
+            },
+            "2": {
+              "id": 2,
+              "name": "25",
+              "displayName": "25",
+              "colors": [
+                2215259
+              ]
+            },
+            "3": {
+              "id": 3,
+              "name": "26",
+              "displayName": "26",
+              "colors": [
+                2215259
+              ]
+            },
+            "4": {
+              "id": 4,
+              "name": "27",
+              "displayName": "27",
+              "colors": [
+                2215259
+              ]
+            },
+            "5": {
+              "id": 5,
+              "name": "28",
+              "displayName": "28",
+              "colors": [
+                2215259
+              ]
+            },
+            "6": {
+              "id": 6,
+              "name": "29",
+              "displayName": "29",
+              "colors": [
+                2215259
+              ]
+            },
+            "7": {
+              "id": 7,
+              "name": "30",
+              "displayName": "30",
+              "colors": [
+                2215259
+              ]
+            },
+            "8": {
+              "id": 8,
+              "name": "31",
+              "displayName": "31",
+              "colors": [
+                2215259
+              ]
+            },
+            "9": {
+              "id": 9,
+              "name": "32",
+              "displayName": "32",
+              "colors": [
+                2215259
+              ]
+            },
+            "10": {
+              "id": 10,
+              "name": "33",
+              "displayName": "33",
+              "colors": [
+                2215259
+              ]
+            },
+            "11": {
+              "id": 11,
+              "name": "23",
+              "displayName": "23",
+              "colors": [
+                2215259
+              ]
+            }
+          }
+        },
+        "traitsMaps": {
+          "upcMap": {
+            "2215259_1": 6429089,
+            "2215259_2": 6429107,
+            "2215259_3": 6429124,
+            "2215259_4": 6429137,
+            "2215259_0": 6429077,
+            "2215259_9": 6429206,
+            "2215259_5": 6429149,
+            "2215259_6": 6429167,
+            "2215259_7": 6429179,
+            "2215259_10": 6429221,
+            "2215259_8": 6429191,
+            "2215259_11": 6429237
+          },
+          "priceToColors": [
+            {
+              "price": "$210.00",
+              "colorIds": [
+                2215259
+              ],
+              "onSale": False
+            }
+          ]
+        }
+      },
+      "pricing": {
+        "price": {
+          "priceType": {
+            "onEdv": False,
+            "onSale": False,
+            "upcOnSale": False,
+            "upcOnEdv": False,
+            "memberProductOnSale": False,
+            "willBe": False,
+            "applicableToAllUpcs": True,
+            "selectItemsOnSale": False,
+            "isMasterNonRanged": False
+          },
+          "tieredPrice": [
+            {
+              "label": "[PRICE]",
+              "values": [
+                {
+                  "value": 210,
+                  "formattedValue": "$210.00",
+                  "type": "regular"
+                }
+              ]
+            }
+          ],
+          "priceTypeId": 0
+        }
+      },
+      "urlTemplate": {
+        "swatch": "https://images.bloomingdalesassets.com/is/image/BLM/swatches/",
+        "swatchSprite": "https://images.bloomingdalesassets.com/is/image/BLM/",
+        "product": "https://images.bloomingdalesassets.com/is/image/BLM/products/"
+      },
+      "holidayMessageEligible": False
+    }
+  ]
+})

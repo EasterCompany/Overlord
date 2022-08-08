@@ -8,20 +8,26 @@ MOCK_PRODUCT = lambda product_id: f"api/digital/v1/product/{product_id}"
 URLS = [
 
   path(
-    MOCK_PRODUCT("4148762"),
+    MOCK_PRODUCT(4148762),
     views.ex_boyfriend_jeans,
     name="List Mock Product Data"
   ),
 
   path(
-    MOCK_PRODUCT("3797779"),
+    MOCK_PRODUCT(3797779),
     views.versace_tee,
     name="List Mock Product Data"
   ),
 
   path(
-    MOCK_PRODUCT("3900223"),
+    MOCK_PRODUCT(3900223),
     views.dolce_gabbana_tee,
+    name="List Mock Product Data"
+  ),
+
+  path(
+    MOCK_PRODUCT(4367719),
+    views.ex_boyfriend_high_rise,
     name="List Mock Product Data"
   ),
 
