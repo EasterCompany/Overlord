@@ -38,6 +38,7 @@ def install_file(filename, destination, project_path='.', log=True):
     with open(project_path + destination + '/' + filename, 'w+') as new_file:
       new_file.write(base.read())
 
+
 def make_clients_config(project_path='.'):
   client_paths  = sorted([
     f.path for f in scandir(project_path + "/clients") if f.is_dir()
