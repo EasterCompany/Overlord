@@ -44,5 +44,14 @@
       "components/routes/",
       "library/"
     ]
+  },
+  "bloomingdales": {
+    "path": "clients/bloomingdales/src/shared",
+    "file": [
+      "/library/local/user.ts"
+    ],
+    "module": [
+      "/library/server/"
+    ]
   }
 }
