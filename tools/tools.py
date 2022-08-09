@@ -156,41 +156,44 @@ def run_tool(command, index=0):
     if command.startswith('-'): return None
 
     elif command == 'install':
-        # Install a specific or various Overlord Clients
+
+        # Install all clients
         if arguments_remaining == 1 and (arguments[0] == 'clients' or arguments[0] == 'all'):
             print("\n Installing all clients:")
-            return node.clients.install()
+            node.clients.install()
 
+        # Install a specific client
         elif arguments_remaining > 0:
             for argument in arguments:
                 print(f"\nInstalling client: {argument}")
                 print("----------------------------------- ")
                 node.clients.install(argument)
-            return
 
-        # System Overwrite Warning
-        if exists('./db.sqlite3'):
-            output(
-                "You are about to overwrite your current installation.\n"
-                "This will cause you to lose access to all your encrypted data.\n"
-            )
-            _input = input('Type "confirm" to continue anyway: ')
-            if not _input.lower() == "confirm":
-                return output("User did not confirm to a system overwrite.")
-
-        # Install Overlord Server
-        output('Installing requirements.txt...')
-        system(f'{executable} -m pip install -r requirements.txt')
-        output('\nInstalling Overlord-Tools...')
-        git.pull.branch_origins('dev', None)
-        git.pull.branch_origins('main', None)
-        print(' ')
-        install.make_server_config(project_path)
-        install.django_files(project_path)
-        install.secrets_file(project_path)
-        install.o_file(project_path)
-        django.secret_key.new(project_path)
-        print('\n', console.col('Success!.', 'green'), '\n')
+        # Install Overlord
+        else:
+            # System Overwrite Warning
+            if exists('./db.sqlite3'):
+                output(
+                    "You are about to overwrite your current installation.\n"
+                    "This will cause you to lose access to all your encrypted data.\n"
+                )
+                _input = input('Type "confirm" to continue anyway: ')
+                if not _input.lower() == "confirm":
+                    return output("User did not confirm to a system overwrite.")
+            # Install Overlord Dependencies
+            output('Installing requirements.txt...')
+            system(f'{executable} -m pip install -r requirements.txt')
+            output('\nInstalling Overlord-Tools...')
+            git.pull.branch_origins('dev', None)
+            git.pull.branch_origins('main', None)
+            print(' ')
+            # Install Overlord Configurations
+            install.make_server_config(project_path)
+            install.django_files(project_path)
+            install.secrets_file(project_path)
+            install.o_file(project_path)
+            django.secret_key.new(project_path)
+            print('\n', console.col('Success!.', 'green'), '\n')
 
     elif command == 'pull':
         git.pull.all()
@@ -218,10 +221,7 @@ def run_tool(command, index=0):
 
     elif command == 'runclient' or command == 'run':
 
-        if arguments_remaining < 1 and not command == 'run':
-            return node.clients.error_message()
-
-        elif arguments_remaining == 1 and arguments[0] == 'all':
+        if arguments_remaining == 1 and arguments[0] == 'all':
             node.clients.run_all()
 
         elif arguments_remaining >= 1:
@@ -232,7 +232,6 @@ def run_tool(command, index=0):
             node.clients.run_all(none_on_main_thread=True)
 
         django.server.start()
-
         return node.share.file_updater_thread()
 
     elif command == 'runserver':
@@ -289,25 +288,25 @@ def run_tool(command, index=0):
         # Custom client
         if arguments_remaining == 1 and (arguments[0].startswith('https://') or arguments[0].startswith('git@')):
             new_client_name = arguments[0].split('/')[-1].split('.git')[0].lower()
-            return node.clients.create(new_client_name, custom_repo=arguments[0])
+            node.clients.create(new_client_name, custom_repo=arguments[0])
         # Default web client
         elif arguments_remaining == 1:
-            return node.clients.create(arguments[0].lower())
+            node.clients.create(arguments[0].lower())
         # Default native client
         elif arguments_remaining == 2 and arguments[0] == 'native':
-            return node.clients.create(arguments[1].lower(), native=True)
+            node.clients.create(arguments[1].lower(), native=True)
         # Custom client with `name` argument
         elif arguments_remaining == 2 and (arguments[0].startswith('https://') or arguments[0].startswith('git@')):
-            return node.clients.create(arguments[1].lower(), custom_repo=arguments[0])
+            node.clients.create(arguments[1].lower(), custom_repo=arguments[0])
         # Invalid input error
         else:
-            return node.clients.error_message()
+            node.clients.error_message()
 
     elif command == 'share':
         if arguments_remaining == 2:
-            return node.share.target(arguments[0], arguments[1])
+            node.share.target(arguments[0], arguments[1])
         else:
-            return node.share.error_message()
+            node.share.error_message()
 
     elif command == 'help': help()
 

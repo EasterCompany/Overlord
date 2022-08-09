@@ -115,11 +115,12 @@ def add_to_log(shared_path, client_name, share_type):
         if shared_path.startswith(ms):
             print('''
     {path} is already shared with {name} via a module.
-    '''.format(
-        path=console.col(shared_path, 'yellow'),
-        name=console.col(client_name, 'yellow')
-    )
-    ), exit()
+            '''.format(
+            path=console.col(shared_path, 'yellow'),
+            name=console.col(client_name, 'yellow')
+                )
+            )
+            return
 
     # Write to log file
     if shared_path not in log[client_name][share_type]:
@@ -130,13 +131,15 @@ def add_to_log(shared_path, client_name, share_type):
                 print('''
     '%s' client does not exist
     ''' % console.col(client_name, 'red')
-        ), exit()
+        )
+                return
         else:
             print('''
     %s
     does not exist in the shared directory
     ''' % console.col(shared_path, 'red')
-        ), exit()
+        )
+            return
     else:
         print('''
     {path} is already shared with {name}
@@ -144,7 +147,8 @@ def add_to_log(shared_path, client_name, share_type):
         path=console.col(shared_path, 'yellow'),
         name=console.col(client_name, 'yellow')
     )
-    ), exit()
+    )
+        return
 
     # Optimize module sharing
     if share_type == 'module':
@@ -188,7 +192,7 @@ def add_to_log(shared_path, client_name, share_type):
     '''.format(
         path=console.col(shared_path, 'green'),
         name=console.col(client_name, 'green')
-    )), __update_shared_files__(), exit()
+    )), __update_shared_files__()
 
 
 def share_module(module_path, client):
