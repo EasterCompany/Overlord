@@ -1,3 +1,5 @@
+#! /usr/bin/python3
+
 # run.py
 #   automatically generated file
 #   do not edit or delete
