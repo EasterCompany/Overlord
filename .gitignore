@@ -23,8 +23,8 @@ build/
 
 # Overlord (Clients)
 clients/
-!clients/e_panel/*
-!clients/shared/*
+!clients/e_panel
+!clients/shared
 
 # Sqlite (Files)
 *.sqlite3

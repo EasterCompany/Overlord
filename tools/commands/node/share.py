@@ -32,32 +32,57 @@ Example Usage (working example):
     ./o share -library/server/request.ts -e_panel
 
 '''
-
+# Std library
 import json
 import threading
 from sys import path
 from time import sleep
 from shutil import copy
-from tools.library import console
 from os import mkdir, remove, walk
 from os.path import exists, isdir, getmtime
-from distutils.dir_util import copy_tree, remove_tree
+from distutils.dir_util import copy_tree
+# Overlord library
+from tools.library import console
+from web.settings import CLIENT_DATA, BASE_DIR
 
 log_path = path[0] + '/clients/shared/.log'
+client_log = lambda client: CLIENT_DATA[client]['src'] + '/shared.json'
+
+
+def get_client_log(client):
+    _log_path = client_log(client)
+    _src_path = f"clients/{client}/src/shared" if exists(f"clients/{client}/src") else f"clients/{client}/shared"
+
+    if exists(_log_path):
+        with open(_log_path, 'r') as log_file:
+            _log = json.load(log_file)
+
+    else:
+        _log = {
+            "path": _src_path,
+            "file": [],
+            "module": []
+        }
+
+    return _log
 
 
 def get_log():
-    if exists(log_path):
-        with open(log_path) as log_file:
-            log = json.load(log_file)
-    else:
-        log = {}
-    return log
+    _log = {}
+    for client in CLIENT_DATA:
+        _log[client] = get_client_log(client)
+    return _log
+
+
+def save_client_log(client, log_content):
+    _log_path = client_log(client)
+    with open(_log_path, 'w+') as log_file:
+        json.dump(log_content, log_file, indent=2)
 
 
 def save_log(log_content):
-    with open(log_path, 'w+') as log_file:
-        json.dump(log_content, log_file, indent=2)
+    for client in log_content:
+        save_client_log(client, log_content[client])
 
 
 def add_to_log(shared_path, client_name, share_type):
@@ -194,9 +219,15 @@ def target(path_to_target, client):
 
 
 def __update_clients_files__(client, logs, spath):
-    if client not in logs:
+    """
+    This is the background worker function for the share tool
+    from this function we check for updated /shared/... files and then
+    re-share them with their targeted clients within this servers scope.
+    """
+    if client not in logs or client not in CLIENT_DATA or 'path' not in logs[client]:
         return None
-    cpath = path[0] + '/' + logs[client]['path'] + '/'
+
+    cpath = BASE_DIR + '/' + logs[client]['path'] + '/'
 
     def do_copy(orig, dest, is_dir=False):
 
