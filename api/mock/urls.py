@@ -14,6 +14,12 @@ URLS = [
   ),
 
   path(
+    MOCK_PRODUCT(4279167),
+    views.one_year_classic,
+    name="List Mock Product Data"
+  ),
+
+  path(
     MOCK_PRODUCT(3797779),
     views.versace_tee,
     name="List Mock Product Data"
