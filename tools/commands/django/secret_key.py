@@ -17,5 +17,4 @@ def new(project_path='.'):
             indent=2
         )
 
-    print(new_key)
     return new_key
