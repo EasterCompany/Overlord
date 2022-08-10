@@ -1,0 +1,31 @@
+{
+  "files": {
+    "main.css": "/static/eastercompany/static/css/main.b47fc05b.css",
+    "main.js": "/static/eastercompany/static/js/main.61444bbb.js",
+    "static/js/377.80265db8.chunk.js": "/static/eastercompany/static/js/377.80265db8.chunk.js",
+    "static/media/overlord_light.png": "/static/eastercompany/static/media/overlord_light.4ab364221049f43c7e64.png",
+    "static/media/spartanIconBlur.png": "/static/eastercompany/static/media/spartanIconBlur.9bc4748d1b0e4a64e259.png",
+    "static/media/banner2.png": "/static/eastercompany/static/media/banner2.c6882f664bd77d348cd9.png",
+    "static/media/mountainBanner.jpeg": "/static/eastercompany/static/media/mountainBanner.49cbb3bc53170692cbf7.jpeg",
+    "static/media/cliExample.png": "/static/eastercompany/static/media/cliExample.c96cada23648e5ab92b0.png",
+    "static/media/e_panel_header.png": "/static/eastercompany/static/media/e_panel_header.638fb704fc336692a35d.png",
+    "static/media/e_panel.png": "/static/eastercompany/static/media/e_panel.c2414d9d2dc722833b1c.png",
+    "index.html": "/static/eastercompany/index.html",
+    "static/media/github.svg": "/static/eastercompany/static/media/github.181f9331e51ae193c549b7820fa01ecb.svg",
+    "static/media/twitter.svg": "/static/eastercompany/static/media/twitter.349369f892df75d111346a9fa7b2095f.svg",
+    "static/media/key.svg": "/static/eastercompany/static/media/key.88687f16a3df4154b05ce0833fda56ce.svg",
+    "static/media/error.svg": "/static/eastercompany/static/media/error.c246bb9100771f9286cca1e7bc750b89.svg",
+    "static/media/linkedin.svg": "/static/eastercompany/static/media/linkedin.060716585c1c32d459b0ede1fd1c4d5a.svg",
+    "static/media/facebook.svg": "/static/eastercompany/static/media/facebook.b57931ba82ba550a4841dec076b4ca82.svg",
+    "static/media/link.svg": "/static/eastercompany/static/media/link.ed284958b9a96778abf2888f042e7edf.svg",
+    "static/media/email.svg": "/static/eastercompany/static/media/email.8bf10b709170505d6462fc2c51a06af1.svg",
+    "static/media/logout.svg": "/static/eastercompany/static/media/logout.67bd7f22d81fd6433cd64bb34f71f9d2.svg",
+    "main.b47fc05b.css.map": "/static/eastercompany/static/css/main.b47fc05b.css.map",
+    "main.61444bbb.js.map": "/static/eastercompany/static/js/main.61444bbb.js.map",
+    "377.80265db8.chunk.js.map": "/static/eastercompany/static/js/377.80265db8.chunk.js.map"
+  },
+  "entrypoints": [
+    "static/css/main.b47fc05b.css",
+    "static/js/main.61444bbb.js"
+  ]
+}

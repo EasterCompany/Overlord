@@ -37,4 +37,10 @@ def create_new_user_data(email, password, permissions):
         permissions=int(permissions),
         session=session.generate()
     )
-    return api.std(message="Success!", status=api.OK)
+    return api.success()
+
+
+def verify_identity(email, session):
+    if UserAuth.objects.filter(email=email, session=session).count() == 0:
+        return api.error("User with that session does not exist.")
+    return api.success()

@@ -86,6 +86,8 @@ class UserAuth(UserModel):
         +   the device id of a session must be provided in the initial
             request with the session token and cannot change
         +   *NEVER CHANGES*
+    [panels] e-panels which this user can view
+        +   required field which defaults to an empty string
     """
     email = models.TextField(null=False, blank=False, unique=True)
     sms = models.TextField(unique=True, null=True, blank=True)
@@ -98,3 +100,5 @@ class UserAuth(UserModel):
     session = models.TextField(null=False, blank=False, unique=True)
     last_activity = models.DateTimeField(null=False, blank=False, default=time.get_datetime_str)
     active = models.BooleanField(null=False, blank=False, default=False)
+
+    panels = models.TextField(null=False, blank=False, default="")

@@ -47,7 +47,7 @@ def error(exception=None):
     :param exception str: message caught upon error exception
     :return: api.std showing a HTTP 500 Error
     """
-    if exception is not None and not DEBUG:
+    if exception is not None and DEBUG:
         print(f"""
             [{CON.output("INTERNAL SERVER ERROR", "red")}]
 
