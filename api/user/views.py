@@ -166,7 +166,7 @@ def login(req, emailURI, *args, **kwargs):
     email = parse.unquote(emailURI)
     password = req.body.decode('utf-8')
     user = UserAuth.objects.filter(email=email).first()
-    if password == decrypt(user.key):
+    if user is not None and password == decrypt(user.key):
         return api.data({
             'uuid': user.uuid, 'email': user.email, 'session': user.session
         })
