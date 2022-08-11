@@ -163,12 +163,12 @@ def login(req, emailURI, *args, **kwargs):
     :param key str: encrypted login secret key
     :return: api.std
     """
-    email = parse.unquote(emailURI)
+    email = parse.unquote(emailURI).strip()
     password = req.body.decode('utf-8')
-    user = UserAuth.objects.filter(email=email).first()
-    if user is not None and password == decrypt(user.key):
+    user = UserAuth.objects.filter(email=email)
+    if user.count() > 0 and password == decrypt(user[0].key):
         return api.data({
-            'uuid': user.uuid, 'email': user.email, 'session': user.session
+            'uuid': user[0].uuid, 'email': user[0].email, 'session': user[0].session
         })
     return api.error()
 
