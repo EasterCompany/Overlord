@@ -5,11 +5,11 @@ REMOTE=$(git rev-parse "$UPSTREAM")
 BASE=$(git merge-base @ "$UPSTREAM")
 
 if [ $LOCAL = $REMOTE ]; then
-  echo "1"
+  echo "0"
 elif [ $LOCAL = $BASE ]; then
-  echo "                              Need to Pull"
+  echo "1"
 elif [ $REMOTE = $BASE ]; then
-  echo "                              Need to Push"
+  echo "2"
 else
-  echo "                          Diverged from Branch"
+  echo "3"
 fi

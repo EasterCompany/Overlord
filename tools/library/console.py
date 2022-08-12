@@ -1,4 +1,5 @@
 # Standard library
+import subprocess
 from os import system as _system
 # Overlord library
 from web.settings import BASE_DIR
@@ -9,7 +10,9 @@ def col(text, colour):
     if colour == 'red': r = '\33[31m' + text
     elif colour == 'green': r = '\33[32m' + text
     elif colour == 'yellow': r = '\33[33m' + text
-    elif colour == 'blue': r = '\e]4;4;#6495ed\a' + text
+    elif colour == 'blue': r = '\33[34m' + text
+    elif colour == 'purple': r = '\33[35m' + text
+    elif colour == 'lg': r = '\33[36m' + text
     else: r = '\33[0m' + text
     return r + '\33[0m'
 
@@ -28,7 +31,7 @@ def colour_status_code(status):
 
 class Console:
     # ===== Colour Pallet ======
-    col = {
+    palette = {
         "red": '\33[31m',
         "green": '\33[32m',
         "yellow": '\33[33m',
@@ -40,7 +43,6 @@ class Console:
         ========== INITIALIZE OVERLORD CONSOLE ==========
             - Set default colour
         """
-
         # Style Settings
         self.default_col = self.col["white"]
 
@@ -54,20 +56,19 @@ class Console:
         :param colour str: name of colour 'key' from colour pallet [self.col]
         :return: string wrapped in colour tags ie; "\33[31m Example \33[0m"
         """
-
         # Always use string method & and use default colour when not defined
         text = str(text)
         choice = colour if not colour is None else self.default_col
 
         # Select colour and return
-        for name, code in self.col:
+        for name, code in self.palette:
             if name == choice:
-                return code + text + self.default_col
+                return print(code + text + self.default_col)
 
         # Return stylized error
-        return self.col["red"] + \
+        return print(self.col["red"] + \
             f"[Console Error: No such colour option `{colour}` ]" + \
-            self.col["yellow"] + text + self.default_colour
+            self.col["yellow"] + text + self.default_colour)
 
     def http_status(status):
         """
@@ -79,9 +80,9 @@ class Console:
         """
         if isinstance(status, int):
             if 100 <= status <= 199:
-                return col(status, 'white')
+                return print(col(status, 'white'))
             elif 200 <= status <= 299:
-                return col(status, 'green')
+                return print(col(status, 'green'))
             elif 300 <= status <= 399:
                 return col(status, 'yellow')
             else:
@@ -96,7 +97,7 @@ class Console:
 
     def input(self, command):
         """
-        Using the os.system() method execute the command (a string) in a subshell. This method is implemented by calling
+        Using the os.system() method execute the command (a string) in a sub-shell. This method is implemented by calling
         the standard C function system(), and has the same limitations.
 
         :param command str: the input command(s) to send to the system
@@ -104,11 +105,20 @@ class Console:
         """
         return _system(command)
 
-    def run_script(self, path, arguments=""):
+    def run_script(self, path, arguments=None):
         """
         Using the console.input method; run a script from the tools/scripts directory.
 
         :param path str: path to the script from within "tools/scripts"
-        :return None:
+        :return: script output
         """
-        return self.input(f"{BASE_DIR}/tools/scripts/{path} {arguments}")
+        if arguments is None:
+            arguments = []
+        return subprocess.run(
+            [f"{BASE_DIR}/tools/scripts/{path}.sh", ] + arguments,
+            bufsize=1,
+            stdout=subprocess.PIPE,
+            stderr=subprocess.STDOUT,
+            text=True,
+            universal_newlines=True
+        )
