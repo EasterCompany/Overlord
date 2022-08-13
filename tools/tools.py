@@ -31,10 +31,8 @@ def awaitInput(ascii_art=True):
                                Ver {_version.major}.{_version.minor}.{_version.patch}
                         {git.check.version_status_label()}
 
-    To get help & information about the Overlord-CLI or other Overlord
-    components; read the documentation here
-
-    https://www.easter.company/overlord
+            To get help & information read the documentation here
+                    https://www.easter.company/overlord
 
     -------------------------------------------------------------------
         ''')

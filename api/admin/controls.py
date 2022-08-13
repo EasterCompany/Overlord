@@ -14,7 +14,11 @@ def get_user_panels(uuid):
 
 def get_panel_users(uuid):
   panel = AdminPanel.objects.filter(uuid=uuid).first()
-  return panel.users
+  users = panel.users
+  for user in users:
+    user_data = UserAuth.objects.filter(uuid=user).first()
+    users[user]["email"] = user_data.email
+  return users
 
 
 def get_panel_data(uuid):

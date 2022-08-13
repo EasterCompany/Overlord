@@ -20,8 +20,8 @@ from .commands.node.share import __update_shared_files__
 __version_control__ = {
     'type': 'DEV',
     'major': 1,
-    'minor': 1,
-    'patch': 2,
+    'minor': 2,
+    'patch': 0,
     'release': 1
 }
 __version__ = Version(version_data=__version_control__)
