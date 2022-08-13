@@ -1,1 +1,1 @@
-from . import branch, commit, merge, pull, push
+from . import branch, commit, merge, pull, push, check

@@ -23,9 +23,21 @@ URLS = [
   ),
 
   path(
+    API("view/<str:uuid>/users"),
+    Admin.view_panel_users,
+    name="View Panel Details"
+  ),
+
+  path(
     API("create/<str:uuid>/<str:app_name>/<str:api_url>"),
     Admin.create,
     name="Create New Panel"
   ),
+
+  path(
+    API("verify/user/<str:pid>/<str:uuid>"),
+    Admin.verify_user,
+    name="Verify User on Panel"
+  )
 
 ]

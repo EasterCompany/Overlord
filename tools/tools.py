@@ -29,11 +29,12 @@ def awaitInput(ascii_art=True):
     ╚██████╔╝ ╚████╔╝ ███████╗██║  ██║███████╗╚██████╔╝██║  ██║██████╔╝
      ╚═════╝   ╚═══╝  ╚══════╝╚═╝  ╚═╝╚══════╝ ╚═════╝ ╚═╝  ╚═╝╚═════╝
                                Ver {_version.major}.{_version.minor}.{_version.patch}
+                        {git.check.version_status_label()}
 
-    To get help & information about the Overlord-CLI go to this github
-    address or read your local README.md.
+    To get help & information about the Overlord-CLI or other Overlord
+    components; read the documentation here
 
-    https://github.com/EasterCompany/Overlord/blob/main/README.md
+    https://www.easter.company/overlord
 
     -------------------------------------------------------------------
         ''')

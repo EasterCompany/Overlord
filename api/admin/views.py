@@ -23,6 +23,15 @@ def view_panel(req, uuid, *args, **kwargs):
     return api.error(exception)
 
 
+def view_panel_users(req, uuid, *args, **kwargs):
+  try:
+    panel = parse.unquote(uuid).strip()
+    panel_data = get_panel_users(panel)
+    return api.data(panel_data)
+  except Exception as exception:
+    return api.error(exception)
+
+
 def create(req, uuid, app_name, api_url, *args, **kwargs):
   try:
     user = parse.unquote(uuid).strip()
@@ -30,5 +39,16 @@ def create(req, uuid, app_name, api_url, *args, **kwargs):
     url = parse.unquote(api_url).strip()
     create_new_panel(uuid=user, name=name, url=url)
     return api.success()
+  except Exception as exception:
+    return api.error(exception)
+
+
+def verify_user(req, pid, uuid, *args, **kwargs):
+  try:
+    users = get_panel_users(pid)
+    if uuid in users:
+      user_permissions = users[uuid]
+      return api.data(user_permissions)
+    return api.error()
   except Exception as exception:
     return api.error(exception)
