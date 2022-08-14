@@ -11,5 +11,6 @@ except ImportError:
 
     try:
         from . import settings
-    except ImportError:
-        exit
+    except ImportError as exception:
+        print(exception)
+        exit()
