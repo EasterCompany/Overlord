@@ -97,7 +97,7 @@ const APIPath = (paths:any) => {
 // Request data from the API
 export const api = async (API: string, BAD: any = null, OK: any = null) => {
   const user = USER();
-  const _auth = user.SESH;
+  const _auth = `${user.UUID} ${user.SESH}`;
 
   await fetch(serverAPI + API, {
     method: 'POST',
@@ -135,7 +135,7 @@ export const api = async (API: string, BAD: any = null, OK: any = null) => {
 // Request data from the API
 export const POST = async (API: string, _POST: any, BAD: any = null, OK: any = null) => {
   const user = USER();
-  const _auth = user.SESH;
+  const _auth = `${user.UUID} ${user.SESH}`;
 
   await fetch(serverAPI + API, {
     method: 'POST',

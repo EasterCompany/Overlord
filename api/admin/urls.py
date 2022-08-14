@@ -17,13 +17,13 @@ URLS = [
   ),
 
   path(
-    API("view/<str:uuid>"),
+    API("view/<str:pid>"),
     Admin.view_panel,
     name="View Panel Details"
   ),
 
   path(
-    API("view/<str:uuid>/users"),
+    API("view/<str:pid>/users"),
     Admin.view_panel_users,
     name="View Panel Details"
   ),

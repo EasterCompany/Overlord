@@ -1,7 +1,8 @@
+# Standard library
+from urllib import parse
 # Django library
 from django.http import JsonResponse
 # Overlord library
-from api.user.controls import authorized
 from web.settings import DEBUG
 from .console import Console
 
@@ -91,3 +92,13 @@ def table(Table, Headers, Body, filter={ "order_by": str() }):
     })
 
   return std(OK, {'head': [], 'body': [ [] ]})
+
+
+def get_arg(_arg):
+  """
+  Unquotes an argument from the URI and strips it
+
+  :param _arg str: any string
+  :return str: unquoted and stripped string
+  """
+  return parse.unquote(_arg).strip()

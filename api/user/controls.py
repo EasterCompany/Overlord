@@ -47,19 +47,23 @@ def verify_identity(email, session):
     return api.success()
 
 
-def authorized(req, uuid):
-    return UserAuth.objects.filter(uuid=uuid).only()[0].session.split("[:~OLT~:]")[1] == \
-        req.headers.get('Authorization').split("[:~OLT~:]")[1]
+def authorized(uuid, sesh):
+    return UserAuth.objects.filter(uuid=uuid).only()[0].session.split("[:~OLT~:]")[1] == sesh
 
 
-def if_authorized(req, uuid, do_function):
+def if_authorized(req, do_function):
   try:
-    if authorized(req, uuid):
+    auth_token = req.headers.get('Authorization').split("[:~OLT~:]")
+    auth_uuid = auth_token[0].split('Basic ')[1].strip()
+    auth_sesh = auth_token[1]
+    if authorized(auth_uuid, auth_sesh):
         r = do_function()
-        if isinstance(r, dict):
-            return api.data(r)
-        elif isinstance(r, boolean):
+        if isinstance(r, boolean):
             return api.success() if r is True else api.error()
+        elif isinstance(r, dict) or isinstance(r, list) or \
+            isinstance(r, int) or isinstance(r, float) or \
+            isinstance(r, str):
+            return api.data(r)
         return api.success()
     return api.error("Unauthorized access.")
   except Exception as exception:
