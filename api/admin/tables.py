@@ -35,3 +35,23 @@ class AdminPanel(models.Model):
     null=False,
     blank=False
   )
+  create_cmd = models.TextField(
+    null=False,
+    blank=False,
+    default=""
+  )
+  install_cmd = models.TextField(
+    null=False,
+    blank=False,
+    default=""
+  )
+  run_cmd = models.TextField(
+    null=False,
+    blank=False,
+    default=""
+  )
+  description = models.TextField(
+    null=False,
+    blank=False,
+    default=""
+  )

@@ -16,6 +16,8 @@ URLS = [
     name="View Users Panels"
   ),
 
+  # --- VIEW ---
+
   path(
     API("view/<str:pid>"),
     Admin.view_panel,
@@ -25,8 +27,10 @@ URLS = [
   path(
     API("view/<str:pid>/users"),
     Admin.view_panel_users,
-    name="View Panel Details"
+    name="View Panel Users"
   ),
+
+  # --- CREATE ---
 
   path(
     API("create/<str:uuid>/<str:app_name>/<str:api_url>"),

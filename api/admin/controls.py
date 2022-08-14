@@ -12,8 +12,8 @@ def get_user_panels(uuid):
   return []
 
 
-def get_panel_users(uuid):
-  panel = AdminPanel.objects.filter(uuid=uuid).first()
+def get_panel_users(pid):
+  panel = AdminPanel.objects.filter(uuid=pid).first()
   users = panel.users
   for user in users:
     user_data = UserAuth.objects.filter(uuid=user).first()
@@ -21,13 +21,18 @@ def get_panel_users(uuid):
   return users
 
 
-def get_panel_data(uuid):
-  panel = AdminPanel.objects.filter(uuid=uuid).first()
+def get_panel_data(pid):
+  panel = AdminPanel.objects.filter(uuid=pid).first()
   return {
+    "id": panel.uuid,
     "name": panel.app_name,
     "api": panel.api_url,
     "image": '/static/eastercompany/favicon.ico',
-    "users": panel.users
+    "users": panel.users,
+    "createCMD": panel.create_cmd,
+    "installCMD": panel.install_cmd,
+    "runCMD": panel.run_cmd,
+    "description": panel.description
   }
 
 
