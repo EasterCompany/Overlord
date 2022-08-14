@@ -100,7 +100,7 @@ export const api = async (API: string, BAD: any = null, OK: any = null) => {
   const _auth = user.SESH;
 
   await fetch(serverAPI + API, {
-    method: 'post',
+    method: 'POST',
     headers: new Headers({
         'Authorization': `Basic ${_auth}`,
         'Content-Type': 'application/x-www-form-urlencoded'
@@ -135,11 +135,14 @@ export const api = async (API: string, BAD: any = null, OK: any = null) => {
 // Request data from the API
 export const POST = async (API: string, _POST: any, BAD: any = null, OK: any = null) => {
   const user = USER();
-  const _auth = user.SESH; // user auth is currently not taken any further
+  const _auth = user.SESH;
 
   await fetch(serverAPI + API, {
     method: 'POST',
-    headers: { 'Content-Type': 'application/json' },
+    headers: new Headers({
+      'Authorization': `Basic ${_auth}`,
+      'Content-Type': 'application/json'
+    }),
     body: _POST,
   })
   .then(resp => resp.json())

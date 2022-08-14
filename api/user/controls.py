@@ -1,4 +1,5 @@
 # Overlord library
+from xmlrpc.client import boolean
 from core.library import api
 from core.library.cryptography import encrypt
 # Overlord api
@@ -44,3 +45,22 @@ def verify_identity(email, session):
     if UserAuth.objects.filter(email=email, session=session).count() == 0:
         return api.error("User with that session does not exist.")
     return api.success()
+
+
+def authorized(req, uuid):
+    return UserAuth.objects.filter(uuid=uuid).only()[0].session.split("[:~OLT~:]")[1] == \
+        req.headers.get('Authorization').split("[:~OLT~:]")[1]
+
+
+def if_authorized(req, uuid, do_function):
+  try:
+    if authorized(req, uuid):
+        r = do_function()
+        if isinstance(r, dict):
+            return api.data(r)
+        elif isinstance(r, boolean):
+            return api.success() if r is True else api.error()
+        return api.success()
+    return api.error("Unauthorized access.")
+  except Exception as exception:
+    return api.error(exception)

@@ -2,6 +2,7 @@
 from urllib import parse
 # Overlord library
 from core.library import api
+from api.user.controls import if_authorized
 from api.admin.controls import *
 
 
@@ -33,10 +34,11 @@ def view_panel_users(req, uuid, *args, **kwargs):
 
 
 def create(req, uuid, app_name, api_url, *args, **kwargs):
+  user = parse.unquote(uuid).strip()
+  name = parse.unquote(app_name).strip()
+  url = parse.unquote(api_url).strip()
+  return if_authorized(req, uuid, lambda: create_new_panel(uuid=user, name=name, url=url))
   try:
-    user = parse.unquote(uuid).strip()
-    name = parse.unquote(app_name).strip()
-    url = parse.unquote(api_url).strip()
     create_new_panel(uuid=user, name=name, url=url)
     return api.success()
   except Exception as exception:
@@ -44,9 +46,10 @@ def create(req, uuid, app_name, api_url, *args, **kwargs):
 
 
 def verify_user(req, pid, uuid, *args, **kwargs):
+  return if_authorized(req, uuid, lambda: get_panel_users(pid)[uuid])
   try:
     users = get_panel_users(pid)
-    if uuid in users:
+    if uuid in users and authorize(req, uuid):
       user_permissions = users[uuid]
       return api.data(user_permissions)
     return api.error()

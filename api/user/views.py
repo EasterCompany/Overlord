@@ -157,7 +157,8 @@ def verify(req, target, key, *args, **kwargs):
 
 def login(req, emailURI, *args, **kwargs):
     """
-    Generate a new Refresh & Session Token for the user identified by the uuid parameter
+    Generate a new session token and return it if the email and password combination
+    match and existing user record.
 
     :param uuid str: unique identifier for user
     :param key str: encrypted login secret key
@@ -165,11 +166,15 @@ def login(req, emailURI, *args, **kwargs):
     """
     email = parse.unquote(emailURI).strip()
     password = req.body.decode('utf-8')
-    user = UserAuth.objects.filter(email=email)
-    if user.count() > 0 and password == decrypt(user[0].key):
+    user = UserAuth.objects.filter(email=email).first()
+    user.session = session.generate()
+    user.save()
+
+    if user and password == decrypt(user.key):
         return api.data({
-            'uuid': user[0].uuid, 'email': user[0].email, 'session': user[0].session
+            'uuid': user.uuid, 'email': user.email, 'session': user.session
         })
+
     return api.error()
 
 

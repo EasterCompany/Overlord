@@ -32,7 +32,7 @@ def generate():
     :param authenticated bool: weather user is authenticated
     :param active bool: weather this user is active or disabled
     """
-    return f"{get_random_string(128)} ~/~ {time.get_datetime_str()} ~/~ 0"
+    return f"[:~OLT~:] {get_random_string(128)} ~/~ {time.get_datetime_str()}"
 
 
 def _is_authenticated(user):
