@@ -5,6 +5,13 @@ object-assign
 */
 
 /*!
+ * Determine if an object is a Buffer
+ *
+ * @author   Feross Aboukhadijeh <https://feross.org>
+ * @license  MIT
+ */
+
+/*!
  * hash-wasm (https://www.npmjs.com/package/hash-wasm)
  * (c) Dani Biro
  * @license MIT
@@ -47,6 +54,15 @@ PERFORMANCE OF THIS SOFTWARE.
 
 /** @license React v17.0.2
  * react-dom.production.min.js
+ *
+ * Copyright (c) Facebook, Inc. and its affiliates.
+ *
+ * This source code is licensed under the MIT license found in the
+ * LICENSE file in the root directory of this source tree.
+ */
+
+/** @license React v17.0.2
+ * react-is.production.min.js
  *
  * Copyright (c) Facebook, Inc. and its affiliates.
  *

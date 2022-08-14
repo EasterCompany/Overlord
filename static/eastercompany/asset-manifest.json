@@ -1,8 +1,8 @@
 {
   "files": {
-    "main.css": "/static/eastercompany/static/css/main.67469bb9.css",
-    "main.js": "/static/eastercompany/static/js/main.0c462c81.js",
-    "static/js/377.80265db8.chunk.js": "/static/eastercompany/static/js/377.80265db8.chunk.js",
+    "main.css": "/static/eastercompany/static/css/main.0caec1d9.css",
+    "main.js": "/static/eastercompany/static/js/main.a921280a.js",
+    "static/js/377.4d261eaf.chunk.js": "/static/eastercompany/static/js/377.4d261eaf.chunk.js",
     "static/media/overlord_light.png": "/static/eastercompany/static/media/overlord_light.4ab364221049f43c7e64.png",
     "static/media/spartanIconBlur.png": "/static/eastercompany/static/media/spartanIconBlur.9bc4748d1b0e4a64e259.png",
     "static/media/banner2.png": "/static/eastercompany/static/media/banner2.c6882f664bd77d348cd9.png",
@@ -19,15 +19,15 @@
     "static/media/error.svg": "/static/eastercompany/static/media/error.c246bb9100771f9286cca1e7bc750b89.svg",
     "static/media/linkedin.svg": "/static/eastercompany/static/media/linkedin.060716585c1c32d459b0ede1fd1c4d5a.svg",
     "static/media/facebook.svg": "/static/eastercompany/static/media/facebook.b57931ba82ba550a4841dec076b4ca82.svg",
-    "static/media/link.svg": "/static/eastercompany/static/media/link.ed284958b9a96778abf2888f042e7edf.svg",
+    "static/media/link.svg": "/static/eastercompany/static/media/link.89ed97eef29fce0549a9f4385dbe9667.svg",
     "static/media/email.svg": "/static/eastercompany/static/media/email.8bf10b709170505d6462fc2c51a06af1.svg",
     "static/media/logout.svg": "/static/eastercompany/static/media/logout.67bd7f22d81fd6433cd64bb34f71f9d2.svg",
-    "main.67469bb9.css.map": "/static/eastercompany/static/css/main.67469bb9.css.map",
-    "main.0c462c81.js.map": "/static/eastercompany/static/js/main.0c462c81.js.map",
-    "377.80265db8.chunk.js.map": "/static/eastercompany/static/js/377.80265db8.chunk.js.map"
+    "main.0caec1d9.css.map": "/static/eastercompany/static/css/main.0caec1d9.css.map",
+    "main.a921280a.js.map": "/static/eastercompany/static/js/main.a921280a.js.map",
+    "377.4d261eaf.chunk.js.map": "/static/eastercompany/static/js/377.4d261eaf.chunk.js.map"
   },
   "entrypoints": [
-    "static/css/main.67469bb9.css",
-    "static/js/main.0c462c81.js"
+    "static/css/main.0caec1d9.css",
+    "static/js/main.a921280a.js"
   ]
 }
