@@ -345,7 +345,11 @@ def run_tool(command, index=0):
 
     elif command == 'clear': system('clear')
 
-    elif command == 'code': system('code .')
+    elif command == 'code':
+        if arguments_remaining == 0:
+            system('code .')
+        elif arguments_remaining == 1:
+            system(f'code clients/{arguments[0]}')
 
     elif command == 'sh':
         _process = subprocess.run(arguments, capture_output=True, text=True)
