@@ -1,18 +1,18 @@
 {
   "files": {
-    "main.css": "/static/bloomingdales/static/css/main.3bb461c7.css",
-    "main.js": "/static/bloomingdales/static/js/main.1d2ce133.js",
+    "main.css": "/static/bloomingdales/static/css/main.b9e8c7ef.css",
+    "main.js": "/static/bloomingdales/static/js/main.195ccf30.js",
     "static/js/787.9558ab58.chunk.js": "/static/bloomingdales/static/js/787.9558ab58.chunk.js",
     "static/media/AvenirLTStd-Heavy.otf": "/static/bloomingdales/static/media/AvenirLTStd-Heavy.d1a180cf4bf435707e5d.otf",
     "static/media/AvenirLTStd-Medium.otf": "/static/bloomingdales/static/media/AvenirLTStd-Medium.adcbfbb892596d80fae1.otf",
     "static/media/AvenirLTStd-Light.otf": "/static/bloomingdales/static/media/AvenirLTStd-Light.4343d6ec50614bf0b4a4.otf",
     "index.html": "/static/bloomingdales/index.html",
-    "main.3bb461c7.css.map": "/static/bloomingdales/static/css/main.3bb461c7.css.map",
-    "main.1d2ce133.js.map": "/static/bloomingdales/static/js/main.1d2ce133.js.map",
+    "main.b9e8c7ef.css.map": "/static/bloomingdales/static/css/main.b9e8c7ef.css.map",
+    "main.195ccf30.js.map": "/static/bloomingdales/static/js/main.195ccf30.js.map",
     "787.9558ab58.chunk.js.map": "/static/bloomingdales/static/js/787.9558ab58.chunk.js.map"
   },
   "entrypoints": [
-    "static/css/main.3bb461c7.css",
-    "static/js/main.1d2ce133.js"
+    "static/css/main.b9e8c7ef.css",
+    "static/js/main.195ccf30.js"
   ]
 }
