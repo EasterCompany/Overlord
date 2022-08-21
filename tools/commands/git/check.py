@@ -17,8 +17,8 @@ def check_version_status():
   )
   if result.stdout == "0\n": return ["", "white"]
   elif result.stdout == "1\n": return ["[New Update Available]\n", "green"]
-  elif result.stdout == "2\n": return ["  [Commits Pending]   \n", "yellow"]
-  elif result.stdout == "3\n": return ["     [Diverged]       \n", "red"]
+  elif result.stdout == "2\n": return ["   [Commits Pending]   \n", "yellow"]
+  elif result.stdout == "3\n": return ["      [Diverged]       \n", "red"]
 
 
 def version_status_label():
