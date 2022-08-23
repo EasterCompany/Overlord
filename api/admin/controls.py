@@ -27,6 +27,7 @@ def get_panel_data(pid):
     "id": panel.uuid,
     "name": panel.app_name,
     "api": panel.api_url,
+    "index": 'e_panel',
     "image": '/static/eastercompany/favicon.ico',
     "users": panel.users,
     "createCMD": panel.create_cmd,
