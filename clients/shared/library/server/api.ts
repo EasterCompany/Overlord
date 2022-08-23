@@ -1,6 +1,4 @@
-import {
-  cookie, logout as logoutLocally, USER
-} from '../local/user';
+import { USER } from '../local/user';
 
 
 /*
@@ -74,18 +72,6 @@ export const getEndpoints = () => {
       api: `https://${window.location.host}/${process.env.REACT_APP_API}/`
     };
   }
-}
-
-
-// Encode list to uri
-const APIPath = (paths:any) => {
-  let pathString = "api";
-
-  paths.forEach( (path:string) => {
-    pathString += "/" + encodeURIComponent(path);
-  })
-
-  return pathString;
 }
 
 
@@ -169,6 +155,21 @@ export const POST = async (API: string, _POST: any, BAD: any = null, OK: any = n
       }
     }
   })
+}
+
+
+// Request data from an External API
+export const xapi = async (API: string, AUTH: any = null, DATA: any, CALLBACK: any = null) => {
+  await fetch(API, {
+    method: 'POST',
+    headers: new Headers({
+      'Authorization': `Basic ${AUTH}`,
+      'Content-Type': 'application/json'
+    }),
+    body: DATA,
+  })
+  .then(resp => resp.json())
+  .then(respJson => CALLBACK(respJson))
 }
 
 

@@ -326,7 +326,7 @@ def run_tool(command, index=0):
                 "`node` command doesn't take any arguments",
                 error=True
             )
-        output(console.col('\nStarting Node.', 'green') + '\n[type: .exit to return] ')
+        output(console.col('\nStarting Node.', 'green') + '\n[type: .exit to return]')
         system('node')
         output(console.col('Closed Node.', 'red'))
 

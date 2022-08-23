@@ -32,7 +32,9 @@ def get_panel_data(pid):
     "createCMD": panel.create_cmd,
     "installCMD": panel.install_cmd,
     "runCMD": panel.run_cmd,
-    "description": panel.description
+    "description": panel.description,
+    "isNative": False,
+    "isWeb": True
   }
 
 
