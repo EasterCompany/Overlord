@@ -55,10 +55,22 @@ URLS = [
     name="List Mock Product Data"
   ),
 
+  path(
+    MOCK_PRODUCT(4391791),
+    views.michael_kors_dress,
+    name="List Mock Product Data"
+  ),
+
 ]
 
 """
+
 This is the real endpoint that we are mocking:
+
+  https://www.bcom-003.tbe.zeus.fds.com/xapi/digital/v1/product/4361125?clientId=PROS&_regionCode=US&currencyCode=USD&_shoppingMode=SITE&size=small&_customerState=GUEST
+  https://www.bcom-003.tbe.zeus.fds.com/xapi/digital/v1/product/4391791?clientId=PROS&_regionCode=US&currencyCode=USD&_shoppingMode=SITE&size=small&_customerState=GUEST
+
   https://www.bloomingdales.com/xapi/digital/v1/product/4148762?
   clientId=PROS&_regionCode=US&currencyCode=USD&_shoppingMode=SITE&size=small&_customerState=GUEST
+
 """

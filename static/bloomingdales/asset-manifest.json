@@ -1,16 +1,16 @@
 {
   "files": {
-    "main.css": "/static/bloomingdales/static/css/main.6681b38b.css",
-    "main.js": "/static/bloomingdales/static/js/main.ef9d3772.js",
+    "main.css": "/static/bloomingdales/static/css/main.974c9cd5.css",
+    "main.js": "/static/bloomingdales/static/js/main.7e13d985.js",
     "static/js/787.9558ab58.chunk.js": "/static/bloomingdales/static/js/787.9558ab58.chunk.js",
     "static/media/example.png": "/static/bloomingdales/static/media/example.cc98c01ae9a27fc0aacf.png",
     "index.html": "/static/bloomingdales/index.html",
-    "main.6681b38b.css.map": "/static/bloomingdales/static/css/main.6681b38b.css.map",
-    "main.ef9d3772.js.map": "/static/bloomingdales/static/js/main.ef9d3772.js.map",
+    "main.974c9cd5.css.map": "/static/bloomingdales/static/css/main.974c9cd5.css.map",
+    "main.7e13d985.js.map": "/static/bloomingdales/static/js/main.7e13d985.js.map",
     "787.9558ab58.chunk.js.map": "/static/bloomingdales/static/js/787.9558ab58.chunk.js.map"
   },
   "entrypoints": [
-    "static/css/main.6681b38b.css",
-    "static/js/main.ef9d3772.js"
+    "static/css/main.974c9cd5.css",
+    "static/js/main.7e13d985.js"
   ]
 }

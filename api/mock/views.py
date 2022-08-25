@@ -4945,6 +4945,7 @@ def theory_suit_jacket(reqs, *args, **kwargs):
 def one_year_classic(req, *args, **kwargs):
   return JsonResponse({"product":[{"id":4279167,"identifier":{"productUrl":"/shop/product/ag-ex-boyfriend-high-rise-cropped-slim-jeans-in-1-year-classic-white?ID=4279167","productId":4279167,"topLevelCategoryID":"2910","topLevelCategoryName":"Women"},"detail":{"name":"Ex Boyfriend High Rise Cropped Slim Jeans in 1 Year Classic White","description":"A relaxed, slouchy fit makes AG's Ex-Boyfriend jean a timeless style to wear in any season. It borrows from the boys with its easy shape, but the high-rise waist and tapered leg opening deliver a more feminine look. Crafted from the brand's signature soft denim in vintage-inspired washes, the style instantly adds a laid-back vibe to whatever you're wearing.","secondaryDescription":"","seoKeywords":"AG, AG Ex Boyfriend High Rise Cropped Slim Jeans in 1 Year Classic White","flags":{"chanel":False,"hermes":False,"coach":False,"hasWarranty":False,"bigTicketItem":False,"phoneOnly":False,"registrable":False,"masterProduct":False,"memberProduct":True,"gwpIndicator":False,"truefitEligible":True,"fitPredictorEligible":True,"isStoreOnlyProductOnline":False,"eligibleForPreOrder":False,"countryEligible":True,"hasColors":True,"rebates":False,"giftCard":False,"suppressColorSwatches":False,"hasColorSwatches":False,"beauty":False,"eligibleForShopRunner":True,"hasAdditionalImages":True,"bigTicketV2CItem":False,"onlineExclusive":False,"storeOnlySpecial":False,"finishLine":False,"sitewidesale":True,"protectionPlanEligible":False,"bannerForKidsChokeHazard":False,"sizePersistForMen":False,"bigTicketDeliveryFeeRestructureEligible":False,"dimensionsCopyGroupEnabled":False,"materialCareSectionEnabled":False,"sizeAndFitEnabled":True,"arBeauty":False,"arFurniture":False,"virtualTryOn":False,"experience3D":False,"experience360":False,"backInStockOptOut":False,"consolidatedProductComplex":False,"writeAReviewRedesignExpEnabled":False,"siteMonetizationProduct":False,"consolidatedMaster":False,"processedProdDesc":False,"esecRemoveSecureUserTokenQueryParamEnabled":False,"pickUpStore":True,"bcomsyndigoEnabled":False,"styleMeEnabled":False,"zeekitEnabled":False,"seeMoreExperienceEnabled":False,"seeMoreAndSizeChartExperienceEnabled":False,"sizeChartExperienceEnabled":False,"gwpExperienceEnabled":False,"altModelSizesExperimentEnabled":False,"PDPColorized":False,"isEligibleForColorwayPromoBadging":False,"isFewLeftMessageRedesignEnabled":False,"isTrueFitSizeAutoSelectEnabled":False,"klarnaEligible":True,"modiFaceEligible":False,"isPdpBVReviewFormUpdatesEnabled":False,"phase2DesktopBVApiTrt1Enabled":False,"phase2DesktopBVApiTrt2Enabled":False,"phase2MobileBVApiTrt1Enabled":False,"homeFOB":False,"isReviewsPage":False,"isBeautyGiftSet":False,"isBestSeller":False,"isNew":False,"isFindationEnabled":False,"isWebCollageOutFromTabs":False,"isVideoImageRailEnabled":False,"isTrueCollectionsEnabled":False,"isReviewPhotosUploadEnabled":False},"reviewStatistics":{"aggregate":{"rating":4.125,"ratingPercentage":83.0,"count":8}},"orderedMasterGroupList":[],"memberDisplayGroupsMap":{},"bulletText":["Zip fly with logo-button closure, five-pocket silhouette","Tonal stitching, silver-tone, belt loops","Slim boyfriend silhouette","Cuffed hems","Imported"],"dimensionsBulletText":["Fits True to size, order your normal size","High rise: 10\"","Inseam: 28\"","Leg opening: 13.25\"","All measurements based on a size 26","Model measurements: 5'10\" height, 33.5\" bust, 23.5\" waist, 34.5\" hips, wearing a size 26"],"materialsAndCare":["93% cotton/6% polyester/1% elastane","Machine wash"],"maxQuantity":6,"typeName":"JEANS","additionalImagesCount":2,"numberOfColors":1,"brand":{"name":"AG","id":8509,"url":"/buy/ag","subBrand":"","brandBreakout":True},"bulletLinks":[],"pdfEmailDescription":"Ex Boyfriend High Rise Cropped Slim Jeans in 1 Year Classic White","skinCareType":"","carouselType":"Collection","memberProductCount":0,"completeName":"AG Ex Boyfriend High Rise Cropped Slim Jeans in 1 Year Classic White","dimensionsHeaderText":"","dressOccasion":"","sizeLabel":"","kidsChokingHazardLabel":"","klarna":{"klarnaDataClientId":"ea7f7a8d-2691-5374-a5d6-464857665749","klarnaOnsiteJsSdkPath":"https://na-library.klarnaservices.com/lib.js"},"salesFloorBrand":{"salesFloorBrandUrl":"","salesFloorBrand":False}},"relationships":{"taxonomy":{"categories":[{"name":"Women","url":"/shop/womens-apparel?id=2910","id":2910}],"defaultCategoryId":2910},"upcs":{"6222378":{"id":6222378,"identifier":{"upcNumber":"195565488759"},"relationships":{},"availability":{"checkInStoreEligibility":True,"available":False,"shipDays":-1,"message":"Not available for shipping","lowAvailability":False,"orderType":"NA","bopsAvailability":False,"bossAvailability":False,"storeAvailability":False,"shipFees":{}},"traits":{"colors":{"selectedColor":2150973},"sizes":{"selectedSize":7}},"holidayMessageEligible":False},"6222363":{"id":6222363,"identifier":{"upcNumber":"195565488735"},"relationships":{},"availability":{"checkInStoreEligibility":True,"available":True,"shipDays":2,"message":"Usually leaves our facility within 2 business days.","availabilityMessage":"Just a few left","lowAvailability":True,"lowAvailabilityMessage":"Just a few left!","orderType":"POOL","bopsAvailability":False,"bossAvailability":False,"storeAvailability":False,"shipFees":{"standard":0,"premium":10,"express":15}},"traits":{"colors":{"selectedColor":2150973},"sizes":{"selectedSize":5}},"holidayMessageEligible":False},"6222331":{"id":6222331,"identifier":{"upcNumber":"195565488698"},"relationships":{},"availability":{"checkInStoreEligibility":True,"available":False,"shipDays":-1,"message":"Not available for shipping","lowAvailability":False,"orderType":"NA","bopsAvailability":False,"bossAvailability":False,"storeAvailability":False,"shipFees":{}},"traits":{"colors":{"selectedColor":2150973},"sizes":{"selectedSize":1}},"holidayMessageEligible":False},"6222345":{"id":6222345,"identifier":{"upcNumber":"195565488711"},"relationships":{},"availability":{"checkInStoreEligibility":True,"available":True,"shipDays":2,"message":"Usually leaves our facility within 2 business days.","availabilityMessage":"Just a few left","lowAvailability":True,"lowAvailabilityMessage":"Just a few left!","orderType":"POOL","bopsAvailability":False,"bossAvailability":False,"storeAvailability":False,"shipFees":{"standard":0,"premium":10,"express":15}},"traits":{"colors":{"selectedColor":2150973},"sizes":{"selectedSize":3}},"holidayMessageEligible":False},"6222375":{"id":6222375,"identifier":{"upcNumber":"195565488742"},"relationships":{},"availability":{"checkInStoreEligibility":True,"available":False,"shipDays":-1,"message":"Not available for shipping","lowAvailability":False,"orderType":"NA","bopsAvailability":False,"bossAvailability":False,"storeAvailability":False,"shipFees":{}},"traits":{"colors":{"selectedColor":2150973},"sizes":{"selectedSize":6}},"holidayMessageEligible":False},"6222324":{"id":6222324,"identifier":{"upcNumber":"195565488681"},"relationships":{},"availability":{"checkInStoreEligibility":True,"available":False,"shipDays":-1,"message":"Not available for shipping","lowAvailability":False,"orderType":"NA","bopsAvailability":False,"bossAvailability":False,"storeAvailability":False,"shipFees":{}},"traits":{"colors":{"selectedColor":2150973},"sizes":{"selectedSize":0}},"holidayMessageEligible":False},"6222389":{"id":6222389,"identifier":{"upcNumber":"195565488773"},"relationships":{},"availability":{"checkInStoreEligibility":True,"available":False,"shipDays":-1,"message":"Not available for shipping","lowAvailability":False,"orderType":"NA","bopsAvailability":False,"bossAvailability":False,"storeAvailability":False,"shipFees":{}},"traits":{"colors":{"selectedColor":2150973},"sizes":{"selectedSize":9}},"holidayMessageEligible":False},"6222357":{"id":6222357,"identifier":{"upcNumber":"195565488728"},"relationships":{},"availability":{"checkInStoreEligibility":True,"available":False,"shipDays":-1,"message":"Not available for shipping","lowAvailability":False,"orderType":"NA","bopsAvailability":False,"bossAvailability":False,"storeAvailability":False,"shipFees":{}},"traits":{"colors":{"selectedColor":2150973},"sizes":{"selectedSize":4}},"holidayMessageEligible":False},"6222403":{"id":6222403,"identifier":{"upcNumber":"195565488674"},"relationships":{},"availability":{"checkInStoreEligibility":True,"available":True,"shipDays":2,"message":"Usually leaves our facility within 2 business days.","availabilityMessage":"Just a few left","lowAvailability":True,"lowAvailabilityMessage":"Just a few left!","orderType":"POOL","bopsAvailability":False,"bossAvailability":False,"storeAvailability":False,"shipFees":{"standard":0,"premium":10,"express":15}},"traits":{"colors":{"selectedColor":2150973},"sizes":{"selectedSize":10}},"holidayMessageEligible":False},"6222387":{"id":6222387,"identifier":{"upcNumber":"195565488766"},"relationships":{},"availability":{"checkInStoreEligibility":True,"available":False,"shipDays":-1,"message":"Not available for shipping","lowAvailability":False,"orderType":"NA","bopsAvailability":False,"bossAvailability":False,"storeAvailability":False,"shipFees":{}},"traits":{"colors":{"selectedColor":2150973},"sizes":{"selectedSize":8}},"holidayMessageEligible":False},"6222339":{"id":6222339,"identifier":{"upcNumber":"195565488704"},"relationships":{},"availability":{"checkInStoreEligibility":True,"available":True,"shipDays":2,"message":"Usually leaves our facility within 2 business days.","availabilityMessage":"Just a few left","lowAvailability":True,"lowAvailabilityMessage":"Just a few left!","orderType":"POOL","bopsAvailability":False,"bossAvailability":False,"storeAvailability":False,"shipFees":{"standard":0,"premium":10,"express":15}},"traits":{"colors":{"selectedColor":2150973},"sizes":{"selectedSize":2}},"holidayMessageEligible":False}}},"imagery":{"images":[{"filePath":"9/optimized/12000019_fpx.tif","name":"12000019.fpx","showJumboSwatch":False,"swatchSpriteOffset":0,"swatchSpriteUrlIndex":0},{"filePath":"0/optimized/12000020_fpx.tif","name":"12000020.fpx","showJumboSwatch":False,"swatchSpriteOffset":62,"swatchSpriteUrlIndex":0}],"smallImagesSprites":{"spriteUrls":["?&$b=BLM/swatches/&hei=50&wid=124&cropN=0,0,2,1&resMode=sharp2&fmt=jpeg&qlt=100,0&layer=0&size=124,50&anchor=0,0&layer=1&size=40,50&src=is{$b$9/optimized/12000019_fpx.tif}&anchor=0,0&posN=0.000000,0&layer=2&size=40,50&src=is{$b$0/optimized/12000020_fpx.tif}&anchor=0,0&posN=0.500000,0"],"imagesWidth":40,"imagesHeight":50,"imagesPerSprite":16},"largeImagesSprites":{"spriteUrls":["?&$b=BLM/swatches/&hei=75&wid=124&cropN=0,0,2,1&resMode=sharp2&fmt=jpeg&qlt=100,0&layer=0&size=124,75&anchor=0,0&layer=1&size=60,75&src=is{$b$9/optimized/12000019_fpx.tif}&anchor=0,0&posN=0.000000,0&layer=2&size=60,75&src=is{$b$0/optimized/12000020_fpx.tif}&anchor=0,0&posN=0.500000,0"],"imagesWidth":60,"imagesHeight":75,"imagesPerSprite":16}},"availability":{"checkInStoreEligibility":False,"available":True,"lowAvailability":False,"lowAvailabilityMessage":"Almost sold out","bopsAvailability":False,"bossAvailability":False,"storeAvailability":False},"traits":{"colors":{"selectedColor":2150973,"colorMap":{"2150973":{"id":2150973,"name":"1 Year Classic White","normalName":"White","swatchImage":{"filePath":"4/optimized/9357154_fpx.tif","name":"9357154.fpx","showJumboSwatch":False,"swatchSpriteOffset":0,"swatchSpriteUrlIndex":0},"imagery":{"images":[{"filePath":"9/optimized/12000019_fpx.tif","name":"12000019.fpx","showJumboSwatch":False,"swatchSpriteOffset":0,"swatchSpriteUrlIndex":0},{"filePath":"0/optimized/12000020_fpx.tif","name":"12000020.fpx","showJumboSwatch":False,"swatchSpriteOffset":62,"swatchSpriteUrlIndex":0}],"smallImagesSprites":{"spriteUrls":["?&$b=BLM/swatches/&hei=50&wid=124&cropN=0,0,2,1&resMode=sharp2&fmt=jpeg&qlt=100,0&layer=0&size=124,50&anchor=0,0&layer=1&size=40,50&src=is{$b$9/optimized/12000019_fpx.tif}&anchor=0,0&posN=0.000000,0&layer=2&size=40,50&src=is{$b$0/optimized/12000020_fpx.tif}&anchor=0,0&posN=0.500000,0"],"imagesWidth":40,"imagesHeight":50,"imagesPerSprite":16},"largeImagesSprites":{"spriteUrls":["?&$b=BLM/swatches/&hei=75&wid=124&cropN=0,0,2,1&resMode=sharp2&fmt=jpeg&qlt=100,0&layer=0&size=124,75&anchor=0,0&layer=1&size=60,75&src=is{$b$9/optimized/12000019_fpx.tif}&anchor=0,0&posN=0.000000,0&layer=2&size=60,75&src=is{$b$0/optimized/12000020_fpx.tif}&anchor=0,0&posN=0.500000,0"],"imagesWidth":60,"imagesHeight":75,"imagesPerSprite":16},"primaryImage":{"filePath":"9/optimized/12000019_fpx.tif","name":"12000019.fpx","showJumboSwatch":False,"swatchSpriteOffset":0,"swatchSpriteUrlIndex":0}},"sizes":[0,1,2,3,4,5,6,7,8,9,10],"pricing":{"price":{"priceType":{"onEdv":False,"onSale":True,"upcOnSale":False,"upcOnEdv":False,"memberProductOnSale":False,"willBe":False,"applicableToAllUpcs":True,"selectItemsOnSale":False,"isMasterNonRanged":False},"policy":{"text":"Limited quantities, while supplies last. Intermediate markdowns may have been taken.\n\"Regular\" (REG.) and \"Original\" (ORIG.) prices are offering prices. That means we offered the merchandise in our stores or on macys.com at those prices; however, we may not have sold the item at that price. So, the savings we show from these prices may not be based on actual sales of the item. Some \"Original\" (ORIG.) prices may not have been in effect during the past 90 days.","url":"https://www.customerservice-bloomingdales.com"},"tieredPrice":[{"label":"Orig. [PRICE]","values":[{"value":215.0,"formattedValue":"$215.00","type":"regular"}]},{"label":"Now [PRICE]","values":[{"value":107.5,"formattedValue":"$107.50","type":"discount","percentOff":[50]}]}],"priceTypeId":8}}}},"swatchSprite":{"swatchSpriteUrls":["?&$b=BLM/swatches/&hei=45&wid=47&cropN=0,0,1,1&resMode=sharp2&fmt=jpeg&qlt=100,0&layer=0&size=47,45&anchor=0,0&layer=1&size=45,45&src=is{$b$4/optimized/9357154_fpx.tif}&anchor=0,0&posN=0.000000,0"],"spriteSwatchSize":54,"swatchesPerSprite":16},"largeSwatchSprite":{"swatchSpriteUrls":["?&$b=BLM/swatches/&hei=35&wid=47&cropN=0,0,1,1&resMode=sharp2&fmt=jpeg&qlt=100,0&layer=0&size=47,35&anchor=0,0&layer=1&size=35,35&src=is{$b$4/optimized/9357154_fpx.tif}&anchor=0,0&posN=0.000000,0"],"spriteSwatchSize":54,"swatchesPerSprite":16},"orderedColorsById":[2150973],"orderedColorsByName":[2150973]},"sizes":{"orderedSizesBySeqNumber":[10,0,1,2,3,4,5,6,7,8,9],"sizeChartId":"421106","sizeMap":{"0":{"id":0,"name":"24","displayName":"24","colors":[2150973]},"1":{"id":1,"name":"25","displayName":"25","colors":[2150973]},"2":{"id":2,"name":"26","displayName":"26","colors":[2150973]},"3":{"id":3,"name":"27","displayName":"27","colors":[2150973]},"4":{"id":4,"name":"28","displayName":"28","colors":[2150973]},"5":{"id":5,"name":"29","displayName":"29","colors":[2150973]},"6":{"id":6,"name":"30","displayName":"30","colors":[2150973]},"7":{"id":7,"name":"31","displayName":"31","colors":[2150973]},"8":{"id":8,"name":"32","displayName":"32","colors":[2150973]},"9":{"id":9,"name":"33","displayName":"33","colors":[2150973]},"10":{"id":10,"name":"23","displayName":"23","colors":[2150973]}}},"traitsMaps":{"upcMap":{"2150973_9":6222389,"2150973_8":6222387,"2150973_7":6222378,"2150973_6":6222375,"2150973_5":6222363,"2150973_4":6222357,"2150973_3":6222345,"2150973_2":6222339,"2150973_1":6222331,"2150973_0":6222324,"2150973_10":6222403},"priceToColors":[{"price":"$107.50","colorIds":[2150973],"onSale":True}]}},"pricing":{"price":{"priceType":{"onEdv":False,"onSale":True,"upcOnSale":False,"upcOnEdv":False,"memberProductOnSale":False,"willBe":False,"applicableToAllUpcs":True,"selectItemsOnSale":False,"isMasterNonRanged":False},"policy":{"text":"Limited quantities, while supplies last. Intermediate markdowns may have been taken.\n\"Regular\" (REG.) and \"Original\" (ORIG.) prices are offering prices. That means we offered the merchandise in our stores or on macys.com at those prices; however, we may not have sold the item at that price. So, the savings we show from these prices may not be based on actual sales of the item. Some \"Original\" (ORIG.) prices may not have been in effect during the past 90 days.","url":"https://www.customerservice-bloomingdales.com"},"tieredPrice":[{"label":"Orig. [PRICE]","values":[{"value":215.0,"formattedValue":"$215.00","type":"regular"}]},{"label":"Now [PRICE]","values":[{"value":107.5,"formattedValue":"$107.50","type":"discount","percentOff":[50]}]}],"priceTypeId":8}},"urlTemplate":{"swatch":"https://images.bloomingdalesassets.com/is/image/BLM/swatches/","swatchSprite":"https://images.bloomingdalesassets.com/is/image/BLM/","product":"https://images.bloomingdalesassets.com/is/image/BLM/products/"},"holidayMessageEligible":False}]})
 
+
 def versace_shoes(req, *args, **kwargs):
   return JsonResponse({
   "product": [
@@ -9437,4 +9438,651 @@ def versace_shoes(req, *args, **kwargs):
       "holidayMessageEligible": False
     }
   ]
+})
+
+
+def michael_kors_dress(req, *args, **kwargs):
+  return JsonResponse({
+  "product": [
+    {
+      "id": 4391791,
+      "identifier": {
+        "productUrl": "/shop/product/michael-kors-check-sequined-dress-150th-anniversary-exclusive?ID=4391791",
+        "productId": 4391791,
+        "topLevelCategoryID": "2910",
+        "topLevelCategoryName": "Women"
+      },
+      "department": {
+        "departmentId": 890,
+        "departmentName": "EUROPEAN DESIGNER SPORTSWEAR"
+      },
+      "messages": {
+        "info": [
+          {}
+        ]
+      },
+      "detail": {
+        "name": "Check Sequined Dress - 150th Anniversary Exclusive &nbsp;",
+        "description": "<b>150TH ANNIVERSARY EXCLUSIVE</b>:<br>Michael Kors brings Bloomingdale's iconic black-and-white check to life! This shimmering sequined dress pays tribute to our 150th anniversary in standout form. Wear this exclusive, limited-edition number on your next night out, and you'll have everything to celebrate.<br><br><b>FEATURES</b>:<br> &nbsp;",
+        "secondaryDescription": "",
+        "seoKeywords": "Michael Kors Collection, Michael Kors Check Sequined Dress - 150th Anniversary Exclusive  ",
+        "flags": {
+          "chanel": False,
+          "hermes": False,
+          "coach": False,
+          "hasWarranty": False,
+          "bigTicketItem": False,
+          "phoneOnly": False,
+          "registrable": False,
+          "masterProduct": False,
+          "memberProduct": False,
+          "gwpIndicator": False,
+          "truefitEligible": True,
+          "fitPredictorEligible": True,
+          "isStoreOnlyProductOnline": False,
+          "eligibleForPreOrder": False,
+          "countryEligible": True,
+          "hasColors": False,
+          "rebates": False,
+          "giftCard": False,
+          "suppressColorSwatches": False,
+          "hasColorSwatches": False,
+          "beauty": False,
+          "eligibleForShopRunner": False,
+          "hasAdditionalImages": True,
+          "bigTicketV2CItem": False,
+          "onlineExclusive": False,
+          "storeOnlySpecial": False,
+          "finishLine": False,
+          "sitewidesale": True,
+          "protectionPlanEligible": False,
+          "bannerForKidsChokeHazard": False,
+          "sizePersistForMen": False,
+          "bigTicketDeliveryFeeRestructureEligible": False,
+          "dimensionsCopyGroupEnabled": False,
+          "materialCareSectionEnabled": False,
+          "sizeAndFitEnabled": False,
+          "arBeauty": False,
+          "arFurniture": False,
+          "virtualTryOn": False,
+          "experience3D": False,
+          "experience360": False,
+          "backInStockOptOut": False,
+          "consolidatedProductComplex": False,
+          "writeAReviewRedesignExpEnabled": False,
+          "siteMonetizationProduct": False,
+          "consolidatedMaster": False,
+          "processedProdDesc": False,
+          "esecRemoveSecureUserTokenQueryParamEnabled": False,
+          "pickUpStore": True,
+          "seeMoreExperienceEnabled": False,
+          "seeMoreAndSizeChartExperienceEnabled": False,
+          "sizeChartExperienceEnabled": False,
+          "altModelSizesExperimentEnabled": False,
+          "bcomsyndigoEnabled": False,
+          "styleMeEnabled": False,
+          "zeekitEnabled": False,
+          "gwpExperienceEnabled": False,
+          "PDPColorized": True,
+          "isEligibleForColorwayPromoBadging": False,
+          "isFewLeftMessageRedesignEnabled": False,
+          "isTrueFitSizeAutoSelectEnabled": False,
+          "klarnaEligible": True,
+          "modiFaceEligible": False,
+          "isPdpBVReviewFormUpdatesEnabled": False,
+          "phase2DesktopBVApiTrt1Enabled": False,
+          "phase2DesktopBVApiTrt2Enabled": False,
+          "phase2MobileBVApiTrt1Enabled": False,
+          "homeFOB": False,
+          "isReviewPhotosUploadEnabled": False,
+          "isBestSeller": False,
+          "isNew": False,
+          "isReviewsPage": False,
+          "isFindationEnabled": False,
+          "isWebCollageOutFromTabs": False,
+          "isVideoImageRailEnabled": False,
+          "isTrueCollectionsEnabled": False,
+          "isBeautyGiftSet": False
+        },
+        "reviewStatistics": {},
+        "orderedMasterGroupList": [],
+        "memberDisplayGroupsMap": {},
+        "bulletText": [
+          "This limited-edition item is part of our <a href=https://www.bloomingdales.com/shop/fashion-lookbooks-videos-style-guide/150th-anniversary-collection?id=1162760>150th Anniversary collection.</a>",
+          "Boat neck",
+          "Long sleeves",
+          "Allover sequined checkerboard pattern",
+          "Back zip closure",
+          "Please note that this dress will be delivered with a black b-tag attached, with instructions for removal included. If the b-tag is removed, the dress cannot be returned.",
+          "Made in Italy"
+        ],
+        "dimensionsBulletText": [
+          "Fits True to size, order your normal size ??",
+          "Designed to hit above the knee",
+          "Approx. 35\" from back of neck to hem, based on a size 4",
+          "Model measurements: 5'10\" height, 33.5\" bust, 23.5\" waist, 34.5\" hips, wearing a size 4"
+        ],
+        "materialsAndCare": [
+          "82% polyamide/18% elastane",
+          "Dry clean"
+        ],
+        "maxQuantity": 12,
+        "typeName": "DRESS",
+        "additionalImagesCount": 17,
+        "numberOfColors": 0,
+        "brand": {
+          "name": "Michael Kors Collection",
+          "id": 107792,
+          "url": "/buy/michael-kors",
+          "subBrand": "Michael Kors",
+          "brandBreakout": True
+        },
+        "bulletLinks": [],
+        "pdfEmailDescription": "Check Sequined Dress - 150th Anniversary Exclusive &nbsp;",
+        "skinCareType": "",
+        "memberProductCount": 0,
+        "completeName": "Michael Kors Check Sequined Dress - 150th Anniversary Exclusive  ",
+        "dimensionsHeaderText": "SIZE & FIT",
+        "dressOccasion": "",
+        "sizeLabel": "",
+        "kidsChokingHazardLabel": "",
+        "klarna": {
+          "klarnaDataClientId": "2e882549-10a5-57d9-baa3-8afb1fef82d3",
+          "klarnaOnsiteJsSdkPath": "https://na-library.playground.klarnaservices.com/lib.js"
+        },
+        "salesFloorBrand": {
+          "salesFloorBrandUrl": "",
+          "salesFloorBrand": False
+        }
+      },
+      "shipping": {
+        "giftWrapMessage": "Our Normal Gift Boxing is not available for this item.",
+        "notes": [],
+        "freeShippingMessages": [
+          "This item qualifies for Free Shipping with minimum purchase!"
+        ]
+      },
+      "relationships": {
+        "taxonomy": {
+          "categories": [
+            {
+              "name": "Women",
+              "url": "/shop/womens-apparel?id=2910",
+              "id": 2910
+            }
+          ],
+          "defaultCategoryId": 2910
+        }
+      },
+      "imagery": {
+        "images": [
+          {
+            "filePath": "6/optimized/12221276_fpx.tif",
+            "name": "12221276.fpx",
+            "showJumboSwatch": False,
+            "swatchSpriteOffset": 0,
+            "swatchSpriteUrlIndex": 0
+          },
+          {
+            "filePath": "1/optimized/12197241_fpx.tif",
+            "name": "12197241.fpx",
+            "showJumboSwatch": False,
+            "swatchSpriteOffset": 62,
+            "swatchSpriteUrlIndex": 0
+          },
+          {
+            "filePath": "6/optimized/12197246_fpx.tif",
+            "name": "12197246.fpx",
+            "showJumboSwatch": False,
+            "swatchSpriteOffset": 124,
+            "swatchSpriteUrlIndex": 0
+          },
+          {
+            "filePath": "1/optimized/12197191_fpx.tif",
+            "name": "12197191.fpx",
+            "showJumboSwatch": False,
+            "swatchSpriteOffset": 186,
+            "swatchSpriteUrlIndex": 0
+          },
+          {
+            "filePath": "4/optimized/12197244_fpx.tif",
+            "name": "12197244.fpx",
+            "showJumboSwatch": False,
+            "swatchSpriteOffset": 248,
+            "swatchSpriteUrlIndex": 0
+          },
+          {
+            "filePath": "2/optimized/12197242_fpx.tif",
+            "name": "12197242.fpx",
+            "showJumboSwatch": False,
+            "swatchSpriteOffset": 310,
+            "swatchSpriteUrlIndex": 0
+          },
+          {
+            "filePath": "5/optimized/12197245_fpx.tif",
+            "name": "12197245.fpx",
+            "showJumboSwatch": False,
+            "swatchSpriteOffset": 372,
+            "swatchSpriteUrlIndex": 0
+          },
+          {
+            "filePath": "1/optimized/12208311_fpx.tif",
+            "name": "12208311.fpx",
+            "showJumboSwatch": False,
+            "swatchSpriteOffset": 434,
+            "swatchSpriteUrlIndex": 0
+          },
+          {
+            "filePath": "8/optimized/12410678_fpx.tif",
+            "name": "12410678.fpx",
+            "showJumboSwatch": False,
+            "swatchSpriteOffset": 496,
+            "swatchSpriteUrlIndex": 0
+          }
+        ],
+        "smallImagesSprites": {
+          "spriteUrls": [
+            "?&$b=BLM/swatches/&hei=50&wid=558&cropN=0,0,9,1&resMode=sharp2&fmt=jpeg&qlt=100,0&layer=0&size=558,50&anchor=0,0&layer=1&size=40,50&src=is{$b$6/optimized/12221276_fpx.tif}&anchor=0,0&posN=0.000000,0&layer=2&size=40,50&src=is{$b$1/optimized/12197241_fpx.tif}&anchor=0,0&posN=0.111111,0&layer=3&size=40,50&src=is{$b$6/optimized/12197246_fpx.tif}&anchor=0,0&posN=0.222222,0&layer=4&size=40,50&src=is{$b$1/optimized/12197191_fpx.tif}&anchor=0,0&posN=0.333333,0&layer=5&size=40,50&src=is{$b$4/optimized/12197244_fpx.tif}&anchor=0,0&posN=0.444444,0&layer=6&size=40,50&src=is{$b$2/optimized/12197242_fpx.tif}&anchor=0,0&posN=0.555556,0&layer=7&size=40,50&src=is{$b$5/optimized/12197245_fpx.tif}&anchor=0,0&posN=0.666667,0&layer=8&size=40,50&src=is{$b$1/optimized/12208311_fpx.tif}&anchor=0,0&posN=0.777778,0&layer=9&size=40,50&src=is{$b$8/optimized/12410678_fpx.tif}&anchor=0,0&posN=0.888889,0"
+          ],
+          "imagesWidth": 40,
+          "imagesHeight": 50,
+          "imagesPerSprite": 16
+        },
+        "largeImagesSprites": {
+          "spriteUrls": [
+            "?&$b=BLM/swatches/&hei=75&wid=558&cropN=0,0,9,1&resMode=sharp2&fmt=jpeg&qlt=100,0&layer=0&size=558,75&anchor=0,0&layer=1&size=60,75&src=is{$b$6/optimized/12221276_fpx.tif}&anchor=0,0&posN=0.000000,0&layer=2&size=60,75&src=is{$b$1/optimized/12197241_fpx.tif}&anchor=0,0&posN=0.111111,0&layer=3&size=60,75&src=is{$b$6/optimized/12197246_fpx.tif}&anchor=0,0&posN=0.222222,0&layer=4&size=60,75&src=is{$b$1/optimized/12197191_fpx.tif}&anchor=0,0&posN=0.333333,0&layer=5&size=60,75&src=is{$b$4/optimized/12197244_fpx.tif}&anchor=0,0&posN=0.444444,0&layer=6&size=60,75&src=is{$b$2/optimized/12197242_fpx.tif}&anchor=0,0&posN=0.555556,0&layer=7&size=60,75&src=is{$b$5/optimized/12197245_fpx.tif}&anchor=0,0&posN=0.666667,0&layer=8&size=60,75&src=is{$b$1/optimized/12208311_fpx.tif}&anchor=0,0&posN=0.777778,0&layer=9&size=60,75&src=is{$b$8/optimized/12410678_fpx.tif}&anchor=0,0&posN=0.888889,0"
+          ],
+          "imagesWidth": 60,
+          "imagesHeight": 75,
+          "imagesPerSprite": 16
+        },
+        "videoId": "6307688466112"
+      },
+      "availability": {
+        "checkInStoreEligibility": False,
+        "available": False,
+        "lowAvailability": False,
+        "lowAvailabilityMessage": "Almost sold out",
+        "bopsAvailability": False,
+        "bossAvailability": False,
+        "storeAvailability": False
+      },
+      "traits": {
+        "colors": {},
+        "traitsMaps": {
+          "upcMap": {}
+        }
+      },
+      "review": {
+        "hasErrors": False,
+        "includes": {},
+        "totalResults": 0,
+        "locale": "en_US",
+        "reviews": []
+      },
+      "protectionPlans": [],
+      "urlTemplate": {
+        "swatch": "https://images.bcom-003.tbe.zeus.fds.com/is/image/BLM/swatches/",
+        "swatchSprite": "https://images.bcom-003.tbe.zeus.fds.com/is/image/BLM/",
+        "product": "https://images.bcom-003.tbe.zeus.fds.com/is/image/BLM/products/"
+      },
+      "banner": {
+        "PDP_FREESHIP": [
+          {
+            "fileName": "2608648.fpx",
+            "height": 0,
+            "id": "2608648",
+            "description": "PDP_FREESHIP",
+            "groupId": 698406,
+            "groupType": "AD",
+            "type": "TEXT",
+            "alt": "<div class=\"free-shipping text-center main\">           <div class=\"shipping-header h3 purple c-margin-bottom-2v\">          <span>loyallists get free shipping!</span>          <a href=\"https://www.bloomingdales.com/loyallist/enrollment?action=createprofileandenroll&amp;cm_sp=PDP-_-free_ship_link-_-loyallist_enroll\" class=\"purple c-uppercase\">sign up</a>      </div>           <div class=\"shipping-description extra-small-font c-margin-bottom-2v\">           <span class=\"c-uppercase\">loyallists: </span>           <span>no minimum </span>             <span class=\"c-uppercase\">everyone else: $150 </span>           <span>or more</span>      </div>           <div class=\"shipping-returns purple c-uppercase extra-small-font c-margin-bottom-6v\">          <span>plus, free returns!</span>       <a class=\"c-capitalize\" href=\"javascript:pop('https://www.bloomingdales.com/shop/popup?perfectProxy=True&amp;popupID=698408','Free Shipping','menubar,status,scrollbars,width=575,height=550,resizable=1');\">info/exclusions</a>      </div>               </div>",
+            "width": 0,
+            "urlTemplate": "https://assets.bcom-003.tbe.zeus.fdsassets.com/dp/dyn_img/cat_splash/"
+          }
+        ],
+        "PDP_FREESHIP_LOYALLIST": [
+          {
+            "fileName": "2601023.fpx",
+            "height": 0,
+            "id": "2601023",
+            "description": "PDP_FREESHIP",
+            "groupId": 692522,
+            "groupType": "AD",
+            "type": "TEXT",
+            "alt": "<div class=\"free-shipping text-center main\">           <div class=\"shipping-header h3 purple c-margin-bottom-2v\">          <span>LUCKY YOU! LOYALLISTS GET FREE SHIPPING EVERY DAY </span>   </div>           <div class=\"shipping-description extra-small-font c-margin-bottom-2v\">           <span class=\"c-uppercase\">PLUS, POINTS ON EVERY DOLLAR</span>           </div>           <div class=\"shipping-returns c-uppercase extra-small-font c-margin-bottom-6v\">      <a class=\"c-capitalize\" href=\"javascript:pop('https://www.bloomingdales.com/shop/popup?perfectProxy=True&amp;popupID=525128','Free Shipping','menubar,status,scrollbars,width=575,height=550,resizable=1');\">info/exclusions</a>      </div>               </div>",
+            "width": 0,
+            "urlTemplate": "https://assets.bcom-003.tbe.zeus.fdsassets.com/dp/dyn_img/cat_splash/"
+          }
+        ],
+        "PDP_FREESHIP_BEAUTY": [
+          {
+            "fileName": "2608648.fpx",
+            "height": 0,
+            "id": "2608648",
+            "description": "PDP_FREESHIP",
+            "groupId": 698406,
+            "groupType": "AD",
+            "type": "TEXT",
+            "alt": "<div class=\"free-shipping text-center main\">           <div class=\"shipping-header h3 purple c-margin-bottom-2v\">          <span>loyallists get free shipping!</span>          <a href=\"https://www.bloomingdales.com/loyallist/enrollment?action=createprofileandenroll&amp;cm_sp=PDP-_-free_ship_link-_-loyallist_enroll\" class=\"purple c-uppercase\">sign up</a>      </div>           <div class=\"shipping-description extra-small-font c-margin-bottom-2v\">           <span class=\"c-uppercase\">loyallists: </span>           <span>no minimum </span>             <span class=\"c-uppercase\">everyone else: $150 </span>           <span>or more</span>      </div>           <div class=\"shipping-returns purple c-uppercase extra-small-font c-margin-bottom-6v\">          <span>plus, free returns!</span>       <a class=\"c-capitalize\" href=\"javascript:pop('https://www.bloomingdales.com/shop/popup?perfectProxy=True&amp;popupID=698408','Free Shipping','menubar,status,scrollbars,width=575,height=550,resizable=1');\">info/exclusions</a>      </div>               </div>",
+            "width": 0,
+            "urlTemplate": "https://assets.bcom-003.tbe.zeus.fdsassets.com/dp/dyn_img/cat_splash/"
+          }
+        ]
+      },
+      "ccfp": {
+        "ccfpEligible": False,
+        "chargePlanPDPDeptDetails": {}
+      },
+      "holidayMessageEligible": False
+    }
+  ],
+  "meta": {
+    "analytics": {
+      "data": {
+        "page_type": "product",
+        "t_category_id": [
+          "2910"
+        ],
+        "t_category_name": [
+          "Women"
+        ],
+        "is_big_ticket": [
+          "False"
+        ],
+        "is_big_ticket_v2c": [
+          "False"
+        ],
+        "product_id": [
+          "4391791"
+        ],
+        "product_low_availability": [
+          "False"
+        ],
+        "product_availability_message": [
+          "This product is currently unavailable"
+        ],
+        "product_name": [
+          "Check Sequined Dress - 150th Anniversary Exclusive &nbsp;"
+        ],
+        "product_type": [
+          "single item"
+        ],
+        "product_original_price": [
+          "0"
+        ],
+        "product_price": [
+          "0"
+        ],
+        "product_pricing_state": [
+          ""
+        ],
+        "product_rating": [
+          "0.0"
+        ],
+        "product_reviews": [
+          "0"
+        ],
+        "product_video": [
+          "true"
+        ],
+        "product_gwp_available": [],
+        "product_pwp_available": [],
+        "true_fit_eligible": [
+          "true"
+        ],
+        "findation_eligible": [
+          "False"
+        ],
+        "product_days_ship": [
+          ""
+        ],
+        "product_bops_available": [
+          "False"
+        ],
+        "product_boss_available": [
+          "False"
+        ],
+        "product_brand": [
+          "Michael Kors Collection"
+        ],
+        "consolidated_product": "False",
+        "gdp_eligible": "False"
+      }
+    },
+    "soastapageinfo": {
+      "site": "GCP",
+      "appserver": "UNKNOWN_CLONE",
+      "timestamp": "08/25/2022 11:37:54 EDT",
+      "release": "master",
+      "releaseDate": "2022-08-03T18:40:21+0000",
+      "version": "1.841.0"
+    }
+  },
+  "uiKillSwitches": {
+    "responsiveBagNewUrlEnabled": True,
+    "isBazaarVoiceEnabled": True,
+    "isProsReviewStarsEnabled": True,
+    "tealiumSyncTagEnabled": False,
+    "isProductEngagementPillEnabled": False,
+    "enhancedSddExperimentEnabled": True,
+    "frictionFreeStoreHeaderEnabledPDP": True,
+    "SMServiceEnabledForKeywordMapping": True,
+    "isBigTicketCXSeeItInStoreEnhancementsEnabled": False,
+    "siteMonProductTypeEnabled": True,
+    "pdpSponsoredItemsContentEnabled": False,
+    "stickyATBEnabled": False,
+    "sddFreeShippingEnabled": False,
+    "dressSizeSelectorsEnabled": False,
+    "updateProsGridAsCarouselEnabled": False,
+    "enableFeaturedSponsoredProduct": True,
+    "hexaEnabled": False,
+    "isStyliticsEnabled": True,
+    "shipFeesAndMethodsEnabled": False,
+    "prosZonesAddToListEnabled": False,
+    "exposeUnavailableSizesEnabled": True,
+    "bigticketBackorderExperimentMessageEnabled": False,
+    "categoryBreadCrumb": False,
+    "debugAndInfoLogEnabled": False,
+    "enableGAMImpressionTags": False,
+    "prosFacetFilterPhase2Enabled": False,
+    "prosOutfittingEnabled": False,
+    "killswitch_json_modified_date": False,
+    "contextualWidgetEnabled": True,
+    "seoDataFromGoogleBucketEnabled": True,
+    "rviRelatedProsZonesEnabled": False,
+    "isFitPredictorEnabled": False,
+    "pdpSalePercentOffDisplayEnabled": False,
+    "isMobileImageOverlayExperimentEnabled": True,
+    "isNoUPCProductAvailabilityFixEnabled": True,
+    "isConsolidatedPhase3Enabled": True,
+    "pdpSponsoredItemsContentEnabledServerSide": True,
+    "exposePickupOnlyMembersOfMasterEnabled": True,
+    "isBigTicketCXMasterV2CFromMembersEnabled": True,
+    "isModifaceEnabled": False,
+    "isClientErrorLoggingEnabled": False,
+    "isBigTicketCXSwatchesEnabled": True,
+    "productPageLayoutEnabled": True,
+    "icwEnabled": False,
+    "reviewBVAPISolutionEnabled": False,
+    "seoProductReviewsPageEnabled": True,
+    "criteoSMServiceEnabled": True,
+    "isFreeScrollEnabled": True,
+    "bigTicketFeatureForMattressesEnabled": False,
+    "unavailablePDPProsEnabled": False,
+    "isLoyaltyPPCEnabled": False,
+    "tealiumScriptEnabled": True,
+    "isVerticalProsEnabled": False,
+    "prosCollectionDistProductTypeEnabled": False,
+    "isPDPEnhancementEEnabled": True,
+    "bigTicketV2CEnabled": True,
+    "bossEnabled": True,
+    "prosFBTPanelMEWEnabled": False,
+    "isPDPEnhancementDEnabled": True,
+    "responsiveCleanupExperimentEnabled": False,
+    "bigTicketFeatureEnabled": True,
+    "imageGridEnhancementEnabled": False,
+    "isPDPEnhancementJEnabled": False,
+    "isStyliticsConsolidated": True,
+    "reviewPhotoUpload": False,
+    "isExposeAltImagesEnabled": True,
+    "isHalfWidthFreeScroll": True,
+    "isTrueFitEnabled": True,
+    "prosFCCFallbackImpressionTagEnabled": False,
+    "isTrueFitSizeAutoSelectEnabled": False,
+    "DisableHTMLParsing": False,
+    "priceBySizeComplexEnabled": False,
+    "isPDPEnhancementBEnabled": True,
+    "isMercuryExperimentationEnabled": True,
+    "pdpBVReviewFormUpdatesEnabled": False,
+    "isWebCollageOutFromTabs": False,
+    "vendorCustomDeliveryMsg": False,
+    "enableClickTagsForSMProducts": False,
+    "prosImpressionTaggingEnabled": False,
+    "disableOutletFilter": True,
+    "isProsEnabled": True,
+    "isReviewResponsiveEnabled": False,
+    "isShopTheLookDrawerEnabled": True,
+    "beautyCuralateEnabled": False,
+    "isMyAlertsNotifyMeUpdateEnabled": True,
+    "valuePriceLabelEnabled": False,
+    "prosZoneCSGRedesignScalingEnabled": False,
+    "filterOverlappingProsProducts": False,
+    "isPDPPerfEnabled": True,
+    "ocfPickupBossBadgingFreeShipToStoreTextEnabled": False,
+    "prosLockupEnabled": True,
+    "bronzeSilverLoyaltyFST": False,
+    "v2cBulletTextRemovalEnabled": False,
+    "loggingRedisExceptionsAndReachBackendSystems": False,
+    "shopRunnerPDPEnabled": True,
+    "sddCopyChangesEnabled": False,
+    "isShoeSizeSelectorsEnabled": False,
+    "isColorwayPromosPhase2Enabled": True,
+    "pdpRedesignExpEnabled": False,
+    "imageGridExpEnabled": False,
+    "finalPriceDisplayEnabled": False,
+    "bopsEnabled": False,
+    "isTrueFitModalEnabled": False,
+    "removeFallbackProsZoneEnabled": False,
+    "isPdpProductEngagementPromptTrtTwoEnabled": False,
+    "pdpRequestValidatorEnabled": True,
+    "priceBySizeBulletLinksForMemberEnabled": False,
+    "unavailableConsolidatedMasterFixEnabled": True,
+    "bigTicketDeliveryFeeRestructureEnabled": False,
+    "productPromotionEnabled": True,
+    "productDetailSegmentationEnabled": False,
+    "isFewLeftMessageRedesignEnabled": False,
+    "pdpRestrictedPropertiesEnabled": False,
+    "isAutoReplenishmentEnabled": False,
+    "itemAvailabilityOptimizedBOPSExperienceEnabled": True,
+    "categoryDataEnabled": True,
+    "PDPHeaderFooterCache": False,
+    "pdpSponsoredItemsRedesignEnabled": False,
+    "productDetailsRedesignEnabled": False,
+    "isHorizontalProsEnabled": False,
+    "seoWeddingRegistryCanonicalEnabled": False,
+    "isLazyLoadHeaderEnabled": True,
+    "priceBySizeEnabled": False,
+    "additionalShippingDetailsEnabled": True,
+    "beautyRegimenEnabled": False,
+    "isStyliticsOutfitterEnabled": True,
+    "isBTXAPIEnabled": True,
+    "lazyLoadTealium": True,
+    "curbsidePickupEnabled": False,
+    "isNewShippingConstraintMessageEnabled": True,
+    "mltProsStitchesEnabled": False,
+    "isBigTicketCXSwatchesInvisibleRecaptchaEnabled": False,
+    "isDesktopBVReviewsEnabled": False,
+    "bossBopsNtoOfferEnabled": True,
+    "prosFacetFilterEnabled": False,
+    "prePurchasePointsCalculationEnabled": False,
+    "starPassWithOfferEnabled": False,
+    "styleWidgetEnabled": True,
+    "isBrightCoveEnabled": True,
+    "hexaReportsEnabled": False,
+    "isMyAlertsEnabled": True,
+    "isFindationEnabled": False,
+    "pdpCLSEnabled": False,
+    "isTwoSizeRowEnabledKS": False,
+    "enhanceSameDayDeliveryEnabled": True,
+    "ccfpEnabled": True,
+    "isTealiumEnabled": False,
+    "inStoreCurbsidePickupEnabled": True,
+    "isWebcollageEnabled": True,
+    "pddContingencyEnabled": False,
+    "responsiveAddToBagEnabled": True,
+    "responsiveBagAddEnabled": False,
+    "isMasterGridEnabled": False,
+    "isDuplicateColorSizeCombinationRemovalEnabled": True,
+    "googleDisplayAdEnabled": True,
+    "enableImpressionTagsForSMProducts": False,
+    "isBVReviewsEnabled": True,
+    "isSizeSmallImageUpdateEnabled": True,
+    "usebvReviewService": True,
+    "isCuralateAllProductsEnabled": False,
+    "isProcessedProdDescEnabled": False,
+    "storeOnlySpecialsEnabled": False,
+    "isUpcLevelPromoBadgingEnabled": False,
+    "ocfPickupBOPSOnlyAllProductViewsEnabled": True,
+    "commonStoreLocationEnabled": True,
+    "isStyleMeEnabled": False,
+    "isPDPNodeCachePurge": False,
+    "prosFBTPanelEnabled": False,
+    "isProsATWEnabled": False,
+    "isBVReviewHighlightsEnabled": True,
+    "rviRedesignEnabled": False,
+    "globalHolidayMessageEnabled": False,
+    "colorSizeExpEnabled": True,
+    "klarnaPaymentEnabled": True,
+    "enableGAMClickTags": False,
+    "isPDPEnhancementFEnabled": False,
+    "mediaEnabled": True,
+    "enablePromoOrLvipCovidCustomMessage": False,
+    "pdpStyliticsOutFittingWidgetEnabled": False,
+    "isPDPEnhancementCEnabled": True,
+    "hostedAuthenticationEnabled": False,
+    "isStyliticsGrouped": True,
+    "videoImageRailEnable": False,
+    "mobileWebOptimizationEnabled": False,
+    "isBigTicketPriceBySizeAvailabilityEnabled": False,
+    "isZeekitEnabled": False,
+    "prosFBTTwoProductRecEnabled": False,
+    "cslSflCookieMergeEnabled": False,
+    "isPDPEnhancementAEnabled": False,
+    "newGWPEnabled": False,
+    "isSalesfloorDedicatedSellerEnabled": False,
+    "recentlyViewedItemsEnabled": False,
+    "videoIdDisplayEnabled": False,
+    "isFullPageAddToBaginterstitial": False,
+    "loyaltyPromotionBadgeTextEnabled": False,
+    "isBTToggleEnabled": True,
+    "writeAReviewRedesignEnabled": False,
+    "disableApisWithUserIdInPayload": False,
+    "isWriteAReviewTagEnabled": False,
+    "isFullPageAddToBagRVIredesign": False,
+    "isColorwayPromosEnabled": True,
+    "ccfpCacheEnabled": True,
+    "isConsolidatedMasterPageEnabled": False,
+    "halfImageTeaseEnabled": False,
+    "pdpBVShowReviewFormEnabled": False,
+    "isBigTicketCXProtectionPlansEnabled": False,
+    "globalPreciseDeliveryDateEnabled": False,
+    "isSizeBreakoutForTabsEnabled": False,
+    "esecRemoveSecureUserTokenQueryParamEnabled": False,
+    "pddOrderMethodsExclusionEnabled": False,
+    "csPagesOnIBMEnabled": False,
+    "responsiveAddToBagPDPEnabled": False,
+    "inStoreCurbsideCutoffTimeEnabled": True,
+    "pdpAboveSponsoredItemsContentEnabled": False,
+    "trueCollectionsEnabled": False,
+    "headerAsAServiceEnabledPDP": False,
+    "isQuickBuyEnabled": False,
+    "suppressAddToBagInterstitial": False,
+    "isBVReviewsEnabledForMobileApp": True,
+    "maxPageWidthEnabled": False,
+    "marketPlaceEnabled": False,
+    "movePdpAToTopEnabled": False,
+    "enablePOSTClickBeacons": True,
+    "isConsolidatedMasterPageScaled": True
+  }
 })
