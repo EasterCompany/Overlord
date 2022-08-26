@@ -23,11 +23,11 @@ class AdminPanel(models.Model):
     blank=False,
     default=secrets.token_urlsafe
   )
-  app_name = models.TextField(
+  name = models.TextField(
     null=False,
     blank=False
   )
-  api_url = models.TextField(
+  api = models.TextField(
     null=False,
     blank=False
   )

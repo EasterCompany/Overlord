@@ -102,3 +102,19 @@ def get_arg(_arg):
   :return str: unquoted and stripped string
   """
   return parse.unquote(_arg).strip()
+
+
+def get_user(req):
+  """
+  Acquires the user uuid and session token from the authorization header
+  passed by api, POST & xapi the JS functions
+
+  :param req obj: default django request object
+  :return list: [ user_uuid, user_token ]
+  """
+  auth_token = req.headers.get('Authorization').split("[:~OLT~:]")
+  return auth_token[0].split('Basic ')[1].strip(), auth_token[1]
+
+
+def get_body(req):
+  return req.body.decode('utf-8')

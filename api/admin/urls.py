@@ -10,13 +10,20 @@ URLS = [
   # Admin Panel API Endpoints
   #
 
+  # --- STATUS ---
+  path(
+    "api",
+    Admin.api_status_check,
+    name="Check API Status"
+  ),
+
+  # --- VIEW ---
+
   path(
     API("user/<str:uuid>"),
     Admin.view_user,
     name="View Users Panels"
   ),
-
-  # --- VIEW ---
 
   path(
     API("view/<str:pid>"),
@@ -42,6 +49,20 @@ URLS = [
     API("verify/user/<str:pid>/<str:uuid>"),
     Admin.verify_user,
     name="Verify User on Panel"
-  )
+  ),
+
+  # --- UPDATE ---
+
+  path(
+    API("update/name/<str:pid>"),
+    lambda req, pid, *args, **kwargs: Admin.update_setting(req, pid, 1, Admin.update_application_name_setting),
+    name="Update Application Name Setting"
+  ),
+
+  path(
+    API("update/api/<str:pid>"),
+    lambda req, pid, *args, **kwargs: Admin.update_setting(req, pid, 1, Admin.update_application_api_setting),
+    name="Update Application API Setting"
+  ),
 
 ]

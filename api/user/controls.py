@@ -1,5 +1,4 @@
 # Overlord library
-from xmlrpc.client import boolean
 from core.library import api
 from core.library.cryptography import encrypt
 # Overlord api
@@ -53,12 +52,10 @@ def authorized(uuid, sesh):
 
 def if_authorized(req, do_function):
   try:
-    auth_token = req.headers.get('Authorization').split("[:~OLT~:]")
-    auth_uuid = auth_token[0].split('Basic ')[1].strip()
-    auth_sesh = auth_token[1]
+    auth_uuid, auth_sesh = api.get_user(req)
     if authorized(auth_uuid, auth_sesh):
         r = do_function()
-        if isinstance(r, boolean):
+        if isinstance(r, bool):
             return api.success() if r is True else api.error()
         elif isinstance(r, dict) or isinstance(r, list) or \
             isinstance(r, int) or isinstance(r, float) or \

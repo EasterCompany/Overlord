@@ -1,8 +1,17 @@
 # Overlord library
 import re
-from core.library.api import get_arg
-from api.user.controls import if_authorized
 from api.admin.controls import *
+from api.user.controls import if_authorized
+from core.library.api import get_arg, get_user, get_body, error
+
+
+def api_status_check(req, *args, **kwargs):
+  """
+  Returns an OK status if the API is alive & working
+
+  :return api status:
+  """
+  return if_authorized(req, True)
 
 
 def view_user(req, uuid, *args, **kwargs):
