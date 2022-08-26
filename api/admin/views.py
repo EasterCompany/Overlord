@@ -1,8 +1,7 @@
 # Overlord library
-import re
 from api.admin.controls import *
 from api.user.controls import if_authorized
-from core.library.api import get_arg, get_user, get_body, error
+from core.library.api import get_arg, success
 
 
 def api_status_check(req, *args, **kwargs):
@@ -11,7 +10,7 @@ def api_status_check(req, *args, **kwargs):
 
   :return api status:
   """
-  return if_authorized(req, True)
+  return success()
 
 
 def view_user(req, uuid, *args, **kwargs):
