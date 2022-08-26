@@ -1,5 +1,3 @@
-// Node imports
-import { md5 } from 'hash-wasm';
 // Shared library
 import api, { POST } from '../server/api';
 
@@ -8,25 +6,24 @@ import api, { POST } from '../server/api';
   CREATE NEW USER FUNCTIONS
 */
 export const create_user_from_gui = async (
-    email:string, password:string, permissions:string
-  ) => {
-
-  const key = await md5(password)
+  email:string, password:string, permissions:string
+) => {
   const apiRequest =
-    `user/create/${encodeURIComponent(email)}/${encodeURIComponent(key)}/${encodeURIComponent(permissions)}`;
-
+    `user/create/${encodeURIComponent(email)}/${encodeURIComponent(password)}/${encodeURIComponent(permissions)}`;
   return await api(
     apiRequest,
     (resp: any) => null,
     (resp: any) => window.location.reload()
   )
-
 }
 
 
 /*
-  LOCAL DATA (COOKIES)
-  contains 2 functions to get cookie 'value by name' && Create a cookie with 'name and value'
+  LOCAL DATA (Cookies)
+  contains 3 functions to:
+    <cookie> get a cookie 'value by name'
+    <createCookie> creates a cookie with 'name and value'
+    <deleteCookie> deletes a cookie 'by name'
 */
 export let USR_ACTIVE = false;
 

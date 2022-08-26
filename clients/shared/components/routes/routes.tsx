@@ -1,5 +1,5 @@
 // Node module imports
-import { Route as NewRoute, Link as NewLink, Switch } from "react-router-dom";
+import { Route as NewRoute, Link as NewLink, Routes as Index } from "react-router-dom";
 
 
 /*
@@ -69,5 +69,5 @@ export const Link = (props:any) => {
 }
 
 
-export { Switch, NewLink }
+export { Index, NewLink }
 export default goto;
