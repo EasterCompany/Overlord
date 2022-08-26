@@ -2,18 +2,31 @@
 import { Route as NewRoute, Link as NewLink, Switch } from "react-router-dom";
 
 
+/*
+  ENDPOINT (URL for this client)
+  stores the specific complete url path for this particular client
+*/
 const endpoint = process.env.REACT_APP_ENDPOINT === undefined ? null : process.env.REACT_APP_ENDPOINT
 
 
-const scrollContentToTop = () => {
-  const content = document.querySelector('#site-container') as HTMLElement;
+/*
+  SCROLL CONTENT TO TOP (scrolls to the top of the page)
+  will automatically scrolls any content to the top which is useful for when you
+  are keeping certain elements consistent across routes, but need to reset them
+*/
+const scrollContentToTop = (selector:string) => {
+  const content = document.querySelector(selector) as HTMLElement;
   if (content !== undefined) return content.scrollTop = 0;
   return null;
 }
 
 
+/*
+  SET APP TITLE (Set HTML <Title> Content)
+  overwrites the existing page title in the html for this route
+*/
 export const setAppTitle = (title:string) => {
-  return document.title = `${process.env.REACT_APP_NAME} | ${title}`;
+  return document.title = `${title} | ${process.env.REACT_APP_NAME}`;
 }
 
 
@@ -25,6 +38,7 @@ export const dp = (path:string) => {
   if (process.env.REACT_APP_IS_INDEX === "true") { return '/' + path; }
   return endpoint === null ? '/' + path : `/${process.env.REACT_APP_ENDPOINT}/` + path;
 }
+
 
 /*
   GOTO (Additional Path)
@@ -38,21 +52,18 @@ const goto = (path:string) => {
 
 
 /*
-  ROUTE OBJECTS
+  ROUTE OBJECT (React-Router-Dom Wrapper)
   creates a new route
 */
-export const Route = (props:any) => {
-  if ("any" in props) { return <NewRoute path={dp(props.path)} component={props.app} />; }
-  return <NewRoute path={dp(props.path)} exact component={props.app} />;
-}
+export const Route = (props: any) => <NewRoute path={dp(props.path)} element={<props.app/>}/>
 
 
 /*
-  LINK OBJECT
+  LINK OBJECT (Route Navigation Button)
   links to an existing route
 */
 export const Link = (props:any) => {
-  return <NewLink to={dp(props.to)} onClick={scrollContentToTop}>
+  return <NewLink to={dp(props.to)} onClick={() => scrollContentToTop('#site-container')}>
     {props.name}
   </NewLink>;
 }
