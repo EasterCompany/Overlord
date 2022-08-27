@@ -110,12 +110,15 @@ MEDIA_ROOT = BASE_DIR + '/assets'
 MEDIA_URL = '/assets/'
 
 CORS_ORIGIN_ALLOW_ALL = SERVER_DATA['CORS_ORIGIN_ALLOW_ALL']
-CORS_ORIGIN_WHITELIST = [
-    'http://localhost:3000',    # Default Django development server (standalone)
-    'http://localhost:8000',    # Default Django development server
-    'http://localhost:8100',    # Default React development client
-    'http://localhost:45678'    # React-snap chrome client
-] + [
-    'http://localhost:81' + numbers.zero_prefixed_integer(x, 2) for x in range(1, 100)
-    # Ports 8100 - 8199 are reserved for react development clients
-]
+if DEBUG:
+    CORS_ORIGIN_WHITELIST = [
+        'http://localhost:3000',    # Default Django development server (standalone)
+        'http://localhost:8000',    # Default Django development server
+        'http://localhost:8100',    # Default React development client
+        'http://localhost:45678'    # React-snap chrome client
+    ] + [
+        'http://localhost:81' + numbers.zero_prefixed_integer(x, 2) for x in range(1, 100)
+        # Ports 8100 - 8199 are reserved for react development clients
+    ]
+else:
+    CORS_ORIGIN_WHITELIST = []

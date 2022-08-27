@@ -1,10 +1,12 @@
 # Standard library
+import json
+import requests
 from uuid import uuid1
 # Overlord library
 from api.user.tables import UserAuth
 from api.user.controls import if_authorized
 from api.admin.tables import AdminPanel
-from core.library.api import get_arg, get_user, get_body, error
+from core.library.api import get_arg, get_user, get_body, get_api_url, error
 
 
 def get_user_panels(uuid):
@@ -23,13 +25,37 @@ def get_panel_users(pid):
   return users
 
 
+def get_client_list(pid=None, pObj=None):
+  if pid is not None:
+    panel = AdminPanel.objects.filter(uuid=pid).first()
+  elif pObj is not None:
+    panel = pObj
+  else:
+    return None
+
+  primary_client = panel.primaryClient
+  secondary_clients = panel.secondaryClients
+
+  if ',' in secondary_clients:
+    secondary_clients = secondary_clients.split(',')
+  elif secondary_clients == '':
+    secondary_clients = []
+  else:
+    secondary_clients = [ secondary_clients, ]
+
+  return [primary_client, ] + secondary_clients
+
+
 def get_panel_data(pid):
   panel = AdminPanel.objects.filter(uuid=pid).first()
+  clients = get_client_list(pObj=panel)
   return {
     "id": panel.uuid,
     "name": panel.name,
     "api": panel.api,
-    "index": 'e_panel',
+    "apiKey": panel.api_key,
+    "primaryClient": clients[0],
+    "secondaryClients": clients[1:],
     "image": '/static/eastercompany/favicon.ico',
     "users": panel.users,
     "createCMD": panel.create_cmd,
@@ -58,16 +84,31 @@ def create_new_panel(uuid, name, api):
   )
 
 
+def update_application_client_context(pid):
+  panel = AdminPanel.objects.filter(uuid=pid).first()
+  api_url = get_api_url(panel) + f"panel/view/clients?api_key={panel.api_key}"
+  response = requests.get(api_url)
+  json_resp = json.loads(response.text)
+  panel.primaryClient = json_resp["primaryClient"]
+  panel.secondaryClients = json_resp["secondaryClients"]
+  panel.save()
+
+
 def update_application_name_setting(pid, new_domain):
   panel = AdminPanel.objects.filter(uuid=pid).first()
   panel.name = new_domain
   panel.save()
-  print(panel.name)
 
 
 def update_application_api_setting(pid, new_api):
   panel = AdminPanel.objects.filter(uuid=pid).first()
   panel.api = new_api
+  panel.save()
+
+
+def update_application_index_setting(pid, new_index):
+  panel = AdminPanel.objects.filter(uuid=pid).first()
+  panel.index = new_index
   panel.save()
 
 

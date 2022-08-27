@@ -11,6 +11,7 @@ URLS = [
   #
 
   # --- STATUS ---
+
   path(
     "api",
     Admin.api_status_check,
@@ -35,6 +36,14 @@ URLS = [
     API("view/<str:pid>/users"),
     Admin.view_panel_users,
     name="View Panel Users"
+  ),
+
+  path(
+    # This endpoint is application side and should be used by E-Panel to retrieve
+    # client data for the current panel being viewed by the user
+    API("view/clients/<str:key>"),
+    Admin.view_panel_clients,
+    name="View Panel Clients"
   ),
 
   # --- CREATE ---
@@ -63,6 +72,12 @@ URLS = [
     API("update/api/<str:pid>"),
     lambda req, pid, *args, **kwargs: Admin.update_setting(req, pid, 1, Admin.update_application_api_setting),
     name="Update Application API Setting"
+  ),
+
+  path(
+    API("update/primaryClient/<str:pid>"),
+    lambda req, pid, *args, **kwargs: Admin.update_setting(req, pid, 1, Admin.update_application_index_setting),
+    name="Update Application Index Setting"
   ),
 
 ]

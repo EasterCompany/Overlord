@@ -117,4 +117,24 @@ def get_user(req):
 
 
 def get_body(req):
+  """
+  Consumes the request input and returns a decoded utf-8 string containing
+  the content of the body
+
+  :param req obj: default django request object
+  :return str: body content
+  """
   return req.body.decode('utf-8')
+
+
+def get_api_url(panelObj):
+  """
+  Consumes a panel database object and returns a constructed URL that points
+  towards the associated API endpoint for this panel
+
+  :param panelObj obj: admin panel database object
+  :return str: contains a complete URL
+  """
+  if panelObj.isWeb:
+    return f"https://{panelObj.name}/{panelObj.api}/"
+  return f"https://{panelObj.api}/"

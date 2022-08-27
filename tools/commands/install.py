@@ -1,5 +1,6 @@
 # Standard imports
 import json
+import secrets
 from sys import path, executable
 from os.path import exists, join as pathjoin
 from os import scandir, mkdir, system
@@ -91,6 +92,7 @@ def make_server_config(project_path='.'):
     "LANGUAGE_CODE": 'en-gb',
     "TIME_ZONE": 'UTC',
     "ALLOWED_HOSTS": [
+      '.0.0.0.0',
       '.127.0.0.1',
       '.localhost',
       '.easter.company',
@@ -159,8 +161,9 @@ def django_files(project_path='.'):
 def secrets_file(project_path='.'):
   print('Generating secrets config...')
   token_data = {
-    "ROOT_EMAIL": "root",
-    "SERVER_KEY": "p@ssw0rd",
+    "ROOT_EMAIL": "root@example.com",
+    "SERVER_KEY": secrets.token_urlsafe(),
+    "PUBLIC_KEY": secrets.token_urlsafe(),
     "PA_USER_ID": "",
     "PA_API_KEY": "",
     "DOMAIN_URL": "",

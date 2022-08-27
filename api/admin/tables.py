@@ -18,7 +18,7 @@ class AdminPanel(models.Model):
     max_length=36,
     primary_key=True
   )
-  secret_key = models.TextField(
+  api_key = models.TextField(
     null=False,
     blank=False,
     default=secrets.token_urlsafe
@@ -30,6 +30,26 @@ class AdminPanel(models.Model):
   api = models.TextField(
     null=False,
     blank=False
+  )
+  primaryClient = models.TextField(
+    null=False,
+    blank=True,
+    default=""
+  )
+  secondaryClients = models.TextField(
+    null=False,
+    blank=True,
+    default=""
+  )
+  isWeb = models.BooleanField(
+    null=False,
+    blank=False,
+    default=True
+  )
+  isNative = models.BooleanField(
+    null=False,
+    blank=False,
+    default=False
   )
   users = models.JSONField(
     null=False,

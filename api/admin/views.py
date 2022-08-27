@@ -1,7 +1,8 @@
 # Overlord library
+from web.settings import SECRET_DATA, CLIENT_DATA, SERVER_DATA
 from api.admin.controls import *
 from api.user.controls import if_authorized
-from core.library.api import get_arg, std, OK
+from core.library.api import get_arg, std, OK, data
 
 
 def api_status_check(req, *args, **kwargs):
@@ -44,6 +45,31 @@ def view_panel_users(req, pid, *args, **kwargs):
   """
   panel_id = get_arg(pid)
   return if_authorized(req, lambda: get_panel_users(panel_id))
+
+
+def view_panel_clients(req, key, *args, **kwargs):
+  """
+  Returns a json object containing the primary client & secondary clients list
+
+  :param pid str: panel identifier
+  :return api data: { primaryClient: <str>, secondaryClients: <list> }
+  """
+  api_key = req.GET.get("api_key")
+
+  if api_key == SECRET_DATA["PUBLIC_KEY"]:
+    primary_client = SERVER_DATA["INDEX"]
+    secondary_clients = []
+
+    for client in CLIENT_DATA:
+      if client != primary_client:
+        secondary_clients.append(client)
+
+    return data({
+      "primaryClient": primary_client,
+      "secondaryClients": secondary_clients
+    })
+
+  return error()
 
 
 def create(req, uuid, app_name, api_url, *args, **kwargs):
