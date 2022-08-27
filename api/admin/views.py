@@ -47,14 +47,14 @@ def view_panel_users(req, pid, *args, **kwargs):
   return if_authorized(req, lambda: get_panel_users(panel_id))
 
 
-def view_panel_clients(req, key, *args, **kwargs):
+def view_panel_clients(req, *args, **kwargs):
   """
   Returns a json object containing the primary client & secondary clients list
 
   :param pid str: panel identifier
   :return api data: { primaryClient: <str>, secondaryClients: <list> }
   """
-  api_key = req.GET.get("api_key")
+  api_key = req.GET.get("key")
 
   if api_key == SECRET_DATA["PUBLIC_KEY"]:
     primary_client = SERVER_DATA["INDEX"]

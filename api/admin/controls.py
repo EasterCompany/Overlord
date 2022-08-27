@@ -38,8 +38,8 @@ def get_client_list(pid=None, pObj=None):
 
   if ',' in secondary_clients:
     secondary_clients = secondary_clients.split(',')
-  elif secondary_clients == '':
-    secondary_clients = []
+  elif secondary_clients == '' or primary_client == '':
+    secondary_clients = ['--- no client ---']
   else:
     secondary_clients = [ secondary_clients, ]
 
