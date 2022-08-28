@@ -1,5 +1,5 @@
-# Local app imports
-from tools.library import console
+# Overlord library
+from core.tools.library import console
 from .api import domain, fetch_api
 
 

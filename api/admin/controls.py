@@ -112,6 +112,10 @@ def update_application_index_setting(pid, new_index):
   panel.save()
 
 
+def update_application_public_key_setting(panel):
+  panel 
+
+
 def update_setting(req, pid, permissions_required, _func):
   panel_id = get_arg(pid)
   user = get_user(req)

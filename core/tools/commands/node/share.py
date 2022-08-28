@@ -42,7 +42,7 @@ from os import mkdir, remove, walk
 from os.path import exists, isdir, getmtime
 from distutils.dir_util import copy_tree
 # Overlord library
-from tools.library import console
+from core.tools.library import console
 from web.settings import CLIENT_DATA, BASE_DIR
 
 log_path = path[0] + '/clients/shared/.log'

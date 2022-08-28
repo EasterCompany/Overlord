@@ -2,16 +2,13 @@
 #   automatically generated file
 #   do not edit or delete
 
-# Standard Library
+# Standard library
 import os
 from sys import path
 from json import loads
-
-# Overlord Library
+# Overlord library
 from core.library import numbers
-
-# Overlord tools
-from tools.commands.install import (
+from core.tools.commands.install import (
     __init_config_directory__,
     __init_logs_directory__,
     make_clients_config,

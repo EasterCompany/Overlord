@@ -5,8 +5,8 @@ try:
     from . import settings
 
 except ImportError:
-    from tools.assets import settings
-    from tools.commands.install import install_file
+    from core.tools.assets import settings
+    from core.tools.commands.install import install_file
     install_file('settings.py', '/web', settings.BASE_DIR)
 
     try:

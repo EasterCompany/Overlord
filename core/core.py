@@ -1,3 +1,5 @@
+#! /usr/bin/python3
+
 # run.py
 #   automatically generated file
 #   do not edit or delete
@@ -7,7 +9,7 @@ from sys import argv
 from os import environ
 
 # Overlord tools
-from tools import tools
+from core.tools import tools
 
 
 if __name__ == '__main__':

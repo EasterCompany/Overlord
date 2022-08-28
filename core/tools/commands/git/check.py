@@ -1,8 +1,7 @@
-from re import sub
 # Standard library
 import subprocess
 # Overlord library
-from tools.library.console import col
+from core.tools.library.console import col
 from web.settings import BASE_DIR
 
 

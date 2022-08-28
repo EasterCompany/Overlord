@@ -1,4 +1,4 @@
-# Standard Library
+# Standard library
 from sys import path
 from json import loads
 from time import sleep
@@ -7,8 +7,7 @@ from os.path import exists
 from threading import Thread
 from datetime import datetime
 from os import chdir, system, rename, remove
-
-# Overlord-Tools
+# Overlord library
 from ..install import (
     __init_config_directory__,
     __init_logs_directory__,
@@ -16,7 +15,7 @@ from ..install import (
     make_server_config
 )
 from ..node.share import __update_shared_files__
-from tools.library import console
+from core.tools.library import console
 
 # Variable app meta data
 meta_data = {

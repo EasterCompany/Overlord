@@ -1,11 +1,10 @@
-# Standard Library
+# Standard library
 import json
 from sys import path
 from os import system
 from datetime import datetime
-
-# Local Module Imports
-from tools.commands.git import pull
+# Overlord library
+from core.tools.commands.git import pull
 
 # Load requests logs file for logging
 with open(path[0] + '/.logs/requests.json') as requests_file:

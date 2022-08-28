@@ -6,8 +6,8 @@ from sys import argv, path, executable
 
 # Overlord library
 from core.library.version import Version
-from tools.library import console, gracefulExit
-from tools.commands import install, git, django, node, pytest, pa
+from core.tools.library import console, gracefulExit
+from core.tools.commands import install, git, django, node, pytest, pa
 
 tools_path = '/'.join(__file__.split('/')[:-1])
 project_path = path[0]
@@ -364,6 +364,9 @@ def run_tool(command, index=0):
 
 
 def run():
+    print(command_line)
+    print("\n\n")
+    exit()
     if len(command_line) <= 0:
         return awaitInput()
     [run_tool(arg, index) for index, arg in enumerate(command_line)]

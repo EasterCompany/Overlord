@@ -1,6 +1,6 @@
-# Local app imports
+# Overlord library
 from .api import domain, fetch_domain
-from tools.library import console
+from core.tools.library import console
 
 
 def request():

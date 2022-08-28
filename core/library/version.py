@@ -3,7 +3,7 @@ class Version():
 
     def __init__(self, version_data=None):
         # Default version control
-        from tools import __version_control__
+        from core.tools import __version_control__
         version_data = __version_control__
         # Initialize version data
         self.type = version_data['type']
