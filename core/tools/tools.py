@@ -364,9 +364,6 @@ def run_tool(command, index=0):
 
 
 def run():
-    print(command_line)
-    print("\n\n")
-    exit()
     if len(command_line) <= 0:
         return awaitInput()
     [run_tool(arg, index) for index, arg in enumerate(command_line)]

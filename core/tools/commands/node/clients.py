@@ -16,6 +16,7 @@ from ..install import (
 )
 from ..node.share import __update_shared_files__
 from core.tools.library import console
+from web.settings import BASE_DIR
 
 # Variable app meta data
 meta_data = {
@@ -64,7 +65,7 @@ def client(app_data, build=False):
         update_client_meta_data(app_data)
     elif 'start' in app_data:
         system('npm run start')
-    chdir(path[0])
+    chdir(BASE_DIR)
 
 
 # Create client thread
@@ -81,8 +82,8 @@ clients_json = {}
 def update_client_json():
     global clients_json
     # All clients data from config file
-    if exists(path[0] + '/.config/clients.json'):
-        with open(path[0] + '/.config/clients.json') as clients_file:
+    if exists(BASE_DIR + '/.config/clients.json'):
+        with open(BASE_DIR + '/.config/clients.json') as clients_file:
             clients_json = loads(clients_file.read())
     else:
         clients_json = {}
@@ -110,7 +111,7 @@ def install(target=None):
         run_install(clients_json[target]['src'])
         print('')
 
-    return chdir(path[0])
+    return chdir(BASE_DIR)
 
 
 # Run client
@@ -122,7 +123,7 @@ def run(name, build, new_thread):
     if new_thread:
         thread.start()              # Start thread
         sleep(3)                    # Give NPM time to collect package.json
-        return chdir(path[0])       # Return to root directory
+        return chdir(BASE_DIR)       # Return to root directory
     return thread.run()             # ELSE: Run on main thread
 
 
@@ -167,19 +168,19 @@ def create(name, native=False, custom_repo=None):
         __init_logs_directory__()
 
         # Default environment configuration
-        client_data = make_clients_config(path[0])
-        server_data = path[0] + '/.config/server.json'
+        client_data = make_clients_config(BASE_DIR)
+        server_data = BASE_DIR + '/.config/server.json'
 
         if exists(server_data):
             with open(server_data) as server_data_file:
                 server_data = loads(server_data_file.read())
         else:
-            server_data = make_server_config(path[0])
+            server_data = make_server_config(BASE_DIR)
 
         # Default start-up behavior
         __update_shared_files__()
         load_order = url.make_client_load_order(client_data, server_data['INDEX'])
-        url.write_django_urls(load_order, path[0] + '/web/urls.py')
+        url.write_django_urls(load_order, BASE_DIR + '/web/urls.py')
 
     # Make directory checks
     if exists(f'clients/{name}'):

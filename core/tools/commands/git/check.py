@@ -7,7 +7,7 @@ from web.settings import BASE_DIR
 
 def check_version_status():
   result = subprocess.run(
-    [f"{BASE_DIR}/tools/scripts/git/check_version.sh"],
+    [f"{BASE_DIR}/core/tools/scripts/git/check_version.sh"],
     bufsize=1,
     stdout=subprocess.PIPE,
     stderr=subprocess.STDOUT,

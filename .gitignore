@@ -1,3 +1,12 @@
+
+# Python (Temp)
+.pytest_cache
+__pycache__
+
+# Sqlite (Files)
+*.sqlite3
+*.sqlite3-journal
+
 # Developer Envrionment
 .vscode/
 .idea/
@@ -5,71 +14,20 @@
 # Overlord (Files)
 o
 *.key
-/web/urls.py
-api/migrations/*.py
+/web
+!/web/__init__.py
+/api
+!/api/__init__.py
+!/api/apps.py
+!/api/README.md
+!/api/user
+!/api/post
 !api/migrations/__init__.py
 
 # Overlord (Directories)
 .logs/
 .config/
-clients/*/build/
-clients/*/src/shared/
-static/
-static/.temp/
-static/assets/users/
-build/
-# ---
-!static/e_panel/*
-
-# Overlord (Clients)
 clients/
-!clients/e_panel
 !clients/shared
-
-# Sqlite (Files)
-*.sqlite3
-*.sqlite3-journal
-
-# Python (Temp)
-.pytest_cache
-__pycache__
-
-# Logs (Temp)
-*.log
-npm-debug.log*
-yarn-debug.log*
-yarn-error.log*
-lerna-debug.log*
-
-# TypeScript (Temp)
-*.tsbuildinfo
-
-# NPM (Temp)
-.env
-/env
-.npm
-/npm
-node_modules/
-.expo/
-dist/
-npm-debug.*
-*.jks
-*.p8
-*.p12
-*.key
-*.mobileprovision
-*.orig.*
-web-build/
-
-# ESlint (Temp)
-.eslintcache
-
-# Misc (Files)
-.DS_Store
-.env.local
-.env.development.local
-.env.test.local
-.env.production.local
-npm-debug.log*
-yarn-debug.log*
-yarn-error.log*
+!clients/README.md
+static/

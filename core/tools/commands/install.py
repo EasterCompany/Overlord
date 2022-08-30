@@ -35,7 +35,7 @@ def dump_json(filename, data, project_path='.'):
 def install_file(filename, destination, project_path='.', log=True):
   if log:
     print('Installing', filename, 'to', destination, '...')
-  with open(project_path + '/tools/assets/' + filename) as base:
+  with open(project_path + '/core/tools/assets/' + filename) as base:
     with open(project_path + destination + '/' + filename, 'w+') as new_file:
       new_file.write(base.read())
 

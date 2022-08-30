@@ -1,6 +1,7 @@
 # Standard library
 from urllib import parse
 # Django library
+from django.urls import path as new_path
 from django.http import JsonResponse
 # Overlord library
 from web.settings import DEBUG
@@ -94,17 +95,17 @@ def table(Table, Headers, Body, filter={ "order_by": str() }):
   return std(OK, {'head': [], 'body': [ [] ]})
 
 
-def get_arg(_arg):
+def get_arg(_arg) -> str:
   """
   Unquotes an argument from the URI and strips it
 
   :param _arg str: any string
   :return str: unquoted and stripped string
   """
-  return parse.unquote(_arg).strip()
+  return str(parse.unquote(_arg)).strip()
 
 
-def get_user(req):
+def get_user(req) -> list:
   """
   Acquires the user uuid and session token from the authorization header
   passed by api, POST & xapi the JS functions
@@ -116,7 +117,7 @@ def get_user(req):
   return auth_token[0].split('Basic ')[1].strip(), auth_token[1]
 
 
-def get_body(req):
+def get_body(req) -> str:
   """
   Consumes the request input and returns a decoded utf-8 string containing
   the content of the body
@@ -127,7 +128,7 @@ def get_body(req):
   return req.body.decode('utf-8')
 
 
-def get_api_url(panelObj):
+def get_api_url(panelObj) -> str:
   """
   Consumes a panel database object and returns a constructed URL that points
   towards the associated API endpoint for this panel
@@ -138,3 +139,15 @@ def get_api_url(panelObj):
   if panelObj.isWeb:
     return f"https://{panelObj.name}/{panelObj.api}/"
   return f"https://{panelObj.api}/"
+
+
+class UniversalAPI:
+  name=""
+  client=None
+  base_uri = f"api/{name}"
+
+  def __init__(self) -> None:
+    pass
+
+  def path(self, name, view, description="Auto Generated Path", *args, **kwargs):
+    return new_path(f"{self.base_uri}/{name}", view, name=description)

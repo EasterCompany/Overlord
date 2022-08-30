@@ -45,7 +45,7 @@ from distutils.dir_util import copy_tree
 from core.tools.library import console
 from web.settings import CLIENT_DATA, BASE_DIR
 
-log_path = path[0] + '/clients/shared/.log'
+log_path = BASE_DIR + '/clients/shared/.log'
 client_log = lambda client: CLIENT_DATA[client]['src'] + '/shared.json'
 
 
@@ -124,8 +124,8 @@ def add_to_log(shared_path, client_name, share_type):
 
     # Write to log file
     if shared_path not in log[client_name][share_type]:
-        if exists(path[0] + '/clients/shared/' + shared_path):
-            if exists(path[0] + '/clients/' + client_name):
+        if exists(BASE_DIR + '/clients/shared/' + shared_path):
+            if exists(BASE_DIR + '/clients/' + client_name):
                 log[client_name][share_type].append(shared_path)
             else:
                 print('''
@@ -217,7 +217,7 @@ def share_file(file_path, client):
 
 
 def target(path_to_target, client):
-    if isdir(path[0] + '/clients/shared/' + path_to_target):
+    if isdir(BASE_DIR + '/clients/shared/' + path_to_target):
         return share_module(path_to_target, client)
     return share_file(path_to_target, client)
 
@@ -291,13 +291,13 @@ def __update_shared_files__():
     if not exists(log_path):
         return None
     logs = get_log()
-    spath = path[0] + '/clients/shared/'
+    spath = BASE_DIR + '/clients/shared/'
     for client in logs:
         __update_clients_files__(client, logs, spath)
 
 
 def file_updater_thread():
-    spath = path[0] + '/clients/shared/'
+    spath = BASE_DIR + '/clients/shared/'
 
     def get_clients():
         clients = []

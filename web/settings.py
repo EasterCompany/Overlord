@@ -4,7 +4,6 @@
 
 # Standard library
 import os
-from sys import path
 from json import loads
 # Overlord library
 from core.library import numbers
@@ -16,7 +15,7 @@ from core.tools.commands.install import (
 )
 
 # Load Custom Project Settings
-BASE_DIR = path[0]
+BASE_DIR = os.getcwd()
 SECRET_DATA = {
     'SERVER_KEY': 'no secret key',
 }
