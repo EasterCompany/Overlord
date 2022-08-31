@@ -2,32 +2,23 @@
 from os import system
 from threading import Thread
 from sys import executable, path
-
-# Django library
-from web import settings
+# Overlord library
+from web.settings import BASE_DIR
+from django.core.management import call_command
 
 
 # Server thread function
 def _server(start=True, migrate=False, collectstatic=False):
 
-    def cmd(_cmd):
-        system("{python} {dir}/run.py {command}".\
-            format(python=executable, dir=path[0], command=_cmd)
-        )
-
     if migrate:
-        cmd('makemigrations')
-        cmd('migrate')
+        call_command('makemigrations')
+        call_command('migrate')
 
     if collectstatic:
-        cmd('collectstatic --noinput -i admin')
-        print('')
+        call_command('collectstatic', '--noinput', '-i admin')
 
     if start:
-        if settings.SERVER_DATA['STANDALONE']:
-            cmd('runserver 3000')
-        else:
-            cmd('runserver')
+        system(f"{BASE_DIR}/core.py runserver")
 
 
 # Server database migration shortcut

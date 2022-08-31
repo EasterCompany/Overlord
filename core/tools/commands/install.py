@@ -153,7 +153,6 @@ def make_server_config(project_path='.'):
 
 
 def django_files(project_path='.'):
-  install_file('run.py', '/', project_path)
   install_file('settings.py', '/web', project_path)
   install_file('urls.py', '/web', project_path)
 
@@ -177,10 +176,13 @@ def o_file(project_path='.'):
   print("Generating o file...")
   with open(f"{project_path}/o", "w") as o_file:
     o_file.write(f"""#!/bin/bash
-cd {project_path}
+cd /home/owen/Easter/Dev/Int/Easter
 clear
-echo
-{executable} run.py tools $@
-echo
+/usr/bin/python3 -c "
+from sys import path;from os import environ;from core.tools import tools;
+project_home = '/home/eastercompany/Easter/Dev/Int/Easter';
+if project_home not in path: path.insert(0, project_home);
+tools.run();
+"
 """)
   system("chmod +x ./o")

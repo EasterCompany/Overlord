@@ -1,13 +1,8 @@
 #! /usr/bin/python3
 
-# run.py
-#   automatically generated file
-#   do not edit or delete
-
 # Standard library
 from sys import argv
 from os import environ
-
 # Overlord tools
 from core.tools import tools
 

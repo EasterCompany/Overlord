@@ -142,12 +142,11 @@ def get_api_url(panelObj) -> str:
 
 
 class UniversalAPI:
-  name=""
-  client=None
-  base_uri = f"api/{name}"
+  NAME=None
+  CLIENT_NAME=None
 
   def __init__(self) -> None:
     pass
 
-  def path(self, name, view, description="Auto Generated Path", *args, **kwargs):
-    return new_path(f"{self.base_uri}/{name}", view, name=description)
+  def path(self, endpoint, view, description="Auto Generated Path", *args, **kwargs):
+    return new_path(f"api/{self.NAME}/{endpoint}", view, name=description)

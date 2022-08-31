@@ -1,12 +1,12 @@
 # Standard library
 import subprocess
-from os import system, getcwd
 from os.path import exists
+from os import system, getcwd, environ
 from sys import argv, path, executable
-
 # Overlord library
 from core.library.version import Version
 from core.tools.library import console, gracefulExit
+from django.core.management import execute_from_command_line
 from core.tools.commands import install, git, django, node, pytest, pa
 
 tools_path = '/'.join(__file__.split('/')[:-1])
@@ -14,13 +14,15 @@ project_path = path[0]
 command_line = argv[2:]
 len_cmd_line = len(command_line)
 _version = Version()
+environ.setdefault('DJANGO_SETTINGS_MODULE', 'web.settings')
 
 
 def awaitInput(ascii_art=True):
     global command_line
 
     if ascii_art:
-        print(f'''    -------------------------------------------------------------------
+        print(f'''
+    -------------------------------------------------------------------
 
      ██████╗ ██╗   ██╗███████╗██████╗ ██╗      ██████╗ ██████╗ ██████╗
     ██╔═══██╗██║   ██║██╔════╝██╔══██╗██║     ██╔═══██╗██╔══██╗██╔══██╗
@@ -336,8 +338,8 @@ def run_tool(command, index=0):
                 "`django` command doesn't take any arguments",
                 error=True
             )
-        output(console.col('\nStarting Django.', 'green') + '\n[type: exit() to return] ')
-        system(f'{executable} run.py shell_plus')
+        output(console.col('\nStarting Django.', 'green') + '\n[Use: CTRL+D to Exit] ')
+        execute_from_command_line([executable, 'shell_plus'])
         output(console.col('Closed Django.', 'red'))
 
     elif command == 'status': system('git status')
@@ -354,7 +356,8 @@ def run_tool(command, index=0):
         _process = subprocess.run(arguments, capture_output=True, text=True)
         output(_process.stdout)
 
-    elif command == 'exit': exit()
+    elif command == 'exit' or command == 'exit()':
+        exit()
 
     else:
         bad_input = ' '.join(command_line)
