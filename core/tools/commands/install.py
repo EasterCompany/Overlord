@@ -176,12 +176,13 @@ def o_file(project_path='.'):
   print("Generating o file...")
   with open(f"{project_path}/o", "w") as o_file:
     o_file.write(f"""#!/bin/bash
-cd /home/owen/Easter/Dev/Int/Easter
+cd {project_path}
 clear
 /usr/bin/python3 -c "
 from sys import path;from os import environ;from core.tools import tools;
-project_home = '/home/eastercompany/Easter/Dev/Int/Easter';
-if project_home not in path: path.insert(0, project_home);
+if project_home not in path: path.insert(0, {project_path});
+from django.core.wsgi import get_wsgi_application;
+application = get_wsgi_application();
 tools.run();
 "
 """)

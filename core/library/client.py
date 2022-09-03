@@ -55,7 +55,7 @@ class WebClient():
 
     # Client.API is a string representing which endpoint to connect to when making API
     # requests. By default, `http../api` will be used if API is set to `None`
-    API = "api"
+    API = None
 
     # Client.PWA is a boolean which indicates whether or not to enable service workers
     PWA = False
@@ -83,7 +83,7 @@ class WebClient():
         automatically adjusts between local development, staging or production
         '''
         port = self.PORT if self.PORT is not None else RPU()
-        api = self.API if self.API is not None else 'api'
+        api = self.API if self.API is not None else f'api/{self.NAME}/'
         pwa = 'true' if self.PWA else 'false'
 
         return f'''# .env

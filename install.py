@@ -1,13 +1,9 @@
 from os import system as s, getcwd as _cwd
 from sys import argv as a, executable as E
-cwd=_cwd()
-n=a[1]
+cwd,n=_cwd(),a[1]
 s(f"git clone git@github.com:EasterCompany/Overlord.git {n}")
 s(f"cd {n}")
-s(f"mkdir .config")
-s(f"mkdir .logs")
-s(f"mkdir static")
-s(f"{E} core/tools/tools.py install {cwd}/{n}")
+s(f"{E} core.py install {cwd}/{n}")
 
 #from json import loads as l
 #from requests import get as g

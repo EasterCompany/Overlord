@@ -25,7 +25,7 @@ export const getEndpoints = () => {
     return {
       client: client_endpoint,
       server: `http://localhost:8000/`,
-      api: `http://localhost:8000/api/`
+      api: `http://localhost:8000/${process.env.REACT_APP_API}`
     };
   }
 
@@ -37,13 +37,13 @@ export const getEndpoints = () => {
           `http://127.0.0.1:8000/` :
           `http://127.0.0.1:8000/${process.env.REACT_APP_NAME}/`,
         server: `http://127.0.0.1:8000/admin`,
-        api: `http://127.0.0.1:8000/api`
+        api: `http://127.0.0.1:8000/${process.env.REACT_APP_API}`
       }
     }
     return {
       client: window.location.host,
-      server: `http://127.0.0.1:8000/admin`,
-      api: `http://127.0.0.1:8000/api`
+      server: `http://127.0.0.1:8000/`,
+      api: `http://127.0.0.1:8000/${process.env.REACT_APP_API}`
     }
   }
 
@@ -56,7 +56,7 @@ export const getEndpoints = () => {
     return {
       client: client_endpoint,
       server: `http://${window.location.host.split(':')[0]}:8000/`,
-      api: `http://${window.location.host.split(':')[0]}:8000/${process.env.REACT_APP_API}/`
+      api: `http://${window.location.host.split(':')[0]}:8000/${process.env.REACT_APP_API}`
     };
   }
 
@@ -69,7 +69,7 @@ export const getEndpoints = () => {
     return {
       client: client_endpoint,
       server: `https://${window.location.host}/`,
-      api: `https://${window.location.host}/${process.env.REACT_APP_API}/`
+      api: `https://${window.location.host}/${process.env.REACT_APP_API}`
     };
   }
 }
