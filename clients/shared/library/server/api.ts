@@ -159,17 +159,57 @@ export const POST = async (API: string, _POST: any, BAD: any = null, OK: any = n
 
 
 // Request data from an External API
-export const xapi = async (API: string, AUTH: any = null, DATA: any, CALLBACK: any = null) => {
+export const xapi = async (API: string, AUTH: any = null, DATA: any = null, CALLBACK: any = null) => {
   await fetch(API, {
     method: 'POST',
     headers: new Headers({
       'Authorization': `Basic ${AUTH}`,
-      'Content-Type': 'application/json'
+      'Content-Type': DATA === null ? 'application/x-www-form-urlencoded' : 'application/json'
     }),
     body: DATA,
   })
   .then(resp => resp.json())
   .then(respJson => CALLBACK(respJson))
+}
+
+
+// Request data from a Base Overlord API
+export const oapi = async (API: string, DATA: any = null, BAD: any = null, OK: any = null) => {
+  const user = USER();
+  const _auth = `${user.UUID} ${user.SESH}`;
+
+  await fetch(`${serverAdr}api/${API}`, {
+    method: 'POST',
+    headers: new Headers({
+        'Authorization': `Basic ${_auth}`,
+        'Content-Type': DATA === null ? 'application/x-www-form-urlencoded' : 'application/json'
+    }),
+    body: DATA
+  })
+  .then(resp => resp.json())
+  .then(respJson => {
+
+    const respStatus = respJson['status'];
+    const respData = respJson['data'];
+
+    // OK API RESULT HANDLER
+    if (respStatus === 'OK') {
+      try { return OK !== null ? OK(respData) : respData }
+      catch (error) {
+        console.log(`OK Callback Error @ ${API}`)
+        console.log({status:respStatus, data:respData, error:error})
+      }
+    }
+
+    // BAD API RESULT HANDLER
+    else if (respStatus === 'BAD') {
+      try{ return BAD !== null ? BAD(respData) : respData }
+      catch (error) {
+        console.log(`BAD Callback Error @ ${API}`)
+        console.log({status:respStatus, data:respData, error:error})
+      }
+    }
+  })
 }
 
 

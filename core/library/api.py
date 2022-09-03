@@ -149,4 +149,8 @@ class UniversalAPI:
     pass
 
   def path(self, endpoint, view, description="Auto Generated Path", *args, **kwargs):
-    return new_path(f"api/{self.NAME}/{endpoint}", view, name=description)
+    if self.NAME is None:
+      _path = f"api/{endpoint}"
+    else:
+      _path = f"api/{self.NAME}/{endpoint}"
+    return new_path(_path, view, name=description)
