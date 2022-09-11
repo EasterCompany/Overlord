@@ -142,15 +142,31 @@ def get_api_url(panelObj) -> str:
 
 
 class UniversalAPI:
+  """
+  Server Configuration for any Overlord based API.
+
+  This class contains all the data for a single Universal API
+  which is used to configure and control the endpoints hosted
+  by that API.
+  """
+
+  # API.URLS records custom endpoints added by new api
+  URLS=None
+
+  # API.NAME records the interface name for this new api
   NAME=None
+
+  # API.CLIENT_NAME records the client related to this api
   CLIENT_NAME=None
 
   def __init__(self) -> None:
-    pass
+    self.URLS = []
 
   def path(self, endpoint, view, description="Auto Generated Path", *args, **kwargs):
     if self.NAME is None:
       _path = f"api/{endpoint}"
     else:
       _path = f"api/{self.NAME}/{endpoint}"
-    return new_path(_path, view, name=description)
+    return self.URLS.append(
+      new_path(_path, view, name=description)
+    )

@@ -11,6 +11,7 @@ from core.library.url import make_django_urls
 
 # Overlord api
 from api import urls as API
+from core import urls as CORE
 
 # Overlord clients
 from clients import (
@@ -46,5 +47,6 @@ urlpatterns = (
     [make_django_urls(client) for client in installed_clients] +
     static(settings.STATIC_URL, document_root=settings.STATIC_ROOT) +
     static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT) +
-    API.URLS
+    API.URLS +
+    CORE.URLS
 )
