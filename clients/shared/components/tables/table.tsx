@@ -40,7 +40,7 @@ const Table = (props: any) => {
     /* TABLE */
     tableHeaders: props.headers || [ 'ERROR', ],
     tableData: props.data || [
-      [ 'No headers & data props on the <Table .. headers=[string, ] .. data = [ [], ]>', ],
+      [ 'No headers & data props on the Table component <Table .. headers=[string, ] .. data = [ [], ] .. />', ],
     ],
 
     /* API Paths */
@@ -221,7 +221,7 @@ const Table = (props: any) => {
         <button
           style={{ margin: '32px 0' }}
           onClick={() => setViewAll(!viewAll)}
-          disabled={ props.data.length <= props.previewSize ? true : false }
+          disabled={ config.tableData.length <= props.previewSize ? true : false }
         >{buttonTxt}</button>
       </div>
     </div>
