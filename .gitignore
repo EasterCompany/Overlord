@@ -22,6 +22,7 @@ o
 !/api/README.md
 !/api/user
 !/api/post
+!/api/recipe
 !api/migrations/__init__.py
 
 # Overlord (Directories)

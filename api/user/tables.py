@@ -9,7 +9,7 @@ class UserModel(models.Model):
     """
     Inheritor class for user related models, contains the uuid primary key for joining user tables.
 
-    [uuid] 32 hex digits divided into sections seperated by 4 dashes totalling 36 characters
+    [uuid] 32 hex digits divided into sections separated by 4 dashes totalling 36 characters
         +   formatted in this layout 'xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx'
     """
     uuid = models.CharField(
@@ -37,11 +37,11 @@ class UserDetails(UserModel):
     """
     Contains general non-technical information about the user
 
-    [first_names] any string provied by the user
+    [first_names] any string provided by the user
         +   optional field
-    [middles_names] any string provied by the user
+    [middles_names] any string provided by the user
         +   optional field
-    [last_name] any string provied by the user
+    [last_name] any string provided by the user
         +   optional field
     [display_image] a string containing a url to an image file
         +   optional field
