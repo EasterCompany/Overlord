@@ -94,7 +94,10 @@ const Table = (props: any) => {
       <props.create/>
       <div style={{ display: 'flex', justifyContent: 'space-evenly' }}>
         <button onClick={() => setCreateView(false)}>Cancel</button>
-        <button onClick={() => setCreateView(false)}>Accept</button>
+        <button onClick={() => {
+          if (props.onCreate !== undefined) {props.onCreate()}
+          setCreateView(false)
+        }}>Accept</button>
       </div>
     </>
   }
