@@ -16,14 +16,6 @@ o
 *.key
 /web
 !/web/__init__.py
-/api
-!/api/__init__.py
-!/api/apps.py
-!/api/README.md
-!/api/user
-!/api/post
-!/api/recipe
-!api/migrations/__init__.py
 
 # Overlord (Directories)
 .logs/
@@ -32,3 +24,11 @@ clients/
 !clients/shared
 !clients/README.md
 static/
+api/
+!api/__init__.py
+!api/apps.py
+!api/README.md
+!api/user/
+!api/post/
+!api/recipe/
+!api/migrations/__init__.py
