@@ -27,14 +27,10 @@ meta_data = {
 # Client build meta data
 def update_client_meta_data(app_data):
     # Read index.html file content
-    index_path = app_data['static'] + '/index.html'
-
-    # Pass if build doesn't exist
-    if not exists(index_path):
-        return False
+    index_path = f"{BASE_DIR}{app_data['static']}/index.html"
 
     # Read Content
-    with open(index_path) as index_file:
+    with open(index_path, 'r') as index_file:
         index_file_content = index_file.read()
 
     # Iterate over all variable meta data
