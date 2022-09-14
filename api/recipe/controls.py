@@ -83,7 +83,6 @@ def list_all_utensils():
 
 def create_new_utensils(req):
   data = api.get_json(req)
-  print(1)
   try:
     UtensilsModel.objects.create(
       name=data['name'],
