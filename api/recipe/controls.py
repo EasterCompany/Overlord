@@ -1,3 +1,5 @@
+# Standard library
+import json
 # Overlord library
 from core.library import api
 from api.recipe.tables import *
@@ -48,13 +50,14 @@ def list_all_ingredients():
     return body_row_data
 
   return api.table(
-    Table=RecipeModel,
+    Table=IngredientModel,
     Headers=['UUID', 'Name', 'Aliases', 'Description', 'Types'],
     Body=__body__,
     filter={ "order_by": "name" }
   )
 
 
+# --- UTENSILS ---
 def list_all_utensils():
   """
   Returns a list of all ingredient records within the database
@@ -71,8 +74,21 @@ def list_all_utensils():
     return body_row_data
 
   return api.table(
-    Table=RecipeModel,
+    Table=UtensilsModel,
     Headers=['UUID', 'Name', 'Aliases'],
     Body=__body__,
     filter={ "order_by": "name" }
   )
+
+
+def create_new_utensils(req):
+  data = api.get_json(req)
+  try:
+    UtensilsModel.objects.create(
+      name=data['name'],
+      aliases=data['aliases'],
+      icon=data['icon']
+    )
+  except Exception as error:
+    return api.error(error)
+  return api.success()

@@ -1,4 +1,5 @@
 # Standard library
+import json
 from urllib import parse
 # Django library
 from django.urls import path as new_path
@@ -126,6 +127,17 @@ def get_body(req) -> str:
   :return str: body content
   """
   return req.body.decode('utf-8')
+
+
+def get_json(req) -> str:
+  """
+  Consumes the request input and returns a dictionary containing
+  the content of the body which is expected to be stringified json
+
+  :param req obj: default django request object
+  :return str: body content as json
+  """
+  return json.loads(req.body)
 
 
 def get_api_url(panelObj) -> str:
