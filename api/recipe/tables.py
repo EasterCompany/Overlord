@@ -26,7 +26,11 @@ class RecipeModel(models.Model):
     blank=False,
     default=""
   )
-  image = models.URLField()
+  images = models.TextField(
+    null=False,
+    blank=False,
+    default=""
+  )
   description = models.TextField(
     null=False,
     blank=False,
@@ -36,7 +40,11 @@ class RecipeModel(models.Model):
   cook_time = models.IntegerField()
   ingredients = models.JSONField()
   utensils = models.JSONField()
-  approvals = models.IntegerField()
+  approvals = models.IntegerField(
+    null=True,
+    blank=False,
+    default=0
+  )
 
 
 class IngredientModel(models.Model):
@@ -61,7 +69,7 @@ class IngredientModel(models.Model):
     blank=False,
     default=""
   )
-  image = models.URLField()
+  image = models.TextField()
   icon = models.TextField(
     null=False,
     blank=False,
@@ -79,7 +87,7 @@ class IngredientModel(models.Model):
   )
 
 
-class UtensilsModel(models.Model):
+class UtensilModel(models.Model):
   """
   This is the secondary model for recipe object which contains data relating
   to utensils that may be required for any specific recipe
@@ -106,3 +114,6 @@ class UtensilsModel(models.Model):
     blank=False,
     default=""
   )
+
+  def __str__(self, *args, **kwargs):
+    return str(self.uuid)

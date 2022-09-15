@@ -1,5 +1,11 @@
+// Overlord library
 import { USER } from '../local/user';
 
+// Shortcuts
+export const isDev = window.location.toString().startsWith("http://localhost:8");
+export const isPrd = !isDev;
+export const mock = (_url:string) => isDev ?
+  _url.replace(_url.split('/')[2], 'localhost:8000').replace('https://', 'http://') : _url
 
 /*
   GLOBAL ENVIRONMENT SETUP
@@ -159,8 +165,14 @@ export const POST = async (API: string, _POST: any, BAD: any = null, OK: any = n
 
 
 // Request data from an External API
-export const xapi = async (API: string, AUTH: any = null, DATA: any = null, CALLBACK: any = null) => {
-  await fetch(API, {
+export const xapi = async (
+  API: string = "",
+  AUTH: any = "",
+  DATA: any = "",
+  CALLBACK: any = null,
+  MOCK: boolean = true
+) => {
+  await fetch(MOCK ? mock(API) : API, {
     method: 'POST',
     headers: new Headers({
       'Authorization': `Basic ${AUTH}`,
@@ -217,6 +229,8 @@ export const oapi = async (API: string, DATA: any = null, BAD: any = null, OK: a
   GLOBAL ENVIRONMENT
   contains the state of the API->Client relationship.
 */
+
+// Core API Library
 export default api;
 export const endPoints = getEndpoints();
 export const clientAdr = endPoints.client;

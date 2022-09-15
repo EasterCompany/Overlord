@@ -137,7 +137,7 @@ def get_json(req) -> str:
   :param req obj: default django request object
   :return str: body content as json
   """
-  return json.loads(req.body)
+  return json.loads(req.body.decode('utf-8'))
 
 
 def get_api_url(panelObj) -> str:

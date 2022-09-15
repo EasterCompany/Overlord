@@ -47,6 +47,7 @@ const Table = (props: any) => {
     viewAPI: props.view !== null ? props.view : <ErrorView error="No view & edit option."/>,
     createAPI: props.create !== null ? props.create : <ErrorView error="No create view option."/>,
     deleteAPI: props.delete !== null ? props.delete : <ErrorView error="No delete view option."/>,
+
   };
 
   // On Table Type Change
@@ -71,11 +72,15 @@ const Table = (props: any) => {
     const PK = pkEl.innerText
 
     const onAccept = () => {
-      api(
-        `${config.deleteAPI}/${encodeURIComponent(PK)}`,
-        (resp: any) => null,
-        (resp: any) => window.location.reload()
-      );
+      props.onDelete === undefined ?
+        api(
+          `${config.deleteAPI}/${encodeURIComponent(PK)}`,
+          (resp: any) => null,
+          (resp: any) => window.location.reload()
+        )
+      :
+        props.onDelete(PK);
+        setDeleteView(false);
     }
 
     const modal = {
