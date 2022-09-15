@@ -9,6 +9,7 @@ from django.shortcuts import render
 from django.apps import AppConfig
 
 # Core
+from django.core.wsgi import get_wsgi_application
 from django.core.management import execute_from_command_line
 
 # Conf
