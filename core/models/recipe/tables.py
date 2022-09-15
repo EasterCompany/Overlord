@@ -1,7 +1,7 @@
 # Standard library
 from uuid import uuid1
-# Django library
-from django.db import models
+# Overlord library
+from core.library import models
 
 
 class RecipeModel(models.Model):

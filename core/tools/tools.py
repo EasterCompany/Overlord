@@ -4,9 +4,10 @@ from os.path import exists
 from os import system, getcwd, environ
 from sys import argv, path, executable
 # Overlord library
+from core.library import execute_from_command_line
 from core.library.version import Version
+# Overlord tools
 from core.tools.library import console, gracefulExit
-from django.core.management import execute_from_command_line
 from core.tools.commands import install, git, django, node, pytest, pa
 
 tools_path = '/'.join(__file__.split('/')[:-1])

@@ -1,5 +1,5 @@
-# Django library
-from django.urls import path, include
+# Overlord library
+from core.library import path, include
 
 
 def make_django_urls(client):

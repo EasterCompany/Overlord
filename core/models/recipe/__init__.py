@@ -9,7 +9,7 @@ class _API(UniversalAPI):
   # API.CLIENT_NAME [ dictates that this api belongs to a specific client ]
   CLIENT_NAME = None
 
-  # INTIALIZE API CONFIGURATION
+  # INITIALIZE API CONFIGURATION
   def __init__(self) -> None:
     super().__init__()
 

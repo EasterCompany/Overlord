@@ -1,9 +1,6 @@
-# Django library
-from django.urls import re_path
-from django.shortcuts import render
-
-# Overlord configuration
+# Overlord library
 from web import settings
+from core.library import re_path, render
 
 # Random Ports Used Counter
 _RPU = 0

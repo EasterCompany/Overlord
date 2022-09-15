@@ -2,7 +2,7 @@
 import json
 # Overlord library
 from .library import api
-from django.urls import path
+from core.library import path
 from web.settings import SECRET_DATA, SERVER_DATA, CLIENT_DATA, BASE_DIR
 
 

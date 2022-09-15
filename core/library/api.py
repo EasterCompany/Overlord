@@ -1,12 +1,10 @@
 # Standard library
 import json
 from urllib import parse
-# Django library
-from django.urls import path as new_path
-from django.http import JsonResponse
 # Overlord library
 from web.settings import DEBUG
-from .console import Console
+from core.library import JsonResponse, path as new_path
+from core.library.console import Console
 
 OK = 'OK'
 BAD = 'BAD'
