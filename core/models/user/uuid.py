@@ -1,5 +1,4 @@
-# Standard library
-from uuid import uuid1
+from core.library import uuid
 
 
 def check_uuid_exists(uuid_string):
@@ -20,9 +19,9 @@ def generate_new_uuid():
 
     :return str: unique user identification string containing 36 characters (32 hex digits + 4 dashes)
     """
-    new_uuid = uuid1()
+    new_uuid = uuid()
 
     while check_uuid_exists(new_uuid):
-        new_uuid = uuid1()
+        new_uuid = uuid()
 
     return new_uuid

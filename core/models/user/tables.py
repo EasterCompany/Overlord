@@ -1,9 +1,6 @@
-# Standard library
-from uuid import uuid1
-# Django library
-from django.db import models
 # Overlord library
-from core.library import time
+from core.library import time, models, uuid
+
 
 class UserModel(models.Model):
     """
@@ -16,7 +13,7 @@ class UserModel(models.Model):
         null=False,
         blank=False,
         unique=True,
-        default=uuid1,
+        default=uuid,
         max_length=36,
         primary_key=True
     )

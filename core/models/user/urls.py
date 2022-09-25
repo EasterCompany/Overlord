@@ -1,7 +1,7 @@
-# Django imports
-from django.urls import path
-# Overlord-API imports
-from api.user import views as User
+# Overlord library
+from core.library import path
+from core.models.user import views as User
+
 
 API = lambda endpoint: f"api/user/{endpoint}"
 URLS = [

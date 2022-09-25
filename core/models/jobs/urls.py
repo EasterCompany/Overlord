@@ -1,12 +1,9 @@
-# Django imports
-from django.urls import path
-
-# Overlord-API imports
-from api.jobs import views as jobs
+# Overlord library
+from core.library import path
+from core.models.jobs import views as jobs
 
 
 API = lambda endpoint: f"api/job/{endpoint}"
-
 URLS = [
 
     # ============================== #

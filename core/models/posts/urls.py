@@ -1,7 +1,6 @@
-# Django library
-from django.urls import path
-# Overlord API
-from api.posts import views as posts
+# Overlord library
+from core.library import path
+from core.models.posts import views as posts
 
 API = lambda endpoint: f"api/post/{endpoint}"
 URLS = [

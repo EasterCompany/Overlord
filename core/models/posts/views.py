@@ -1,11 +1,8 @@
 # Standard library
-from unicodedata import category
-from uuid import uuid1
 from urllib import parse
 # Overlord library
-from core.library import api, time
-# Overlord api
-from api.posts.tables import Post
+from core.library import api, time, uuid
+from core.models.posts.tables import Post
 
 
 def list_all(req, *args, **kwargs):
@@ -15,7 +12,7 @@ def list_all(req, *args, **kwargs):
     [   ["Title", "Client" ... ] <-- Table Headers
         [[], [],  [], []   ... ] <-- Table Row & Data ]
 
-    formated for use with a table to be presented like this (below):
+    formatted for use with a table to be presented like this (below):
 
     H1          H2          H3
     -------     -------     -------
@@ -108,7 +105,7 @@ def create(
     """
     try:
         # Consume Input
-        uid = uuid1()
+        uid = uuid()
         header = parse.unquote(header).lower().strip()
         subheader = parse.unquote(subheader).lower().strip()
         location = parse.unquote(location).lower().strip()

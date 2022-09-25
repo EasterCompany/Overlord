@@ -1,7 +1,5 @@
-# Standard library
-from uuid import uuid1
 # Overlord library
-from core.library import models
+from core.library import models, uuid
 
 
 class RecipeModel(models.Model):
@@ -13,7 +11,7 @@ class RecipeModel(models.Model):
     null=False,
     blank=False,
     unique=True,
-    default=uuid1,
+    default=uuid,
     max_length=36,
     primary_key=True
   )
@@ -56,7 +54,7 @@ class IngredientModel(models.Model):
     null=False,
     blank=False,
     unique=True,
-    default=uuid1,
+    default=uuid,
     max_length=36,
     primary_key=True
   )
@@ -96,7 +94,7 @@ class UtensilModel(models.Model):
     null=False,
     blank=False,
     unique=True,
-    default=uuid1,
+    default=uuid,
     max_length=36,
     primary_key=True
   )

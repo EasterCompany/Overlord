@@ -1,9 +1,5 @@
-# Standard library
-import json
-from uuid import uuid1
-# Django library
-from django.db import models
 # Overlord library
+from core.library import models, uuid, json
 from core.library.time import get_datetime_str
 
 
@@ -12,7 +8,7 @@ class Post(models.Model):
     Contains information for related Job Post
 
     [uid] formatted in this layout 'xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx'
-    [datetime] formated YYYY/MM/DD HH:MM datetime stamp
+    [datetime] formatted YYYY/MM/DD HH:MM datetime stamp
     [title] any required string
     [subtitle] any optional string
     [genre] any optional string
@@ -29,7 +25,7 @@ class Post(models.Model):
         unique=True,
         null=False,
         blank=False,
-        default=uuid1,
+        default=uuid,
         max_length=32,
     )
     datetime = models.DateTimeField(

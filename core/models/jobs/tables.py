@@ -1,34 +1,33 @@
-# Django library
-from email.policy import default
-from django.db import models
+# Overlord library
+from core.library import models
 
 
 class JobPost(models.Model):
     """
     Contains information for related Job Post
 
-    [uid] 32 hex digits divided into sections seperated by 4 dashes totalling 36 characters
+    [uid] 32 hex digits divided into sections separated by 4 dashes totalling 36 characters
         +   formatted in this layout 'xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx'
     [datetime]
-        +   formated YYYY/MM/DD HH:MM datetime stamp
+        +   formatted YYYY/MM/DD HH:MM datetime stamp
     [title] Markdown text document
         +   optional field = ""
-    [title] any string provied by the user
+    [title] any string provided by the user
         +   required field
-    [client] any string provied by the user
+    [client] any string provided by the user
         +   optional field = ""
     [website] any string provided by the user represented as a URL
         +   optional field = ""
-    [location] any string provied by the user
+    [location] any string provided by the user
         +   optional field = ""
-    [min_salary] an integer provied by the user
+    [min_salary] an integer provided by the user
         +   optional field = 0
-    [max_salary] an integer provied by the user
+    [max_salary] an integer provided by the user
         +   optional field = 0
     [applications] a long string containing emails for
         users which have currently applied for this post
         +   optional field = ""
-    [requirements] a long string containing reccomended
+    [requirements] a long string containing recommended
         requirements for each user who applies
         +   optional field = ""
     """
@@ -53,7 +52,7 @@ class JobPost(models.Model):
     location = models.TextField(default="")         # Location / Remote
     min_salary = models.IntegerField(default=0)     # Minimum advertised salary (if 0 > salary is hidden from applicant)
     max_salary = models.IntegerField(default=0)     # Maximum advertised salary
-    requirements = models.TextField(default="")     # Reccomended Requirements to apply
+    requirements = models.TextField(default="")     # Recommended Requirements to apply
     applications = models.JSONField(default=dict, null=True, blank=True)   # Users that have applied already
 
     def __str__(self):

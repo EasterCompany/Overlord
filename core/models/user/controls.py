@@ -1,9 +1,8 @@
 # Overlord library
 from core.library import api
 from core.library.cryptography import encrypt
-# Overlord api
-from api.user import session
-from api.models import UserDetails, UserAuth
+from core.models.user import session
+from core.models.user.tables import UserDetails, UserAuth
 
 
 def purge_all_user_data(uuid):
