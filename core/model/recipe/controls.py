@@ -1,6 +1,6 @@
 # Overlord library
 from core.library import api
-from core.models.recipe.tables import *
+from core.model.recipe.tables import *
 
 
 # --- RECIPES ---

@@ -2,7 +2,7 @@
 
 # Overlord library
 from core.library import api, time
-from core.models.user.tables import UserAuth
+from core.model.user.tables import UserAuth
 
 
 def authenticate(req, permission='', *args, **kwargs):

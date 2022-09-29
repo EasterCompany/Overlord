@@ -3,8 +3,8 @@ from urllib import parse
 # Overlord library
 from core.library import api
 from core.library.cryptography import decrypt
-from core.models.user import session, controls
-from core.models.user.tables import UserAuth, UserDetails
+from core.model.user import session, controls
+from core.model.user.tables import UserAuth, UserDetails
 
 
 def delete(req, uuid, *args, **kwargs):

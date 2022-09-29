@@ -1,6 +1,6 @@
 # Overlord library
 from core.library import path
-from core.models.user import views as User
+from core.model.user import views as User
 
 
 API = lambda endpoint: f"api/user/{endpoint}"

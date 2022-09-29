@@ -2,7 +2,7 @@
 from urllib import parse
 # Overlord library
 from core.library import api, time, uuid
-from core.models.posts.tables import Post
+from core.model.posts.tables import Post
 
 
 def list_all(req, *args, **kwargs):

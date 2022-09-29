@@ -5,7 +5,7 @@ from uuid import uuid1
 from urllib import parse
 # Overlord library
 from core.library import api, time
-from core.models.jobs.tables import JobPost
+from core.model.jobs.tables import JobPost
 
 
 def list_all(req, *args, **kwargs):

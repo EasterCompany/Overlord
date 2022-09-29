@@ -1,6 +1,6 @@
 # Overlord library
 from core.library import path
-from core.models.posts import views as posts
+from core.model.posts import views as posts
 
 API = lambda endpoint: f"api/post/{endpoint}"
 URLS = [
