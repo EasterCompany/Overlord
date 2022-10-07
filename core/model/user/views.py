@@ -7,38 +7,6 @@ from core.model.user import session, controls
 from core.model.user.tables import UserAuth, UserDetails
 
 
-def delete(req, uuid, *args, **kwargs):
-    """
-    Purges all user data related to a uuid - the User model is a source of truth for weather a user exists
-    and there for must always be the last table to be purged of user data & the first to be appended with data
-
-    :param uuid str: unique identifier for user
-    :return bool: true if user data was successfully purged
-    """
-    user = parse.unquote(uuid).strip()
-    obj = UserAuth.objects.filter(uuid=user)
-
-    if obj.count() > 0:
-
-        try:
-            obj = obj.first()
-            obj.delete()
-        except Exception as exception:
-            return api.error(exception)
-
-        try:
-            obj = UserDetails.objects.filter(uuid=user).first()
-            obj.delete()
-        except Exception as exception:
-            return api.error(exception)
-
-        return api.std(message="success", status=api.OK)
-
-    return api.error(
-        "    When trying to delete a user,\n    no `UserAuth Table` db record matching the"
-        f"\n    uuid <{uuid}> parameter was found."
-    )
-
 
 def list_all(req, *args, **kwargs):
     """
@@ -111,27 +79,6 @@ def view(req, uuid, *args, **kwargs):
         status=api.OK,
         message=[ user, details ]
     )
-
-
-def create(req, email="", permissions=0, *args, **kwargs):
-    """
-    Create a new user using a unique email address
-
-    :param email str: unique user email input
-    :param key str: pre-hashed user password key
-    :return: api.std
-    """
-    try:
-        # Consume Input
-        email = parse.unquote(email)
-        password = req.body.decode('utf-8')
-        permissions = parse.unquote(permissions)
-        # Create User
-        controls.create_new_user_data(email, password, permissions)
-        # Standard Response
-        return api.std(message="Success!", status=api.OK)
-    except Exception as exception:
-        return api.error(exception)
 
 
 def verify(req, target, key, *args, **kwargs):

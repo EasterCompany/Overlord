@@ -2,7 +2,6 @@
 
 # Overlord library
 from core.library import api, time, get_random_string
-from core.model.user.tables import UserAuth
 
 
 def authenticate(req, permission='', *args, **kwargs):
@@ -12,6 +11,7 @@ def authenticate(req, permission='', *args, **kwargs):
     :param token str:
     :return boolean:
     """
+    from core.model.user.tables import UserAuth
     print(req.META['HTTP_AUTHORIZATION'])
     try:
         user = UserAuth.objects.get(session=req.META['HTTP_AUTHORIZATION'])
@@ -31,7 +31,7 @@ def generate():
     :param authenticated bool: weather user is authenticated
     :param active bool: weather this user is active or disabled
     """
-    return f"[:~OLT~:] {get_random_string(128)} ~/~ {time.get_datetime_str()}"
+    return f"[:~OLT~:] {get_random_string(128)} ~/~ {time.get_datetime_string()}"
 
 
 def _is_authenticated(user):
@@ -45,6 +45,7 @@ def _is_authenticated(user):
 
 
 def refresh(token):
+    from core.model.user.tables import UserAuth
     # Select User
     user = UserAuth.objects.get(session=token)
 
@@ -53,7 +54,7 @@ def refresh(token):
         session = generate(user.email, _is_authenticated(user), user.active)
 
         # Save New Token
-        user.last_activity = time.get_datetime_str()
+        user.last_activity = time.get_datetime_string()
         user.session = session
         user.save()
 

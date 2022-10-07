@@ -116,7 +116,7 @@ def create(req, title, client="", location="Remote", min_salary=0, max_salary=0,
     try:
         JobPost.objects.create(
             uid=uid,
-            datetime=time.get_datetime_str(),
+            datetime=time.get_datetime_string(),
             title=title,
             client=client,
             location=location,

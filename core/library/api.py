@@ -3,7 +3,8 @@ import json
 from urllib import parse
 # Overlord library
 from web.settings import DEBUG
-from core.library import JsonResponse, path as new_path
+from django.urls import path as new_path
+from django.http import JsonResponse
 from core.library.console import Console
 
 OK = 'OK'

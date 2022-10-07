@@ -167,7 +167,10 @@ def secrets_file(project_path='.'):
     "PA_API_KEY": "",
     "DOMAIN_URL": "",
     "EMAIL_USER": "",
-    "EMAIL_PASS": ""
+    "EMAIL_PASS": "",
+    "REDIS-USER": "",
+    "REDIS-PASS": "",
+    "REDIS-HTTP": ""
   }
   return dump_json('secret', token_data, project_path)
 

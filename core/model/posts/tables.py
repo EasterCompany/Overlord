@@ -1,6 +1,6 @@
 # Overlord library
 from core.library import models, uuid, json
-from core.library.time import get_datetime_str
+from core.library.time import get_datetime_string
 
 
 class Post(models.Model):
@@ -31,7 +31,7 @@ class Post(models.Model):
     datetime = models.DateTimeField(
         null=False,
         blank=False,
-        default=get_datetime_str,
+        default=get_datetime_string,
     )
     author_uuid = models.CharField(
         null=True,

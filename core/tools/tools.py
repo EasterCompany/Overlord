@@ -4,9 +4,9 @@ from os.path import exists
 from os import system, getcwd, environ
 from sys import argv, path, executable
 # Overlord library
+from web.settings import SECRET_DATA
 from core.library import execute_from_command_line
 from core.library.version import Version
-# Overlord tools
 from core.tools.library import console, gracefulExit
 from core.tools.commands import install, git, django, node, pytest, pa
 
@@ -329,7 +329,7 @@ def run_tool(command, index=0):
                 "`node` command doesn't take any arguments",
                 error=True
             )
-        output(console.col('\nStarting Node.', 'green') + '\n[type: .exit to return]')
+        output(console.col('\nStarting Node', 'green') + '\n[Type: ".exit" to return]')
         system('node')
         output(console.col('Closed Node.', 'red'))
 
@@ -339,9 +339,16 @@ def run_tool(command, index=0):
                 "`django` command doesn't take any arguments",
                 error=True
             )
-        output(console.col('\nStarting Django.', 'green') + '\n[Use: CTRL+D to Exit] ')
+        output(console.col('\nStarting Django', 'green') + '\n[CTRL+D to Exit] ')
         execute_from_command_line([executable, 'shell_plus'])
         output(console.col('Closed Django.', 'red'))
+
+    elif command == 'redis':
+        output(console.col('\nInitiating Redis Cloud Connection', 'green') + ' \n[CTRL+C to Exit]')
+        system(
+            f"redis-cli -u redis://{SECRET_DATA['REDIS-USER']}:{SECRET_DATA['REDIS-PASS']}@{SECRET_DATA['REDIS-HTTP']}"
+        )
+        output(console.col('Closed Redis Cloud Connection.', 'red'))
 
     elif command == 'status': system('git status')
 

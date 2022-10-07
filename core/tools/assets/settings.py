@@ -38,11 +38,14 @@ with open(BASE_DIR + '/.config/clients.json') as CLIENT_FILE:
 
 if not os.path.exists(BASE_DIR + '/.config/secret.json'):
     SECRET_DATA = {
-        'ROOT_EMAIL': '',
-        'SERVER_KEY': '',
-        'PA_USER_ID': '',
-        'PA_API_KEY': '',
-        'DOMAIN_URL': ''
+        "ROOT_EMAIL": "",
+        "SERVER_KEY": "",
+        "PA_USER_ID": "",
+        "PA_API_KEY": "",
+        "DOMAIN_URL": "",
+        "REDIS-USER": "",
+        "REDIS-PASS": "",
+        "REDIS-HTTP": ""
     }
 else:
     with open(BASE_DIR + '/.config/secret.json') as SECRET_FILE:

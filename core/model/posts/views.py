@@ -116,7 +116,7 @@ def create(
         # Create Post
         Post.objects.create(
             uid=uid,
-            datetime=time.get_datetime_str(),
+            datetime=time.get_datetime_string(),
             header=header,
             subheader=subheader,
             location=location,
