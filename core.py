@@ -3,7 +3,6 @@
 # Standard library
 from sys import argv
 from os import environ
-
 # Overlord library
 from core.tools import tools
 

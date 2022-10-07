@@ -1,36 +1,10 @@
 # Overlord library
+from core.models import Users
 from core.library import api
-from core.library.cryptography import encrypt
-from core.model.user import session
-from core.model.user.tables import UserDetails, UserAuth, UserInvite
-
-
-def purge_all_user_data(uuid):
-  """
-  Purges all user data related to a uuid
-
-  :param uuid str: unique identifier for user
-  :return bool: true if user data successfully purged
-  """
-  if UserAuth.objects.filter(uuid=uuid).count > 0:
-    try:
-      UserDetails.objects.filter(uuid=uuid).delete()
-      UserAuth.objects.filter(uuid=uuid).delete()
-      print(f"[USER] Successfully purged user data for <user: {uuid}>")
-      return True
-    except Exception as exception:
-      print(f"[USER] Failed to purge data for <user: {uuid}>\n{exception}\n\n")
-  return False
-
-
-def verify_identity(email, session):
-  if UserAuth.objects.filter(email=email, session=session).count() == 0:
-    return api.error("User with that session does not exist.")
-  return api.success()
 
 
 def authorized(uuid, sesh):
-  return UserAuth.objects.filter(uuid=uuid).only()[0].session.split("[:~OLT~:]")[1] == sesh
+  return Users.objects.filter(uuid=uuid).only()[0].session.split("[:~OLT~:]")[1] == sesh
 
 
 def if_authorized(req, do_function):

@@ -1,5 +1,3 @@
-# Django library
-
 # Overlord library
 from core.library import api, time, get_random_string
 
@@ -11,10 +9,10 @@ def authenticate(req, permission='', *args, **kwargs):
     :param token str:
     :return boolean:
     """
-    from core.model.user.tables import UserAuth
+    from core.models import Users
     print(req.META['HTTP_AUTHORIZATION'])
     try:
-        user = UserAuth.objects.get(session=req.META['HTTP_AUTHORIZATION'])
+        user = Users.objects.get(session=req.META['HTTP_AUTHORIZATION'])
         if user.active and permission == '':
             return True
         return user.active and (permission in user.permissions or 'admin+' in user.permissions)
@@ -45,9 +43,9 @@ def _is_authenticated(user):
 
 
 def refresh(token):
-    from core.model.user.tables import UserAuth
+    from core.models import Users
     # Select User
-    user = UserAuth.objects.get(session=token)
+    user = Users.objects.get(session=token)
 
     if user.active:
         # Generate New Token

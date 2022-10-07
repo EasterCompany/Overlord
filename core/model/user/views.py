@@ -3,9 +3,8 @@ from urllib import parse
 # Overlord library
 from core.library import api
 from core.library.cryptography import decrypt
-from core.model.user import session, controls
-from core.model.user.tables import UserAuth, UserDetails
-
+from core.models import Users, UserDetails
+from core.model.user import session
 
 
 def list_all(req, *args, **kwargs):
@@ -37,7 +36,7 @@ def list_all(req, *args, **kwargs):
         return body_row_data
 
     return api.table(
-        Table=UserAuth,
+        Table=Users,
         Headers=['UUID', 'Email', 'Last Active', 'Authenticated'],
         Body=__body__,
         filter={ "order_by": "-last_activity" }
@@ -59,7 +58,7 @@ def view(req, uuid, *args, **kwargs):
     :return: api.std
     """
     try:
-        user = UserAuth.objects.filter(uuid=uuid).only()
+        user = Users.objects.filter(uuid=uuid).only()
         user = {'Email': user.email}
     except Exception as exception:
         return api.std(
@@ -90,7 +89,7 @@ def verify(req, target, key, *args, **kwargs):
     :return: api.std
     """
     try:
-        user = UserAuth.objects.get(email=target, key=key, active=False)
+        user = Users.objects.get(email=target, key=key, active=False)
     except Exception as exception:
         return api.error(exception)
 
@@ -112,7 +111,7 @@ def login(req, emailURI, *args, **kwargs):
     """
     email = parse.unquote(emailURI).strip()
     password = req.body.decode('utf-8')
-    user = UserAuth.objects.filter(email=email).first()
+    user = Users.objects.filter(email=email).first()
     user.session = session.generate()
     user.save()
 
@@ -132,7 +131,7 @@ def edit(req, *args, **kwargs):
     :return: edit & save user database object
     """
     try:
-        user = UserAuth.objects.filter(session=req.headers.get('Authorization')).only()
+        user = Users.objects.filter(session=req.headers.get('Authorization')).only()
         user.email = req.post.get('email')
         details = UserDetails.objects.filter(uuid=user.uuid).only()
         details.first_name = req.post.get('first_name')
