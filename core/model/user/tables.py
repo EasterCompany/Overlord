@@ -1,8 +1,8 @@
 # Overlord library
-from email.policy import default
+from os import stat
 from . import session
 from core.library import time, models, uuid, \
-  api, encrypt, get_datetime_string, json
+  api, encrypt, get_datetime_string, json, JsonResponse
 
 
 class newUserObj:
@@ -91,7 +91,7 @@ class Users(UserModel):
   a new user session is generated upon each login or registration request.
   """
   email = models.TextField(unique=True)
-  sms = models.TextField(unique=True)
+  sms = models.TextField(null=False, blank=False, default="")
   key = models.TextField(null=False, blank=False)
   permissions = models.IntegerField(null=False, blank=False, default=0)
   session = models.TextField(unique=True)
@@ -107,42 +107,31 @@ class Users(UserModel):
       session=session.generate()
     )
     UserDetails.objects.create(
-      uuid=uuid,
+      uuid=Users.objects.filter(email=email).first().uuid,
       display_name=email.split('@')[0] if '@' in email else email
     )
     return api.success()
 
   @staticmethod
-  def deleteAll(uuid):
-    """
-    Not what it says it the tin; Users.deleteAll() does not delete all users.
-    It deletes all records on all tables on all databases related to a single
-    user uuid.
-
-    :param uuid str: the user uuid to be totally purged from existence
-    :return api.success: None
-    """
-    user = Users.fetchAll(uuid)
-    user.auth.delete()
-    user.details.delete()
-    for invite in user.invites:invite.delete()
+  def purge(uuid):
+    Users.objects.filter(uuid=uuid).delete()
+    UserDetails.objects.filter(uuid=uuid).delete()
+    UserInvite.objects.filter(created_by=uuid).delete()
     return api.success()
 
   @staticmethod
-  def fetchAll(uuid):
+  def _fetchAll(uuid):
     user = newUserObj()
-    user.auth = Users.fetch(uuid=uuid)
+    user.auth = Users.objects.filter(uuid=uuid).first()
     user.details = UserDetails.objects.filter(uuid=uuid).first()
     user.invites = UserInvite.objects.filter(created_by=uuid)
     return user
 
   @staticmethod
   def fetch(uuid):
-    return Users.objects.filter(uuid=uuid).first()
-
-  def __str__(self, *args, **kwargs):
-    user = self.fetchAll(self.uuid)
-    return api.data({
+    user = Users._fetchAll(uuid)
+    return {
+      "uuid": user.auth.uuid,
       "sms": user.auth.sms,
       "email": user.auth.email,
       "panels": user.auth.panels,
@@ -151,13 +140,25 @@ class Users(UserModel):
         "names": user.details.names,
         "display_name": user.details.display_name,
         "display_image": user.details.display_image,
-        "date_of_birth": user.details.date_of_birth,
-        "date_joined": user.details.date_joined
+        "date_of_birth": str(user.details.date_of_birth),
+        "date_joined": str(user.details.date_joined)
       },
       "invites": [{
         "email": invite.email,
         "sms": invite.sms,
         "data": invite.data,
-        "created_on": invite.created_on
+        "created_on": str(invite.created_on)
       } for invite in user.invites]
-    })
+    }
+
+  @staticmethod
+  def fetchAll():
+    pass
+
+  @staticmethod
+  def view(uuid):
+    return JsonResponse(Users.fetch(uuid))
+
+  @staticmethod
+  def list(uuid):
+    return JsonResponse(Users.fetchAll())

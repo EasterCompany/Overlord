@@ -23,5 +23,6 @@ __pycache__
 /clients
 !/clients/shared
 /core/migrations
-/static
+/static/.temp
+/static/*
 /api
