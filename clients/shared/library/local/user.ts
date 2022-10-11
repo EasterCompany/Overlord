@@ -147,18 +147,18 @@ export const logout = () => {
 
 
 // Log in
-export const login = async (email:any, password:any, callback:any=null) => {
+export const login = async (email:any, password:any, BAD:any=null, OK:any=null) => {
   const encodedEmail = encodeURIComponent(email);
   await oapi(
     `user/login/${encodedEmail}`,
     password,
-    (resp:any) => callback === null ? null : callback(resp),
+    (resp:any) => BAD === null ? null : BAD(resp),
     (user:any) => {
       __INIT_USER__(
         user.uuid, user.email, user.session, "", "", "", "", "",
         "", "", ""
       )
-      callback === null ? window.location.reload() : callback(user)
+      OK === null ? window.location.reload() : OK(user)
     }
   )
 }

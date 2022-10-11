@@ -1,8 +1,9 @@
 # Overlord library
-from os import stat
 from . import session
+from api.eastercompany.tables import AdminPanel
 from core.library import time, models, uuid, \
-  api, encrypt, get_datetime_string, json, JsonResponse
+  api, encrypt, decrypt, get_datetime_string, \
+  JsonResponse
 
 
 class newUserObj:
@@ -39,17 +40,6 @@ class UserModel(models.Model):
     return str(self.uuid)
 
 
-class UserDetails(UserModel):
-  """
-  Contains general non-technical information about the user
-  """
-  names = models.TextField(default="")
-  display_name = models.TextField(default="")
-  display_image = models.URLField(default="https://www.easter.company/static/eastercompany/favicon.ico")
-  date_of_birth = models.DateTimeField(null=False, blank=False, default=time.get_datetime_string)
-  date_joined = models.DateTimeField(null=False, blank=False, default=time.get_datetime_string)
-
-
 class UserInvite(models.Model):
   """
   This model contains the structure for user invites which allow a user to
@@ -80,9 +70,19 @@ class UserInvite(models.Model):
   )
 
   @staticmethod
-  def create(email="", sms="", data=None):
-    UserInvite.objects.create(email=email, sms=sms, data=data)
-    return api.success()
+  def fetch(email):
+    return UserInvite.objects.filter(email=email)
+
+
+class UserDetails(UserModel):
+  """
+  Contains general non-technical information about the user
+  """
+  names = models.TextField(default="")
+  display_name = models.TextField(default="")
+  display_image = models.URLField(default="https://www.easter.company/static/eastercompany/favicon.ico")
+  date_of_birth = models.DateTimeField(null=False, blank=False, default=time.get_datetime_string)
+  date_joined = models.DateTimeField(null=False, blank=False, default=time.get_datetime_string)
 
 
 class Users(UserModel):
@@ -99,7 +99,17 @@ class Users(UserModel):
   panels = models.TextField(default="")       # comma separated panel uuid list
 
   @staticmethod
-  def create(email, password, permissions):
+  def invite(email:str, invited_by:str = "", data:str = ""):
+    ''' data contains additional invite information '''
+    if UserInvite.objects.filter(email=email, data=data).count() == 0 and \
+      Users.objects.filter(email=email).count() == 0:
+      UserInvite.objects.create(email=email, created_by=invited_by, data=data)
+      return api.success()
+    return api.error()
+
+  @staticmethod
+  def create(email:str, password:str, permissions:int=1):
+    ''' default user permission level is 1 '''
     Users.objects.create(
       email=email,
       key=encrypt(password),
@@ -111,6 +121,64 @@ class Users(UserModel):
       display_name=email.split('@')[0] if '@' in email else email
     )
     return api.success()
+
+  @staticmethod
+  def has_invites(email:str):
+    ''' check if an email has invites '''
+    invites = UserInvite.fetch(email)
+    if invites.count() == 0:
+      return api.error()
+    return api.success()
+
+  @staticmethod
+  def accept_invite_and_create(email:str, password:str):
+    ''' accept an invite and create a user '''
+    # Get list of invites for this email
+    invites = UserInvite.objects.filter(email=email)
+    if invites.count() == 0:
+      return api.error()
+    # Make a list of a panels this email was invited to
+    invited_panels = []
+    for invite in invites:
+      if "ePanelInvite" in invite.data and invite.data["ePanelInvite"] not in invited_panels:
+        invited_panels.append(invite.data["ePanelInvite"])
+    # Create new user with email
+    if Users.objects.filter(email=email).count() == 0:
+      Users.create(email, password, 1)
+    if len(invited_panels) > 0:
+      # Add panels to users panel list
+      user = Users.objects.get(email=email)
+      user.panels = ','.join(invited_panels) + ','
+      user.save()
+      for panel in user.panels.split(',')[:-1]:
+        AdminPanel.add_user_to_panel(user.uuid, panel, 1)
+      invites.delete()
+    # Response status
+    return api.success()
+
+  @staticmethod
+  def get(user:str):
+    ''' acquires the user object by uuid or email identifier '''
+    if '@' in user:
+      try:
+        return Users.objects.get(email=user)
+      except Exception as error:
+        return error
+    else:
+      try:
+        return Users.objects.get(uuid=user)
+      except Exception as error:
+        return error
+
+
+  @staticmethod
+  def login(email:str, password:str):
+    user = Users.get(email)
+    if str(user) == "Users matching query does not exist.":
+      return api.error(user)
+    elif password == decrypt(user.key):
+      return api.data({'uuid': user.uuid, 'email': user.email, 'session': user.session})
+    return api.error()
 
   @staticmethod
   def purge(uuid):
