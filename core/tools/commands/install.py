@@ -50,8 +50,10 @@ def make_clients_config(project_path='.'):
     files = [
       f.path.split("/")[-1] for f in scandir(client) if not f.is_dir()
     ]
+
     node = "package.json" in files
     scripts = {
+      "api-git": None,
       "test": None,
       "start": None,
       "build": None,
@@ -61,8 +63,13 @@ def make_clients_config(project_path='.'):
     if node:
       package = open(client + "/package.json")
       package_json = json.load(package)
+
       if 'version' in package_json:
         scripts['version'] = package_json['version']
+
+      if 'api-git' in package_json:
+        scripts['api-git'] = package_json['api-git']
+
       for key in package_json["scripts"]:
         if key in scripts:
           scripts[key] = package_json["scripts"][key]
@@ -70,6 +77,7 @@ def make_clients_config(project_path='.'):
     if client.split("/")[-1] != 'shared':
       clients[client.split("/")[-1]] = {
         "src": client,
+        "api": scripts["api-git"],
         "static": f'{path[0]}/static/{client.split("/")[-1]}',
         "node": node,
         "test": scripts["test"],

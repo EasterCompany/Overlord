@@ -6,6 +6,9 @@ from web.settings import CLIENT_DATA, BASE_DIR
 
 
 def branch_origins(branch, repo=None):
+  """
+  Changes the branch that this repository defaults to when pushing & pulling
+  """
   if repo is not None:
     os.chdir(path[0] + '/' + repo)
   os.system('git branch --set-upstream-to=origin/{branch} {branch}'.format(
@@ -27,8 +30,16 @@ def all():
 
   for client in CLIENT_DATA:
     source_dir = CLIENT_DATA[client]["src"]
+    source_api = BASE_DIR + f'/api/{client}'
+
     if os.path.exists(f"{source_dir}/.git"):
       print(f"\n{client.title()}")
       print("-------------------------\n")
       os.system(f"cd {source_dir} && git pull --recurse-submodules && cd {BASE_DIR}")
+      print("\n")
+
+    if os.path.exists(f"{source_api}/.git"):
+      print(f"\n{client.title()}-API")
+      print("-------------------------\n")
+      os.system(f"cd {source_api} && git pull --recurse-submodules && cd {BASE_DIR}")
       print("\n")

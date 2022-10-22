@@ -21,10 +21,20 @@ def all():
 
   for client in CLIENT_DATA:
     source_dir = CLIENT_DATA[client]["src"]
+    source_api = BASE_DIR + f'/api/{client}'
+
     if os.path.exists(f"{source_dir}/.git"):
       print(f"\n{client.title()}")
       print("-------------------------\n")
       os.chdir(source_dir)
+      os.system(f'''git add . && git commit -m "{AUTO_COMMIT_MESSAGE}" && git push''')
+      os.chdir(BASE_DIR)
+      print("\n")
+
+    if os.path.exists(f"{source_api}/.git"):
+      print(f"\n{client.title()}-API")
+      print("-------------------------\n")
+      os.chdir(source_api)
       os.system(f'''git add . && git commit -m "{AUTO_COMMIT_MESSAGE}" && git push''')
       os.chdir(BASE_DIR)
       print("\n")
