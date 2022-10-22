@@ -5,6 +5,7 @@ from os import system, getcwd, environ
 from sys import argv, path, executable
 # Overlord library
 from web.settings import SECRET_DATA
+from core import create_user, create_super_user
 from core.library import execute_from_command_line
 from core.library.version import Version
 from core.tools.library import console, gracefulExit
@@ -366,6 +367,12 @@ def run_tool(command, index=0):
 
     elif command == 'exit' or command == 'exit()':
         exit()
+
+    elif command == 'createsuperuser':
+        create_super_user()
+
+    elif command == 'createuser':
+        create_user()
 
     else:
         bad_input = ' '.join(command_line)
