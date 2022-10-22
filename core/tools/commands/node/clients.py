@@ -27,7 +27,10 @@ meta_data = {
 # Client build meta data
 def update_client_meta_data(app_data):
     # Read index.html file content
-    index_path = f"{BASE_DIR}{app_data['static']}/index.html"
+    if BASE_DIR in app_data['static']:
+        index_path = f"{app_data['static']}/index.html"
+    else:
+        index_path = f"{BASE_DIR}{app_data['static']}/index.html"
 
     # Read Content
     with open(index_path, 'r') as index_file:
