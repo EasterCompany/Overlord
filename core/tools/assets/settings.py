@@ -121,4 +121,6 @@ if DEBUG:
         # Ports 8100 - 8199 are reserved for react development clients
     ]
 else:
-    CORS_ORIGIN_WHITELIST = []
+    CORS_ORIGIN_WHITELIST = [
+        'https://www.easter.company'    # Allows this application to be managed by E-Panel
+    ]

@@ -167,9 +167,9 @@ export const POST = async (API: string, _POST: any, BAD: any = null, OK: any = n
 // Request data from an External API
 export const xapi = async (
   API: string = "",
-  AUTH: any = "",
-  DATA: any = "",
   CALLBACK: any = null,
+  DATA: any = "",
+  AUTH: any = "",
   MOCK: boolean = true
 ) => {
   await fetch(MOCK ? mock(API) : API, {
