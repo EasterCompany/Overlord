@@ -96,11 +96,12 @@ class Users(UserModel):
   permissions = models.IntegerField(null=False, blank=False, default=0)
   session = models.TextField(unique=True)
   last_activity = models.DateTimeField(default=time.get_datetime_string)
-  panels = models.TextField(default="")       # comma separated panel uuid list
+  panels = models.TextField(default="")                           # Comma separated panel uuid list
 
   @staticmethod
   def invite(email:str, invited_by:str = "", data:str = ""):
     ''' data contains additional invite information '''
+    email = email.lower()                                         # Emails are not case sensitive
     if UserInvite.objects.filter(email=email, data=data).count() == 0 and \
       Users.objects.filter(email=email).count() == 0:
       UserInvite.objects.create(email=email, created_by=invited_by, data=data)
@@ -110,6 +111,7 @@ class Users(UserModel):
   @staticmethod
   def create(email:str, password:str, permissions:int=1):
     ''' default user permission level is 1 '''
+    email = email.lower()                                         # Emails are not case sensitive
     Users.objects.create(
       email=email,
       key=encrypt(password),
@@ -134,7 +136,7 @@ class Users(UserModel):
   def accept_invite_and_create(email:str, password:str):
     ''' accept an invite and create a user '''
     # Get list of invites for this email
-    invites = UserInvite.objects.filter(email=email)
+    invites = UserInvite.objects.filter(email=email.lower())      # Emails are not case sensitive
     if invites.count() == 0:
       return api.error()
     # Make a list of a panels this email was invited to

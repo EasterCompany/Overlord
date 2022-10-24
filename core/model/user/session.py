@@ -1,5 +1,6 @@
 # Overlord library
-from core.library import api, time, get_random_string
+from core.library import api, time
+from django.utils.crypto import get_random_string
 
 
 def authenticate(req, permission='', *args, **kwargs):
