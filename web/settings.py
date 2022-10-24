@@ -5,7 +5,6 @@
 # Standard library
 import os
 from json import loads
-
 # Overlord library
 from core.library import numbers
 from core.tools.commands.install import (
