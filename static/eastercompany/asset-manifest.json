@@ -1,11 +1,15 @@
 {
   "files": {
-    "main.css": "/static/eastercompany/static/css/main.072785cf.css",
-    "main.js": "/static/eastercompany/static/js/main.fd2cadf2.js",
+    "main.css": "/static/eastercompany/static/css/main.2545d0ae.css",
+    "main.js": "/static/eastercompany/static/js/main.c811aed0.js",
     "static/media/overlord_light.png": "/static/eastercompany/static/media/overlord_light.4ab364221049f43c7e64.png",
     "static/media/spartanIconBlur.png": "/static/eastercompany/static/media/spartanIconBlur.9bc4748d1b0e4a64e259.png",
     "static/media/banner2.png": "/static/eastercompany/static/media/banner2.c6882f664bd77d348cd9.png",
     "static/media/mountainBanner.jpeg": "/static/eastercompany/static/media/mountainBanner.49cbb3bc53170692cbf7.jpeg",
+    "static/media/Metropolis-Bold.otf": "/static/eastercompany/static/media/Metropolis-Bold.c5e04fafcff6fc79cd76.otf",
+    "static/media/Metropolis-Medium.otf": "/static/eastercompany/static/media/Metropolis-Medium.cdcce86268fb4a504ff5.otf",
+    "static/media/Metropolis-Regular.otf": "/static/eastercompany/static/media/Metropolis-Regular.67a1988d7b65b0aaa16d.otf",
+    "static/media/Metropolis-Thin.otf": "/static/eastercompany/static/media/Metropolis-Thin.90c6171184f230bfa07a.otf",
     "static/media/cliExample.png": "/static/eastercompany/static/media/cliExample.c96cada23648e5ab92b0.png",
     "static/media/e_panel_header.png": "/static/eastercompany/static/media/e_panel_header.638fb704fc336692a35d.png",
     "static/media/e_panel.png": "/static/eastercompany/static/media/e_panel.c2414d9d2dc722833b1c.png",
@@ -21,11 +25,11 @@
     "static/media/link.svg": "/static/eastercompany/static/media/link.89ed97eef29fce0549a9f4385dbe9667.svg",
     "static/media/email.svg": "/static/eastercompany/static/media/email.8bf10b709170505d6462fc2c51a06af1.svg",
     "static/media/logout.svg": "/static/eastercompany/static/media/logout.67bd7f22d81fd6433cd64bb34f71f9d2.svg",
-    "main.072785cf.css.map": "/static/eastercompany/static/css/main.072785cf.css.map",
-    "main.fd2cadf2.js.map": "/static/eastercompany/static/js/main.fd2cadf2.js.map"
+    "main.2545d0ae.css.map": "/static/eastercompany/static/css/main.2545d0ae.css.map",
+    "main.c811aed0.js.map": "/static/eastercompany/static/js/main.c811aed0.js.map"
   },
   "entrypoints": [
-    "static/css/main.072785cf.css",
-    "static/js/main.fd2cadf2.js"
+    "static/css/main.2545d0ae.css",
+    "static/js/main.c811aed0.js"
   ]
 }
