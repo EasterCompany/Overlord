@@ -70,8 +70,8 @@ export const getEndpoints = () => {
   else {
     const client_endpoint =
       process.env.REACT_APP_NAME === '' ?
-        `http://${window.location.host}/` :
-        `http://${window.location.host}/${process.env.REACT_APP_NAME}/`
+        `https://${window.location.host}/` :
+        `https://${window.location.host}/${process.env.REACT_APP_NAME}/`
     return {
       client: client_endpoint,
       server: `https://${window.location.host}/`,
