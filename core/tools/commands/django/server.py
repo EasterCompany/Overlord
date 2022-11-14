@@ -1,7 +1,6 @@
 # Standard library
 from os import system
 from threading import Thread
-from sys import executable, path
 # Overlord library
 from web.settings import BASE_DIR
 from django.core.management import call_command
@@ -29,7 +28,9 @@ collect_staticfs = lambda: _server(start=False, migrate=False, collectstatic=Tru
 
 
 def run():
-    # Server thread
+    '''
+    Run process on the main thread
+    '''
     thread = Thread(
         None,
         _server,
@@ -41,7 +42,9 @@ def run():
 
 
 def start():
-    # Server thread
+    '''
+    Run new thread in the background
+    '''
     thread = Thread(
         None,
         _server,

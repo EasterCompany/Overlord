@@ -12,9 +12,12 @@ if __name__ == '__main__':
   environ.setdefault('DJANGO_SETTINGS_MODULE', 'web.settings')
   application = get_wsgi_application()
 
-  if len(argv) >= 1 and argv[1] == 'createsuperuser':
+  if len(argv) >= 1 and (argv[1] == 'createsuperuser' or argv[1] == 'createadmin'):
+    # Create an Admin User on this Server
     create_super_user()
+
   elif len(argv) >= 1 and argv[1] == 'createuser':
+    # Create a Regular User on this Server
     create_user()
 
   elif len(argv) > 1 and argv[1] == 'tools':

@@ -35,7 +35,6 @@ Example Usage (working example):
 # Std library
 import json
 import threading
-from sys import path
 from time import sleep
 from shutil import copy
 from os import mkdir, remove, walk
@@ -307,13 +306,22 @@ def file_updater_thread():
                 clients.append(client)
         return clients
 
-    clients = get_clients()
-    while len(clients) > 0:
-        logs = get_log()
-        for client in clients:
-            __update_clients_files__(client, logs, spath)
-        sleep(.5)
+    def background_process():
         clients = get_clients()
+        while len(clients) > 0:
+            logs = get_log()
+            for client in clients:
+                __update_clients_files__(client, logs, spath)
+            sleep(.5)
+            clients = get_clients()
+
+    thread = threading.Thread(
+        None,
+        background_process,
+        'shared-files-updater',
+        ()
+    )
+    return thread.start(), sleep(6)
 
 
 def error_message():

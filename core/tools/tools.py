@@ -234,7 +234,8 @@ def run_tool(command, index=0):
             node.clients.run_all(none_on_main_thread=True)
 
         django.server.start()
-        return node.share.file_updater_thread()
+        node.share.file_updater_thread()
+        return awaitInput(False)
 
     elif command == 'runserver':
         django.server.run()
@@ -378,7 +379,7 @@ def run_tool(command, index=0):
         bad_input = ' '.join(command_line)
         output(f"No command matching input\n > ./o {bad_input}", error=True)
 
-    return awaitInput(False)
+    return print('')
 
 
 def run():

@@ -119,10 +119,10 @@ def run(name, build, new_thread):
         print('\n    Client `%s` does not exist\n' % name), exit()
     client_data = clients_json[name]
     thread = new_client(name, client_data, build)
-    if new_thread:
-        thread.start()              # Start thread
-        sleep(3)                    # Give NPM time to collect package.json
-        return chdir(BASE_DIR)       # Return to root directory
+    if new_thread:                  # IF: new thread requested
+        thread.start()              # start thread
+        sleep(3)                    # give NPM time to collect package.json
+        return chdir(BASE_DIR)      # return to root directory
     return thread.run()             # ELSE: Run on main thread
 
 
