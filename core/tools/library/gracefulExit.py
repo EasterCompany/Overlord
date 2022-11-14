@@ -1,5 +1,7 @@
 '''
   gracefulExit is used to handle the CLI exit signal.
+
+  Author(s): Owen Easter & StackOverflow
 '''
 import signal
 from .console import col
