@@ -1,5 +1,4 @@
 # Standard library
-from sys import path
 from json import loads
 from time import sleep
 from shutil import rmtree
