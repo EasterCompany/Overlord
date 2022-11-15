@@ -116,7 +116,7 @@ def install(target=None):
 # Run client
 def run(name, build, new_thread):
     if name not in clients_json:
-        print('\n    Client `%s` does not exist\n' % name), exit()
+        return print('\n    Client `%s` does not exist\n' % name)
     client_data = clients_json[name]
     thread = new_client(name, client_data, build)
     if new_thread:                  # IF: new thread requested
