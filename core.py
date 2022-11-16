@@ -11,20 +11,14 @@ from core.library import get_wsgi_application
 if __name__ == '__main__':
   environ.setdefault('DJANGO_SETTINGS_MODULE', 'web.settings')
   application = get_wsgi_application()
+  command = lambda x: len(argv) > 1 and argv[1] == x
 
-  if len(argv) >= 1 and (argv[1] == 'createsuperuser' or argv[1] == 'createadmin'):
-    # Create an Admin User on this Server
+  if command('createsuperuser') or command('createadmin'):
     create_super_user()
-
-  elif len(argv) >= 1 and argv[1] == 'createuser':
-    # Create a Regular User on this Server
+  elif command('createuser'):
     create_user()
-
-  elif len(argv) > 1 and argv[1] == 'tools':
-    # Overlord Command Line Interface Tools
+  elif command('tools'):
     tools.run()
-
   else:
-    # Default Django Command Line Interface Tools
     from core.library import execute_from_command_line
     execute_from_command_line(argv)
