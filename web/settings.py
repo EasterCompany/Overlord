@@ -14,13 +14,13 @@ from core.tools.commands.install import (
     make_server_config
 )
 
-# Load Custom Project Settings
+# Default Project Configuration
 BASE_DIR = os.getcwd()
 SECRET_DATA = {
     'SERVER_KEY': 'no secret key',
 }
 
-# Load Settings
+# Load JSON Configuration Files
 __init_config_directory__()
 __init_logs_directory__()
 
@@ -51,11 +51,12 @@ else:
     with open(BASE_DIR + '/.config/secret.json') as SECRET_FILE:
         SECRET_DATA = loads(SECRET_FILE.read())
 
-# Set Settings
+# Set Administration Configuration
 ROOT_EMAIL = SECRET_DATA['ROOT_EMAIL']
 SERVER_KEY = SECRET_DATA['SERVER_KEY']
 SECRET_KEY = SECRET_DATA['SERVER_KEY']
 
+# Set Server Configuration
 INDEX = SERVER_DATA['INDEX']
 DEBUG = SERVER_DATA['DEBUG']
 LANGUAGE_CODE = SERVER_DATA['LANGUAGE_CODE']

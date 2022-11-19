@@ -352,7 +352,15 @@ def run_tool(command, index=0):
         )
         output(console.col('Closed Redis Cloud Connection.', 'red'))
 
-    elif command == 'npm': [ node.npm.install(arguments[0], package) for package in arguments[1:] ]
+    elif command.startswith('npm') and arguments_remaining > 0:
+        if arguments[0] == 'uninstall' or arguments[0] == 'u':
+            [ node.npm.install(arguments[1], package, True) for package in arguments[2:] ]
+        elif arguments[0] == 'install' or arguments[0] == 'i':
+            [ node.npm.install(arguments[1], package, False) for package in arguments[2:] ]
+        elif command == 'npm-uninstall':
+            [ node.npm.install(arguments[0], package, True) for package in arguments[1:] ]
+        elif command == 'npm' or command == 'npm-install':
+            [ node.npm.install(arguments[0], package, False) for package in arguments[1:] ]
 
     elif command == 'status': system('git status')
 
