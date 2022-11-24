@@ -1,9 +1,11 @@
-# Standard imports
+# Standard library
 import json
 import secrets
 from sys import path
 from os import scandir, mkdir, system
 from os.path import exists, join as pathjoin
+# Overlord library
+from core.library.time import timestamp
 
 
 # --------------------------- CREATE & CONFIRM CONFIG EXISTS --------------------------- #
@@ -21,7 +23,7 @@ def __init_logs_directory__(project_path='.'):
       req_json.write('{\n}')
   if not exists(project_path + '/.logs/logger'):
     with open(project_path + '/.logs/logger', 'w+') as logger:
-      logger.write('')
+      logger.write(f'[{timestamp()}] Created log file')
 
 
 # -------------------------- CONFIRM CONFIG JSON FILE EXISTS --------------------------- #

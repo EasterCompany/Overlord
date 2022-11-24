@@ -14,3 +14,9 @@ def get_datetime_string(datetime=None, include_seconds=False):
     if include_seconds:
         return datetime_obj.strftime("%Y-%m-%dT%H:%M:%S.%fZ")
     return datetime_obj.strftime("%Y-%m-%dT%H:%M:00.0Z")
+
+
+def timestamp():
+    _date, _time = get_datetime_string(None, True).split('T')
+    _time = _time.split('.')[0]
+    return f"{_date} {_time}"

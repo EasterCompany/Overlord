@@ -4,6 +4,7 @@ import subprocess
 from os import system as _system
 # Overlord library
 from web.settings import BASE_DIR, LOGGER_DIR
+from core.library.time import timestamp
 
 
 class Console:
@@ -111,7 +112,7 @@ class Console:
     """
     if os.path.exists(LOGGER_DIR):
       content = ''
-      _input = f'{_input}\n\n'
+      _input = f'\n[{timestamp()}] {_input}'
 
       with open(LOGGER_DIR, 'r') as logger:
         content = logger.read()
