@@ -5,6 +5,7 @@
 # Standard library
 import os
 from json import loads
+
 # Overlord library
 from core.library import numbers
 from core.tools.commands.install import (
@@ -14,13 +15,14 @@ from core.tools.commands.install import (
     make_server_config
 )
 
-# Load Custom Project Settings
+# Default Project Configuration
 BASE_DIR = os.getcwd()
+LOGGER_DIR = f"{BASE_DIR}/.logs/logger"
 SECRET_DATA = {
     'SERVER_KEY': 'no secret key',
 }
 
-# Load Settings
+# Load JSON Configuration Files
 __init_config_directory__()
 __init_logs_directory__()
 
@@ -51,11 +53,12 @@ else:
     with open(BASE_DIR + '/.config/secret.json') as SECRET_FILE:
         SECRET_DATA = loads(SECRET_FILE.read())
 
-# Set Settings
+# Set Administration Configuration
 ROOT_EMAIL = SECRET_DATA['ROOT_EMAIL']
 SERVER_KEY = SECRET_DATA['SERVER_KEY']
 SECRET_KEY = SECRET_DATA['SERVER_KEY']
 
+# Set Server Configuration
 INDEX = SERVER_DATA['INDEX']
 DEBUG = SERVER_DATA['DEBUG']
 LANGUAGE_CODE = SERVER_DATA['LANGUAGE_CODE']
@@ -63,12 +66,7 @@ TIME_ZONE = SERVER_DATA['TIME_ZONE']
 USE_I18N = True
 USE_TZ = True
 
-ALLOWED_HOSTS = SERVER_DATA['ALLOWED_HOSTS'] if not DEBUG else [
-    '*',
-    '.localhost',
-    '.127.0.0.*',
-    '.192.168.*',
-]
+ALLOWED_HOSTS = SERVER_DATA['ALLOWED_HOSTS'] if not DEBUG else ['*']
 INSTALLED_APPS = SERVER_DATA['INSTALLED_APPS']
 MIDDLEWARE = SERVER_DATA['MIDDLEWARE']
 ROOT_URLCONF = SERVER_DATA['ROOT_URLCONF']

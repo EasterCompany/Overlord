@@ -3,6 +3,7 @@ from . import API
 from core.models import Users
 from core.library import unquote, json, api
 
+
 def _inviteUser(req, *args, **kwargs):
   invite = json.loads(req.body.decode('utf-8'))
   return Users.invite(invite["email"], invite["createdBy"], invite["data"])

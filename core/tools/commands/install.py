@@ -1,9 +1,9 @@
 # Standard imports
 import json
 import secrets
-from sys import path, executable
-from os.path import exists, join as pathjoin
+from sys import path
 from os import scandir, mkdir, system
+from os.path import exists, join as pathjoin
 
 
 # --------------------------- CREATE & CONFIRM CONFIG EXISTS --------------------------- #
@@ -19,6 +19,9 @@ def __init_logs_directory__(project_path='.'):
   if not exists(project_path + '/.logs/requests.json'):
     with open(project_path + '/.logs/requests.json', 'w+') as req_json:
       req_json.write('{\n}')
+  if not exists(project_path + '/.logs/logger'):
+    with open(project_path + '/.logs/logger', 'w+') as logger:
+      logger.write('')
 
 
 # -------------------------- CONFIRM CONFIG JSON FILE EXISTS --------------------------- #

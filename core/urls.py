@@ -1,9 +1,11 @@
 # Standard library
+import os
 import json
 # Overlord library
 from .library import api
 from core.library import path
-from web.settings import SECRET_DATA, SERVER_DATA, CLIENT_DATA, BASE_DIR
+from core.library.console import Console
+from web.settings import SECRET_DATA, SERVER_DATA, CLIENT_DATA, BASE_DIR, LOGGER_DIR
 
 
 def view_local_clients(req, *args, **kwargs):
@@ -56,9 +58,23 @@ def update_primary_client(req, *args, **kwargs):
         indent=2
       )
 
+    Console.log(f"User {api.get_user(req)} updated the primary client to {new_index}")
     return api.success()
 
   return api.error()
+
+
+def view_local_logs():
+  """
+  Read the local logging file and return it in a consumable HTML based format
+
+  :return api data: { logs: <str> }
+  """
+  if not os.path.exists(LOGGER_DIR):
+    return api.error()
+
+  with open(LOGGER_DIR, 'r') as log_file:
+    return api.data({ 'logs': log_file.read() })
 
 
 URLS = [
@@ -76,6 +92,13 @@ URLS = [
     lambda req, *args, **kwargs: \
       api.std(api.OK, "Verified") if req.GET.get("key") == SECRET_DATA['PUBLIC_KEY'] else api.error(),
     name="Check API Key Status"
+  ),
+
+  path(
+    "api/logs",
+    lambda req, *args, **kwargs: \
+      view_local_logs() if req.GET.get("key") == SECRET_DATA['PUBLIC_KEY'] else api.error(),
+    name="View API Logs"
   ),
 
   # --- CLIENTS ----

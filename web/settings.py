@@ -5,6 +5,7 @@
 # Standard library
 import os
 from json import loads
+
 # Overlord library
 from core.library import numbers
 from core.tools.commands.install import (
@@ -16,6 +17,7 @@ from core.tools.commands.install import (
 
 # Default Project Configuration
 BASE_DIR = os.getcwd()
+LOGGER_DIR = f"{BASE_DIR}/.logs/logger"
 SECRET_DATA = {
     'SERVER_KEY': 'no secret key',
 }

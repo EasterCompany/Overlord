@@ -4,6 +4,7 @@ from api.eastercompany.tables import AdminPanel
 from core.library import time, models, uuid, \
   api, encrypt, decrypt, get_datetime_string, \
   JsonResponse
+from core.library.console import Console
 
 
 class newUserObj:
@@ -105,6 +106,7 @@ class Users(UserModel):
     if UserInvite.objects.filter(email=email, data=data).count() == 0 and \
       Users.objects.filter(email=email).count() == 0:
       UserInvite.objects.create(email=email, created_by=invited_by, data=data)
+      Console.log(f"New invite created for {email} by {invited_by}")
       return api.success()
     return api.error()
 
@@ -122,6 +124,7 @@ class Users(UserModel):
       uuid=Users.objects.filter(email=email).first().uuid,
       display_name=email.split('@')[0] if '@' in email else email
     )
+    Console.log(f"New user created with email {email} and permission level of {permissions}")
     return api.success()
 
   @staticmethod

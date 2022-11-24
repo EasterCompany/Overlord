@@ -39,10 +39,6 @@ class Console:
     }
 
     def __init__(self, *args, **kwargs):
-        """
-        ========== INITIALIZE OVERLORD CONSOLE ==========
-            - Set default colour
-        """
         # Style Settings
         self.default_col = self.col["white"]
 
