@@ -26,3 +26,6 @@ __pycache__
 /static/.temp
 /static/*
 /api
+!/api/__init__.py
+!/api/apps.py
+!/api/migrations/__init__.py
