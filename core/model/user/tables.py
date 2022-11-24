@@ -182,6 +182,7 @@ class Users(UserModel):
     if str(user) == "Users matching query does not exist.":
       return api.error(user)
     elif password == decrypt(user.key):
+      Console.log(f"User {user.uuid} logged in")
       return api.data({'uuid': user.uuid, 'email': user.email, 'session': user.session})
     return api.error()
 
@@ -190,6 +191,7 @@ class Users(UserModel):
     Users.objects.filter(uuid=uuid).delete()
     UserDetails.objects.filter(uuid=uuid).delete()
     UserInvite.objects.filter(created_by=uuid).delete()
+    Console.log(f"User data for {uuid} was purged")
     return api.success()
 
   @staticmethod

@@ -110,16 +110,15 @@ class Console:
     :param input any: converts what ever is given into a string to be logged
     :return None:
     """
+    _input = _input.replace('\n', '\n                      ')
+    _input = f'\n[{timestamp()}] {_input}'
+
     if os.path.exists(LOGGER_DIR):
       content = ''
-      _input = f'\n[{timestamp()}] {_input}'
-
       with open(LOGGER_DIR, 'r') as logger:
         content = logger.read()
-
       with open(LOGGER_DIR, 'w+') as logger:
         logger.write(content + _input)
-
     else:
       con = Console()
       con.output(_input, "yellow")

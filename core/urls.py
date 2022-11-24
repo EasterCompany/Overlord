@@ -82,20 +82,20 @@ URLS = [
   # --- STATUS ---
 
   path(
-    "api/status",
+    "api/o-core/status",
     lambda req, *args, **kwargs: api.std(api.OK, "API Endpoint Root"),
     name="Check API Status"
   ),
 
   path(
-    "api/verify",
+    "api/o-core/verify",
     lambda req, *args, **kwargs: \
       api.std(api.OK, "Verified") if req.GET.get("key") == SECRET_DATA['PUBLIC_KEY'] else api.error(),
     name="Check API Key Status"
   ),
 
   path(
-    "api/logs",
+    "api/o-core/logs",
     lambda req, *args, **kwargs: \
       view_local_logs() if req.GET.get("key") == SECRET_DATA['PUBLIC_KEY'] else api.error(),
     name="View API Logs"
@@ -104,13 +104,13 @@ URLS = [
   # --- CLIENTS ----
 
   path(
-    "api/clients",
+    "api/o-core/clients",
     view_local_clients,
     name="View This Servers Clients"
   ),
 
   path(
-    "api/updatePrimaryClient",
+    "api/o-core/updatePrimaryClient",
     update_primary_client,
     name="Update This Servers Primary Client"
   ),
