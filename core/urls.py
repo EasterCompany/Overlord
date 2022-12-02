@@ -2,9 +2,9 @@
 import os
 import json
 # Overlord library
-from .library import api
-from core.library import path
+from core.library import path, api
 from core.library.console import Console
+from core.tools.commands.external import external_command
 from web.settings import SECRET_DATA, SERVER_DATA, CLIENT_DATA, BASE_DIR, LOGGER_DIR
 
 
@@ -87,6 +87,8 @@ URLS = [
     name="Check API Status"
   ),
 
+  # --- KEY VERIFICATION ---
+
   path(
     "api/o-core/verify",
     lambda req, *args, **kwargs: \
@@ -94,11 +96,19 @@ URLS = [
     name="Check API Key Status"
   ),
 
+  # --- WEB CONSOLE ---
+
   path(
     "api/o-core/logs",
     lambda req, *args, **kwargs: \
       view_local_logs() if req.GET.get("key") == SECRET_DATA['PUBLIC_KEY'] else api.error(),
     name="View API Logs"
+  ),
+
+  path(
+    "api/o-core/external-command",
+    external_command,
+    name="Use External Command"
   ),
 
   # --- CLIENTS ----

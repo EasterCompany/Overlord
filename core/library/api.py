@@ -97,7 +97,7 @@ def table(Table, Headers, Body, filter={ "order_by": str() }):
 
 def get_arg(_arg) -> str:
   """
-  Unquotes an argument from the URI and strips it
+  Unquotes an argument from the request and strips it
 
   :param _arg str: any string
   :return str: unquoted and stripped string
@@ -108,7 +108,7 @@ def get_arg(_arg) -> str:
 def get_user(req) -> list:
   """
   Acquires the user uuid and session token from the authorization header
-  passed by api, POST & xapi the JS functions
+  passed by api, POST & xapi client side functions
 
   :param req obj: default django request object
   :return list: [ user_uuid, user_token ]
