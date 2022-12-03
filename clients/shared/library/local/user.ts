@@ -165,3 +165,4 @@ export const login = async (email:any, password:any, BAD:any=null, OK:any=null) 
 
 
 export default USER;
+export const user = USER();
