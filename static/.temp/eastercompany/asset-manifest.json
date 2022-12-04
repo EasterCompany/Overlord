@@ -1,7 +1,7 @@
 {
   "files": {
-    "main.css": "/static/eastercompany/static/css/main.0184417d.css",
-    "main.js": "/static/eastercompany/static/js/main.ae5e4fe3.js",
+    "main.css": "/static/eastercompany/static/css/main.03692be0.css",
+    "main.js": "/static/eastercompany/static/js/main.457f7e40.js",
     "static/media/code.mp4": "/static/eastercompany/static/media/code.d7efb7b2d8b39927e329.mp4",
     "static/media/overlord_light.png": "/static/eastercompany/static/media/overlord_light.328f8b6acaa8de170519.png",
     "static/media/banner2.png": "/static/eastercompany/static/media/banner2.c6882f664bd77d348cd9.png",
@@ -25,11 +25,11 @@
     "static/media/link.svg": "/static/eastercompany/static/media/link.ed284958b9a96778abf2888f042e7edf.svg",
     "static/media/email.svg": "/static/eastercompany/static/media/email.8bf10b709170505d6462fc2c51a06af1.svg",
     "static/media/logout.svg": "/static/eastercompany/static/media/logout.67bd7f22d81fd6433cd64bb34f71f9d2.svg",
-    "main.0184417d.css.map": "/static/eastercompany/static/css/main.0184417d.css.map",
-    "main.ae5e4fe3.js.map": "/static/eastercompany/static/js/main.ae5e4fe3.js.map"
+    "main.03692be0.css.map": "/static/eastercompany/static/css/main.03692be0.css.map",
+    "main.457f7e40.js.map": "/static/eastercompany/static/js/main.457f7e40.js.map"
   },
   "entrypoints": [
-    "static/css/main.0184417d.css",
-    "static/js/main.ae5e4fe3.js"
+    "static/css/main.03692be0.css",
+    "static/js/main.457f7e40.js"
   ]
 }
