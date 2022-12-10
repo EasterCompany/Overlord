@@ -9,16 +9,9 @@ def make_django_urls(client):
     :param client obj: a client class object from an __init__ file found within a client directory
     :return obj: path object from the django.urls library containing the url pattern for that client
     """
-    from web import settings
-
     client = client.Client()
-    endpoint = client.NAME if not client.NAME == settings.INDEX else str()
-
-    return path(
-        endpoint,
-        include([client.URL]),
-        name=client.NAME,
-    )
+    endpoint = client.ENDPOINT
+    return path(endpoint, include([client.URL]), name=client.NAME)
 
 
 def make_client_load_order(client_data, index):
@@ -53,5 +46,4 @@ def write_django_urls(load_order, urls_file_path):
         file_content = urls_file.read()
 
     with open(urls_file_path, 'w+') as urls_file:
-        urls_file.write(file_content.replace(
-            '__installed_clients_tag__', load_order))
+        urls_file.write(file_content.replace('__installed_clients_tag__', load_order))

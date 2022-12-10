@@ -62,7 +62,7 @@ export const Route = (props: any) => <NewRoute path={dp(props.path)} element={<p
   LINK OBJECT (Route Navigation Button)
   links to an existing route
 */
-export const Link = ({ to, name, children } : any) => {
+export const Link = ({ to, name, title, children } : any) => {
   return <NewLink to={dp(to)} onClick={() => scrollContentToTop('#site-container')}>
     {name !== undefined ? name : ""}
     {children !== undefined ? children : <></>}
