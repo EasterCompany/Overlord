@@ -26,8 +26,6 @@ export const create_user_from_gui = async (
     <createCookie> creates a cookie with 'name and value'
     <deleteCookie> deletes a cookie 'by name'
 */
-export let USR_ACTIVE = false;
-
 
 // Get Cookie
 export const cookie = (name: string) => {
@@ -50,13 +48,11 @@ export const cookie = (name: string) => {
   return cookieValue;
 };
 
-
 // New Cookie
 export const createCookie = (name: string, value: any) => {
   document.cookie = `${name}=${value};path=/;Secure;SameSite=None;`;
   return cookie(name);
 };
-
 
 // Delete Cookie
 export const deleteCookie = (name: string) => {
@@ -140,7 +136,6 @@ export const userActive = () => {
 // Log Out of Current Session
 export const logout = () => {
   deleteAllLocalCookieData();
-  USR_ACTIVE = false;
   window.location.href = '';
   window.location.reload();
 }
