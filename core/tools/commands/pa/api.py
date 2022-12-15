@@ -1,7 +1,7 @@
 # Standard library
 import requests
 from os import getcwd
-from json import loads
+from json import loads, dump
 from os.path import exists
 
 # GET CONFIGURATION SECRETS
@@ -64,8 +64,8 @@ def server(command:str):
     ''')
 
     response = requests.post(
-        f'https://{domain}/api/o-core/external-command?key={key}',
-        json={'command': command}
+        f'https://{domain}/api/o-core/external-command',
+        json=dump({"command": command, "pub_key": key})
     )
 
     if command == 'status':

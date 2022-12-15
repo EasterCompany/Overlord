@@ -42,6 +42,7 @@ if not os.path.exists(BASE_DIR + '/.config/secret.json'):
     SECRET_DATA = {
         "ROOT_EMAIL": "",
         "SERVER_KEY": "",
+        "PUBLIC_KEY": "",
         "PA_USER_ID": "",
         "PA_API_KEY": "",
         "DOMAIN_URL": "",
@@ -57,6 +58,7 @@ else:
 ROOT_EMAIL = SECRET_DATA['ROOT_EMAIL']
 SERVER_KEY = SECRET_DATA['SERVER_KEY']
 SECRET_KEY = SECRET_DATA['SERVER_KEY']
+PUBLIC_KEY = SECRET_DATA['PUBLIC_KEY']
 
 # Set Server Configuration
 INDEX = SERVER_DATA['INDEX']

@@ -1,4 +1,5 @@
 # Overlord library
+from web.settings import PUBLIC_KEY
 from core.library import api, JsonResponse
 from core.tools.commands import git
 
@@ -23,14 +24,21 @@ def external_command(req, *args, **kwargs):
   """
   try:
     user = api.get_user(req)
-    command = api.get_json(req)['command']
+    json = api.get_json(req)
+    command = json['command'] if 'command' in json else None
+    pub_key = json['pub_key'] if 'pub_key' in json else None
+
+    # Authenticate User via Public Key Method
+    if pub_key == PUBLIC_KEY and PUBLIC_KEY is not None and PUBLIC_KEY != '': pass
+    # TODO: Authenticate User via User Session Method
+    # elif ...
+    else:
+      return api.error("Failed to Authentication User")
 
     if command == 'deploy':
       git.pull.all()
       return output('Server deployment executed successfully')
 
-    return output(
-      f'''USER: {user[0]}\n\nSESSION: {user[1]}\n\nCOMMAND: {command}'''
-    )
+    return api.error()
   except Exception as exception:
-    return output(str(exception))
+    return api.error(str(exception))

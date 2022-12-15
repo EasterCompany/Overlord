@@ -113,8 +113,11 @@ def get_user(req) -> list:
   :param req obj: default django request object
   :return list: [ user_uuid, user_token ]
   """
-  auth_token = req.headers.get('Authorization').split("[:~OLT~:]")
-  return auth_token[0].split('Basic ')[1].strip(), auth_token[1]
+  try:
+    auth_token = req.headers.get('Authorization').split("[:~OLT~:]")
+    return auth_token[0].split('Basic ')[1].strip(), auth_token[1]
+  except:
+    return '', ''
 
 
 def get_body(req) -> str:
