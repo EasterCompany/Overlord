@@ -268,17 +268,23 @@ def run_tool(command, index=0):
         if arguments_remaining == 1:
 
             if arguments[0] == 'apps':
-                return pa.apps.display()
+                pa.apps.display()
+                return print('\n')
             elif arguments[0] == 'consoles':
-                return pa.consoles.display()
+                pa.consoles.display()
+                return print('\n')
             elif arguments[0] == 'cpu':
-                return pa.cpu.display()
+                pa.cpu.display()
+                return print('\n')
             elif arguments[0] == 'tasks':
-                return pa.tasks.display()
+                pa.tasks.display()
+                return print('\n')
             elif arguments[0] == 'reload':
-                return pa.reload.request()
+                pa.reload.request()
+                return print('\n')
             elif arguments[0] == 'status':
-                return pa.status.request()
+                pa.status.request()
+                return print('\n')
             elif arguments[0] == 'upgrade':
                 pa.deploy.request()
                 pa.reload.request()
