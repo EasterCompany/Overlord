@@ -62,10 +62,15 @@ def server(command:str):
     `SERVER TOOLS` requires a DOMAIN_URL &
     PUBLIC_KEY in your .config/secret.json file
     ''')
-    response = requests.post(
-        f'https://{domain}/api/o-core/external-command',
-        json=json.dumps({"command": command, "pub_key": key})
-    )
+    url = f'https://{domain}/api/o-core/external-command'
+    headers = {
+        "Content-Type": "application/json; charset=utf-8"
+    }
+    data = {
+        "command": command,
+        "pub_key": key
+    }
+    response = requests.post(url, headers=headers, json=data)
     if not response.status_code == 200:
         return print(f'Got unexpected response code [ERROR {response.status_code}]:\n{response.content}\n')
     return json.loads(response.content)

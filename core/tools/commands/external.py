@@ -28,6 +28,8 @@ def external_command(req, *args, **kwargs):
     command = json['command'] if 'command' in json else None
     pub_key = json['pub_key'] if 'pub_key' in json else None
 
+    print(json, command, pub_key)
+
     # Authenticate User via Public Key Method
     if pub_key == PUBLIC_KEY and PUBLIC_KEY is not None and PUBLIC_KEY != '': pass
     # TODO: Authenticate User via User Session Method
@@ -35,9 +37,14 @@ def external_command(req, *args, **kwargs):
     else:
       return api.error("Failed to Authentication User")
 
+    print("request passed authentication")
+
+    if command == 'status':
+      return api.success()
+
     if command == 'upgrade':
       git.pull.all()
-      return output('Server upgrade executed successfully')
+      return api.success()
 
     return api.error()
   except Exception as exception:
