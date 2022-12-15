@@ -282,13 +282,15 @@ def run_tool(command, index=0):
             elif arguments[0] == 'upgrade':
                 pa.deploy.request()
                 pa.reload.request()
-                return pa.status.request()
+                pa.status.request()
+                return print('\n')
             elif arguments[0] == 'deploy':
                 node.clients.build_all()
                 git.push.all()
                 pa.deploy.request()
                 pa.reload.request()
-                return pa.status.request()
+                pa.status.request()
+                return print('\n')
 
         else:
             return pa.api.error_message()
