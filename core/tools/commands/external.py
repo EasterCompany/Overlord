@@ -23,12 +23,10 @@ def external_command(req, *args, **kwargs):
   :return output: reference the output function
   """
   try:
-    user = api.get_user(req)
+    # user = api.get_user(req)
     json = api.get_json(req)
     command = json['command'] if 'command' in json else None
     pub_key = json['pub_key'] if 'pub_key' in json else None
-
-    print(json, command, pub_key)
 
     # Authenticate User via Public Key Method
     if pub_key == PUBLIC_KEY and PUBLIC_KEY is not None and PUBLIC_KEY != '': pass
@@ -37,13 +35,12 @@ def external_command(req, *args, **kwargs):
     else:
       return api.error("Failed to Authentication User")
 
-    print("request passed authentication")
-
     if command == 'status':
       return api.success()
 
     if command == 'upgrade':
       git.pull.all()
+      # node.clients.build_all()
       django.server.collect_staticfs()
       return api.success()
 
