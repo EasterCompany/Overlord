@@ -1,5 +1,6 @@
 # Overlord library
 from core.library import api, JsonResponse
+from core.tools.commands import git
 
 
 def output(message:str) -> JsonResponse:
@@ -21,10 +22,17 @@ def external_command(req, *args, **kwargs):
   :return output: reference the output function
   """
   try:
+
     user = api.get_user(req)
     command = api.get_json(req)['command']
+
+    if command == 'deploy':
+      git.pull.all()
+      return output('Server deployment executed successfully')
+
     return output(
       f'''USER: {user[0]}\n\nSESSION: {user[1]}\n\nCOMMAND: {command}'''
     )
+
   except Exception as exception:
     return output(str(exception))

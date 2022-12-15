@@ -122,3 +122,6 @@ class Console:
     else:
       con = Console()
       con.output(_input, "yellow")
+
+
+console = Console()

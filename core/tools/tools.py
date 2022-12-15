@@ -279,8 +279,8 @@ def run_tool(command, index=0):
                 return pa.reload.request()
             elif arguments[0] == 'status':
                 return pa.status.request()
-            elif arguments[0] == 'upgrade':
-                pa.upgrade.request()
+            elif arguments[0] == 'deploy':
+                pa.deploy.request()
                 pa.reload.request()
                 return pa.status.request()
 

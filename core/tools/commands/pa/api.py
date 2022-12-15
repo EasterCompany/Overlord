@@ -20,84 +20,71 @@ else:
 username = secret_data['PA_USER_ID']
 token = secret_data['PA_API_KEY']
 domain = secret_data['DOMAIN_URL']
-secret = secret_data['SERVER_KEY']
+key = secret_data['PUBLIC_KEY']
 
 
 def fetch_api(api, args=None, method='GET'):
     if token == '':
-        print('''
-    `SERVER TOOLS` requires an API token &
-    username in your .config/secret.json file
+        return print(
     '''
-        )
-        exit()
+    `SERVER TOOLS` requires a PA_API_KEY &
+    PA_USER_ID in your .config/secret.json file
+    ''')
+
     if args is not None:
         args = '/'.join(args) + '/'
     else:
         args = ''
+
     if method == 'GET': func = requests.get
     elif method == 'POST': func = requests.post
+
     response = func(
-        'https://eu.pythonanywhere.com/api/v0/user/{username}/{api}/{args}'.format(
-            username=username,
-            api=api,
-            args=args
-        ),
+        f'https://eu.pythonanywhere.com/api/v0/user/{username}/{api}/{args}',
         headers={
-            'Authorization': 'Token {token}'.format(token=token)
+            'Authorization': f'Token {token}'
         }
     )
+
     if not response.status_code == 200:
         return print('Got unexpected status code {}: {!r}'.format(
                 response.status_code,
                 response.content
             )
-        ), exit()
+        )
     return loads(response.content)
 
 
-def fetch_domain(api, args=None, method='GET'):
-    if domain == '' or secret == '':
-        print('''
-    `SERVER TOOLS` requires a target domain &
-    secret key in your .config/secret.json file
+def server(command:str):
+    if domain == '' or key == '':
+        return print(
     '''
-        )
-        exit()
-    if args is not None:
-        args = '/' + '/'.join(args) + '/'
-    else:
-        args = ''
-    if method == 'GET': func = requests.get
-    elif method == 'POST': func = requests.post
-    response = func(
-        '{domain}/api/olt/{api}{args}'.format(
-            domain=domain,
-            api=api,
-            args=args
-        ),
-        headers={
-            'secret': '{key}'.format(key=secret)
-        }
+    `SERVER TOOLS` requires a DOMAIN_URL &
+    PUBLIC_KEY in your .config/secret.json file
+    ''')
+
+    response = requests.post(
+        f'https://{domain}/api/o-core/external-command?key={key}',
+        json={'command': command}
     )
-    if not response.status_code == 200 and not api == 'status':
-        return print('Got unexpected status code {}: {!r}'.format(
-                response.status_code,
-                response.content
-            )
-        ), exit()
-    elif api == 'status' and not response.status_code == 200:
+
+    if command == 'status':
         return {'status': response.status_code}
+
+    if not response.status_code == 200:
+        return print(f'Got unexpected response code [ERROR {response.status_code}]:\n{response.content}\n')
+
     return loads(response.content)
 
 
 def error_message():
     return print('''
-        `PA API` tools require a single argument beggining with `-`
+        `PA API` tools require a single argument beginning with `-`
 
         ./o server -apps
         ./o server -cpu
         ./o server -consoles
+        ./o server -status
         ./o server -tasks
         ./o server -upgrade
     ''')
