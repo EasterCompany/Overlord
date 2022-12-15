@@ -24,7 +24,7 @@ __pycache__
 !/clients/shared
 /core/migrations
 /static/.temp
-/static/*
+# /static/*
 /api
 !/api/__init__.py
 !/api/apps.py

@@ -1,7 +1,7 @@
 # Overlord library
 from web.settings import PUBLIC_KEY
 from core.library import api, JsonResponse
-from core.tools.commands import git
+from core.tools.commands import git, django
 
 
 def output(message:str) -> JsonResponse:
@@ -44,6 +44,7 @@ def external_command(req, *args, **kwargs):
 
     if command == 'upgrade':
       git.pull.all()
+      django.server.collect_staticfs()
       return api.success()
 
     return api.error()

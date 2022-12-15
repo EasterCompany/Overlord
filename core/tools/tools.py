@@ -244,11 +244,12 @@ def run_tool(command, index=0):
         if arguments_remaining < 1:
             return node.clients.error_message()
         if arguments_remaining == 1 and arguments[0] == 'all':
-            return node.clients.build_all()
+            node.clients.build_all()
         else:
             for arg in arguments:
                 node.clients.build(arg)
-        return django.server.collect_staticfs()
+        django.server.collect_staticfs()
+        return print()
 
     elif command == 'migrate':
         django.server.migrate_database()
@@ -292,6 +293,7 @@ def run_tool(command, index=0):
                 return print()
             elif arguments[0] == 'deploy':
                 node.clients.build_all()
+                django.server.collect_staticfs()
                 git.push.all()
                 pa.upgrade.request()
                 pa.reload.request()
