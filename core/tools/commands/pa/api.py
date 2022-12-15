@@ -1,13 +1,13 @@
 # Standard library
+import json
 import requests
 from os import getcwd
-from json import loads, dump
 from os.path import exists
 
 # GET CONFIGURATION SECRETS
 if exists(getcwd() + '/.config/secret.json'):
     with open(getcwd() + '/.config/secret.json') as secret_file:
-        secret_data = loads(secret_file.read())
+        secret_data = json.loads(secret_file.read())
 else:
     secret_data = {
         'SERVER_KEY': '',
@@ -52,7 +52,7 @@ def fetch_api(api, args=None, method='GET'):
                 response.content
             )
         )
-    return loads(response.content)
+    return json.loads(response.content)
 
 
 def server(command:str):
@@ -62,19 +62,13 @@ def server(command:str):
     `SERVER TOOLS` requires a DOMAIN_URL &
     PUBLIC_KEY in your .config/secret.json file
     ''')
-
     response = requests.post(
         f'https://{domain}/api/o-core/external-command',
-        json=dump({"command": command, "pub_key": key})
+        json=json.dumps({"command": command, "pub_key": key})
     )
-
-    if command == 'status':
-        return {'status': response.status_code}
-
     if not response.status_code == 200:
         return print(f'Got unexpected response code [ERROR {response.status_code}]:\n{response.content}\n')
-
-    return loads(response.content)
+    return json.loads(response.content)
 
 
 def error_message():

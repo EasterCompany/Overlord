@@ -38,7 +38,7 @@ class Console:
     the selected default colour option [self.default_col]
 
     :param text any: stringified variable for colour context
-    :param colour str: name of colour 'key' from colour pallet [self.col]
+    :param colour str: name of colour 'key' from colour pallet [self.output]
     :return: string wrapped in colour tags ie; "\33[31m Example \33[0m"
     """
 
@@ -66,22 +66,22 @@ class Console:
     # HTTP Status Code Colours
     if isinstance(status, int):
       if 100 <= status <= 199:
-        return self.col(status, 'white')
+        return self.output(status, 'white')
       elif 200 <= status <= 299:
-        return self.col(status, 'green')
+        return self.output(status, 'green')
       elif 300 <= status <= 399:
-        return self.col(status, 'yellow')
+        return self.output(status, 'yellow')
       else:
-        return self.col(status, 'red')
+        return self.output(status, 'red')
 
     # API Response Colours
     elif isinstance(status, str):
       if status == 'BAD':
-        return self.col(status, 'red')
+        return self.output(status, 'red')
       elif status == 'OK':
-        return self.col(status, 'green')
+        return self.output(status, 'green')
       else:
-        return self.col(status, 'yellow')
+        return self.output(status, 'yellow')
 
   def input(self, command):
     """

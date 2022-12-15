@@ -269,34 +269,34 @@ def run_tool(command, index=0):
 
             if arguments[0] == 'apps':
                 pa.apps.display()
-                return print('\n')
+                return print()
             elif arguments[0] == 'consoles':
                 pa.consoles.display()
-                return print('\n')
+                return print()
             elif arguments[0] == 'cpu':
                 pa.cpu.display()
-                return print('\n')
+                return print()
             elif arguments[0] == 'tasks':
                 pa.tasks.display()
-                return print('\n')
+                return print()
             elif arguments[0] == 'reload':
                 pa.reload.request()
-                return print('\n')
+                return print()
             elif arguments[0] == 'status':
                 pa.status.request()
-                return print('\n')
+                return print()
             elif arguments[0] == 'upgrade':
-                pa.deploy.request()
+                pa.upgrade.request()
                 pa.reload.request()
                 pa.status.request()
-                return print('\n')
+                return print()
             elif arguments[0] == 'deploy':
                 node.clients.build_all()
                 git.push.all()
-                pa.deploy.request()
+                pa.upgrade.request()
                 pa.reload.request()
                 pa.status.request()
-                return print('\n')
+                return print()
 
         else:
             return pa.api.error_message()

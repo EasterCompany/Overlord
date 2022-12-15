@@ -35,9 +35,9 @@ def external_command(req, *args, **kwargs):
     else:
       return api.error("Failed to Authentication User")
 
-    if command == 'deploy':
+    if command == 'upgrade':
       git.pull.all()
-      return output('Server deployment executed successfully')
+      return output('Server upgrade executed successfully')
 
     return api.error()
   except Exception as exception:
