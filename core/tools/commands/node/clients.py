@@ -66,7 +66,7 @@ def client(app_data, build=False):
         system('npm install')
         system('npm run build')
         update_client_meta_data(app_data)
-    elif 'start' in app_data:
+    elif not build and 'start' in app_data:
         system('npm run start')
     chdir(BASE_DIR)
 
@@ -122,12 +122,12 @@ def run(name, build, new_thread):
     if name not in clients_json:
         return print(f'\n    Client `{name}` does not exist\n')
     client_data = clients_json[name]
-    thread = new_client(name, client_data, build)
     if new_thread:                  # IF: new thread requested
-        thread.start()              # start thread
-        sleep(3)                    # give NPM time to collect package.json
-        return chdir(BASE_DIR)      # return to root directory
-    return thread.run()             # ELSE: Run on main thread
+        thread = new_client(name, client_data, build)
+        thread.start()
+        sleep(3)
+        return chdir(BASE_DIR)
+    return client(client_data, build)
 
 
 # Run all clients on a separate thread except the last one

@@ -16,12 +16,7 @@ def upgrade():
 
 
 def reload_server():
-  t = threading.Thread(
-    None,
-    lambda: time.sleep(3) and pa.reload.request(),
-    "reload-thread-0"
-  )
-  t.start()
+  pa.reload.request()
   return output("<i style='color:yellow;'>Service may be interrupted while reloading, please wait...</i>")
 
 
