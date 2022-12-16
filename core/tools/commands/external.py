@@ -1,6 +1,4 @@
 # Overlord library
-import time
-import threading
 from web.settings import PUBLIC_KEY
 from core.library import api, JsonResponse
 from core.tools.commands import git, django, node, pa
@@ -80,5 +78,7 @@ commands = {
   "status": OK,
   "upgrade": upgrade,
   "reload": reload_server,
-  "deploy": deploy
+  "deploy": deploy,
+  "build": node.clients.build_all,
+  "migrate": django.server.migrate_database
 }
