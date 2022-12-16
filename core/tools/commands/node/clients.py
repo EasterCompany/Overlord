@@ -66,6 +66,7 @@ def client(app_data, build=False):
     if build and 'build' in app_data:
         console.log(f"    Installing packages")
         #system('npm install')
+        print("  installing packages")
         install_process = subprocess.run(
             ["npm", "install"],
             bufsize=1,
@@ -77,6 +78,7 @@ def client(app_data, build=False):
         console.log(install_process.stdout)
         console.log(f"    Optimizing for production")
         #system('npm run build')
+        print("  optimizing for production")
         build_process = subprocess.run(
             ["npm", "build"],
             bufsize=1,
@@ -87,6 +89,7 @@ def client(app_data, build=False):
         )
         console.log(build_process.stdout)
         console.log(f"    Updating meta data")
+        print("  updating meta data")
         update_client_meta_data(app_data)
     elif not build and 'start' in app_data:
         system('npm run start')
@@ -166,7 +169,8 @@ def run_all(none_on_main_thread=False):
 
 # Build specific client on the main thread
 def build(name):
-    return run(name, build=True, new_thread=False)
+    run(name, build=True, new_thread=False)
+    return print(console.output(f"\nSuccessfully built {name}", "green"))
 
 
 # Build all clients on the main thread
@@ -174,8 +178,10 @@ def build_all():
     console.log("Building all clients ...")
     for client in clients_json:
         console.log(f"  {client}")
+        print(f"\nBuilding {client} ...")
         run(client, build=True, new_thread=False)
     console.log("Successfully built all clients")
+    return print(console.output("\nSuccessfully built all clients", "green"))
 
 
 # Create new client
