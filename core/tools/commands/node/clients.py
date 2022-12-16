@@ -73,7 +73,8 @@ def client(app_data, build=False):
             stdout=subprocess.PIPE,
             stderr=subprocess.STDOUT,
             text=True,
-            universal_newlines=True
+            universal_newlines=True,
+            shell=True
         )
         console.log(install_process.stdout)
         console.log(f"    Optimizing for production")
