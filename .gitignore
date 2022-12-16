@@ -1,4 +1,4 @@
-# Python (Temp)
+# Python (Files)
 .pytest_cache
 __pycache__
 
@@ -6,16 +6,9 @@ __pycache__
 *.sqlite3
 *.sqlite3-journal
 
-# Developer Envrionment
-/.vscode
-/.idea
-
 # Overlord (Files)
 /o
 /*.key
-/web
-!/web/wsgi.py
-!/web/__init__.py
 
 # Overlord (Directories)
 /.logs
@@ -23,9 +16,15 @@ __pycache__
 /clients
 !/clients/shared
 /core/migrations
-/static/.temp
-# /static/*
+/static/
 /api
 !/api/__init__.py
 !/api/apps.py
 !/api/migrations/__init__.py
+/web
+!/web/wsgi.py
+!/web/__init__.py
+
+# Developer Envrionment (Directories)
+/.vscode
+/.idea
