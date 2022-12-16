@@ -1,4 +1,5 @@
 # Standard library
+import subprocess
 from json import loads
 from time import sleep
 from shutil import rmtree
@@ -63,11 +64,29 @@ def update_client_meta_data(app_data):
 def client(app_data, build=False):
     chdir(app_data['src'])
     if build and 'build' in app_data:
-        console.log(f"    Installing packages @ {getcwd()} ...")
-        system('npm install')
-        console.log(f"    Optimizing for production @ {getcwd()} ...")
-        system('npm run build')
-        console.log(f"    Updating meta data @ {getcwd()} ...")
+        console.log(f"    Installing packages")
+        #system('npm install')
+        install_process = subprocess.run(
+            ["npm", "install"],
+            bufsize=1,
+            stdout=subprocess.PIPE,
+            stderr=subprocess.STDOUT,
+            text=True,
+            universal_newlines=True
+        )
+        console.log(install_process.stdout)
+        console.log(f"    Optimizing for production")
+        #system('npm run build')
+        build_process = subprocess.run(
+            ["npm", "build"],
+            bufsize=1,
+            stdout=subprocess.PIPE,
+            stderr=subprocess.STDOUT,
+            text=True,
+            universal_newlines=True
+        )
+        console.log(build_process.stdout)
+        console.log(f"    Updating meta data")
         update_client_meta_data(app_data)
     elif not build and 'start' in app_data:
         system('npm run start')
@@ -152,11 +171,11 @@ def build(name):
 
 # Build all clients on the main thread
 def build_all():
-    console.log("Building all clients")
+    console.log("Building all clients ...")
     for client in clients_json:
-        console.log(f"  Building {client} ...")
+        console.log(f"  {client}")
         run(client, build=True, new_thread=False)
-    console.log("Built all clients successfully!")
+    console.log("Successfully built all clients")
 
 
 # Create new client
