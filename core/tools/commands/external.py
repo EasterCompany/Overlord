@@ -31,7 +31,7 @@ def deploy():
 
 def build():
   node.clients.build_all()
-  return output("Built all clients successfully!")
+  return output("<i style='color:green;'>Successfully built all clients!</i>")
 
 
 def output(message:str) -> JsonResponse:
@@ -84,6 +84,6 @@ commands = {
   "upgrade": upgrade,
   "reload": reload_server,
   "deploy": deploy,
-  "build": node.clients.build_all,
+  "build": build,
   "migrate": django.server.migrate_database
 }
