@@ -1,10 +1,9 @@
 # Overlord library
-from core.tools.library import console
 from .api import domain, fetch_api
+from core.library.console import console
 
 
 def request():
     print(f'\nReloading {domain} ...\n')
     data = fetch_api('webapps', args=(domain, 'reload'), method='POST')
-    print('STATUS:', console.colour_status_code(data['status']))
-    if data['status'] != 'OK': exit()
+    print('STATUS:', console.status(data['status']))

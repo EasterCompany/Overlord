@@ -1,7 +1,41 @@
 # Overlord library
+import time
+import threading
 from web.settings import PUBLIC_KEY
 from core.library import api, JsonResponse
-from core.tools.commands import git, django
+from core.tools.commands import git, django, node, pa
+
+
+def OK():
+  return output("<b>STATUS:</b> <i style='color:green;'>OK</i>")
+
+
+def upgrade():
+  git.pull.all()
+  node.npm.install_all()
+  node.clients.build_all()
+  django.server.collect_staticfs()
+  django.server.migrate_database()
+  return OK()
+
+
+def reload_server():
+  t = threading.Thread(
+    None,
+    lambda: time.sleep(3) and pa.reload.request(),
+    "reload-thread-0"
+  )
+  t.start()
+  return output("<i style='color:yellow;'>Service may be interrupted while reloading, please wait...</i>")
+
+
+def deploy():
+  upgrade()
+  reload_server()
+  return output(
+    "Successfully upgraded server\n"
+    "<i style='color:yellow;'>Service may be interrupted while reloading, please wait...</i>"
+  )
 
 
 def output(message:str) -> JsonResponse:
@@ -23,7 +57,6 @@ def external_command(req, *args, **kwargs):
   :return output: reference the output function
   """
   try:
-    # user = api.get_user(req)
     json = api.get_json(req)
     command = json['command'] if 'command' in json else None
     pub_key = json['pub_key'] if 'pub_key' in json else None
@@ -35,15 +68,24 @@ def external_command(req, *args, **kwargs):
     else:
       return api.error("Failed to Authentication User")
 
-    if command == 'status':
-      return api.success()
+    # Check for commands matching input
+    if command in commands:
+      try:
+        return commands[command]()
+      except Exception as exec_error:
+        return output(str(exec_error))
 
-    if command == 'upgrade':
-      git.pull.all()
-      # node.clients.build_all()
-      django.server.collect_staticfs()
-      return api.success()
+    # No command executed?
+    return output(f"[ERROR] No command matching '{command}'")
 
-    return api.error()
   except Exception as exception:
     return api.error(str(exception))
+
+
+# External Command Input List
+commands = {
+  "status": OK,
+  "upgrade": upgrade,
+  "reload": reload_server,
+  "deploy": deploy
+}

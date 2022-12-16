@@ -11,3 +11,8 @@ def install(target_client:str, package_name:str, uninstall:bool=False):
     return chdir(client_src), system(f"npm uninstall {package}"), chdir(BASE_DIR)
   else:
     return chdir(client_src), system(f"npm install {package}"), chdir(BASE_DIR)
+
+
+def install_all():
+  for client in CLIENT_DATA:
+    install(client, '', False)
