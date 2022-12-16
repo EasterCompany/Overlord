@@ -292,8 +292,6 @@ def run_tool(command, index=0):
                 pa.status.request()
                 return print()
             elif arguments[0] == 'deploy':
-                node.clients.build_all()
-                django.server.collect_staticfs()
                 git.push.all()
                 pa.upgrade.request()
                 pa.reload.request()
