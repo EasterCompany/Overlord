@@ -63,6 +63,7 @@ def update_client_meta_data(app_data):
 def client(app_data, build=False):
     chdir(app_data['src'])
     if build and 'build' in app_data:
+        console.log(f"Building {client} ...")
         system('npm install')
         system('npm run build')
         update_client_meta_data(app_data)
@@ -122,7 +123,7 @@ def run(name, build, new_thread):
     if name not in clients_json:
         return print(f'\n    Client `{name}` does not exist\n')
     client_data = clients_json[name]
-    if new_thread:                  # IF: new thread requested
+    if new_thread:
         thread = new_client(name, client_data, build)
         thread.start()
         sleep(3)
@@ -151,7 +152,6 @@ def build(name):
 def build_all():
     console.log("Building all clients")
     for client in clients_json:
-        console.log(f"Building {client} ...")
         run(client, build=True, new_thread=False)
     console.log("Built all clients successfully!")
 
