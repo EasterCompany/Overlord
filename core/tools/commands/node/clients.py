@@ -31,6 +31,10 @@ def update_client_meta_data(app_data):
     else:
         index_path = f"{BASE_DIR}{app_data['static']}/index.html"
 
+    # ERROR handling when index.html is not generated
+    if not exists(index_path):
+        index_path = index_path.replace('/index.html', '/index')
+
     # Read Content
     with open(index_path, 'r') as index_file:
         index_file_content = index_file.read()
