@@ -59,6 +59,7 @@ def update_client_meta_data(app_data):
 def client(app_data, build=False):
     chdir(app_data['src'])
     if build and 'build' in app_data:
+        system('npm install')
         system('npm run build')
         update_client_meta_data(app_data)
     elif 'start' in app_data:
@@ -115,7 +116,7 @@ def install(target=None):
 # Run client
 def run(name, build, new_thread):
     if name not in clients_json:
-        return print('\n    Client `%s` does not exist\n' % name)
+        return print(f'\n    Client `{name}` does not exist\n')
     client_data = clients_json[name]
     thread = new_client(name, client_data, build)
     if new_thread:                  # IF: new thread requested

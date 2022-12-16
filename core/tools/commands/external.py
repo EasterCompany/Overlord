@@ -12,8 +12,6 @@ def OK():
 
 def upgrade():
   git.pull.all()
-  node.share.__update_shared_files__()
-  node.npm.install_all()
   node.clients.build_all()
   django.server.collect_staticfs()
   django.server.migrate_database()
