@@ -151,8 +151,9 @@ def build(name):
 def build_all():
     console.log("Building all clients")
     for client in clients_json:
+        console.log(f"Building {client} ...")
         run(client, build=True, new_thread=False)
-    console.log("Successfully built all clients")
+    console.log("Built all clients successfully!")
 
 
 # Create new client
