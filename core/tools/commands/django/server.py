@@ -3,6 +3,7 @@ from os import system
 from threading import Thread
 # Overlord library
 from web.settings import BASE_DIR
+from core.library.console import console
 from django.core.management import call_command
 
 
@@ -10,8 +11,10 @@ from django.core.management import call_command
 def _server(start=True, migrate=False, collectstatic=False):
 
     if migrate:
+        console.log("Migrating database")
         call_command('makemigrations')
         call_command('migrate')
+        console.log("Successfully migrated database")
 
     if collectstatic:
         call_command('collectstatic', '--noinput', '-i admin')

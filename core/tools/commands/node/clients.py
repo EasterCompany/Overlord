@@ -14,7 +14,7 @@ from ..install import (
     make_server_config
 )
 from ..node.share import __update_shared_files__
-from core.tools.library import console
+from core.library.console import console
 from web.settings import BASE_DIR
 
 # Variable app meta data
@@ -149,8 +149,10 @@ def build(name):
 
 # Build all clients on the main thread
 def build_all():
+    console.log("Building all clients")
     for client in clients_json:
         run(client, build=True, new_thread=False)
+    console.log("Successfully built all clients")
 
 
 # Create new client
@@ -188,7 +190,7 @@ def create(name, native=False, custom_repo=None):
     # Make directory checks
     if exists(f'clients/{name}'):
         return print(
-            console.col('\n[ABORTED]', 'red') + f" client with name '{name}' already exists.\n"
+            console.output('\n[ABORTED]', 'red') + f" client with name '{name}' already exists.\n"
         )
 
     # Fetch react-native app template from github
@@ -200,7 +202,7 @@ def create(name, native=False, custom_repo=None):
     elif custom_repo is not None:
         print("\nDownloading custom-client template...")
         download_repo(custom_repo, name)
-        print(console.col(f'Successfully created a custom client: {name} !', 'green'))
+        print(console.output(f'Successfully created a custom client: {name} !', 'green'))
         print(f'To install your client use this command `./o install -{name}`\n')
         return update_overlord_configuration()
 
@@ -263,7 +265,7 @@ def create(name, native=False, custom_repo=None):
 
     update_overlord_configuration()
 
-    print(console.col(f'Successfully created a web client: {name} !', 'green'))
+    print(console.output(f'Successfully created a web client: {name} !', 'green'))
     print(f'To install your client use this command `./o install -{name}`\n')
 
 

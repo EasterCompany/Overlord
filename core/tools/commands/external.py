@@ -12,9 +12,6 @@ def OK():
 
 def upgrade():
   git.pull.all()
-  node.clients.build_all()
-  django.server.collect_staticfs()
-  django.server.migrate_database()
   return OK()
 
 
@@ -30,6 +27,8 @@ def reload_server():
 
 def deploy():
   upgrade()
+  node.clients.build_all()
+  django.server.migrate_database()
   reload_server()
   return output(
     "Successfully upgraded server\n"
