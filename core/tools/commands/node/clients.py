@@ -74,7 +74,8 @@ def client(app_data, build=False):
             stderr=subprocess.STDOUT,
             text=True,
             universal_newlines=True,
-            shell=True
+            shell=True,
+            cwd=app_data['src']
         )
         console.log(install_process.stdout)
         console.log(f"    Optimizing for production")
@@ -86,7 +87,9 @@ def client(app_data, build=False):
             stdout=subprocess.PIPE,
             stderr=subprocess.STDOUT,
             text=True,
-            universal_newlines=True
+            universal_newlines=True,
+            shell=True,
+            cwd=app_data['src']
         )
         console.log(build_process.stdout)
         console.log(f"    Updating meta data")
