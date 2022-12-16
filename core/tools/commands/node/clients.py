@@ -5,7 +5,7 @@ from shutil import rmtree
 from os.path import exists
 from threading import Thread
 from datetime import datetime
-from os import chdir, system, rename, remove
+from os import chdir, system, rename, remove, getcwd
 # Overlord library
 from ..install import (
     __init_config_directory__,
@@ -63,9 +63,11 @@ def update_client_meta_data(app_data):
 def client(app_data, build=False):
     chdir(app_data['src'])
     if build and 'build' in app_data:
-        console.log(f"Building {client} ...")
+        console.log(f"    Installing packages @ {getcwd()} ...")
         system('npm install')
+        console.log(f"    Optimizing for production @ {getcwd()} ...")
         system('npm run build')
+        console.log(f"    Updating meta data @ {getcwd()} ...")
         update_client_meta_data(app_data)
     elif not build and 'start' in app_data:
         system('npm run start')
@@ -152,6 +154,7 @@ def build(name):
 def build_all():
     console.log("Building all clients")
     for client in clients_json:
+        console.log(f"  Building {client} ...")
         run(client, build=True, new_thread=False)
     console.log("Built all clients successfully!")
 
