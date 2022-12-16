@@ -288,8 +288,6 @@ def run_tool(command, index=0):
                 return print()
             elif arguments[0] == 'upgrade':
                 pa.upgrade.request()
-                pa.reload.request()
-                pa.status.request()
                 return print()
             elif arguments[0] == 'deploy':
                 git.push.all()
