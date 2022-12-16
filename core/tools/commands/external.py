@@ -29,6 +29,11 @@ def deploy():
   )
 
 
+def build():
+  node.clients.build_all()
+  return output("Built all clients successfully!")
+
+
 def output(message:str) -> JsonResponse:
   """
   Standardised response message for useCommandExtension functions
