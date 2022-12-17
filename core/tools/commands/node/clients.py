@@ -67,25 +67,11 @@ def client(app_data, build=False):
     if build and 'build' in app_data:
         console.log(f"    Installing packages")
         #system('npm install')
-        print("  installing packages")
-        install_process = subprocess.call(["npm", "install"], shell=True, cwd=app_data['src'])
-        console.log(install_process.stdout)
+        subprocess.call(["npm install"], shell=True, cwd=app_data['src'])
         console.log(f"    Optimizing for production")
         #system('npm run build')
-        print("  optimizing for production")
-        build_process = subprocess.run(
-            ["npm", "build"],
-            bufsize=1,
-            stdout=subprocess.PIPE,
-            stderr=subprocess.STDOUT,
-            text=True,
-            universal_newlines=True,
-            shell=True,
-            cwd=app_data['src']
-        )
-        console.log(build_process.stdout)
+        subprocess.call(["npm run build"], shell=True, cwd=app_data['src'])
         console.log(f"    Updating meta data")
-        print("  updating meta data")
         update_client_meta_data(app_data)
     elif not build and 'start' in app_data:
         system('npm run start')
