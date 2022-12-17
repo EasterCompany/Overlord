@@ -79,7 +79,7 @@ def verify_npm():
         )
 
         status = run_shell("npm")
-        print(status.stdout)
+        console.log(status.stdout)
 
         if 'npm: not found' in status.stdout:
             clean_up_nvm()
@@ -138,10 +138,10 @@ def client(app_data, build=False):
 
     :return None:
     """
-    if build and 'build' in app_data:
-        console.log(f"    Verifying node & npm")
-        npm_status = verify_npm()
+    console.log(f"    Verifying node & npm")
+    npm_status = verify_npm()
 
+    if build and 'build' in app_data:
         if npm_status > 1:
             console.log(f"    Installing packages")
             subprocess.call("npm install", shell=True, cwd=app_data['src'])
