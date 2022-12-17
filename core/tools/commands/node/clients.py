@@ -68,7 +68,7 @@ def client(app_data, build=False):
         console.log(f"    Installing packages")
         #system('npm install')
         print("  installing packages")
-        install_process = subprocess.check_call(["npm", "install"], shell=True, cwd=app_data['src'])
+        install_process = subprocess.call(["npm", "install"], shell=True, cwd=app_data['src'])
         console.log(install_process.stdout)
         console.log(f"    Optimizing for production")
         #system('npm run build')
