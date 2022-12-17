@@ -1,5 +1,8 @@
+# Standard library
+import subprocess
+from sys import executable
 # Overlord library
-from web.settings import PUBLIC_KEY
+from web.settings import PUBLIC_KEY, BASE_DIR
 from core.library import api, JsonResponse
 from core.tools.commands import git, django, node, pa
 
@@ -10,6 +13,7 @@ def OK():
 
 def upgrade():
   git.pull.all()
+  subprocess.call(f"{executable} -m pip install -r requirements.txt", shell=True, cwd=True)
   return OK()
 
 
@@ -20,7 +24,6 @@ def reload_server():
 
 def deploy():
   upgrade()
-  node.clients.build_all()
   django.server.migrate_database()
   reload_server()
   return output(

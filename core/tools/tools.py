@@ -248,7 +248,6 @@ def run_tool(command, index=0):
         else:
             for arg in arguments:
                 node.clients.build(arg)
-        django.server.collect_staticfs()
         return print()
 
     elif command == 'migrate':
@@ -290,6 +289,7 @@ def run_tool(command, index=0):
                 pa.upgrade.request()
                 return print()
             elif arguments[0] == 'deploy':
+                node.clients.build_all()
                 git.push.all()
                 pa.upgrade.request()
                 pa.reload.request()

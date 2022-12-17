@@ -25,75 +25,6 @@ meta_data = {
 }
 
 
-def run_shell(_input:str, cwd:str = BASE_DIR):
-    """
-    Run commands as a shell process starting from the indicated current working directory
-
-    :param _input str: the command(s) to run
-    :param cwd str: the directory to execute from
-    :return: subprocess
-    """
-    return subprocess.run(
-        _input,
-        shell=True,
-        cwd=cwd,
-        bufsize=1,
-        text=True,
-        stdout=subprocess.PIPE,
-        stderr=subprocess.STDOUT,
-        universal_newlines=True
-    )
-
-
-def clean_up_nvm():
-    """
-    Once nvm has been downloaded and used to install node/npm we may want to remove the directory
-    :return None:
-    """
-    if exists(f'{BASE_DIR}/nvm'):
-        run_shell("rm -rf nvm")
-
-
-def verify_npm():
-    """
-    Attempts to access NPM via the command line and installs npm & node via nvm if npm is not found
-    :return int:
-        0 = unexpected error
-        1 = failed to acquire npm and/or node
-        2 = npm not found but successfully acquired
-        3 = npm already available
-    """
-    status = run_shell("npm")
-    console.log(status.stdout)
-
-    if 'npm: not found' in status.stdout:
-        print("Downloading & Installing Build Dependencies ...")
-        console.log("    Downloading & installing nvm")
-
-        status = run_shell(
-            f"git clone --depth 1 https://github.com/creationix/nvm.git && "
-            f"source {BASE_DIR}/nvm/nvm.sh && "
-            f"nvm install v18.12.1 && "
-            f"nvm alias default v18.12.1 && "
-            f"cd {BASE_DIR}/clients/eastercompany && npm run build"
-        )
-        console.log(status.stdout)
-
-        if 'npm: not found' in status.stdout:
-            clean_up_nvm()
-            return 1
-
-        elif status.stdout.startswith('npm <command>'):
-            clean_up_nvm()
-            return 2
-
-        clean_up_nvm()
-        return 0
-
-    clean_up_nvm()
-    return 3
-
-
 # Client build meta data
 def update_client_meta_data(app_data):
     # Read index.html file content
@@ -130,32 +61,46 @@ def update_client_meta_data(app_data):
     return True
 
 
-def client(app_data, build=False):
+def client(app_data, build=False, app_name=""):
     """
     Runs a client using npm in development mode, not to be used on a live server unless using the 'build'
     parameter which builds the client for production
 
     :return None:
     """
-    console.log(f"    Verifying node & npm")
-    npm_status = verify_npm()
-
     if build and 'build' in app_data:
-        if npm_status > 1:
-            console.log(f"    Installing packages")
-            subprocess.call("npm install", shell=True, cwd=app_data['src'])
+        print(f"\n> {app_name}@{clients_json[app_name]['version']}")
 
-            console.log(f"    Optimizing for production")
-            subprocess.call("npm run build", shell=True, cwd=app_data['src'])
+        print("  installing ...")
+        console.log(f"    Installing packages")
+        subprocess.run(
+            "npm install",
+            shell=True,
+            cwd=app_data['src'],
+            bufsize=1,
+            stdout=subprocess.PIPE,
+            stderr=subprocess.STDOUT,
+            text=True,
+            universal_newlines=True
+        )
+        print(console.output("  installed successfully", "green"))
 
-            console.log(f"    Updating meta data")
-            update_client_meta_data(app_data)
+        print(f"  compiling ...")
+        console.log(f"    Optimizing for production")
+        subprocess.run(
+            "npm run build",
+            shell=True,
+            cwd=app_data['src'],
+            bufsize=1,
+            stdout=subprocess.PIPE,
+            stderr=subprocess.STDOUT,
+            text=True,
+            universal_newlines=True
+        )
+        print(console.output("  compiled successfully", "green"))
 
-        elif npm_status == 1:
-            console.log("    Failed to acquire npm")
-
-        elif npm_status == 0:
-            console.log("    Encountered an unexpected error")
+        console.log(f"    Updating meta data")
+        update_client_meta_data(app_data)
 
     elif not build and 'start' in app_data:
         subprocess.call("npm run start", shell=True, cwd=app_data['src'])
@@ -229,24 +174,21 @@ def run_all(none_on_main_thread=False):
             run(client, build=False, new_thread=False)
     sleep(5)
     system('clear')
-    return print('Running all clients...\n')
+    return print('Running all clients ...\n')
 
 
 # Build specific client on the main thread
 def build(name):
-    run(name, build=True, new_thread=False)
-    return print(console.output(f"\nSuccessfully built {name}", "green"))
+    client(clients_json[name], build=True, app_name=name)
 
 
 # Build all clients on the main thread
 def build_all():
     console.log("Building all clients ...")
-    for client in clients_json:
-        console.log(f"  {client}")
-        print(f"\nBuilding {client} ...")
-        run(client, build=True, new_thread=False)
-    console.log("Done.")
-    return print(console.output("\nDone.", "green"))
+    for _ in clients_json:
+        console.log(f"  {_}")
+        client(clients_json[_], build=True, app_name=_)
+    console.log("Successfully built all clients.")
 
 
 # Create new client

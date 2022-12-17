@@ -13,6 +13,7 @@ class Console:
     "red": '\33[31m',
     "green": '\33[32m',
     "yellow": '\33[33m',
+    "blue": '\33[34m',
     "white": '\33[0m',
   }
 
@@ -52,7 +53,7 @@ class Console:
     # Return stylized error
     return self.colours["red"] + \
       f"[ Console Error: No such colour option `{colour}` ]" + \
-      self.colours["yellow"] + text + self.default_colour
+      self.colours["yellow"] + text + self.default_col
 
   def status(self, status):
     """
@@ -103,13 +104,16 @@ class Console:
     return subprocess.call(['sh', f'{BASE_DIR}/tools/scripts/{path}.sh'])
 
   @staticmethod
-  def log(_input):
+  def log(_input, _print=False):
     """
     Writes output to the logger file and then also prints it into the console
 
     :param input any: converts what ever is given into a string to be logged
     :return None:
     """
+    if _print:
+      print(_input)
+
     _input = _input.replace('\n', '\n                      ')
     _input = f'\n[{timestamp()}] {_input}'
 
