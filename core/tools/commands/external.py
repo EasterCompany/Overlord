@@ -57,10 +57,8 @@ def external_command(req, *args, **kwargs):
     command = json['command'] if 'command' in json else None
     pub_key = json['pub_key'] if 'pub_key' in json else None
 
-    # Authenticate User via Public Key Method
+    # Authenticate request
     if pub_key == PUBLIC_KEY and PUBLIC_KEY is not None and PUBLIC_KEY != '': pass
-    # TODO: Authenticate User via User Session Method
-    # elif ...
     else:
       return api.error("Failed to Authentication User")
 
@@ -71,7 +69,7 @@ def external_command(req, *args, **kwargs):
       except Exception as exec_error:
         return output(str(exec_error))
 
-    # No command executed?
+    # No command executed
     return output(f"[ERROR] No command matching '{command}'")
 
   except Exception as exception:

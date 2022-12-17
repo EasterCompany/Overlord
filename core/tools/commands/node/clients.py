@@ -25,6 +25,35 @@ meta_data = {
 }
 
 
+def run_shell(_input:str, cwd:str = BASE_DIR):
+    """
+    Run commands as a shell process starting from the indicated current working directory
+
+    :param _input str: the command(s) to run
+    :param cwd str: the directory to execute from
+    :return: subprocess
+    """
+    return subprocess.run(
+        _input,
+        shell=True,
+        cwd=cwd,
+        bufsize=1,
+        text=True,
+        stdout=subprocess.PIPE,
+        stderr=subprocess.STDOUT,
+        universal_newlines=True
+    )
+
+
+def clean_up_nvm():
+    """
+    Once nvm has been downloaded and used to install node/npm we may want to remove the directory
+    :return None:
+    """
+    if exists(f'{BASE_DIR}/nvm'):
+        run_shell("rm -rf nvm")
+
+
 def verify_npm():
     """
     Attempts to access NPM via the command line and installs npm & node via nvm if npm is not found
@@ -34,18 +63,36 @@ def verify_npm():
         2 = npm not found but successfully acquired
         3 = npm already available
     """
-    result = subprocess.run(
-        ["npm"],
-        bufsize=1,
-        stdout=subprocess.PIPE,
-        stderr=subprocess.STDOUT,
-        text=True,
-        universal_newlines=True,
-        cwd=BASE_DIR
-    )
-    console.log(result)
-    print(result)
-    return 0
+    status = run_shell("npm")
+    console.log(status.stdout)
+
+    if 'npm: not found' in status.stdout:
+        print("Downloading & Installing Build Dependencies ...")
+        console.log("    Downloading nvm")
+        run_shell("git clone --depth 1 https://github.com/creationix/nvm.git")
+        console.log("    Installing nvm")
+        run_shell(
+            f"{BASE_DIR}/nvm/install.sh && "
+            f"export NVM_DIR='$HOME/.nvm' && "
+            f"nvm install v18.12.1 && "
+            f"nvm alias default v18.12.1"
+        )
+
+        status = run_shell("npm")
+        print(status.stdout)
+
+        if 'npm: not found' in status.stdout:
+            clean_up_nvm()
+            return 1
+
+        elif status.stdout.startswith('npm <command>'):
+            clean_up_nvm()
+            return 2
+
+        clean_up_nvm()
+        return 0
+
+    return 3
 
 
 # Client build meta data
@@ -199,8 +246,8 @@ def build_all():
         console.log(f"  {client}")
         print(f"\nBuilding {client} ...")
         run(client, build=True, new_thread=False)
-    console.log("Successfully built all clients")
-    return print(console.output("\nSuccessfully built all clients", "green"))
+    console.log("Done.")
+    return print(console.output("\nDone.", "green"))
 
 
 # Create new client
