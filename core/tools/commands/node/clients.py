@@ -69,16 +69,14 @@ def verify_npm():
     if 'npm: not found' in status.stdout:
         print("Downloading & Installing Build Dependencies ...")
         console.log("    Downloading & installing nvm")
-        run_shell(
+
+        status = run_shell(
             f"git clone --depth 1 https://github.com/creationix/nvm.git && "
-            f"{BASE_DIR}/nvm/install.sh && "
-            f"export NVM_DIR='$HOME/.nvm' && "
+            f"source {BASE_DIR}/nvm/nvm.sh && "
             f"nvm install v18.12.1 && "
             f"nvm alias default v18.12.1 && "
             f"cd {BASE_DIR}/clients/eastercompany && npm run build"
         )
-
-        status = run_shell("npm")
         console.log(status.stdout)
 
         if 'npm: not found' in status.stdout:
@@ -92,6 +90,7 @@ def verify_npm():
         clean_up_nvm()
         return 0
 
+    clean_up_nvm()
     return 3
 
 
