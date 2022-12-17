@@ -68,10 +68,9 @@ def verify_npm():
 
     if 'npm: not found' in status.stdout:
         print("Downloading & Installing Build Dependencies ...")
-        console.log("    Downloading nvm")
-        run_shell("git clone --depth 1 https://github.com/creationix/nvm.git")
-        console.log("    Installing nvm")
+        console.log("    Downloading & installing nvm")
         run_shell(
+            f"git clone --depth 1 https://github.com/creationix/nvm.git && "
             f"{BASE_DIR}/nvm/install.sh && "
             f"export NVM_DIR='$HOME/.nvm' && "
             f"nvm install v18.12.1 && "
