@@ -64,8 +64,6 @@ def update_client_meta_data(app_data):
 # Client thread function
 def client(app_data, build=False):
     chdir(app_data['src'])
-    if exists("~/nvm/versions/node/v18.12.1/lib/node_modules/npm"):
-        sys.path.append("~/nvm/versions/node/v18.12.1/lib/node_modules/npm")
     if build and 'build' in app_data:
         console.log(f"    Installing packages")
         #system('npm install')
