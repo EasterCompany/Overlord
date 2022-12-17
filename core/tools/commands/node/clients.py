@@ -63,19 +63,15 @@ def update_client_meta_data(app_data):
 
 # Client thread function
 def client(app_data, build=False):
-    chdir(app_data['src'])
     if build and 'build' in app_data:
         console.log(f"    Installing packages")
-        #system('npm install')
-        subprocess.call(["npm install"], shell=True, cwd=app_data['src'])
+        subprocess.call(["/bin/bash -i", "npm install"], shell=True, cwd=app_data['src'])
         console.log(f"    Optimizing for production")
-        #system('npm run build')
-        subprocess.call(["npm run build"], shell=True, cwd=app_data['src'])
+        subprocess.call(["/bin/bash -i", "npm run build"], shell=True, cwd=app_data['src'])
         console.log(f"    Updating meta data")
         update_client_meta_data(app_data)
     elif not build and 'start' in app_data:
         system('npm run start')
-    chdir(BASE_DIR)
 
 
 # Create client thread
