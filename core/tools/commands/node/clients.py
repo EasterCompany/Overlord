@@ -1,4 +1,5 @@
 # Standard library
+import sys
 import subprocess
 from json import loads
 from time import sleep
@@ -63,20 +64,13 @@ def update_client_meta_data(app_data):
 # Client thread function
 def client(app_data, build=False):
     chdir(app_data['src'])
+    if exists("~/nvm/versions/node/v18.12.1/lib/node_modules/npm"):
+        sys.path.append("~/nvm/versions/node/v18.12.1/lib/node_modules/npm")
     if build and 'build' in app_data:
         console.log(f"    Installing packages")
         #system('npm install')
         print("  installing packages")
-        install_process = subprocess.run(
-            ["npm", "install"],
-            bufsize=1,
-            stdout=subprocess.PIPE,
-            stderr=subprocess.STDOUT,
-            text=True,
-            universal_newlines=True,
-            shell=True,
-            cwd=app_data['src']
-        )
+        install_process = subprocess.check_call(["npm", "install"], shell=True, cwd=app_data['src'])
         console.log(install_process.stdout)
         console.log(f"    Optimizing for production")
         #system('npm run build')
