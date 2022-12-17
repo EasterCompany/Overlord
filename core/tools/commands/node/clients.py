@@ -25,6 +25,29 @@ meta_data = {
 }
 
 
+def verify_npm():
+    """
+    Attempts to access NPM via the command line and installs npm & node via nvm if npm is not found
+    :return int:
+        0 = unexpected error
+        1 = failed to acquire npm and/or node
+        2 = npm not found but successfully acquired
+        3 = npm already available
+    """
+    result = subprocess.run(
+        ["npm"],
+        bufsize=1,
+        stdout=subprocess.PIPE,
+        stderr=subprocess.STDOUT,
+        text=True,
+        universal_newlines=True,
+        cwd=BASE_DIR
+    )
+    console.log(result)
+    print(result)
+    return 0
+
+
 # Client build meta data
 def update_client_meta_data(app_data):
     # Read index.html file content
@@ -61,15 +84,33 @@ def update_client_meta_data(app_data):
     return True
 
 
-# Client thread function
 def client(app_data, build=False):
+    """
+    Runs a client using npm in development mode, not to be used on a live server unless using the 'build'
+    parameter which builds the client for production
+
+    :return None:
+    """
     if build and 'build' in app_data:
-        console.log(f"    Installing packages")
-        subprocess.call("npm install", shell=True, cwd=app_data['src'])
-        console.log(f"    Optimizing for production")
-        subprocess.call("npm run build", shell=True, cwd=app_data['src'])
-        console.log(f"    Updating meta data")
-        update_client_meta_data(app_data)
+        console.log(f"    Verifying node & npm")
+        npm_status = verify_npm()
+
+        if npm_status > 1:
+            console.log(f"    Installing packages")
+            subprocess.call("npm install", shell=True, cwd=app_data['src'])
+
+            console.log(f"    Optimizing for production")
+            subprocess.call("npm run build", shell=True, cwd=app_data['src'])
+
+            console.log(f"    Updating meta data")
+            update_client_meta_data(app_data)
+
+        elif npm_status == 1:
+            console.log("    Failed to acquire npm")
+
+        elif npm_status == 0:
+            console.log("    Encountered an unexpected error")
+
     elif not build and 'start' in app_data:
         subprocess.call("npm run start", shell=True, cwd=app_data['src'])
 
