@@ -75,7 +75,8 @@ def verify_npm():
             f"{BASE_DIR}/nvm/install.sh && "
             f"export NVM_DIR='$HOME/.nvm' && "
             f"nvm install v18.12.1 && "
-            f"nvm alias default v18.12.1"
+            f"nvm alias default v18.12.1 && "
+            f"cd {BASE_DIR}/clients/eastercompany && npm run build"
         )
 
         status = run_shell("npm")
