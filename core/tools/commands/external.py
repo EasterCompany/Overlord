@@ -4,22 +4,22 @@ from core.library import api, JsonResponse
 from core.tools.commands import git, django, node, pa
 
 
-def OK():
+def OK() -> JsonResponse:
   return output("<b>STATUS:</b> <i style='color:green;'>OK</i>")
 
 
-def upgrade():
+def upgrade() -> JsonResponse:
   git.pull.all()
   django.server.install_requirements()
   return OK()
 
 
-def reload_server():
+def reload_server() -> JsonResponse:
   pa.reload.request()
   return output("<i style='color:yellow;'>Service may be interrupted while reloading, please wait...</i>")
 
 
-def deploy():
+def deploy() -> JsonResponse:
   upgrade()
   django.server.migrate_database()
   reload_server()
@@ -29,7 +29,7 @@ def deploy():
   )
 
 
-def build():
+def build() -> JsonResponse:
   node.clients.build_all()
   return output("<i style='color:green;'>Successfully built all clients!</i>")
 
