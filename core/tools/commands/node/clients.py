@@ -1,5 +1,4 @@
 # Standard library
-import sys
 import subprocess
 from json import loads
 from time import sleep
@@ -7,7 +6,7 @@ from shutil import rmtree
 from os.path import exists
 from threading import Thread
 from datetime import datetime
-from os import chdir, system, rename, remove, getcwd
+from os import chdir, system, rename, remove
 # Overlord library
 from ..install import (
     __init_config_directory__,
@@ -184,6 +183,9 @@ def build(name):
 
 # Build all clients on the main thread
 def build_all():
+    console.log("\nUpdating shared files ... ", True)
+    __update_shared_files__()
+    print(console.output("updated successfully", "green"))
     console.log("Building all clients ...")
     for _ in clients_json:
         console.log(f"  {_}")

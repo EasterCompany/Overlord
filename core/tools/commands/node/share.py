@@ -44,7 +44,6 @@ from distutils.dir_util import copy_tree
 from core.tools.library import console
 from web.settings import CLIENT_DATA, BASE_DIR
 
-log_path = BASE_DIR + '/clients/shared/.log'
 client_log = lambda client: CLIENT_DATA[client]['src'] + '/shared.json'
 
 
@@ -287,8 +286,6 @@ def __update_clients_files__(client, logs, spath):
 
 
 def __update_shared_files__():
-    if not exists(log_path):
-        return None
     logs = get_log()
     spath = BASE_DIR + '/clients/shared/'
     for client in logs:
