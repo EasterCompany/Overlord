@@ -1,4 +1,6 @@
 # Standard library
+import sys
+import subprocess
 from os import system
 from threading import Thread
 # Overlord library
@@ -31,9 +33,9 @@ collect_staticfs = lambda: _server(start=False, migrate=False, collectstatic=Tru
 
 
 def run():
-    '''
+    """
     Run process on the main thread
-    '''
+    """
     thread = Thread(
         None,
         _server,
@@ -45,9 +47,9 @@ def run():
 
 
 def start():
-    '''
+    """
     Run new thread in the background
-    '''
+    """
     thread = Thread(
         None,
         _server,
@@ -56,3 +58,21 @@ def start():
     )
     _server(start=False, migrate=True, collectstatic=True)
     return thread.start()
+
+
+def install_requirements():
+    """
+    Install basic python package requirements
+    """
+    print(console.output("\n Installing Essential Python Requirements", "yellow"))
+    print("---------------------------------------------")
+    subprocess.run(f"{sys.executable} -m pip install -r ./core/requirements.txt", shell=True, cwd=BASE_DIR)
+
+
+def install_requirements_dev():
+    """
+    Install developer python package requirements
+    """
+    print(console.output("\n Installing Developer Python Requirements", "yellow"))
+    print("---------------------------------------------")
+    subprocess.run(f"{sys.executable} -m pip install -r ./core/requirements.dev", shell=True, cwd=BASE_DIR)

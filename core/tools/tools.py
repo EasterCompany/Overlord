@@ -4,7 +4,7 @@ from os.path import exists
 from os import system, getcwd, environ
 from sys import argv, path, executable
 # Overlord library
-from web.settings import SECRET_DATA
+from web.settings import SECRET_DATA, BASE_DIR
 from core import create_user, create_super_user
 from core.library import execute_from_command_line
 from core.library.version import Version
@@ -159,16 +159,23 @@ def run_tool(command, index=0):
 
     elif command == 'install':
 
+        # Install python requirements
+        if arguments[0] == 'r':
+            django.server.install_requirements()
+            # Include developer dependencies
+            if arguments[1] == 'd':
+                django.server.install_requirements_dev()
+
         # Install all clients
-        if arguments_remaining == 1 and (arguments[0] == 'clients' or arguments[0] == 'all'):
-            print("\n Installing all clients:")
+        elif arguments_remaining == 1 and (arguments[0] == 'clients' or arguments[0] == 'all'):
+            print("\nInstalling all clients:")
             node.clients.install()
 
         # Install a specific client
         elif arguments_remaining > 0:
             for argument in arguments:
                 print(f"\nInstalling client: {argument}")
-                print("----------------------------------- ")
+                print("---------------------------------------------")
                 node.clients.install(argument)
 
         # Install Overlord
@@ -347,7 +354,7 @@ def run_tool(command, index=0):
         system('node')
         output(console.col('Closed Node.', 'red'))
 
-    elif command == 'django':
+    elif command == 'django' or command == 'python':
         if not arguments_remaining == 0:
             return output(
                 "`django` command doesn't take any arguments",
