@@ -5,10 +5,10 @@ from core.library.console import console
 
 def request():
     print(f'\nChecking {domain} ...\n')
-    data = server('status')
 
-    status = data['status']
-    print('STATUS:', console.status(status))
+    data = server('status')
+    msg = "Server is responding." if data['status'] == "OK" else None
+    console.status(data['status'], msg)
 
     if 'data' in data and data['data'] == "[500] Internal server error.":
         print('REASON:', console.output(data['data'], 'red'))

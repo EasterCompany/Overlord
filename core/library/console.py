@@ -32,7 +32,7 @@ class Console:
     if cmd is not None:
       self.input(cmd)
 
-  def output(self, text="", colour=None):
+  def output(self, text="", colour=None, print_to_console=True):
     """
     Returns a string converted variable [text] wrapped in colour
     tags to the console which also end by defaulting back to
@@ -42,20 +42,24 @@ class Console:
     :param colour str: name of colour 'key' from colour pallet [self.output]
     :return: string wrapped in colour tags ie; "\33[31m Example \33[0m"
     """
+    def p(t):
+      if print_to_console:
+        print(t)
+      return text
 
     # Always use string method & and use default colour when not defined
     text = str(text)
 
     # Select colour and return
     if colour in self.colours:
-      return self.colours[colour] + text + self.default_col
+      return p(self.colours[colour] + text + self.default_col)
 
     # Return stylized error
-    return self.colours["red"] + \
+    return p(self.colours["red"] + \
       f"[ Console Error: No such colour option `{colour}` ]" + \
-      self.colours["yellow"] + text + self.default_col
+      self.colours["yellow"] + text + self.default_col)
 
-  def status(self, status):
+  def status(self, status, message=None):
     """
     Using the type of the status to determine the input (int == http status code // str == api response)
     returns a string with the appropriate colour for the status code.
@@ -63,26 +67,27 @@ class Console:
     :param status any: HTTP status code (int) or API response (str)
     :return str:
     """
+    txt = status if message is None else message
 
     # HTTP Status Code Colours
     if isinstance(status, int):
       if 100 <= status <= 199:
-        return self.output(status, 'white')
+        return self.output(' [UNKNOWN] ' + txt, 'white')
       elif 200 <= status <= 299:
-        return self.output(status, 'green')
+        return self.output(' [SUCCESS] ' + txt, 'green')
       elif 300 <= status <= 399:
-        return self.output(status, 'yellow')
+        return self.output(' [WARNING] ' + txt, 'yellow')
       else:
-        return self.output(status, 'red')
+        return self.output(' [ERROR] ' + txt, 'red')
 
     # API Response Colours
     elif isinstance(status, str):
       if status == 'BAD':
-        return self.output(status, 'red')
+        return self.output(' [ERROR] ' + txt, 'red')
       elif status == 'OK':
-        return self.output(status, 'green')
+        return self.output(' [SUCCESS] ' + txt, 'green')
       else:
-        return self.output(status, 'yellow')
+        return self.output(' [WARNING] ' + txt, 'yellow')
 
   def input(self, command):
     """

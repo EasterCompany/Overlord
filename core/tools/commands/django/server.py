@@ -64,7 +64,7 @@ def install_requirements():
     """
     Install basic python package requirements
     """
-    print(console.output("\n Installing Essential Python Requirements", "yellow"))
+    console.output("\n Installing Essential Python Requirements", "yellow")
     print("---------------------------------------------")
     subprocess.run(f"{sys.executable} -m pip install -r ./core/requirements.txt", shell=True, cwd=BASE_DIR)
 
@@ -73,6 +73,6 @@ def install_requirements_dev():
     """
     Install developer python package requirements
     """
-    print(console.output("\n Installing Developer Python Requirements", "yellow"))
+    console.output("\n Installing Developer Python Requirements", "yellow")
     print("---------------------------------------------")
     subprocess.run(f"{sys.executable} -m pip install -r ./core/requirements.dev", shell=True, cwd=BASE_DIR)

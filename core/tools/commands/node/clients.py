@@ -82,7 +82,7 @@ def client(app_data, build=False, app_name=""):
             text=True,
             universal_newlines=True
         )
-        print(console.output("  installed successfully", "green"))
+        console.output("  installed successfully", "green")
 
         print(f"  compiling ...")
         console.log(f"    Optimizing for production")
@@ -96,7 +96,7 @@ def client(app_data, build=False, app_name=""):
             text=True,
             universal_newlines=True
         )
-        print(console.output("  compiled successfully", "green"))
+        console.output("  compiled successfully", "green")
 
         console.log(f"    Updating meta data")
         update_client_meta_data(app_data)
@@ -154,7 +154,17 @@ def install(target=None):
 # Run client
 def run(name, build, new_thread):
     if name not in clients_json:
-        return print(f'\n    Client `{name}` does not exist\n')
+        print(f'\n    Client `{name}` does not exist\n')
+        x = [ clients_json.keys(), None ]
+        for client_name in x[0]:
+            if name in client_name and x[1] is None: x[1] = name
+            elif name in client_name and x[1] is not None: x[1] = None
+        if x[1] is None:
+            return 'Err0'
+        else:
+            return console.output()
+
+
     client_data = clients_json[name]
     if new_thread:
         thread = new_client(name, client_data, build)
@@ -185,7 +195,7 @@ def build(name):
 def build_all():
     console.log("\nUpdating shared files ... ", True)
     __update_shared_files__()
-    print(console.output("updated successfully", "green"))
+    console.output("updated successfully", "green")
     console.log("Building all clients ...")
     for _ in clients_json:
         console.log(f"  {_}")
@@ -240,7 +250,7 @@ def create(name, native=False, custom_repo=None):
     elif custom_repo is not None:
         print("\nDownloading custom-client template...")
         download_repo(custom_repo, name)
-        print(console.output(f'Successfully created a custom client: {name} !', 'green'))
+        console.output(f'Successfully created a custom client: {name} !', 'green')
         print(f'To install your client use this command `./o install -{name}`\n')
         return update_overlord_configuration()
 
@@ -303,7 +313,7 @@ def create(name, native=False, custom_repo=None):
 
     update_overlord_configuration()
 
-    print(console.output(f'Successfully created a web client: {name} !', 'green'))
+    console.output(f'Successfully created a web client: {name} !', 'green')
     print(f'To install your client use this command `./o install -{name}`\n')
 
 
