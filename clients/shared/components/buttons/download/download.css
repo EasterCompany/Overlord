@@ -1,6 +1,7 @@
 
 .face-button {
   display: inline-block;
+  cursor: pointer;
   color: #e43;
   overflow: hidden;
 
