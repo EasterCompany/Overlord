@@ -1,5 +1,10 @@
 // Node module imports
-import { Route as NewRoute, Link as NewLink, Routes as Index } from "react-router-dom";
+import {
+  Route as NewRoute,
+  Link as NewLink,
+  Routes as Index,
+  useLocation
+} from "react-router-dom";
 
 
 /*
@@ -70,5 +75,5 @@ export const Link = ({ to, name, children } : any) => {
 }
 
 
-export { Index, NewLink }
+export { Index, NewLink, useLocation }
 export default goto;
