@@ -1,7 +1,6 @@
 # Standard library
 import os
 import subprocess
-from os import system as _system
 # Overlord library
 from web.settings import BASE_DIR, LOGGER_DIR
 from core.library.time import timestamp
@@ -89,7 +88,7 @@ class Console:
       else:
         return self.output(' [WARNING] ' + txt, 'yellow')
 
-  def input(self, command):
+  def input(self, command, cwd=BASE_DIR, show_output=False) -> str:
     """
     Using the os.system() method execute the command (a string) in a sub-shell.
     This method is implemented by calling the standard C function system(), and has the same limitations.
@@ -97,7 +96,11 @@ class Console:
     :param command str: the input command(s) to send to the system
     :return None:
     """
-    return _system(command)
+    if show_output:
+      out = subprocess.call(command, shell=True, cwd=cwd)
+    else:
+      out = subprocess.run(command, shell=True, cwd=cwd)
+    return out.stdout
 
   def run_script(self, path):
     """

@@ -1,37 +1,45 @@
 # Overlord library
 from web.settings import PUBLIC_KEY
 from core.library import api, JsonResponse
-from core.tools.commands import git, django, node, pa
+from core.tools.commands import git, django, pa
 
 
 def OK() -> JsonResponse:
+  """
+  Used as a standard 'OK' response for external command requests
+  """
   return output("<b>STATUS:</b> <i style='color:green;'>OK</i>")
 
 
 def upgrade() -> JsonResponse:
+  """
+  Pulls new code from the current branch origin and then installs
+  any new server dependencies from the 'core/requirements' file
+  """
   git.pull.all()
   django.server.install_requirements()
+  django.server.migrate_database()
   return OK()
 
 
 def reload_server() -> JsonResponse:
+  """
+  Requests that the server API reload the server instance
+  """
   pa.reload.request()
   return output("<i style='color:yellow;'>Service may be interrupted while reloading, please wait...</i>")
 
 
 def deploy() -> JsonResponse:
+  """
+  upgrade & reload the server instance in that specific order
+  """
   upgrade()
-  django.server.migrate_database()
   reload_server()
   return output(
     "Successfully upgraded server\n"
     "<i style='color:yellow;'>Service may be interrupted while reloading, please wait...</i>"
   )
-
-
-def build() -> JsonResponse:
-  node.clients.build_all()
-  return output("<i style='color:green;'>Successfully built all clients!</i>")
 
 
 def output(message:str) -> JsonResponse:
@@ -81,7 +89,5 @@ commands = {
   "status": OK,
   "upgrade": upgrade,
   "reload": reload_server,
-  "deploy": deploy,
-  "build": build,
-  "migrate": django.server.migrate_database
+  "deploy": deploy
 }

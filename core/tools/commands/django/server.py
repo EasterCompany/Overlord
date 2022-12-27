@@ -4,7 +4,7 @@ import subprocess
 from os import system
 from threading import Thread
 # Overlord library
-from web.settings import BASE_DIR
+from web.settings import BASE_DIR, SERVER_DATA
 from core.library.console import console
 from django.core.management import call_command
 
@@ -56,7 +56,7 @@ def start():
         'django-server',
         ()
     )
-    _server(start=False, migrate=True, collectstatic=True)
+    _server(start=False, migrate=True, collectstatic=SERVER_DATA["COLLECT_STATIC_FILES"])
     return thread.start()
 
 

@@ -11,3 +11,5 @@ def request():
 
     if 'data' in data and data['data'] == "[500] Internal server error.":
         console.output(data['data'], 'red')
+
+    return data

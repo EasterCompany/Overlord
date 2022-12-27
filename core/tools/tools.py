@@ -4,7 +4,7 @@ from os.path import exists
 from os import system, getcwd, environ
 from sys import argv, path, executable
 # Overlord library
-from web.settings import SECRET_DATA, BASE_DIR
+from web.settings import SECRET_DATA
 from core import create_user, create_super_user
 from core.library import execute_from_command_line
 from core.library.version import Version
@@ -381,9 +381,15 @@ def run_tool(command, index=0):
         elif command == 'npm' or command == 'npm-install':
             [ node.npm.install(arguments[0], package, False) for package in arguments[1:] ]
 
-    elif command == 'status': system('git status')
+    elif command == 'status':
+        if arguments_remaining == 0:
+            git.status.app()
+        else:
+            for _arg in arguments:
+                git.status.clients(_arg)
 
-    elif command == 'clear': system('clear')
+    elif command == 'clear':
+        system('clear')
 
     elif command == 'code':
         if arguments_remaining == 0:

@@ -13,3 +13,5 @@ def request():
     if 'data' in data and data['data'] == "[500] Internal server error.":
         print('REASON:', console.output(data['data'], 'red'))
         print('\nAre you using the correct authentication method?')
+
+    return data

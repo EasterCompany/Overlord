@@ -10,6 +10,9 @@ echo "  This will purge the local db  "
 echo "  and all migration files for   "
 echo "  this repository.              "
 echo
+echo "  There is no going back from   "
+echo "  this action!                  "
+echo "                                "
 read -p "  Continue anyway (Y/N): " -n 1 -r > ~/.scripts.log
 echo
 echo " ------------------------------ "
