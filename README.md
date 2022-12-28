@@ -3,8 +3,15 @@
 
 ### Welcome
 
-Welcome to The Overlord Framework, the one true full stack framework.<br/>
-If you're looking for detailed documentation you should visit our [website](https://www.easter.company/overlord).
+Welcome to The Overlord Framework, the one true full stack framework. Developed by Easter Company.
+
+### Documentation
+
+If you're looking for beautifully crafted and well detailed documentation then you should visit our website,
+[here](https://www.easter.company/overlord).
+
+The documentation also includes a full series of tutorial style videos to guide you in a more entertaining fashion;
+however, if you are a well-seasoned professional you may prefer to just read the written format on each page.
 
 ### FAQS
 
