@@ -23,7 +23,7 @@ def all():
   """
   os.chdir(BASE_DIR)
 
-  print("\n\nOverlord")
+  print("\n\n\nOverlord")
   print("-------------------------\n")
   os.system("git pull --recurse-submodules")
   print("\n")
