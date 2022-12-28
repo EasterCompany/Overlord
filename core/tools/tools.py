@@ -4,7 +4,7 @@ from os.path import exists
 from os import system, getcwd, environ
 from sys import argv, path, executable
 # Overlord library
-from web.settings import SECRET_DATA
+from web.settings import SECRET_DATA, CLIENT_DATA, INDEX
 from core import create_user, create_super_user
 from core.library import execute_from_command_line
 from core.library.version import Version
@@ -92,6 +92,7 @@ def help():
     03. code
         - Opens vscode in the root directory of your current project.
         - Only works for vscode stable release channel, not insiders.
+          (unless you use an alias)
         - "code ." command must also work on your environment.
 
     04. exit
@@ -231,17 +232,25 @@ def run_tool(command, index=0):
     elif command == 'runclient' or command == 'run':
 
         if arguments_remaining == 1 and arguments[0] == 'all':
-            node.clients.run_all()
+            node.clients.run_all(none_on_main_thread=True)
+            django.server.start()
+            node.share.file_updater_thread()
 
         elif arguments_remaining >= 1:
+            any_valid_client = False
             for arg in arguments:
+                if arg in CLIENT_DATA:
+                    any_valid_client = True
                 node.clients.run(arg, False, True)
+            if any_valid_client:
+                django.server.start()
+                node.share.file_updater_thread()
 
         elif command == 'run':
-            node.clients.run_all(none_on_main_thread=True)
+            node.clients.run(INDEX, False, False)
+            django.server.start()
+            node.share.file_updater_thread()
 
-        django.server.start()
-        node.share.file_updater_thread()
         return awaitInput(False)
 
     elif command == 'runserver':

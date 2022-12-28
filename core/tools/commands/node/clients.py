@@ -152,7 +152,7 @@ def install(target=None):
 
 
 # Run client
-def run(name, build, new_thread):
+def run(name:str, build:bool, new_thread:bool):
     if name not in clients_json:
         print(f'\n    Client `{name}` does not exist\n')
         x = [ clients_json.keys(), None ]
@@ -164,13 +164,13 @@ def run(name, build, new_thread):
         else:
             return console.output()
 
-
     client_data = clients_json[name]
     if new_thread:
         thread = new_client(name, client_data, build)
         thread.start()
         sleep(3)
         return chdir(BASE_DIR)
+
     return client(client_data, build)
 
 
@@ -193,9 +193,9 @@ def build(name):
 
 # Build all clients on the main thread
 def build_all():
-    console.log("\nUpdating shared files ... ", True)
+    console.log("\n> global\n  Updating shared files ... ", True)
     __update_shared_files__()
-    console.output("updated successfully", "green")
+    console.output("  updated successfully", "green")
     console.log("Building all clients ...")
     for _ in clients_json:
         console.log(f"  {_}")
