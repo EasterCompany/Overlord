@@ -14,7 +14,7 @@ def all():
   """
   os.chdir(BASE_DIR)
 
-  print("\n\nOverlord")
+  print("\nOverlord")
   print("-------------------------\n")
   os.system(f'''git add . && git commit -m "{AUTO_COMMIT_MESSAGE}" && git push''')
   print("\n")
