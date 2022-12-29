@@ -247,7 +247,7 @@ def run_tool(command, index=0):
                 node.share.file_updater_thread()
 
         elif command == 'run':
-            node.clients.run(INDEX, False, False)
+            node.clients.run(INDEX, False, True)
             django.server.start()
             node.share.file_updater_thread()
 

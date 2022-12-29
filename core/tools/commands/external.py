@@ -14,7 +14,7 @@ def OK() -> JsonResponse:
 def upgrade() -> JsonResponse:
   """
   Pulls new code from the current branch origin and then installs
-  any new server dependencies from the 'core/requirements' file
+  any new server dependencies from the 'core/requirements.txt' file
   """
   git.pull.all()
   django.server.install_requirements()
