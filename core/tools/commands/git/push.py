@@ -18,9 +18,9 @@ def all():
   console.out("\nOVERLORD", "yellow")
   print("-------------------------")
   os.system(f'''git add . && git commit -m "{AUTO_COMMIT_MESSAGE}" && git push''')
-  print("\n")
 
   for client in CLIENT_DATA:
+    print("\n")
     source_dir = CLIENT_DATA[client]["src"]
     source_api = BASE_DIR + f'/api/{client}'
 
@@ -38,4 +38,3 @@ def all():
       os.chdir(source_api)
       os.system(f'''git add . && git commit -m "{AUTO_COMMIT_MESSAGE}" && git push''')
       os.chdir(BASE_DIR)
-      print("\n")

@@ -27,9 +27,9 @@ def all():
   console.out("\nOVERLORD", "yellow")
   print("-------------------------")
   os.system("git pull --recurse-submodules")
-  print("\n")
 
   for client in CLIENT_DATA:
+    print("\n")
     source_dir = CLIENT_DATA[client]["src"]
     source_api = BASE_DIR + f'/api/{client}'
 
@@ -43,4 +43,3 @@ def all():
       console.out(f"{client.upper()} (API)", "yellow")
       print("-------------------------")
       os.system(f"cd {source_api} && git pull --recurse-submodules && cd {BASE_DIR}")
-      print("\n")
