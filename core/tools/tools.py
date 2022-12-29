@@ -413,7 +413,7 @@ def run_tool(command, index=0):
     elif command == 'exit' or command == 'exit()':
         exit()
 
-    elif command == 'createsuperuser':
+    elif command == 'createsuperuser' or command == 'createadmin':
         create_super_user()
 
     elif command == 'createuser':

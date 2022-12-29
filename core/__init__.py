@@ -1,6 +1,9 @@
 
 def create_super_user():
-  # Create an Overlord Admin User
+  '''
+  Create an admin user account on the local database for this application
+  requires the minimal amount of admin data: email, password & permissions
+  '''
   from core.models import Users
   print("\n --- CREATE NEW ADMIN USER --- \n")
   admin_email = input("Enter Email: ")
@@ -13,7 +16,10 @@ def create_super_user():
 
 
 def create_user():
-  # Create an Overlord App User
+  '''
+  Create a basic user account on the local database for this application
+  requires the minimal amount of user data: email & password
+  '''
   from core.models import Users
   print("\n --- CREATE NEW USER --- \n")
   user_email = input("Enter Email: ")
@@ -23,3 +29,15 @@ def create_user():
     print("Sorry! the password entries didn't match. Try again.\n")
   else:
     Users.create(user_email, user_password, 1)
+
+
+def overlord_cli_master_command(command):
+  '''
+  Checks if an input command matches a master command and runs the
+  appropriate function if it is; otherwise it returns a safe string
+  '''
+  if command('createsuperuser') or command('createadmin'):
+    return create_super_user()
+  elif command('createuser'):
+    return create_user()
+  return 1

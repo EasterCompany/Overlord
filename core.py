@@ -20,5 +20,10 @@ if __name__ == '__main__':
   elif command('tools'):
     tools.run()
   else:
-    from core.library import execute_from_command_line
+    from core.library import execute_from_command_line, console
     execute_from_command_line(argv)
+    if argv[-1] == 'core.py': console.console.output(
+      '\n[WARNING]\n    You are interacting with an Overlord underlayer known as Django\n'
+      '    Even if you know what you are doing, please avoid this if possible.\n',
+      'yellow'
+    )
