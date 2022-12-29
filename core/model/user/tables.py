@@ -4,7 +4,7 @@ from api.eastercompany.tables import AdminPanel
 from core.library import time, models, uuid, \
   api, encrypt, decrypt, get_datetime_string, \
   JsonResponse
-from core.library.console import Console
+from core.library import console
 
 
 class newUserObj:
@@ -106,7 +106,7 @@ class Users(UserModel):
     if UserInvite.objects.filter(email=email, data=data).count() == 0 and \
       Users.objects.filter(email=email).count() == 0:
       UserInvite.objects.create(email=email, created_by=invited_by, data=data)
-      Console.log(f"New invite created for {email} by {invited_by}")
+      console.log(f"New invite created for {email} by {invited_by}")
       return api.success()
     return api.error()
 
@@ -124,7 +124,7 @@ class Users(UserModel):
       uuid=Users.objects.filter(email=email).first().uuid,
       display_name=email.split('@')[0] if '@' in email else email
     )
-    Console.log(f"New user created with email {email} and permission level of {permissions}")
+    console.log(f"New user created with email {email} and permission level of {permissions}")
     return api.success()
 
   @staticmethod
@@ -175,14 +175,13 @@ class Users(UserModel):
       except Exception as error:
         return error
 
-
   @staticmethod
   def login(email:str, password:str):
     user = Users.get(email)
     if str(user) == "Users matching query does not exist.":
       return api.error(user)
     elif password == decrypt(user.key):
-      Console.log(f"User {user.uuid} logged in")
+      console.log(f"User {user.uuid} logged in")
       return api.data({'uuid': user.uuid, 'email': user.email, 'session': user.session})
     return api.error()
 
@@ -191,7 +190,7 @@ class Users(UserModel):
     Users.objects.filter(uuid=uuid).delete()
     UserDetails.objects.filter(uuid=uuid).delete()
     UserInvite.objects.filter(created_by=uuid).delete()
-    Console.log(f"User data for {uuid} was purged")
+    console.log(f"User data for {uuid} was purged")
     return api.success()
 
   @staticmethod

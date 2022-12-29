@@ -5,7 +5,7 @@ from os import system
 from threading import Thread
 # Overlord library
 from web.settings import BASE_DIR, SERVER_DATA
-from core.library.console import console
+from core.library import console
 from django.core.management import call_command
 
 
@@ -64,7 +64,7 @@ def install_requirements():
     """
     Install basic python package requirements
     """
-    console.output("\n Installing Essential Python Requirements", "yellow")
+    console.out("\n Installing Essential Python Requirements", "yellow")
     print("---------------------------------------------")
     subprocess.run(f"{sys.executable} -m pip install -r ./core/requirements.txt", shell=True, cwd=BASE_DIR)
 
@@ -73,6 +73,6 @@ def install_requirements_dev():
     """
     Install developer python package requirements
     """
-    console.output("\n Installing Developer Python Requirements", "yellow")
+    console.out("\n Installing Developer Python Requirements", "yellow")
     print("---------------------------------------------")
     subprocess.run(f"{sys.executable} -m pip install -r ./core/requirements.dev", shell=True, cwd=BASE_DIR)

@@ -78,12 +78,14 @@ def server(command:str):
 
 def error_message():
     return print('''
-        `PA API` tools require a single argument beginning with `-`
+    `SERVER` tools require a single argument beginning with `-`
 
-        ./o server -apps
-        ./o server -cpu
-        ./o server -consoles
-        ./o server -status
-        ./o server -tasks
-        ./o server -upgrade
+    ./o server -apps
+    ./o server -cpu
+    ./o server -consoles
+    ./o server -status
+    ./o server -tasks
+    ./o server -upgrade     (updates server-side source code)
+    ./o server -reload      (reboots the server)
+    ./o server -deploy      (upgrades and reloads the server)
     ''')

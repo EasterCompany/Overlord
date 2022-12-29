@@ -40,9 +40,12 @@ else:
 # Default start-up behavior
 __update_shared_files__()
 
-# Setup (web/urls.py) installed clients config file
-install_file('urls.py', '/web', getcwd(), log=False)
-
+# Setup (web/urls.py)
 from core.library import url
+install_file('urls.py', '/web', getcwd(), log=False)
 load_order = url.make_client_load_order(client_data, server_data['INDEX'])
 url.write_django_urls(load_order, getcwd() + '/web/urls.py')
+
+# Generate (api/urls.py)
+install_file('api_urls.py', '/api', getcwd(), log=False, rename="urls.py")
+url.acquire_all_clients_api(client_data, getcwd())

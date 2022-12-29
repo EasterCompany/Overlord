@@ -3,7 +3,7 @@ import os
 import json
 # Overlord library
 from core.library import path, api
-from core.library.console import Console
+from core.library import console
 from core.tools.commands.external import external_command
 from web.settings import SECRET_DATA, SERVER_DATA, CLIENT_DATA, BASE_DIR, LOGGER_DIR
 
@@ -58,7 +58,7 @@ def update_primary_client(req, *args, **kwargs):
         indent=2
       )
 
-    Console.log(f"User {api.get_user(req)} updated the primary client to {new_index}")
+    console.log(f"User {api.get_user(req)} updated the primary client to {new_index}")
     return api.success()
 
   return api.error()

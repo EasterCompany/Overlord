@@ -1,6 +1,6 @@
 # Overlord library
 from .api import fetch_api
-from core.library.console import console
+from core.library import console
 
 
 def display():
@@ -9,7 +9,7 @@ def display():
     for app in data:
 
         name = app['domain_name'].split('www.')[1] if 'www.' in app['domain_name'] else app['domain_name']
-        name = console.output(name, 'yellow')
+        name = console.out(name, 'yellow')
 
         if app['force_https']:
             protocol = 'https'

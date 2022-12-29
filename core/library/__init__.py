@@ -4,8 +4,10 @@
 
 # Standard library
 import json
+import subprocess
 from urllib.parse import unquote
 from uuid import uuid1 as uuid
+from os.path import exists
 
 # Shortcuts
 from django.shortcuts import render
@@ -14,6 +16,7 @@ from django.shortcuts import render
 from django.apps import AppConfig
 
 # Core
+from core.library.console_lib import console
 from core.library.api import get_api_url, get_arg, get_body, get_json, get_user
 from core.library.cryptography import encrypt, decrypt
 from core.library.time import get_datetime_string
@@ -35,3 +38,6 @@ from django.urls import path, re_path, include
 
 # Utils
 from django.utils.crypto import get_random_string
+
+# Bonus functions
+

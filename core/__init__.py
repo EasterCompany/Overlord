@@ -29,15 +29,3 @@ def create_user():
     print("Sorry! the password entries didn't match. Try again.\n")
   else:
     Users.create(user_email, user_password, 1)
-
-
-def overlord_cli_master_command(command):
-  '''
-  Checks if an input command matches a master command and runs the
-  appropriate function if it is; otherwise it returns a safe string
-  '''
-  if command('createsuperuser') or command('createadmin'):
-    return create_super_user()
-  elif command('createuser'):
-    return create_user()
-  return 1

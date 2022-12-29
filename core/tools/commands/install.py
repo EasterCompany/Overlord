@@ -37,16 +37,18 @@ def dump_json(filename, data, project_path='.'):
     )
 
 
-def install_file(filename, destination, project_path='.', log=True):
+def install_file(filename, destination, project_path='.', log=True, rename=None):
+  if rename is None:
+    rename = filename
   if log:
     print('Installing', filename, 'to', destination, '...')
   with open(project_path + '/core/tools/assets/' + filename) as base:
-    with open(project_path + destination + '/' + filename, 'w+') as new_file:
+    with open(project_path + destination + '/' + rename, 'w+') as new_file:
       new_file.write(base.read())
 
 
 def make_clients_config(project_path='.'):
-  client_paths  = sorted([
+  client_paths = sorted([
     f.path for f in scandir(project_path + "/clients") if f.is_dir()
   ])
   clients = {}
@@ -99,7 +101,7 @@ def make_server_config(project_path='.'):
   print('Generating server config...')
 
   server_core_data = {
-    "INDEX": 'e_panel',
+    "INDEX": 'example',
     "DEBUG": True,
     "STANDALONE": False,
     "LANGUAGE_CODE": 'en-gb',

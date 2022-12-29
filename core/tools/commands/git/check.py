@@ -1,7 +1,7 @@
 # Standard library
 import subprocess
 # Overlord library
-from core.tools.library.console import col
+from core.library import console
 from web.settings import BASE_DIR
 
 
@@ -22,4 +22,4 @@ def check_version_status():
 
 def version_status_label():
   _ver_str, _ver_col = check_version_status()
-  return col(_ver_str, _ver_col)
+  return console.out(_ver_str, _ver_col, False)

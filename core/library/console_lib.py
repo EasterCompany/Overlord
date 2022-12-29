@@ -31,20 +31,20 @@ class Console:
     if cmd is not None:
       self.input(cmd)
 
-  def output(self, text="", colour=None, print_to_console=True):
+  def out(self, text="", colour:str|None = None, print_to_console:bool = True, end:str = '\n'):
     """
     Returns a string converted variable [text] wrapped in colour
     tags to the console which also end by defaulting back to
     the selected default colour option [self.default_col]
 
     :param text any: stringified variable for colour context
-    :param colour str: name of colour 'key' from colour pallet [self.output]
+    :param colour str: name of colour 'key' from colour pallet [self.out]
     :return: string wrapped in colour tags ie; "\33[31m Example \33[0m"
     """
     def p(t):
       if print_to_console:
-        print(t)
-      return text
+        print(t, end=end)
+      return t
 
     # Always use string method & and use default colour when not defined
     text = str(text)
@@ -52,11 +52,15 @@ class Console:
     # Select colour and return
     if colour in self.colours:
       return p(self.colours[colour] + text + self.default_col)
+    elif colour is None:
+      return p(self.default_col + text + self.default_col)
 
     # Return stylized error
-    return p(self.colours["red"] + \
+    return p(
+      self.colours["red"] + \
       f"[ Console Error: No such colour option `{colour}` ]" + \
-      self.colours["yellow"] + text + self.default_col)
+      self.colours["yellow"] + text + self.default_col
+    )
 
   def status(self, status, message=None):
     """
@@ -71,22 +75,22 @@ class Console:
     # HTTP Status Code Colours
     if isinstance(status, int):
       if 100 <= status <= 199:
-        return self.output(' [UNKNOWN] ' + txt, 'white')
+        return self.out(' [UNKNOWN] ' + txt, 'white')
       elif 200 <= status <= 299:
-        return self.output(' [SUCCESS] ' + txt, 'green')
+        return self.out(' [SUCCESS] ' + txt, 'green')
       elif 300 <= status <= 399:
-        return self.output(' [WARNING] ' + txt, 'yellow')
+        return self.out(' [WARNING] ' + txt, 'yellow')
       else:
-        return self.output(' [ERROR] ' + txt, 'red')
+        return self.out(' [ERROR] ' + txt, 'red')
 
     # API Response Colours
     elif isinstance(status, str):
       if status == 'BAD':
-        return self.output(' [ERROR] ' + txt, 'red')
+        return self.out(' [ERROR] ' + txt, 'red')
       elif status == 'OK':
-        return self.output(' [SUCCESS] ' + txt, 'green')
+        return self.out(' [SUCCESS] ' + txt, 'green')
       else:
-        return self.output(' [WARNING] ' + txt, 'yellow')
+        return self.out(' [WARNING] ' + txt, 'yellow')
 
   def input(self, command, cwd=BASE_DIR, show_output=False) -> str:
     """
@@ -112,14 +116,14 @@ class Console:
     return subprocess.call(['sh', f'{BASE_DIR}/tools/scripts/{path}.sh'])
 
   @staticmethod
-  def log(_input, _print=False):
+  def log(_input, print_to_console=False):
     """
     Writes output to the logger file and then also prints it into the console
 
     :param input any: converts what ever is given into a string to be logged
     :return None:
     """
-    if _print:
+    if print_to_console:
       print(_input)
 
     _input = _input.replace('\n', '\n                      ')
@@ -131,9 +135,6 @@ class Console:
         content = logger.read()
       with open(LOGGER_DIR, 'w+') as logger:
         logger.write(content + _input)
-    else:
-      con = Console()
-      con.output(_input, "yellow")
 
 
 console = Console()

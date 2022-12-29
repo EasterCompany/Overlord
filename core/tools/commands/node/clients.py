@@ -15,7 +15,7 @@ from ..install import (
     make_server_config
 )
 from ..node.share import __update_shared_files__
-from core.library.console import console
+from core.library import console
 from web.settings import BASE_DIR
 
 # Variable app meta data
@@ -82,7 +82,7 @@ def client(app_data, build=False, app_name=""):
             text=True,
             universal_newlines=True
         )
-        console.output("  installed successfully", "green")
+        console.out("  installed successfully", "green")
 
         print(f"  compiling ...")
         console.log(f"    Optimizing for production")
@@ -96,7 +96,7 @@ def client(app_data, build=False, app_name=""):
             text=True,
             universal_newlines=True
         )
-        console.output("  compiled successfully", "green")
+        console.out("  compiled successfully", "green")
 
         console.log(f"    Updating meta data")
         update_client_meta_data(app_data)
@@ -162,7 +162,7 @@ def run(name:str, build:bool, new_thread:bool):
         if x[1] is None:
             return 'Err0'
         else:
-            return console.output()
+            return console.out()
 
     client_data = clients_json[name]
     if new_thread:
@@ -195,7 +195,7 @@ def build(name):
 def build_all():
     console.log("\n> global\n  Updating shared files ... ", True)
     __update_shared_files__()
-    console.output("  updated successfully", "green")
+    console.out("  updated successfully", "green")
     console.log("Building all clients ...")
     for _ in clients_json:
         console.log(f"  {_}")
@@ -238,7 +238,7 @@ def create(name, native=False, custom_repo=None):
     # Make directory checks
     if exists(f'clients/{name}'):
         return print(
-            console.output('\n[ABORTED]', 'red') + f" client with name '{name}' already exists.\n"
+            console.out('\n[ABORTED]', 'red') + f" client with name '{name}' already exists.\n"
         )
 
     # Fetch react-native app template from github
@@ -250,7 +250,7 @@ def create(name, native=False, custom_repo=None):
     elif custom_repo is not None:
         print("\nDownloading custom-client template...")
         download_repo(custom_repo, name)
-        console.output(f'Successfully created a custom client: {name} !', 'green')
+        console.out(f'Successfully created a custom client: {name} !', 'green')
         print(f'To install your client use this command `./o install -{name}`\n')
         return update_overlord_configuration()
 
@@ -313,7 +313,7 @@ def create(name, native=False, custom_repo=None):
 
     update_overlord_configuration()
 
-    console.output(f'Successfully created a web client: {name} !', 'green')
+    console.out(f'Successfully created a web client: {name} !', 'green')
     print(f'To install your client use this command `./o install -{name}`\n')
 
 

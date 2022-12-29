@@ -1,6 +1,6 @@
 # Overlord library
 from .api import domain, fetch_api
-from core.library.console import console
+from core.library import console
 
 
 def request():
@@ -11,7 +11,7 @@ def request():
     console.status(data['status'], msg)
 
     if 'data' in data and data['data'] == "[500] Internal server error.":
-        print('REASON:', console.output(data['data'], 'red'))
+        print('REASON:', console.out(data['data'], 'red'))
         print('\nAre you using the correct authentication method?')
 
     return data

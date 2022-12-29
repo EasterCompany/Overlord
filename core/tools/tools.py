@@ -6,9 +6,9 @@ from sys import argv, path, executable
 # Overlord library
 from web.settings import SECRET_DATA, CLIENT_DATA, INDEX
 from core import create_user, create_super_user
-from core.library import execute_from_command_line
+from core.library import execute_from_command_line, console
 from core.library.version import Version
-from core.tools.library import console, gracefulExit
+from core.tools.library import gracefulExit
 from core.tools.commands import install, git, django, node, pytest, pa
 
 tools_path = '/'.join(__file__.split('/')[:-1])
@@ -44,9 +44,13 @@ def awaitInput(ascii_art=True):
 
     flag = gracefulExit.GracefulExit()
     while True:
-        Input = input(console.col('./o ', 'green'))
-        command_line = Input.split(' ')
-        run()
+        try:
+            system("stty -echoctl")
+            Input = input(console.out('./o ', 'green', False))
+            command_line = Input.split(' ')
+            run()
+        except EOFError:
+            console.out("\n\nAre you trying to exit the CLI? (Please use the 'exit' command instead)\n", "yellow")
         if flag.exit():
             break
 
@@ -65,12 +69,12 @@ def output(line, error=False, success=False, warning=False):
         _output += f'{line}\n'
 
     if error:
-        return print(console.col(_output, 'red'))
+        return console.out(_output, 'red')
     elif warning:
-        return print(console.col(_output, 'yellow'))
+        return console.out(_output, 'yellow')
     elif success:
-        return print(console.col(_output, 'green'))
-    return print(_output)
+        return console.out(_output, 'green')
+    return console.out(_output)
 
 
 def help():
@@ -204,7 +208,7 @@ def run_tool(command, index=0):
             install.o_file(project_path)
             install.pytest_ini(project_path)
             django.secret_key.new(project_path)
-            print('\n', console.col('Success!.', 'green'), '\n')
+            console.out('\nSuccess!\n', 'green')
 
     elif command == 'pull':
         git.pull.all()
@@ -344,7 +348,7 @@ def run_tool(command, index=0):
 
     elif command == 'clients':
         for _client in node.clients.update_client_json():
-            output(f' -> {_client}')
+            console.out(f'\n -> {_client}', 'yellow')
 
     elif command == 'cwd': output(getcwd)
 
@@ -360,9 +364,10 @@ def run_tool(command, index=0):
                 "`node` command doesn't take any arguments",
                 error=True
             )
-        output(console.col('\nStarting Node', 'green') + '\n[Type: ".exit" to return]')
+        console.out('\nStarting Node Shell', 'green')
+        console.out('[Press CTRL+D to Return]')
         system('node')
-        output(console.col('Closed Node.', 'red'))
+        console.out('\nClosed Node.', 'red')
 
     elif command == 'django' or command == 'python':
         if not arguments_remaining == 0:
@@ -370,16 +375,17 @@ def run_tool(command, index=0):
                 "`django` command doesn't take any arguments",
                 error=True
             )
-        output(console.col('\nStarting Django', 'green') + '\n[CTRL+D to Exit] ')
+        console.out('\nStarting Python-Django Shell', 'green')
+        console.out('[Press CTRL+D to Return]')
         execute_from_command_line([executable, 'shell_plus'])
-        output(console.col('Closed Django.', 'red'))
+        console.out('\nClosed Python-Django Shell.', 'red')
 
     elif command == 'redis':
-        output(console.col('\nInitiating Redis Cloud Connection', 'green') + ' \n[CTRL+C to Exit]')
+        output(console.out('\nInitiating Redis Cloud Connection', 'green', False) + ' \n[CTRL+C to Exit]')
         system(
             f"redis-cli -u redis://{SECRET_DATA['REDIS-USER']}:{SECRET_DATA['REDIS-PASS']}@{SECRET_DATA['REDIS-HTTP']}"
         )
-        output(console.col('Closed Redis Cloud Connection.', 'red'))
+        console.out('Closed Redis Cloud Connection.', 'red')
 
     elif command.startswith('npm') and arguments_remaining > 0:
         if arguments[0] == 'uninstall' or arguments[0] == 'u':
@@ -412,6 +418,7 @@ def run_tool(command, index=0):
         output(_process.stdout)
 
     elif command == 'exit' or command == 'exit()':
+        console.out("\nClosed Overlord-CLI\n", "red")
         exit()
 
     elif command == 'createsuperuser' or command == 'createadmin':
@@ -431,7 +438,3 @@ def run():
     if len(command_line) <= 0:
         return awaitInput()
     [run_tool(arg, index) for index, arg in enumerate(command_line)]
-
-
-if __name__ == '__main__':
-    run()

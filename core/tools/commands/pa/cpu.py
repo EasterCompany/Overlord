@@ -2,7 +2,7 @@
 from datetime import datetime
 # Local app imports
 from .api import fetch_api
-from core.tools.library import console
+from core.library import console
 
 
 def display():
@@ -26,7 +26,7 @@ def display():
     print(
         '  Daily usage\n',
         '   ', str(cpu_usage) + 's', '/', str(cpu_limit) + 's',
-        '   ', console.col(str(cpu_perct) + '%\n', cpu_status)
+        '   ', console.out(str(cpu_perct) + '%\n', cpu_status, False)
     )
 
     cpu_reset_datetime = datetime.strptime(

@@ -6,7 +6,7 @@ from os import environ
 # Overlord library
 from core import create_super_user, create_user
 from core.tools import tools
-from core.library import get_wsgi_application
+from core.library import console, get_wsgi_application
 
 if __name__ == '__main__':
   environ.setdefault('DJANGO_SETTINGS_MODULE', 'web.settings')
@@ -20,9 +20,9 @@ if __name__ == '__main__':
   elif command('tools'):
     tools.run()
   else:
-    from core.library import execute_from_command_line, console
+    from core.library import execute_from_command_line
     execute_from_command_line(argv)
-    if argv[-1] == 'core.py': console.console.output(
+    if len(argv) == 1 or argv[-1] == './core.py': console.out(
       '\n[WARNING]\n    You are interacting with an Overlord underlayer known as Django\n'
       '    Even if you know what you are doing, please avoid this if possible.\n',
       'yellow'

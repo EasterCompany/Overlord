@@ -5,11 +5,10 @@ from urllib import parse
 from web.settings import DEBUG
 from django.urls import path as new_path
 from django.http import JsonResponse
-from core.library.console import Console
+from core.library import console
 
 OK = 'OK'
 BAD = 'BAD'
-CON = Console()
 
 
 # Overlord Standard Response Function ----------------------------------------------------------------------------------
@@ -52,7 +51,7 @@ def error(exception=None):
   """
   if exception is not None and DEBUG:
     print(f"""
-      [{CON.output("INTERNAL SERVER ERROR", "red")}]
+      [{console.out("INTERNAL SERVER ERROR", "red")}]
 
     {exception}
     """)

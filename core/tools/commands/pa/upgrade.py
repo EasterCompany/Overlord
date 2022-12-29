@@ -1,6 +1,6 @@
 # Overlord library
 from .api import domain, server
-from core.library.console import console
+from core.library import console
 
 
 def request():
@@ -10,6 +10,6 @@ def request():
     console.status(data['status'], msg)
 
     if 'data' in data and data['data'] == "[500] Internal server error.":
-        console.output(data['data'], 'red')
+        console.out(data['data'], 'red')
 
     return data
