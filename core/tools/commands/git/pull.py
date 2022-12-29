@@ -2,6 +2,7 @@
 import os
 from sys import path
 # Overlord library
+from core.library import console
 from web.settings import CLIENT_DATA, BASE_DIR
 
 
@@ -23,23 +24,23 @@ def all():
   """
   os.chdir(BASE_DIR)
 
-  print("\nOverlord")
-  print("-------------------------\n")
+  console.out("\nOVERLORD", "yellow")
+  print("-------------------------")
   os.system("git pull --recurse-submodules")
-  print("\n")
+  print("")
 
   for client in CLIENT_DATA:
     source_dir = CLIENT_DATA[client]["src"]
     source_api = BASE_DIR + f'/api/{client}'
 
     if os.path.exists(f"{source_dir}/.git"):
-      print(f"\n{client.title()}")
-      print("-------------------------\n")
+      console.out(f"{client.upper()}", "yellow")
+      print("-------------------------")
       os.system(f"cd {source_dir} && git pull --recurse-submodules && cd {BASE_DIR}")
-      print("\n")
+      print("")
 
     if os.path.exists(f"{source_api}/.git"):
-      print(f"\n{client.title()}-API")
-      print("-------------------------\n")
+      console.out(f"{client.upper()} (API)", "yellow")
+      print("-------------------------")
       os.system(f"cd {source_api} && git pull --recurse-submodules && cd {BASE_DIR}")
-      print("\n")
+      print("")
