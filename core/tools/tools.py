@@ -417,7 +417,7 @@ def run_tool(command, index=0):
 
     elif command == 'sh':
         _process = subprocess.run(arguments, capture_output=True, text=True)
-        output(_process.stdout)
+        console.out('\n' + _process.stdout)
 
     elif command == 'exit' or command == 'exit()':
         console.out("\nClosed Overlord-CLI\n", "red")
@@ -431,7 +431,7 @@ def run_tool(command, index=0):
 
     else:
         bad_input = ' '.join(command_line)
-        output(f"No command matching input\n > ./o {bad_input}", error=True)
+        console.out(f"\n  [ERROR] No command matching input\n    ./o {bad_input}", "red")
 
     return print('')
 
