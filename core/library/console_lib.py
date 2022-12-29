@@ -16,7 +16,7 @@ class Console:
     "white": '\33[0m',
   }
 
-  def __init__(self, cmd=None, *args, **kwargs):
+  def __init__(self, cmd=None, *args, **kwargs) -> None:
     """
     INITIALIZE OVERLORD CONSOLE
       - Set default colour
@@ -31,7 +31,7 @@ class Console:
     if cmd is not None:
       self.input(cmd)
 
-  def out(self, text="", colour:str|None = None, print_to_console:bool = True, end:str = '\n'):
+  def out(self, text="", colour:str|None = None, print_to_console:bool = True, end:str = '\n') -> str:
     """
     Returns a string converted variable [text] wrapped in colour
     tags to the console which also end by defaulting back to
@@ -39,7 +39,7 @@ class Console:
 
     :param text any: stringified variable for colour context
     :param colour str: name of colour 'key' from colour pallet [self.out]
-    :return: string wrapped in colour tags ie; "\33[31m Example \33[0m"
+    :return str: string wrapped in colour tags ie; "\33[31m Example \33[0m"
     """
     def p(t):
       if print_to_console:
@@ -62,7 +62,7 @@ class Console:
       self.colours["yellow"] + text + self.default_col
     )
 
-  def status(self, status, message=None):
+  def status(self, status:str|int, message:str = None) -> str:
     """
     Using the type of the status to determine the input (int == http status code // str == api response)
     returns a string with the appropriate colour for the status code.
@@ -92,7 +92,7 @@ class Console:
       else:
         return self.out(' [WARNING] ' + txt, 'yellow')
 
-  def input(self, command, cwd=BASE_DIR, show_output=False) -> str:
+  def input(self, command:str, cwd:str = BASE_DIR, show_output:bool = False) -> str:
     """
     Using the os.system() method execute the command (a string) in a sub-shell.
     This method is implemented by calling the standard C function system(), and has the same limitations.
@@ -106,7 +106,7 @@ class Console:
       out = subprocess.run(command, shell=True, cwd=cwd)
     return out.stdout
 
-  def run_script(self, path):
+  def run_script(self, path:str) -> object:
     """
     Using the console.input method; run a script from the tools/scripts directory.
 
@@ -116,7 +116,7 @@ class Console:
     return subprocess.call(['sh', f'{BASE_DIR}/tools/scripts/{path}.sh'])
 
   @staticmethod
-  def log(_input, print_to_console=False):
+  def log(_input, print_to_console:bool = False) -> None:
     """
     Writes output to the logger file and then also prints it into the console
 

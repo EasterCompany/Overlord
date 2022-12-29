@@ -259,6 +259,8 @@ def run_tool(command, index=0):
         return awaitInput(False)
 
     elif command == 'runserver':
+        console.out("\nStarting Production Server", "green")
+        console.out("[Press CTRL+C to Return]\n")
         django.server.run()
 
     elif command == 'build':
