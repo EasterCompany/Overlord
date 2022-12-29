@@ -161,7 +161,7 @@ def run_tool(command, index=0):
     elif command == 'install':
 
         # Install python requirements
-        if arguments[0] == 'r':
+        if arguments[0] == 'r' or arguments[0] == 'requirements':
             django.server.install_requirements()
             # Include developer dependencies
             if arguments[1] == 'd':
@@ -202,6 +202,7 @@ def run_tool(command, index=0):
             install.django_files(project_path)
             install.secrets_file(project_path)
             install.o_file(project_path)
+            install.pytest_ini(project_path)
             django.secret_key.new(project_path)
             print('\n', console.col('Success!.', 'green'), '\n')
 

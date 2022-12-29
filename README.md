@@ -1,4 +1,4 @@
-<p align="center" style="border-bottom:0px;padding:9px 0 0 0;"> [ 1.2.1 28/12/2022 ] </p>
+<h6 align="center" style="border-bottom:0px;padding:9px 0 0 0;"> [ v1.2.1 29/12/2022 ] </h6>
 <h2 align="center" style="margin-bottom:32px;border-bottom:0px;"> The Overlord Framework </h1>
 
 ### Welcome
@@ -7,7 +7,7 @@ Welcome to The Overlord Framework, the one true full stack framework. Developed 
 
 ### Documentation
 
-If you're looking for beautifully crafted and well detailed documentation then you should visit our website,
+If you're looking for our beautifully crafted and detailed documentation then you should visit our website,
 [here](https://www.easter.company/overlord).
 
 The documentation also includes a full series of tutorial style videos to guide you in a more entertaining fashion;

@@ -203,3 +203,15 @@ tools.run();
 "
 """)
   system("chmod +x ./o")
+
+
+def pytest_ini(project_path='.'):
+  if not exists(f"{project_path}/pytest.ini"):
+    print("Generating pytest.ini")
+    with open(f"{project_path}/pytest.ini", "w") as pytest_ini:
+      pytest_ini.write("""[pytest]
+DJANGO_SETTINGS_MODULE = web.settings
+FAIL_INVALID_TEMPLATE_VARS = True
+python_files = */test_*.py
+django_debug_mode = true
+""")
