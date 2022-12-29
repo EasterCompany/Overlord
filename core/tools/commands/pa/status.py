@@ -7,10 +7,15 @@ def request():
     print(f'\nChecking {domain} ...\n')
 
     data = server('status')
-    msg = "Server is responding." if data['status'] == "OK" else None
-    console.status(data['status'], msg)
+    if 'error' in data:
+        msg = "SERVER IS DOWN!"
+    else:
+        msg = "Server is responding." if data['status'] == "OK" else None
+        console.status(data['status'], msg)
 
-    if 'data' in data and data['data'] == "[500] Internal server error.":
+    if 'error' in data:
+        console.status(404, msg)
+    elif 'data' in data and data['data'] == "[500] Internal server error.":
         print('REASON:', console.out(data['data'], 'red'))
         print('\nAre you using the correct authentication method?')
 

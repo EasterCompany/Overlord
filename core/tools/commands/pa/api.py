@@ -72,7 +72,10 @@ def server(command:str):
     }
     response = requests.post(url, headers=headers, json=data)
     if not response.status_code == 200:
-        return print(f'Got unexpected response code [ERROR {response.status_code}]:\n{response.content}\n')
+        return {
+            'status': '404',
+            'error': f'Got unexpected response code [ERROR {response.status_code}]:\n{response.content}\n'
+        }
     return json.loads(response.content)
 
 
