@@ -25,7 +25,7 @@ def all():
     source_api = BASE_DIR + f'/api/{client}'
 
     if os.path.exists(f"{source_dir}/.git"):
-      console.out(f"\n{client.upper()}", "yellow")
+      console.out(f"\n{client.upper()} (CLIENT)", "yellow")
       print("-------------------------")
       os.chdir(source_dir)
       os.system(f'''git add . && git commit -m "{AUTO_COMMIT_MESSAGE}" && git push''')

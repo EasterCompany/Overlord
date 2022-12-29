@@ -34,7 +34,7 @@ def all():
     source_api = BASE_DIR + f'/api/{client}'
 
     if os.path.exists(f"{source_dir}/.git"):
-      console.out(f"{client.upper()}", "yellow")
+      console.out(f"{client.upper()} (CLIENT)", "yellow")
       print("-------------------------")
       os.system(f"cd {source_dir} && git pull --recurse-submodules && cd {BASE_DIR}")
       print("\n")
