@@ -16,9 +16,9 @@ def all():
   os.chdir(BASE_DIR)
 
   console.out("\nOVERLORD", "yellow")
-  print("-------------------------\n")
+  print("-------------------------")
   os.system(f'''git add . && git commit -m "{AUTO_COMMIT_MESSAGE}" && git push''')
-  print("")
+  print("\n")
 
   for client in CLIENT_DATA:
     source_dir = CLIENT_DATA[client]["src"]
@@ -26,16 +26,16 @@ def all():
 
     if os.path.exists(f"{source_dir}/.git"):
       console.out(f"\n{client.upper()}", "yellow")
-      print("-------------------------\n")
+      print("-------------------------")
       os.chdir(source_dir)
       os.system(f'''git add . && git commit -m "{AUTO_COMMIT_MESSAGE}" && git push''')
       os.chdir(BASE_DIR)
-      print("")
+      print("\n")
 
     if os.path.exists(f"{source_api}/.git"):
       console.out(f"\n{client.upper()} (API)", "yellow")
-      print("-------------------------\n")
+      print("-------------------------")
       os.chdir(source_api)
       os.system(f'''git add . && git commit -m "{AUTO_COMMIT_MESSAGE}" && git push''')
       os.chdir(BASE_DIR)
-      print("")
+      print("\n")

@@ -27,7 +27,7 @@ def all():
   console.out("\nOVERLORD", "yellow")
   print("-------------------------")
   os.system("git pull --recurse-submodules")
-  print("")
+  print("\n")
 
   for client in CLIENT_DATA:
     source_dir = CLIENT_DATA[client]["src"]
@@ -37,10 +37,10 @@ def all():
       console.out(f"{client.upper()}", "yellow")
       print("-------------------------")
       os.system(f"cd {source_dir} && git pull --recurse-submodules && cd {BASE_DIR}")
-      print("")
+      print("\n")
 
     if os.path.exists(f"{source_api}/.git"):
       console.out(f"{client.upper()} (API)", "yellow")
       print("-------------------------")
       os.system(f"cd {source_api} && git pull --recurse-submodules && cd {BASE_DIR}")
-      print("")
+      print("\n")
