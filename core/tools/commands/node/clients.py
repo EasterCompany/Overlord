@@ -70,8 +70,7 @@ def client(app_data, build=False, app_name=""):
     if build and 'build' in app_data:
         print(f"\n> {app_name}@{clients_json[app_name]['version']}")
 
-        print("  installing ...")
-        console.log(f"    Installing packages")
+        console.out(f"  {console.wait}  Installing", end="\r")
         subprocess.run(
             "npm install",
             shell=True,
@@ -82,10 +81,9 @@ def client(app_data, build=False, app_name=""):
             text=True,
             universal_newlines=True
         )
-        console.out("  installed successfully", "green")
+        console.out("  ✔️ Installed     ", "green")
 
-        print(f"  compiling ...")
-        console.log(f"    Optimizing for production")
+        console.out(f"  {console.wait}  Compiling", end="\r")
         subprocess.run(
             "npm run build",
             shell=True,
@@ -96,10 +94,11 @@ def client(app_data, build=False, app_name=""):
             text=True,
             universal_newlines=True
         )
-        console.out("  compiled successfully", "green")
+        console.out("  ✔️ Compiled      ", "green")
 
-        console.log(f"    Updating meta data")
+        console.out(f"  {console.wait}  Post-Processing", end="\r")
         update_client_meta_data(app_data)
+        console.out("  ✔️ Post-Processed    ", "green")
 
     elif not build and 'start' in app_data:
         subprocess.call("npm run start", shell=True, cwd=app_data['src'])
@@ -193,14 +192,14 @@ def build(name):
 
 # Build all clients on the main thread
 def build_all():
-    console.log("\n> global\n  Updating shared files ... ", True)
+    console.out("\n> global")
+
+    console.out(f"  {console.wait}  Updating shared files", end="\r")
     __update_shared_files__()
-    console.out("  updated successfully", "green")
-    console.log("Building all clients ...")
+    console.out("  ✔️ Updated shared files      ", "green")
+
     for _ in clients_json:
-        console.log(f"  {_}")
         client(clients_json[_], build=True, app_name=_)
-    console.log("Successfully built all clients.")
 
 
 # Create new client

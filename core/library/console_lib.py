@@ -14,7 +14,9 @@ class Console:
     "yellow": '\33[33m',
     "blue": '\33[34m',
     "white": '\33[0m',
+    "flash": '\33[5;30m'
   }
+  wait = "\33[5;33m🔶\33[0m"
 
   def __init__(self, cmd=None, *args, **kwargs) -> None:
     """
@@ -31,7 +33,8 @@ class Console:
     if cmd is not None:
       self.input(cmd)
 
-  def out(self, text="", colour:str|None = None, print_to_console:bool = True, end:str = '\n') -> str:
+  def out(self,
+    text="", colour:str|None = None, print_to_console:bool = True, end:str = '\n') -> str:
     """
     Returns a string converted variable [text] wrapped in colour
     tags to the console which also end by defaulting back to
@@ -41,25 +44,23 @@ class Console:
     :param colour str: name of colour 'key' from colour pallet [self.out]
     :return str: string wrapped in colour tags ie; "\33[31m Example \33[0m"
     """
+
     def p(t):
+      t = t + self.default_col
       if print_to_console:
         print(t, end=end)
       return t
 
-    # Always use string method & and use default colour when not defined
     text = str(text)
-
-    # Select colour and return
     if colour in self.colours:
-      return p(self.colours[colour] + text + self.default_col)
+      return p(self.colours[colour] + text)
     elif colour is None:
-      return p(self.default_col + text + self.default_col)
+      return p(self.default_col + text)
 
-    # Return stylized error
     return p(
       self.colours["red"] + \
       f"[ Console Error: No such colour option `{colour}` ]" + \
-      self.colours["yellow"] + text + self.default_col
+      self.colours["yellow"] + text
     )
 
   def status(self, status:str|int, message:str = None) -> str:
@@ -92,19 +93,34 @@ class Console:
       else:
         return self.out(' [WARNING] ' + txt, 'yellow')
 
-  def input(self, command:str, cwd:str = BASE_DIR, show_output:bool = False) -> str:
+  def input(self, command:str, cwd:str = BASE_DIR, show_output:bool = False) -> object:
     """
     Using the os.system() method execute the command (a string) in a sub-shell.
     This method is implemented by calling the standard C function system(), and has the same limitations.
 
     :param command str: the input command(s) to send to the system
-    :return None:
+    :return str|int: the returncode if output was shown or the output if it was not shown
     """
     if show_output:
-      out = subprocess.call(command, shell=True, cwd=cwd)
+      out = subprocess.run(
+        command,
+        shell=True,
+        cwd=cwd,
+        capture_output=True
+      )
+      return out
     else:
-      out = subprocess.run(command, shell=True, cwd=cwd)
-    return out.stdout
+      out = subprocess.run(
+        command,
+        shell=True,
+        cwd=cwd,
+        bufsize=1,
+        stdout=subprocess.PIPE,
+        stderr=subprocess.STDOUT,
+        text=True,
+        universal_newlines=True
+      )
+      return out
 
   def run_script(self, path:str) -> object:
     """
