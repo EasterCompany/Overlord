@@ -5,9 +5,11 @@
 # Standard library
 import json
 import subprocess
+from os import mkdir, rmdir, remove
+from os.path import exists
 from urllib.parse import unquote
 from uuid import uuid1 as uuid
-from os.path import exists
+from time import sleep
 
 # Shortcuts
 from django.shortcuts import render

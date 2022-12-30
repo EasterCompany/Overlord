@@ -10,7 +10,7 @@ from core import create_user, create_super_user
 from core.library import execute_from_command_line, console
 from core.library.version import Version
 from core.tools.library import gracefulExit
-from core.tools.commands import install, git, django, node, pytest, pa
+from core.tools.commands import install, git, django, node, pytest, pa, vscode
 
 tools_path = '/'.join(__file__.split('/')[:-1])
 project_path = path[0]
@@ -163,7 +163,11 @@ def run_tool(command, index=0):
         git_repo, git_message = None, None
 
     # Return an error prompt if the command string is an argument
-    if command.startswith('-'): console.out("\n  [ERROR] Commands cannot start with '-'", "red")
+    if command.startswith('-') and index == 0:
+        console.out("\n  [ERROR] Commands cannot start with '-'", "red")
+
+    elif command.startswith('-'):
+        return None
 
     elif command == 'install':
 
@@ -415,9 +419,17 @@ def run_tool(command, index=0):
 
     elif command == 'code':
         if arguments_remaining == 0:
-            system('code .')
-        elif arguments_remaining == 1:
-            system(f'code clients/{arguments[0]}')
+            console.out("\n> opening global workspace")
+            console.input('code .')
+        elif arguments_remaining == 1 and arguments[0] in CLIENT_DATA:
+            console.out(f"\n> opening workspace for '{arguments[0]}'")
+            if 'api' in CLIENT_DATA[arguments[0]]:
+                vscode.workspace.start(arguments[0])
+            else:
+                console.input(f'code clients/{arguments[0]}')
+            return print('')
+        else:
+            return console.out("\n  [ERROR] `code` command takes 1 argument that must be a client name\n", "red")
 
     elif command == 'sh':
         _process = subprocess.run(arguments, capture_output=True, text=True)
