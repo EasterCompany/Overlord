@@ -10,7 +10,7 @@ def request():
     if 'error' in data:
         msg = "SERVER IS DOWN!"
     else:
-        msg = "Server is responding." if data['status'] == "OK" else None
+        msg = "Server Responded" if data['status'] == "OK" else None
         console.status(data['status'], msg)
 
     if 'error' in data:
