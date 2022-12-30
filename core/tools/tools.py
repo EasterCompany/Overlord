@@ -312,6 +312,7 @@ def run_tool(command, index=0):
                 pa.upgrade.request()
                 return print()
             elif arguments[0] == 'deploy':
+                system('clear')
                 node.clients.build_all()
                 git.push.all()
                 pa.upgrade.request()

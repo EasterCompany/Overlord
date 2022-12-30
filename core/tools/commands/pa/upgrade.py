@@ -6,7 +6,7 @@ from core.library import console
 def request():
     print(f'\nUpgrading {domain} ...\n')
     data = server('upgrade')
-    msg = "Upgraded Server." if data['status'] == "OK" else None
+    msg = "Server Upgraded" if data['status'] == "OK" else None
     console.status(data['status'], msg)
 
     if 'data' in data and data['data'] == "[500] Internal server error.":
