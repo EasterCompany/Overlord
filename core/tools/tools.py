@@ -1,4 +1,5 @@
 # Standard library
+import readline
 import subprocess
 from os.path import exists
 from os import system, getcwd, environ
@@ -14,7 +15,6 @@ from core.tools.commands import install, git, django, node, pytest, pa
 tools_path = '/'.join(__file__.split('/')[:-1])
 project_path = path[0]
 command_line = argv[2:]
-len_cmd_line = len(command_line)
 _version = Version()
 environ.setdefault('DJANGO_SETTINGS_MODULE', 'web.settings')
 
@@ -42,11 +42,14 @@ def awaitInput(ascii_art=True):
     else:
         print('')
 
+    readline.clear_history()
     flag = gracefulExit.GracefulExit()
+
     while True:
         try:
-            system("stty -echoctl")
-            Input = input(console.out('./o ', 'green', False))
+            Input = input(console.out('./o ', 'green', False)).strip()
+            while '  ' in Input:
+                Input = Input.replace('  ', ' ')
             command_line = Input.split(' ')
             run()
         except EOFError:
@@ -111,11 +114,11 @@ def help():
         - Automatically detect all git repositories within this projects
           scope and push the latest commits to the current branch.
 
-    07. main
+    07. main                                        [Experimental Feature]
         - Automatically detect all git repositories within this projects
           scope and switch them to the `main` branch.
 
-    08. dev
+    08. dev                                         [Experimental Feature]
         - Automatically detect all git repositories within this projects
           scope and switch them to the `dev` branch.
 
@@ -160,7 +163,7 @@ def run_tool(command, index=0):
         git_repo, git_message = None, None
 
     # Return an error prompt if the command string is an argument
-    if command.startswith('-'): return None
+    if command.startswith('-'): console.out("\n  [ERROR] Commands cannot start with '-'", "red")
 
     elif command == 'install':
 
@@ -224,9 +227,9 @@ def run_tool(command, index=0):
 
     elif command == 'merge':
         if arguments_remaining == 2:
-            if arguments[0] == 'all': git.merge.all(git_message), gracefulExit()
-            else: git.merge.with_message(git_message, git_repo), gracefulExit()
-        git.merge.error_message(), gracefulExit()
+            if arguments[0] == 'all': git.merge.all(git_message)
+            else: git.merge.with_message(git_message, git_repo)
+        git.merge.error_message()
 
     elif command == 'new_secret_key':
         django.secret_key.new()
@@ -431,8 +434,8 @@ def run_tool(command, index=0):
         create_user()
 
     else:
-        bad_input = ' '.join(command_line)
-        console.out(f"\n  [ERROR] No command matching input\n    ./o {bad_input}", "red")
+        line_start = "\n" if index == 0 else ""
+        console.out(f"{line_start}  [ERROR] No command matching input\n    ./o {command}", "red")
 
     return print('')
 
