@@ -21,7 +21,7 @@ def request():
   elif 'data' in data and data['data'] == "[500] Internal server error.":
     print('REASON:', console.out(data['data'], 'red'))
 
-  if b'{#prerender_status_check#}' in response.content:
+  if b'<!--prerender_status_check-->' in response.content:
     console.status(" ✅ Application Served", "success")
   else:
     console.out(f" 🔥 Application Failed", "error")
