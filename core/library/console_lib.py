@@ -14,7 +14,9 @@ class Console:
     "yellow": '\33[33m',
     "blue": '\33[34m',
     "white": '\33[0m',
-    "flash": '\33[5;30m'
+    "flash": '\33[5;30m',
+    "error": '\33[1;31m',
+    "success": '\33[1;32m'
   }
   wait = "\33[5;33m🔶\33[0m"
 
