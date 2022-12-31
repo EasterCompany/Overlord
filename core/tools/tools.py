@@ -3,7 +3,7 @@ import readline
 import subprocess
 from os.path import exists
 from os import system, getcwd, environ
-from sys import argv, path, executable
+from sys import argv, path, executable, version_info
 # Overlord library
 from web.settings import SECRET_DATA, CLIENT_DATA, INDEX
 from core import create_user, create_super_user
@@ -453,6 +453,18 @@ def run_tool(command, index=0):
 
 
 def run():
+    if not version_info >= (3, 10):
+        return console.out(
+            "\n[ERROR] Python 3.10 or greater is required by Overlord\n"
+            "        You may have installed using the wrong executable\n"
+            "        Try installing Overlord again using this command:\n"
+            "        \n"
+            "        python3.10 core.py tools install\n"
+            "        \n"
+            "        or set python 3.10 (or greater) to be your system default\n"
+            "        when calling 'python3' from the command line.\n",
+            "red"
+        ), exit()
     if len(command_line) <= 0:
         return awaitInput()
     [run_tool(arg, index) for index, arg in enumerate(command_line)]
