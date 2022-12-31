@@ -215,11 +215,11 @@ def o_file(project_path=None):
     o_file.write(f"""#!/bin/bash
 cd {project_path}
 clear
-{executable} -c "
+{inter} -c "
 try:
   from sys import path;from os import environ;from core.tools import tools;
 except ImportError:
-  from os import system;system('{executable} -m pip install -r core/requirements.txt');
+  from os import system;system('{inter} -m pip install -r core/requirements.txt');
 from sys import path;from os import environ;from core.tools import tools;
 if '{project_path}' not in path: path.insert(0, '{project_path}');
 from django.core.wsgi import get_wsgi_application;
