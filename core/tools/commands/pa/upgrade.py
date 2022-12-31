@@ -11,7 +11,7 @@ def request():
     console.out(
         "  ✅ Server Upgraded  ", "success"
     ) if data['status'] == "OK" else console.out(
-        "  ⚠️ Unexpected Error ",
+        "  ⚠️ Unknown Error ",
     )
 
     return data

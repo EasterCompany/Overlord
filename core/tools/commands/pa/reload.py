@@ -12,7 +12,7 @@ def request():
     console.out(
         "  ✅ Successfully Reloaded  ", "success"
     ) if data['status'] == "OK" else console.out(
-        "  ⚠️ Unexpected Error       ", "yellow"
+        "  ⚠️ Unknown Error       ", "yellow"
     )
 
     if 'data' in data and data['data'] == "[500] Internal server error.":
