@@ -1,6 +1,7 @@
 # Standard library
 import json
 import secrets
+import subprocess
 from sys import path, executable
 from os import scandir, mkdir, system, getcwd
 from os.path import exists, join as pathjoin
@@ -191,9 +192,25 @@ def secrets_file(project_path='.'):
 
 
 def o_file(project_path=None):
+  print("Generating o file...")
+  inter = executable
+
   if project_path is None:
     project_path = getcwd()
-  print("Generating o file...")
+
+  try:
+    if not inter and exists('/usr/bin/python3'):
+      inter = '/usr/bin/python3'
+      inter_version = subprocess.run(f"{inter} --version", capture_output=True, stdout=subprocess.PIPE)
+      py10 = int(inter_version.stdout.split(' ')[1].split('.')[1]) >= 10
+      if not py10:
+        inter = '/usr/bin/python3.10'
+
+    elif not inter and exists('/usr/bin/python3.10'):
+      inter = '/usr/bin/python3.10'
+  except:
+    inter = '/usr/bin/python3'
+
   with open(f"{project_path}/o", "w") as o_file:
     o_file.write(f"""#!/bin/bash
 cd {project_path}
