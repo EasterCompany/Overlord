@@ -62,6 +62,6 @@ def request():
 
     end_time = time()
     console.out("  ✅ Client Rendered         ", "success")
-    console.out(f"\n  Tests Completed Successfully ({round(end_time-start_time, 4)}s)", "success")
+    console.out(f"\n  Tests Completed Successfully ({round(end_time-start_time, 2)}s)", "success")
 
   return data

@@ -1,8 +1,8 @@
 # Standard library
 import json
 import secrets
-from sys import path
-from os import scandir, mkdir, system
+from sys import path, executable
+from os import scandir, mkdir, system, getcwd
 from os.path import exists, join as pathjoin
 # Overlord library
 from core.library.time import timestamp
@@ -190,18 +190,24 @@ def secrets_file(project_path='.'):
   return dump_json('secret', token_data, project_path)
 
 
-def o_file(project_path='.'):
+def o_file(project_path=None):
+  if project_path is None:
+    project_path = getcwd()
   print("Generating o file...")
   with open(f"{project_path}/o", "w") as o_file:
     o_file.write(f"""#!/bin/bash
 cd {project_path}
 clear
-/usr/bin/python3 -c "
+{executable} -c "
+try:
+  from sys import path;from os import environ;from core.tools import tools;
+except ImportError:
+  from os import system;system('{executable} -m pip install -r core/requirements.txt');
 from sys import path;from os import environ;from core.tools import tools;
-if project_home not in path: path.insert(0, {project_path});
+if '{project_path}' not in path: path.insert(0, '{project_path}');
 from django.core.wsgi import get_wsgi_application;
 application = get_wsgi_application();
-tools.run();
+tools.run()
 "
 """)
   system("chmod +x ./o")
