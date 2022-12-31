@@ -192,7 +192,7 @@ def build(name):
 
 # Build all clients on the main thread
 def build_all():
-    console.out("\n> global")
+    console.out("\n> Global Build Options")
 
     console.out(f"  {console.wait} Updating shared files", end="\r")
     __update_shared_files__()
