@@ -14,7 +14,4 @@ def request():
         "  ⚠️ Unexpected Error ",
     )
 
-    if 'data' in data and data['data'] == "[500] Internal server error.":
-        console.out(data['data'], 'red')
-
     return data

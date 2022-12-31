@@ -9,7 +9,6 @@ from core.library import console
 def request():
   console.out(f'\n> Status Check @ {domain}')
   console.out(f'  {console.wait} Testing API ...', end="\r")
-
   data = server('status')
 
   if 'error' not in data:
@@ -25,7 +24,6 @@ def request():
     )
 
   console.out(f'  {console.wait} Testing Client ...', end="\r")
-
   app_is_served = re.search(
     """<script defer="defer" src="/static/.*/static/js/main..*.js"></script>"""
     """<link href="/static/.*/static/css/main..*.css" rel="stylesheet">""",

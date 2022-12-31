@@ -70,7 +70,7 @@ def client(app_data, build=False, app_name=""):
     if build and 'build' in app_data:
         print(f"\n> {app_name}@{clients_json[app_name]['version']}")
 
-        console.out(f"  {console.wait}  Installing", end="\r")
+        console.out(f"  {console.wait} Installing", end="\r")
         subprocess.run(
             "npm install",
             shell=True,
@@ -81,9 +81,9 @@ def client(app_data, build=False, app_name=""):
             text=True,
             universal_newlines=True
         )
-        console.out("  ✔️ Installed     ", "green")
+        console.out("  ✅ Installed     ", "green")
 
-        console.out(f"  {console.wait}  Compiling", end="\r")
+        console.out(f"  {console.wait} Compiling", end="\r")
         subprocess.run(
             "npm run build",
             shell=True,
@@ -94,11 +94,11 @@ def client(app_data, build=False, app_name=""):
             text=True,
             universal_newlines=True
         )
-        console.out("  ✔️ Compiled      ", "green")
+        console.out("  ✅ Compiled      ", "green")
 
-        console.out(f"  {console.wait}  Post-Processing", end="\r")
+        console.out(f"  {console.wait} Post-Processing", end="\r")
         update_client_meta_data(app_data)
-        console.out("  ✔️ Post-Processed    ", "green")
+        console.out("  ✅ Post-Processed    ", "green")
 
     elif not build and 'start' in app_data:
         subprocess.call("npm run start", shell=True, cwd=app_data['src'])
@@ -194,9 +194,9 @@ def build(name):
 def build_all():
     console.out("\n> global")
 
-    console.out(f"  {console.wait}  Updating shared files", end="\r")
+    console.out(f"  {console.wait} Updating shared files", end="\r")
     __update_shared_files__()
-    console.out("  ✔️ Updated shared files      ", "green")
+    console.out("  ✅ Updated shared files      ", "green")
 
     for _ in clients_json:
         client(clients_json[_], build=True, app_name=_)
