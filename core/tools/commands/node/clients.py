@@ -81,7 +81,7 @@ def client(app_data, build=False, app_name=""):
             text=True,
             universal_newlines=True
         )
-        console.out("  ✅ Installed     ", "green")
+        console.out("  ✅ Installed     ", "success")
 
         console.out(f"  {console.wait} Compiling", end="\r")
         subprocess.run(
@@ -94,11 +94,11 @@ def client(app_data, build=False, app_name=""):
             text=True,
             universal_newlines=True
         )
-        console.out("  ✅ Compiled      ", "green")
+        console.out("  ✅ Compiled      ", "success")
 
         console.out(f"  {console.wait} Post-Processing", end="\r")
         update_client_meta_data(app_data)
-        console.out("  ✅ Post-Processed    ", "green")
+        console.out("  ✅ Post-Processed    ", "success")
 
     elif not build and 'start' in app_data:
         subprocess.call("npm run start", shell=True, cwd=app_data['src'])
@@ -196,7 +196,7 @@ def build_all():
 
     console.out(f"  {console.wait} Updating shared files", end="\r")
     __update_shared_files__()
-    console.out("  ✅ Updated shared files      ", "green")
+    console.out("  ✅ Updated Shared Files      ", "success")
 
     for _ in clients_json:
         client(clients_json[_], build=True, app_name=_)
