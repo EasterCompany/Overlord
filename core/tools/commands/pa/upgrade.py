@@ -4,10 +4,15 @@ from core.library import console
 
 
 def request():
-    print(f'\nUpgrading {domain} ...\n')
+    print(f'\n> Upgrade Server @ {domain}')
+    console.out(f"  {console.wait} Upgrading ...", end="\r")
+
     data = server('upgrade')
-    msg = "Server Upgraded" if data['status'] == "OK" else None
-    console.status(data['status'], msg)
+    console.out(
+        "  ✅ Server Upgraded  ", "success"
+    ) if data['status'] == "OK" else console.out(
+        "  ⚠️ Unexpected Error ",
+    )
 
     if 'data' in data and data['data'] == "[500] Internal server error.":
         console.out(data['data'], 'red')

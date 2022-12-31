@@ -4,11 +4,16 @@ from core.library import console
 
 
 def request():
-    print(f'\nReloading {domain} ...\n')
+    console.out(f"\n> Reload Server @ {domain}")
+
+    console.out(f"  {console.wait} Reloading ... ", end="\r")
 
     data = fetch_api('webapps', args=(domain, 'reload'), method='POST')
-    msg = "Server Reloaded" if data['status'] == "OK" else None
-    console.status(data['status'], msg)
+    console.out(
+        "  ✅ Successfully Reloaded  ", "success"
+    ) if data['status'] == "OK" else console.out(
+        "  ⚠️ Unexpected Error       ", "yellow"
+    )
 
     if 'data' in data and data['data'] == "[500] Internal server error.":
         print('REASON:', console.out(data['data'], 'red'))

@@ -1,4 +1,5 @@
 # Standard library
+import re
 import requests
 # Overlord library
 from .api import domain, server
@@ -6,24 +7,34 @@ from core.library import console
 
 
 def request():
-  print(f'\nChecking {domain} ...\n')
+  console.out(f'\n> Status Check @ {domain}')
+  console.out(f'  {console.wait} Testing API ...', end="\r")
+
   data = server('status')
 
-  if 'error' in data:
-    msg = "SERVER IS DOWN!"
-  else:
-    msg = "Server API Responded" if data['status'] == "OK" else None
-    console.out(f" ✅ {msg}", "success")
+  if 'error' not in data:
+    console.out(
+      "  ✅ Server API Responded  ", "success"
+    ) if data['status'] == "OK" else console.out(
+      "  ⚠️ Received Unexpected Response  "
+    )
     response = requests.get(f'https://{domain}/')
+  elif 'error' in data:
+    console.out(
+      f"  🔥 Sever API Not Responding  ", "error"
+    )
 
-  if 'error' in data:
-    console.status(f" 🔥 {msg}", "error")
-  elif 'data' in data and data['data'] == "[500] Internal server error.":
-    print('REASON:', console.out(data['data'], 'red'))
+  console.out(f'  {console.wait} Testing Client ...', end="\r")
 
-  if b'<!--prerender_status_check-->' in response.content:
-    console.status(" ✅ Application Served", "success")
+  app_is_served = re.search(
+    """<script defer="defer" src="/static/.*/static/js/main..*.js"></script>"""
+    """<link href="/static/.*/static/css/main..*.css" rel="stylesheet">""",
+    response.content.decode('utf-8')
+  )
+
+  if app_is_served:
+    console.out("  ✅ Client Served         ", "success")
   else:
-    console.out(f" 🔥 Application Failed", "error")
+    console.out("  🔥 Client Not Served     ", "error")
 
   return data
