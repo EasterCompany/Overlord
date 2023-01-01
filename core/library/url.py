@@ -1,5 +1,5 @@
 # Overlord library
-from core.library import path, include, exists, console
+from core.library import path, include, exists, console, rmdir
 
 
 def make_django_urls(client):
@@ -89,7 +89,7 @@ def acquire_all_clients_api(client_data:dict, cwd:str = '.') -> None:
     return statements
 
 
-def write_api_urls(cwd:str, statements:list) -> None:
+def write_api_urls(statements:list, cwd:str = '.') -> None:
     """
     Automatically generates the './api/urls.py' file from a template file within the
     './core/tools/assets/' directory
@@ -104,14 +104,14 @@ def write_api_urls(cwd:str, statements:list) -> None:
         imports.append(client['urls_import'])
         access += client['urls_access']
 
-    with open('./core/tools/assets/api_urls.py', 'r') as temp_file, open('./api/urls.py', 'w') as new_file:
-        template = temp_file.read()
+    with open(f'{cwd}/core/tools/assets/api_urls.py', 'r') as temp_f, open(f'{cwd}/api/urls.py', 'w') as new_f:
+        template = temp_f.read()
         template = template.replace('# __imports_tag__', '\n'.join(imports))
         template = template.replace('# __urls_tag__', access)
-        new_file.write(template)
+        new_f.write(template)
 
 
-def write_api_models(cwd:str, statements:list) -> None:
+def write_api_models(statements:list, cwd:str = '.') -> None:
     """
     Automatically generates the 'api/models.py' file from a template file within the
     './core/tools/assets/' directory
@@ -124,7 +124,7 @@ def write_api_models(cwd:str, statements:list) -> None:
     for client in statements:
         imports.append(client['models_import'])
 
-    with open('./core/tools/assets/api_models.py', 'r') as temp_file, open('./api/models.py', 'w') as new_file:
-        template = temp_file.read()
+    with open(f'{cwd}/core/tools/assets/api_models.py', 'r') as temp_f, open(f'{cwd}/api/models.py', 'w') as new_f:
+        template = temp_f.read()
         template = template.replace('# __imports_tag__', '\n'.join(imports))
-        new_file.write(template)
+        new_f.write(template)
