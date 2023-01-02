@@ -31,14 +31,14 @@ def status(repo_path:str) -> str:
       new = new.split('no changes added to commit (use "git add" and/or "git commit -a")')[0]
     while '  ' in new:
       new = new.replace('  ', ' ')
-    new = new.replace('\t', '    ').strip()
+    new = new.replace('\t', '      ').strip()
   if 'Changes to be committed:' in s:
     committed = s.split('(use "git restore --staged <file>..." to unstage)')[1]
     if 'Changes not staged for commit:' in committed:
       committed = committed.split('Changes not staged for commit:')[0]
     while '  ' in committed:
       committed = committed.replace('  ', ' ')
-    committed = committed.replace('\t', '    ').strip()
+    committed = committed.replace('\t', '      ').strip()
 
   console.out(f"\n> Branch '{branch_name}' Status")
   if new is not None:
