@@ -239,6 +239,7 @@ def run_tool(command, index=0):
                 GIT.merge(BASE_DIR, target=PRODUCTION_BRANCH)
             elif cur_branch == PRODUCTION_BRANCH:
                 console.out("\n  [ERROR] Cannot merge Production Branch", "red")
+            GIT.checkout(cur_branch)
         else:
             if arguments_remaining == 2:
                 if arguments[0] == 'all': git.merge.all(git_message)
