@@ -115,11 +115,7 @@ class Console:
         command,
         shell=True,
         cwd=cwd,
-        bufsize=1,
-        stdout=subprocess.PIPE,
-        stderr=subprocess.STDOUT,
-        text=True,
-        universal_newlines=True,
+        capture_output=True,
         encoding='utf-8'
       )
       return out.stdout
