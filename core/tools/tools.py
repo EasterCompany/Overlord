@@ -81,12 +81,12 @@ def output(line, error=False, success=False, warning=False):
 
 
 def help():
-    return print('''
+    return print(f'''
     Welcome to Overlord.
 
     This command is here to help you get started with the basics.
     To begin with lets go over some simple developer commands that'll
-    help make your experience here - fast and easy.
+    help make your experience here simple and easy.
 
     01. clients
         - Lists all the clients in your clients directory that are either
@@ -98,9 +98,10 @@ def help():
 
     03. code
         - Opens vscode in the root directory of your current project.
+        - Takes 1 optional argument "client_name" which opens a client
+          and it's associated API in an isolated workspace.
         - Only works for vscode stable release channel, not insiders.
           (unless you use an alias)
-        - "code ." command must also work on your environment.
 
     04. exit
         - Close the Overlord-CLI and stop running any background threads
@@ -114,11 +115,11 @@ def help():
         - Automatically detect all git repositories within this projects
           scope and push the latest commits to the current branch.
 
-    07. main                                        [Experimental Feature]
+    07. main                                      {console.out("[Experimental Feature]", "yellow", False)}
         - Automatically detect all git repositories within this projects
           scope and switch them to the `main` branch.
 
-    08. dev                                         [Experimental Feature]
+    08. dev                                       {console.out("[Experimental Feature]", "yellow", False)}
         - Automatically detect all git repositories within this projects
           scope and switch them to the `dev` branch.
 
@@ -133,9 +134,9 @@ def help():
         - Run the command with no arguments to receive detailed usage
           instructions
 
-    Detailed and up-to-date documentation is kept on our GitHub Repo
-    Read this for more [https://github.com/EasterCompany/Overlord#readme]
-    ''')
+        Detailed and up-to-date documentation is kept on our website
+                    {console.out("https://www.easter.company/overlord", "blue", False)}'''
+    )
 
 
 def run_tool(command, index=0):
@@ -366,7 +367,7 @@ def run_tool(command, index=0):
         dir_path = getcwd()
         _process = subprocess.run(['du', '-sh', dir_path], capture_output=True, text=True)
         dir_size = _process.stdout.split()[0] + 'B'
-        output(dir_size)
+        console.out('\n' + dir_size)
 
     elif command == 'node':
         if not arguments_remaining == 0:
