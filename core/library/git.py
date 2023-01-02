@@ -29,6 +29,8 @@ def status(repo_path:str) -> str:
 
   if 'Changes not staged for commit:' in s:
     s, new = s.split('(use "git restore <file>..." to discard changes in working directory)')
+    if 'no changes added to commit (use "git add" and/or "git commit -a")' in new:
+      new = new.split('no changes added to commit (use "git add" and/or "git commit -a")')[0]
     while '  ' in new:
       new = new.replace('  ', ' ')
     new = new.replace('\t', '    ').strip()
@@ -86,7 +88,7 @@ def checkout(repo_path:str, target:str = PRODUCTION_BRANCH) -> None:
   branch_origin = branch(repo_path)
   console.input(f'git checkout {target}', cwd=repo_path)
   branch_destination = branch(repo_path)
-  console.out(f"\n  Switched Branch '{branch_origin}' -> '{branch_destination}'")
+  console.out(f"\n> Switched Branch '{branch_origin}' -> '{branch_destination}'")
 
 
 def merge(repo_path:str, target:str = PRODUCTION_BRANCH) -> None:
