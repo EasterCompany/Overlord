@@ -334,11 +334,12 @@ def run_tool(command, index=0):
                 return print()
             elif arguments[0] == 'deploy':
                 cur_branch = GIT.branch(BASE_DIR)
-                if cur_branch == STAGING_BRANCH:
-                    system('clear')
-                    node.clients.build_all()
-                    GIT.merge(BASE_DIR, PRODUCTION_BRANCH)
-                    GIT.merge(BASE_DIR, LOCAL_BRANCH)
+                if cur_branch == STAGING_BRANCH or cur_branch == PRODUCTION_BRANCH:
+                    if cur_branch == STAGING_BRANCH:
+                        system('clear')
+                        node.clients.build_all()
+                        GIT.merge(BASE_DIR, PRODUCTION_BRANCH)
+                        GIT.merge(BASE_DIR, LOCAL_BRANCH)
                     pa.upgrade.request()
                     pa.reload.request()
                     pa.status.request()
