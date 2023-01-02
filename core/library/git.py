@@ -10,9 +10,7 @@ def branch(repo_path:str) -> str:
 
   :return str: name of current branch
   """
-  branch_name = console.input('git rev-parse --abbrev-ref HEAD', cwd=repo_path)
-  branch_name = branch_name.strip()
-  return branch_name
+  return console.input('git rev-parse --abbrev-ref HEAD', cwd=repo_path).strip()
 
 
 def status(repo_path:str) -> str:
@@ -102,10 +100,10 @@ def merge(repo_path:str, target:str = PRODUCTION_BRANCH) -> None:
   """
   branch_name = branch(repo_path)
   console.out(
-    f"> Merge branch '{console.out(branch_name, 'green', False)}' into '{console.out(target, 'yellow', False)}'"
+    f"\n> Merge branch '{console.out(branch_name, 'green', False)}' into '{console.out(target, 'yellow', False)}'"
   )
   sync(repo_path)
   checkout(repo_path, target)
   console.input(f'git pull origin {branch_name}', cwd=repo_path)
   sync(repo_path)
-  checkout(branch_name)
+  console.out(f"  ✅ Successfully Merged '{branch_name}' -> '{target}'")
