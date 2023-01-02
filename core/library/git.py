@@ -10,9 +10,44 @@ def branch(repo_path:str) -> str:
 
   :return str: name of current branch
   """
-  branch_name = console.input('git rev-parse --abbrev-ref HEAD', cwd=repo_path, show_output=False).stdout
+  branch_name = console.input('git rev-parse --abbrev-ref HEAD', cwd=repo_path)
   branch_name = branch_name.strip()
   return branch_name
+
+
+def status(repo_path:str) -> str:
+  """
+  Get current status of Git repository
+
+  :param repo_path str: path to the target repository
+  :return str: current status output
+  """
+  branch_name = branch(repo_path)
+  s = console.input("git status", cwd=repo_path)
+  new = None
+  committed = None
+
+  if 'Changes not staged for commit:' in s:
+    s, new = s.split('(use "git restore <file>..." to discard changes in working directory)')
+    while '  ' in new:
+      new = new.replace('  ', ' ')
+    new = new.replace('\t', '    ').strip()
+  if 'Changes to be committed:' in s:
+    committed = s.split('(use "git restore --staged <file>..." to unstage)')[1]
+    if 'Changes not staged for commit:' in committed:
+      committed = committed.split('Changes not staged for commit:')[0]
+    while '  ' in committed:
+      committed = committed.replace('  ', ' ')
+    committed = committed.replace('\t', '    ').strip()
+
+  console.out(f"\n> Branch '{branch_name}' Status")
+  if new is not None:
+    console.out(f"\n  New:\n    {console.out(new, 'red', False)}")
+  if committed is not None:
+    console.out(f"\n  Committed:\n    {console.out(committed, 'green', False)}")
+  if new is None and committed is None:
+    console.out(f"  ✅ up-to-date", "success")
+
 
 
 def sync(repo_path:str) -> None:
@@ -26,14 +61,15 @@ def sync(repo_path:str) -> None:
   :param repo_path str: path to the target repository
   :return None:
   """
+  status(repo_path)
   branch_name = branch(repo_path)
   commit_msg = f'🤖 [AUTO] {current_version} {time.timestamp()}'
   console.out(f"  {console.wait} Syncing '{branch_name}' Branch", end="\r")
 
-  console.input('git pull -f', cwd=repo_path, show_output=True)
-  console.input('git add .', cwd=repo_path, show_output=True)
-  console.input(f'git commit -m "{commit_msg}"', cwd=repo_path, show_output=True)
-  console.input('git push -f', cwd=repo_path, show_output=True)
+  console.input('git pull -f', cwd=repo_path)
+  console.input('git add .', cwd=repo_path)
+  console.input(f'git commit -m "{commit_msg}"', cwd=repo_path)
+  console.input('git push -f', cwd=repo_path)
 
   console.out(f"  ✅ Synced '{branch_name}' Branch    ", "success")
   console.out(f"     {commit_msg}", "yellow")
@@ -47,7 +83,10 @@ def checkout(repo_path:str, target:str = PRODUCTION_BRANCH) -> None:
   :param target str: name of the target branch
   :return None:
   """
-  console.input(f'git checkout {target}', cwd=repo_path, show_output=True)
+  branch_origin = branch(repo_path)
+  console.input(f'git checkout {target}', cwd=repo_path)
+  branch_destination = branch(repo_path)
+  console.out(f"\n  Switched Branch '{branch_origin}' -> '{branch_destination}'")
 
 
 def merge(repo_path:str, target:str = PRODUCTION_BRANCH) -> None:
@@ -66,6 +105,6 @@ def merge(repo_path:str, target:str = PRODUCTION_BRANCH) -> None:
   sync(repo_path)
   checkout(repo_path, target)
   sync(repo_path)
-  console.input(f'git pull origin {branch_name}', cwd=repo_path, show_output=True)
+  console.input(f'git pull origin {branch_name}', cwd=repo_path)
   sync(repo_path)
   checkout(branch_name)

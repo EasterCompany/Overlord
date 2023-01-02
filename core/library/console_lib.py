@@ -107,9 +107,7 @@ class Console:
       out = subprocess.run(
         command,
         shell=True,
-        cwd=cwd,
-        capture_output=True,
-        encoding='utf-8'
+        cwd=cwd
       )
       return out
     else:
@@ -124,7 +122,7 @@ class Console:
         universal_newlines=True,
         encoding='utf-8'
       )
-      return out
+      return out.stdout
 
   def run_script(self, path:str) -> object:
     """

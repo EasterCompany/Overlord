@@ -419,7 +419,7 @@ def run_tool(command, index=0):
 
     elif command == 'status':
         if arguments_remaining == 0:
-            git.status.app()
+            GIT.status(BASE_DIR)
         else:
             for _arg in arguments:
                 git.status.clients(_arg)
