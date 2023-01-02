@@ -5,9 +5,9 @@ from os.path import exists
 from os import system, getcwd, environ
 from sys import argv, path, executable, version_info
 # Overlord library
-from web.settings import SECRET_DATA, CLIENT_DATA, INDEX
+from web.settings import SECRET_DATA, CLIENT_DATA, INDEX, BASE_DIR, PRODUCTION_BRANCH
 from core import create_user, create_super_user
-from core.library import execute_from_command_line, console
+from core.library import execute_from_command_line, console, git as GIT
 from core.library.version import Version
 from core.tools.library import gracefulExit
 from core.tools.commands import install, git, django, node, pytest, pa, vscode
@@ -231,10 +231,19 @@ def run_tool(command, index=0):
         git.branch.switch('main')
 
     elif command == 'merge':
-        if arguments_remaining == 2:
-            if arguments[0] == 'all': git.merge.all(git_message)
-            else: git.merge.with_message(git_message, git_repo)
-        git.merge.error_message()
+        if arguments_remaining == 0:
+            return GIT.merge(BASE_DIR, target='Lab')
+        else:
+            if arguments_remaining == 2:
+                if arguments[0] == 'all': git.merge.all(git_message)
+                else: git.merge.with_message(git_message, git_repo)
+            git.merge.error_message()
+
+    elif command == 'branch':
+        cur_branch = GIT.branch(BASE_DIR)
+        console.out(f"\nLocal: {console.out(cur_branch, 'green', False)}")
+        console.out(f"Staging: {console.out(PRODUCTION_BRANCH, 'yellow', False)}")
+        console.out(f"Production: {console.out(PRODUCTION_BRANCH, 'yellow', False)}")
 
     elif command == 'new_secret_key':
         django.secret_key.new()

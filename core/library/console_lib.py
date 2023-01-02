@@ -95,7 +95,7 @@ class Console:
       else:
         return self.out(' [WARNING] ' + txt, 'yellow')
 
-  def input(self, command:str, cwd:str = BASE_DIR, show_output:bool = False) -> object:
+  def input(self, command:str|list, cwd:str = BASE_DIR, show_output:bool = False) -> object:
     """
     Using the os.system() method execute the command (a string) in a sub-shell.
     This method is implemented by calling the standard C function system(), and has the same limitations.
@@ -108,7 +108,8 @@ class Console:
         command,
         shell=True,
         cwd=cwd,
-        capture_output=True
+        capture_output=True,
+        encoding='utf-8'
       )
       return out
     else:
@@ -120,7 +121,8 @@ class Console:
         stdout=subprocess.PIPE,
         stderr=subprocess.STDOUT,
         text=True,
-        universal_newlines=True
+        universal_newlines=True,
+        encoding='utf-8'
       )
       return out
 

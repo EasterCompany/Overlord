@@ -17,6 +17,7 @@ from core.tools.commands.install import (
 
 # Default Project Configuration
 BASE_DIR = os.getcwd()
+PRODUCTION_BRANCH = 'Lab'
 LOGGER_DIR = f"{BASE_DIR}/.logs/logger"
 SECRET_DATA = {
     'SERVER_KEY': 'no secret key',

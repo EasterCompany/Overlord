@@ -9,13 +9,11 @@ from os.path import exists, join as pathjoin
 from core.library.time import timestamp
 
 
-# --------------------------- CREATE & CONFIRM CONFIG EXISTS --------------------------- #
 def __init_config_directory__(project_path='.'):
   if not exists(project_path + '/.config'):
     mkdir(project_path + '/.config')
 
 
-# -------------------------- CREATE & CONFIRM LOGS DIR EXISTS -------------------------- #
 def __init_logs_directory__(project_path='.'):
   if not exists(project_path + '/.logs'):
     mkdir(project_path + '/.logs')
@@ -27,7 +25,6 @@ def __init_logs_directory__(project_path='.'):
       logger.write(f'[{timestamp()}] Created log file')
 
 
-# -------------------------- CONFIRM CONFIG JSON FILE EXISTS --------------------------- #
 def dump_json(filename, data, project_path='.'):
   file_path = project_path + '/.config/' + filename + '.json'
   with open(file_path, 'w') as conf_file:
@@ -102,17 +99,14 @@ def make_server_config(project_path='.'):
   print('Generating server config...')
 
   server_core_data = {
-    "INDEX": 'example',
+    "INDEX": '',
     "DEBUG": True,
-    "STANDALONE": False,
     "LANGUAGE_CODE": 'en-gb',
     "TIME_ZONE": 'UTC',
     "ALLOWED_HOSTS": [
       '.0.0.0.0',
       '.127.0.0.1',
       '.localhost',
-      '.easter.company',
-      '.eastercompany.eu.pythonanywhere.com',
     ],
     "INSTALLED_APPS": [
       'django.contrib.admin',

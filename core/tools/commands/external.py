@@ -44,7 +44,7 @@ def deploy() -> JsonResponse:
 
 def output(message:str) -> JsonResponse:
   """
-  Standardised response message for useCommandExtension functions
+  Standardised response message for external command functions
 
   :param message str: what response is printed in the web console
   :return JsonResponse: message within an standardised object
@@ -52,7 +52,7 @@ def output(message:str) -> JsonResponse:
   return api.data({ 'output': message })
 
 
-def external_command(req, *args, **kwargs):
+def external_command(req, *args, **kwargs) -> JsonResponse:
   """
   Framework function for calling commands to the Overlord Server
   externally, such as from an E-Panel web console

@@ -1,3 +1,5 @@
+# TODO: Deprecated file needs removed
+
 # Framework imports
 from django.http import JsonResponse
 # Local imports
