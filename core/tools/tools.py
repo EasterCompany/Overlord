@@ -333,14 +333,19 @@ def run_tool(command, index=0):
                 pa.upgrade.request()
                 return print()
             elif arguments[0] == 'deploy':
-                system('clear')
-                node.clients.build_all()
-                git.push.all()
-                pa.upgrade.request()
-                pa.reload.request()
-                pa.status.request()
-                return print()
-
+                cur_branch = GIT.branch(BASE_DIR)
+                if cur_branch == STAGING_BRANCH:
+                    system('clear')
+                    node.clients.build_all()
+                    GIT.merge(BASE_DIR, PRODUCTION_BRANCH)
+                    pa.upgrade.request()
+                    pa.reload.request()
+                    pa.status.request()
+                    return print()
+                else:
+                    console.out(
+                        f"\n  [ERROR] You can only deploy from the `{STAGING_BRANCH}` branch", "red"
+                    )
         else:
             return pa.api.error_message()
 
