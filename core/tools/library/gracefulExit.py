@@ -1,4 +1,10 @@
+'''
+  gracefulExit is used to handle the CLI exit signal.
+
+  Author(s): Owen Easter & StackOverflow
+'''
 import signal
+from core.library import console
 
 
 class GracefulExit():
@@ -8,12 +14,20 @@ class GracefulExit():
     signal.signal(signal.SIGINT, self.change_state)
 
   def change_state(self, signum, frame):
-    print("\n\n" +
-      "Are you sure you want to exit? (Press Ctrl+C to confirm)\n" +
-      "You can also use the 'exit' command\n"
+    warning = console.out(
+      "\n\nAre you trying to exit the CLI? (Please use the 'exit' command instead)\n\n",
+      "yellow",
+      False,
+      end=""
     )
-    signal.signal(signal.SIGINT, signal.SIG_DFL)
-    self.state = True
+    cursor = console.out(
+      './o ',
+      'green',
+      False
+    )
+    return print(warning + cursor, end="")
+    # signal.signal(signal.SIGINT, signal.SIG_DFL)
+    # self.state = True
 
   def exit(self):
     return self.state

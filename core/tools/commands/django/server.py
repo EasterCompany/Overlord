@@ -1,33 +1,28 @@
 # Standard library
+import sys
+import subprocess
 from os import system
 from threading import Thread
-from sys import executable, path
-
-# Django library
-from web import settings
+# Overlord library
+from web.settings import BASE_DIR, SERVER_DATA
+from core.library import console
+from django.core.management import call_command
 
 
 # Server thread function
 def _server(start=True, migrate=False, collectstatic=False):
 
-    def cmd(_cmd):
-        system("{python} {dir}/run.py {command}".\
-            format(python=executable, dir=path[0], command=_cmd)
-        )
-
     if migrate:
-        cmd('makemigrations')
-        cmd('migrate')
+        console.log("Migrating database")
+        call_command('makemigrations')
+        call_command('migrate')
+        console.log("Successfully migrated database")
 
     if collectstatic:
-        cmd('collectstatic --noinput -i admin')
-        print('')
+        call_command('collectstatic', '--noinput', '-i admin')
 
     if start:
-        if settings.SERVER_DATA['STANDALONE']:
-            cmd('runserver 3000')
-        else:
-            cmd('runserver')
+        system(f"{BASE_DIR}/core.py runserver 0.0.0.0:8000")
 
 
 # Server database migration shortcut
@@ -38,7 +33,9 @@ collect_staticfs = lambda: _server(start=False, migrate=False, collectstatic=Tru
 
 
 def run():
-    # Server thread
+    """
+    Run process on the main thread
+    """
     thread = Thread(
         None,
         _server,
@@ -50,12 +47,32 @@ def run():
 
 
 def start():
-    # Server thread
+    """
+    Run new thread in the background
+    """
     thread = Thread(
         None,
         _server,
         'django-server',
         ()
     )
-    _server(start=False, migrate=True, collectstatic=True)
+    _server(start=False, migrate=True, collectstatic=SERVER_DATA["COLLECT_STATIC_FILES"])
     return thread.start()
+
+
+def install_requirements():
+    """
+    Install basic python package requirements
+    """
+    console.out("\n Installing Essential Python Requirements", "yellow")
+    print("---------------------------------------------")
+    subprocess.run(f"{sys.executable} -m pip install -r ./core/requirements.txt", shell=True, cwd=BASE_DIR)
+
+
+def install_requirements_dev():
+    """
+    Install developer python package requirements
+    """
+    console.out("\n Installing Developer Python Requirements", "yellow")
+    print("---------------------------------------------")
+    subprocess.run(f"{sys.executable} -m pip install -r ./core/requirements.dev", shell=True, cwd=BASE_DIR)

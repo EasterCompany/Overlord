@@ -1,73 +1,32 @@
+<h6 align="center" style="border-bottom:0px;padding:9px 0 0 0;"> [ v1.2.1 29/12/2022 ] </h6>
+<h2 align="center" style="margin-bottom:32px;border-bottom:0px;"> The Overlord Framework </h1>
 
-<div style="margin:0 0 128px 0;">
-    <p align="center" style="border-bottom:0px;padding:9px 0 0 0;"> [ 1.0.0 27/April/2022 ] </p>
-    <h1 align="center" style="margin-bottom:64px;border-bottom:0px;"> Overlord </h1>
-</div>
+### Welcome
 
-## Welcome to the Overlord framework!
+Welcome to The Overlord Framework, the one true full stack framework. Developed by Easter Company.
 
-**This is not a new JavaScript Framework!** and we aren't reinventing the wheel on the server either.
+### Documentation
 
-So, what is Overlord?
+If you're looking for our beautifully crafted and detailed documentation then you should visit our website,
+[here](https://www.easter.company/overlord).
 
-**Overlord is the worlds most extensive full stack framework** which majorly streamlines development by utilizing a
-single code base (Python & JavaScript) for Desktop, Android and iOS applications. Also offering an optional package
-called E-Panel which provides you with pop up software & server infrastructure or the ability to deploy from your own
-virtual or physical server. All ready to go with a single command.
+The documentation also includes a full series of tutorial style videos to guide you in a more entertaining fashion;
+however, if you are a well-seasoned professional you may prefer to just read the written format on each page.
 
-The server will host a Python-Django based API and serve a React-Native-Web application to any web browsers that attempt
-to visit it.
+### FAQS
 
-By default your administration panel and content-management-system interface is `E Panel` and can be accessed by going
-to the `/e_panel` route for your app in a web browser.
+**Q:** How do I get started?<br/>
+**A:** Check out the [getting started](https://www.easter.company/overlord/getting_started) page in the documentation.
 
-Your React-Native based application is deployable to Android & iOS through their respective dedicated app stores.
+**Q:** How can I make a feature request?<br/>
+**A:** Email us at [contact@easter.company](mailto:contact@easter.company)
 
-Also includes:
+**Q:** How do I use E-Panel with my app?<br/>
+**A:** Until further notice, E-Panel is free-to-use if you've subscribed to a an Easter Company custom app development
+plan in-which Easter Company has designed, developed & deployed an application for you. Otherwise you will need to be
+**invited to the closed beta by an existing user**.
 
-- Additional built in Libraries
-- Lots of free UI Components & Templates
-- Code sharing across all your apps/clients/servers
-- CLI tools /w integrations for administrating your Dev, Lab, Staging or Production servers remotely)
-- Single code base support for Desktop (via the web browser), native Android and native iOS
-- Android Phone Emulator with all your overlord clients pre-installed available for Linux & Windows Users
-- iOS Phone Emulator with all your overlord clients pre-installed available for Apple M1 Users
-- Remote device testing tool for QA testing on iOS or Android if your development station does not support emulation
-- Hot reloading when editing code while emulating devices simultaneously
-- User registration, login, logout, profile features
-- Optional administration panel app
+### Donations
 
-...and everything else you will ever need, but we will get to that later.
-
-
-## Overlord Tools
-#### [Read More](https://github.com/EasterCompany/Overlord/blob/main/tools#readme)
-
-Overlord-Tools is a single CLI interface to interact with our 'Custom Django Backend' ready to deploy alongside any
-number of React-Native based clients (built in PWA, Android & iOS support) locally on our development computers and also
-remotely control the production versions of the clients you have installed.
-
-You can access Overlord-Tools via the `o` file in your root directory. The generic input format when using the `./o`
-file is usually like this
-
-```bash
-./o command -arg1 -arg2
-```
-
-If you would like to isolate a terminal window to Overlord run an empty command line like this:
-
-```bash
-./o
-```
-
-And you'll no longer need to include `./o` at the beginning of each command line.
-
-
-### Setup a local Server
-
-...
-
-## Overlord Clients
-#### [Read More](https://github.com/EasterCompany/Overlord/tree/main/clients#readme)
-
-...
+We aren't currently accepting donations, but if you're interested in helping out then please get in-touch via this email
+[contact@easter.company](mailto:contact@easter.company)

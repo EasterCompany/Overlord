@@ -35,7 +35,7 @@ def all(message):
 
 def error_message():
     return print("""
-    `MERGE` tool requires two arguments beggining with `-`
+    `MERGE` tool requires two arguments beginning with `-`
 
         ./o merge -all -"merge message"
         ./o merge -server -"merge message"

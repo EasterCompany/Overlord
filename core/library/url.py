@@ -1,5 +1,5 @@
-# Django library
-from django.urls import path, include
+# Overlord library
+from core.library import path, include, exists, console, rmdir
 
 
 def make_django_urls(client):
@@ -9,16 +9,9 @@ def make_django_urls(client):
     :param client obj: a client class object from an __init__ file found within a client directory
     :return obj: path object from the django.urls library containing the url pattern for that client
     """
-    from web import settings
-
     client = client.Client()
-    endpoint = client.NAME if not client.NAME == settings.INDEX else str()
-
-    return path(
-        endpoint,
-        include([client.URL]),
-        name=client.NAME,
-    )
+    endpoint = client.ENDPOINT
+    return path(endpoint, include([client.URL]), name=client.NAME)
 
 
 def make_client_load_order(client_data, index):
@@ -40,10 +33,10 @@ def make_client_load_order(client_data, index):
     return load_order + f"    {index}"
 
 
-def write_django_urls(load_order, urls_file_path):
+def write_django_urls(load_order, urls_file_path) -> None:
     """
     Automatically generates the 'web/urls.py' file by using the <make_django_urls> & <make_client_load_order>
-    functions.
+    functions
 
     :param load_order str: the results of the <make_client_load_order> function
     :param urls_file_path str: the path to the 'web/urls.py' file
@@ -53,5 +46,85 @@ def write_django_urls(load_order, urls_file_path):
         file_content = urls_file.read()
 
     with open(urls_file_path, 'w+') as urls_file:
-        urls_file.write(file_content.replace(
-            '__installed_clients_tag__', load_order))
+        urls_file.write(file_content.replace('__installed_clients_tag__', load_order))
+
+
+def acquire_client_api(client:str, git_ssh:str, api_dir:str) -> dict|None:
+    """
+    Automatically acquires installs an API from a git ssh link
+
+    :param client str: name of the target client
+    :param git_ssh str: ssh link to the git repository
+    :param api_dir str: the directory of the new api
+    :return str: returns the import statements for this api
+    """
+    console.out(f"    Cloning API for '{client}'", end=" ...\r")
+    out = console.input(f"git clone {git_ssh} {client}", cwd=api_dir, show_output=False)
+    if out.returncode == 0:
+        console.out(f"    ✔️ Successfully cloned API for '{client}'              ", "green")
+    else:
+        console.out(f"    ❌ Failed to clone API for '{client}'                  ", "red")
+        return None
+
+
+def acquire_all_clients_api(client_data:dict, cwd:str = '.') -> None:
+    """
+    Automatically scan each client for any missing associated APIs which may have
+    not already been installed
+
+    :param client_data dict: a dictionary containing all the captured client data
+    :param cwd str: current working directory of the server
+    """
+    statements = []
+    for client in client_data:
+        api_dir = f"{cwd}/api"
+        if 'api' in client_data[client]:
+            statements.append({
+                'urls_import': f'from api.{client}.urls import API as __{client}__',
+                'models_import': f'from api.{client}.tables import *',
+                'urls_access': "+ \\" + f'\n  __{client}__.URLS'
+            })
+            if not exists(f"{api_dir}/{client}"):
+                acquire_client_api(client, client_data[client]['api'], api_dir)
+    return statements
+
+
+def write_api_urls(statements:list, cwd:str = '.') -> None:
+    """
+    Automatically generates the './api/urls.py' file from a template file within the
+    './core/tools/assets/' directory
+
+    :param cwd str: current project working directory
+    :return None:
+    """
+    imports = []
+    access = ""
+
+    for client in statements:
+        imports.append(client['urls_import'])
+        access += client['urls_access']
+
+    with open(f'{cwd}/core/tools/assets/api_urls.py', 'r') as temp_f, open(f'{cwd}/api/urls.py', 'w') as new_f:
+        template = temp_f.read()
+        template = template.replace('# __imports_tag__', '\n'.join(imports))
+        template = template.replace('# __urls_tag__', access)
+        new_f.write(template)
+
+
+def write_api_models(statements:list, cwd:str = '.') -> None:
+    """
+    Automatically generates the 'api/models.py' file from a template file within the
+    './core/tools/assets/' directory
+
+    :param cwd str: current project working directory
+    :return None:
+    """
+    imports = []
+
+    for client in statements:
+        imports.append(client['models_import'])
+
+    with open(f'{cwd}/core/tools/assets/api_models.py', 'r') as temp_f, open(f'{cwd}/api/models.py', 'w') as new_f:
+        template = temp_f.read()
+        template = template.replace('# __imports_tag__', '\n'.join(imports))
+        new_f.write(template)

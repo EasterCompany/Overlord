@@ -1,6 +1,5 @@
 # Overlord Numbers Library
-# Contains various math, crypto & number to string
-# manipulation handy-dandies.
+# Contains various math, crypto & number to string manipulation handy-dandies.
 
 def zero_prefixed_integer(integer, length=2):
     """

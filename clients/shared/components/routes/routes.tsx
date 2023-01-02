@@ -1,5 +1,10 @@
 // Node module imports
-import { Route as NewRoute, Link as NewLink, Routes as Index } from "react-router-dom";
+import {
+  Route as NewRoute,
+  Link as NewLink,
+  Routes as Index,
+  useLocation
+} from "react-router-dom";
 
 
 /*
@@ -62,12 +67,13 @@ export const Route = (props: any) => <NewRoute path={dp(props.path)} element={<p
   LINK OBJECT (Route Navigation Button)
   links to an existing route
 */
-export const Link = (props:any) => {
-  return <NewLink to={dp(props.to)} onClick={() => scrollContentToTop('#site-container')}>
-    {props.name}
+export const Link = ({ to, name, children } : any) => {
+  return <NewLink to={dp(to)} onClick={() => scrollContentToTop('#site-container')}>
+    {name !== undefined ? name : ""}
+    {children !== undefined ? children : <></>}
   </NewLink>;
 }
 
 
-export { Index, NewLink }
+export { Index, NewLink, useLocation }
 export default goto;

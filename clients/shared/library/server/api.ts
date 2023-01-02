@@ -1,5 +1,11 @@
+// Overlord library
 import { USER } from '../local/user';
 
+// Shortcuts
+export const isDev = window.location.toString().startsWith("http://localhost:8");
+export const isPrd = !isDev;
+export const mock = (_url:string) => isDev ?
+  _url.replace(_url.split('/')[2], 'localhost:8000').replace('https://', 'http://') : _url
 
 /*
   GLOBAL ENVIRONMENT SETUP
@@ -25,7 +31,7 @@ export const getEndpoints = () => {
     return {
       client: client_endpoint,
       server: `http://localhost:8000/`,
-      api: `http://localhost:8000/api/`
+      api: `http://localhost:8000/${process.env.REACT_APP_API}`
     };
   }
 
@@ -37,13 +43,13 @@ export const getEndpoints = () => {
           `http://127.0.0.1:8000/` :
           `http://127.0.0.1:8000/${process.env.REACT_APP_NAME}/`,
         server: `http://127.0.0.1:8000/admin`,
-        api: `http://127.0.0.1:8000/api`
+        api: `http://127.0.0.1:8000/${process.env.REACT_APP_API}`
       }
     }
     return {
       client: window.location.host,
-      server: `http://127.0.0.1:8000/admin`,
-      api: `http://127.0.0.1:8000/api`
+      server: `http://127.0.0.1:8000/`,
+      api: `http://127.0.0.1:8000/${process.env.REACT_APP_API}`
     }
   }
 
@@ -56,7 +62,7 @@ export const getEndpoints = () => {
     return {
       client: client_endpoint,
       server: `http://${window.location.host.split(':')[0]}:8000/`,
-      api: `http://${window.location.host.split(':')[0]}:8000/${process.env.REACT_APP_API}/`
+      api: `http://${window.location.host.split(':')[0]}:8000/${process.env.REACT_APP_API}`
     };
   }
 
@@ -64,12 +70,12 @@ export const getEndpoints = () => {
   else {
     const client_endpoint =
       process.env.REACT_APP_NAME === '' ?
-        `http://${window.location.host}/` :
-        `http://${window.location.host}/${process.env.REACT_APP_NAME}/`
+        `https://${window.location.host}/` :
+        `https://${window.location.host}/${process.env.REACT_APP_NAME}/`
     return {
       client: client_endpoint,
       server: `https://${window.location.host}/`,
-      api: `https://${window.location.host}/${process.env.REACT_APP_API}/`
+      api: `https://${window.location.host}/${process.env.REACT_APP_API}`
     };
   }
 }
@@ -159,12 +165,18 @@ export const POST = async (API: string, _POST: any, BAD: any = null, OK: any = n
 
 
 // Request data from an External API
-export const xapi = async (API: string, AUTH: any = null, DATA: any, CALLBACK: any = null) => {
-  await fetch(API, {
+export const xapi = async (
+  API: string = "",
+  CALLBACK: any = null,
+  DATA: any = "",
+  AUTH: any = "",
+  MOCK: boolean = true
+) => {
+  await fetch(MOCK ? mock(API) : API, {
     method: 'POST',
     headers: new Headers({
       'Authorization': `Basic ${AUTH}`,
-      'Content-Type': 'application/json'
+      'Content-Type': DATA === null ? 'application/x-www-form-urlencoded' : 'application/json'
     }),
     body: DATA,
   })
@@ -173,10 +185,52 @@ export const xapi = async (API: string, AUTH: any = null, DATA: any, CALLBACK: a
 }
 
 
+// Request data from a Base Overlord API
+export const oapi = async (API: string, DATA: any = null, BAD: any = null, OK: any = null) => {
+  const user = USER();
+  const _auth = `${user.UUID} ${user.SESH}`;
+
+  await fetch(`${serverAdr}api/${API}`, {
+    method: 'POST',
+    headers: new Headers({
+        'Authorization': `Basic ${_auth}`,
+        'Content-Type': DATA === null ? 'application/x-www-form-urlencoded' : 'application/json'
+    }),
+    body: DATA
+  })
+  .then(resp => resp.json())
+  .then(respJson => {
+
+    const respStatus = respJson['status'];
+    const respData = respJson['data'];
+
+    // OK API RESULT HANDLER
+    if (respStatus === 'OK') {
+      try { return OK !== null ? OK(respData) : respData }
+      catch (error) {
+        console.log(`OK Callback Error @ ${API}`)
+        console.log({status:respStatus, data:respData, error:error})
+      }
+    }
+
+    // BAD API RESULT HANDLER
+    else if (respStatus === 'BAD') {
+      try{ return BAD !== null ? BAD(respData) : respData }
+      catch (error) {
+        console.log(`BAD Callback Error @ ${API}`)
+        console.log({status:respStatus, data:respData, error:error})
+      }
+    }
+  })
+}
+
+
 /*
   GLOBAL ENVIRONMENT
   contains the state of the API->Client relationship.
 */
+
+// Core API Library
 export default api;
 export const endPoints = getEndpoints();
 export const clientAdr = endPoints.client;

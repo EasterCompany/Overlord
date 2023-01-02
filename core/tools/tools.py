@@ -1,26 +1,30 @@
 # Standard library
+import readline
 import subprocess
-from os import system, getcwd
 from os.path import exists
-from sys import argv, path, executable
-
+from os import system, getcwd, environ
+from sys import argv, path, executable, version_info
 # Overlord library
+from web.settings import SECRET_DATA, CLIENT_DATA, INDEX
+from core import create_user, create_super_user
+from core.library import execute_from_command_line, console
 from core.library.version import Version
-from core.tools.library import console, gracefulExit
-from core.tools.commands import install, git, django, node, pytest, pa
+from core.tools.library import gracefulExit
+from core.tools.commands import install, git, django, node, pytest, pa, vscode
 
 tools_path = '/'.join(__file__.split('/')[:-1])
 project_path = path[0]
 command_line = argv[2:]
-len_cmd_line = len(command_line)
 _version = Version()
+environ.setdefault('DJANGO_SETTINGS_MODULE', 'web.settings')
 
 
 def awaitInput(ascii_art=True):
     global command_line
 
     if ascii_art:
-        print(f'''    -------------------------------------------------------------------
+        print(f'''
+    -------------------------------------------------------------------
 
      ██████╗ ██╗   ██╗███████╗██████╗ ██╗      ██████╗ ██████╗ ██████╗
     ██╔═══██╗██║   ██║██╔════╝██╔══██╗██║     ██╔═══██╗██╔══██╗██╔══██╗
@@ -38,11 +42,18 @@ def awaitInput(ascii_art=True):
     else:
         print('')
 
+    readline.clear_history()
     flag = gracefulExit.GracefulExit()
+
     while True:
-        Input = input(console.col('./o ', 'green'))
-        command_line = Input.split(' ')
-        run()
+        try:
+            Input = input(console.out('./o ', 'green', False)).strip()
+            while '  ' in Input:
+                Input = Input.replace('  ', ' ')
+            command_line = Input.split(' ')
+            run()
+        except EOFError:
+            console.out("\n\nAre you trying to exit the CLI? (Please use the 'exit' command instead)\n", "yellow")
         if flag.exit():
             break
 
@@ -61,21 +72,21 @@ def output(line, error=False, success=False, warning=False):
         _output += f'{line}\n'
 
     if error:
-        return print(console.col(_output, 'red'))
+        return console.out(_output, 'red')
     elif warning:
-        return print(console.col(_output, 'yellow'))
+        return console.out(_output, 'yellow')
     elif success:
-        return print(console.col(_output, 'green'))
-    return print(_output)
+        return console.out(_output, 'green')
+    return console.out(_output)
 
 
 def help():
-    return print('''
+    return print(f'''
     Welcome to Overlord.
 
     This command is here to help you get started with the basics.
     To begin with lets go over some simple developer commands that'll
-    help make your experience here - fast and easy.
+    help make your experience here simple and easy.
 
     01. clients
         - Lists all the clients in your clients directory that are either
@@ -87,8 +98,10 @@ def help():
 
     03. code
         - Opens vscode in the root directory of your current project.
+        - Takes 1 optional argument "client_name" which opens a client
+          and it's associated API in an isolated workspace.
         - Only works for vscode stable release channel, not insiders.
-        - "code ." command must also work on your environment.
+          (unless you use an alias)
 
     04. exit
         - Close the Overlord-CLI and stop running any background threads
@@ -102,11 +115,11 @@ def help():
         - Automatically detect all git repositories within this projects
           scope and push the latest commits to the current branch.
 
-    07. main
+    07. main                                      {console.out("[Experimental Feature]", "yellow", False)}
         - Automatically detect all git repositories within this projects
           scope and switch them to the `main` branch.
 
-    08. dev
+    08. dev                                       {console.out("[Experimental Feature]", "yellow", False)}
         - Automatically detect all git repositories within this projects
           scope and switch them to the `dev` branch.
 
@@ -121,9 +134,9 @@ def help():
         - Run the command with no arguments to receive detailed usage
           instructions
 
-    Detailed and up-to-date documentation is kept on our GitHub Repo
-    Read this for more [https://github.com/EasterCompany/Overlord#readme]
-    ''')
+        Detailed and up-to-date documentation is kept on our website
+                    {console.out("https://www.easter.company/overlord", "blue", False)}'''
+    )
 
 
 def run_tool(command, index=0):
@@ -151,20 +164,31 @@ def run_tool(command, index=0):
         git_repo, git_message = None, None
 
     # Return an error prompt if the command string is an argument
-    if command.startswith('-'): return None
+    if command.startswith('-') and index == 0:
+        console.out("\n  [ERROR] Commands cannot start with '-'", "red")
+
+    elif command.startswith('-'):
+        return None
 
     elif command == 'install':
 
+        # Install python requirements
+        if arguments[0] == 'r' or arguments[0] == 'requirements':
+            django.server.install_requirements()
+            # Include developer dependencies
+            if arguments[1] == 'd':
+                django.server.install_requirements_dev()
+
         # Install all clients
-        if arguments_remaining == 1 and (arguments[0] == 'clients' or arguments[0] == 'all'):
-            print("\n Installing all clients:")
+        elif arguments_remaining == 1 and (arguments[0] == 'clients' or arguments[0] == 'all'):
+            print("\nInstalling all clients:")
             node.clients.install()
 
         # Install a specific client
         elif arguments_remaining > 0:
             for argument in arguments:
                 print(f"\nInstalling client: {argument}")
-                print("----------------------------------- ")
+                print("---------------------------------------------")
                 node.clients.install(argument)
 
         # Install Overlord
@@ -190,8 +214,9 @@ def run_tool(command, index=0):
             install.django_files(project_path)
             install.secrets_file(project_path)
             install.o_file(project_path)
+            install.pytest_ini(project_path)
             django.secret_key.new(project_path)
-            print('\n', console.col('Success!.', 'green'), '\n')
+            console.out('\nSuccess!\n', 'green')
 
     elif command == 'pull':
         git.pull.all()
@@ -207,9 +232,9 @@ def run_tool(command, index=0):
 
     elif command == 'merge':
         if arguments_remaining == 2:
-            if arguments[0] == 'all': git.merge.all(git_message), gracefulExit()
-            else: git.merge.with_message(git_message, git_repo), gracefulExit()
-        git.merge.error_message(), gracefulExit()
+            if arguments[0] == 'all': git.merge.all(git_message)
+            else: git.merge.with_message(git_message, git_repo)
+        git.merge.error_message()
 
     elif command == 'new_secret_key':
         django.secret_key.new()
@@ -220,30 +245,41 @@ def run_tool(command, index=0):
     elif command == 'runclient' or command == 'run':
 
         if arguments_remaining == 1 and arguments[0] == 'all':
-            node.clients.run_all()
+            node.clients.run_all(none_on_main_thread=True)
+            django.server.start()
+            node.share.file_updater_thread()
 
         elif arguments_remaining >= 1:
+            any_valid_client = False
             for arg in arguments:
+                if arg in CLIENT_DATA:
+                    any_valid_client = True
                 node.clients.run(arg, False, True)
+            if any_valid_client:
+                django.server.start()
+                node.share.file_updater_thread()
 
         elif command == 'run':
-            node.clients.run_all(none_on_main_thread=True)
+            node.clients.run(INDEX, False, True)
+            django.server.start()
+            node.share.file_updater_thread()
 
-        django.server.start()
-        return node.share.file_updater_thread()
+        return awaitInput(False)
 
     elif command == 'runserver':
+        console.out("\nStarting Production Server", "green")
+        console.out("[Press CTRL+C to Return]\n")
         django.server.run()
 
     elif command == 'build':
         if arguments_remaining < 1:
             return node.clients.error_message()
         if arguments_remaining == 1 and arguments[0] == 'all':
-            return node.clients.build_all()
+            node.clients.build_all()
         else:
             for arg in arguments:
                 node.clients.build(arg)
-        return django.server.collect_staticfs()
+        return print()
 
     elif command == 'migrate':
         django.server.migrate_database()
@@ -263,21 +299,34 @@ def run_tool(command, index=0):
         if arguments_remaining == 1:
 
             if arguments[0] == 'apps':
-                return pa.apps.display()
+                pa.apps.display()
+                return print()
             elif arguments[0] == 'consoles':
-                return pa.consoles.display()
+                pa.consoles.display()
+                return print()
             elif arguments[0] == 'cpu':
-                return pa.cpu.display()
+                pa.cpu.display()
+                return print()
             elif arguments[0] == 'tasks':
-                return pa.tasks.display()
+                pa.tasks.display()
+                return print()
             elif arguments[0] == 'reload':
-                return pa.reload.request()
+                pa.reload.request()
+                return print()
             elif arguments[0] == 'status':
-                return pa.status.request()
+                pa.status.request()
+                return print()
             elif arguments[0] == 'upgrade':
                 pa.upgrade.request()
+                return print()
+            elif arguments[0] == 'deploy':
+                system('clear')
+                node.clients.build_all()
+                git.push.all()
+                pa.upgrade.request()
                 pa.reload.request()
-                return pa.status.request()
+                pa.status.request()
+                return print()
 
         else:
             return pa.api.error_message()
@@ -310,7 +359,7 @@ def run_tool(command, index=0):
 
     elif command == 'clients':
         for _client in node.clients.update_client_json():
-            output(f' -> {_client}')
+            console.out(f'\n -> {_client}', 'yellow')
 
     elif command == 'cwd': output(getcwd)
 
@@ -318,7 +367,7 @@ def run_tool(command, index=0):
         dir_path = getcwd()
         _process = subprocess.run(['du', '-sh', dir_path], capture_output=True, text=True)
         dir_size = _process.stdout.split()[0] + 'B'
-        output(dir_size)
+        console.out('\n' + dir_size)
 
     elif command == 'node':
         if not arguments_remaining == 0:
@@ -326,51 +375,97 @@ def run_tool(command, index=0):
                 "`node` command doesn't take any arguments",
                 error=True
             )
-        output(console.col('\nStarting Node.', 'green') + '\n[type: .exit to return]')
+        console.out('\nStarting Node Shell', 'green')
+        console.out('[Press CTRL+D to Return]')
         system('node')
-        output(console.col('Closed Node.', 'red'))
+        console.out('\nClosed Node.', 'red')
 
-    elif command == 'django':
+    elif command == 'django' or command == 'python':
         if not arguments_remaining == 0:
             return output(
                 "`django` command doesn't take any arguments",
                 error=True
             )
-        output(console.col('\nStarting Django.', 'green') + '\n[type: exit() to return] ')
-        system(f'{executable} run.py shell_plus')
-        output(console.col('Closed Django.', 'red'))
+        console.out('\nStarting Python-Django Shell', 'green')
+        console.out('[Press CTRL+D to Return]')
+        execute_from_command_line([executable, 'shell_plus'])
+        console.out('\nClosed Python-Django Shell.', 'red')
 
-    elif command == 'status': system('git status')
+    elif command == 'redis':
+        output(console.out('\nInitiating Redis Cloud Connection', 'green', False) + ' \n[CTRL+C to Exit]')
+        system(
+            f"redis-cli -u redis://{SECRET_DATA['REDIS-USER']}:{SECRET_DATA['REDIS-PASS']}@{SECRET_DATA['REDIS-HTTP']}"
+        )
+        console.out('Closed Redis Cloud Connection.', 'red')
 
-    elif command == 'clear': system('clear')
+    elif command.startswith('npm') and arguments_remaining > 0:
+        if arguments[0] == 'uninstall' or arguments[0] == 'u':
+            [ node.npm.install(arguments[1], package, True) for package in arguments[2:] ]
+        elif arguments[0] == 'install' or arguments[0] == 'i':
+            [ node.npm.install(arguments[1], package, False) for package in arguments[2:] ]
+        elif command == 'npm-uninstall':
+            [ node.npm.install(arguments[0], package, True) for package in arguments[1:] ]
+        elif command == 'npm' or command == 'npm-install':
+            [ node.npm.install(arguments[0], package, False) for package in arguments[1:] ]
+
+    elif command == 'status':
+        if arguments_remaining == 0:
+            git.status.app()
+        else:
+            for _arg in arguments:
+                git.status.clients(_arg)
+
+    elif command == 'clear':
+        system('clear')
 
     elif command == 'code':
         if arguments_remaining == 0:
-            system('code .')
-        elif arguments_remaining == 1:
-            system(f'code clients/{arguments[0]}')
+            console.out("\n> opening global workspace")
+            console.input('code .')
+        elif arguments_remaining == 1 and arguments[0] in CLIENT_DATA:
+            console.out(f"\n> opening workspace for '{arguments[0]}'")
+            if 'api' in CLIENT_DATA[arguments[0]]:
+                vscode.workspace.start(arguments[0])
+            else:
+                console.input(f'code clients/{arguments[0]}')
+            return print('')
+        else:
+            return console.out("\n  [ERROR] `code` command takes 1 argument that must be a client name\n", "red")
 
     elif command == 'sh':
         _process = subprocess.run(arguments, capture_output=True, text=True)
-        output(_process.stdout)
+        console.out('\n' + _process.stdout)
 
-    elif command == 'exit': exit()
+    elif command == 'exit' or command == 'exit()':
+        console.out("\nClosed Overlord-CLI\n", "red")
+        exit()
+
+    elif command == 'createsuperuser' or command == 'createadmin':
+        create_super_user()
+
+    elif command == 'createuser':
+        create_user()
 
     else:
-        bad_input = ' '.join(command_line)
-        output(f"No command matching input\n > ./o {bad_input}", error=True)
+        line_start = "\n" if index == 0 else ""
+        console.out(f"{line_start}  [ERROR] No command matching input\n    ./o {command}", "red")
 
-    return awaitInput(False)
+    return print('')
 
 
 def run():
-    print(command_line)
-    print("\n\n")
-    exit()
+    if not version_info >= (3, 10):
+        return console.out(
+            "\n[ERROR] Python 3.10 or greater is required by Overlord\n"
+            "        You may have installed using the wrong executable\n"
+            "        Try installing Overlord again using this command:\n"
+            "        \n"
+            "        python3.10 core.py tools install\n"
+            "        \n"
+            "        or set python 3.10 (or greater) to be your system default\n"
+            "        when calling 'python3' from the command line.\n",
+            "red"
+        ), exit()
     if len(command_line) <= 0:
         return awaitInput()
     [run_tool(arg, index) for index, arg in enumerate(command_line)]
-
-
-if __name__ == '__main__':
-    run()

@@ -1,9 +1,12 @@
-# Standard imports
+# Standard library
 import json
 import secrets
+import subprocess
 from sys import path, executable
+from os import scandir, mkdir, system, getcwd
 from os.path import exists, join as pathjoin
-from os import scandir, mkdir, system
+# Overlord library
+from core.library.time import timestamp
 
 
 # --------------------------- CREATE & CONFIRM CONFIG EXISTS --------------------------- #
@@ -19,6 +22,9 @@ def __init_logs_directory__(project_path='.'):
   if not exists(project_path + '/.logs/requests.json'):
     with open(project_path + '/.logs/requests.json', 'w+') as req_json:
       req_json.write('{\n}')
+  if not exists(project_path + '/.logs/logger'):
+    with open(project_path + '/.logs/logger', 'w+') as logger:
+      logger.write(f'[{timestamp()}] Created log file')
 
 
 # -------------------------- CONFIRM CONFIG JSON FILE EXISTS --------------------------- #
@@ -32,16 +38,18 @@ def dump_json(filename, data, project_path='.'):
     )
 
 
-def install_file(filename, destination, project_path='.', log=True):
+def install_file(filename, destination, project_path='.', log=True, rename=None):
+  if rename is None:
+    rename = filename
   if log:
     print('Installing', filename, 'to', destination, '...')
-  with open(project_path + '/tools/assets/' + filename) as base:
-    with open(project_path + destination + '/' + filename, 'w+') as new_file:
+  with open(project_path + '/core/tools/assets/' + filename) as base:
+    with open(project_path + destination + '/' + rename, 'w+') as new_file:
       new_file.write(base.read())
 
 
 def make_clients_config(project_path='.'):
-  client_paths  = sorted([
+  client_paths = sorted([
     f.path for f in scandir(project_path + "/clients") if f.is_dir()
   ])
   clients = {}
@@ -50,8 +58,10 @@ def make_clients_config(project_path='.'):
     files = [
       f.path.split("/")[-1] for f in scandir(client) if not f.is_dir()
     ]
+
     node = "package.json" in files
     scripts = {
+      "api-git": None,
       "test": None,
       "start": None,
       "build": None,
@@ -61,8 +71,13 @@ def make_clients_config(project_path='.'):
     if node:
       package = open(client + "/package.json")
       package_json = json.load(package)
+
       if 'version' in package_json:
         scripts['version'] = package_json['version']
+
+      if 'api-git' in package_json:
+        scripts['api-git'] = package_json['api-git']
+
       for key in package_json["scripts"]:
         if key in scripts:
           scripts[key] = package_json["scripts"][key]
@@ -70,6 +85,7 @@ def make_clients_config(project_path='.'):
     if client.split("/")[-1] != 'shared':
       clients[client.split("/")[-1]] = {
         "src": client,
+        "api": scripts["api-git"],
         "static": f'{path[0]}/static/{client.split("/")[-1]}',
         "node": node,
         "test": scripts["test"],
@@ -86,7 +102,7 @@ def make_server_config(project_path='.'):
   print('Generating server config...')
 
   server_core_data = {
-    "INDEX": 'e_panel',
+    "INDEX": 'example',
     "DEBUG": True,
     "STANDALONE": False,
     "LANGUAGE_CODE": 'en-gb',
@@ -153,7 +169,6 @@ def make_server_config(project_path='.'):
 
 
 def django_files(project_path='.'):
-  install_file('run.py', '/', project_path)
   install_file('settings.py', '/web', project_path)
   install_file('urls.py', '/web', project_path)
 
@@ -168,19 +183,60 @@ def secrets_file(project_path='.'):
     "PA_API_KEY": "",
     "DOMAIN_URL": "",
     "EMAIL_USER": "",
-    "EMAIL_PASS": ""
+    "EMAIL_PASS": "",
+    "REDIS-USER": "",
+    "REDIS-PASS": "",
+    "REDIS-HTTP": ""
   }
   return dump_json('secret', token_data, project_path)
 
 
-def o_file(project_path='.'):
+def o_file(project_path=None):
   print("Generating o file...")
+  inter = executable
+
+  if project_path is None:
+    project_path = getcwd()
+
+  try:
+    if not inter and exists('/usr/bin/python3'):
+      inter = '/usr/bin/python3'
+      inter_version = subprocess.run(f"{inter} --version", capture_output=True, stdout=subprocess.PIPE)
+      py10 = int(inter_version.stdout.split(' ')[1].split('.')[1]) >= 10
+      if not py10:
+        inter = '/usr/bin/python3.10'
+
+    elif not inter and exists('/usr/bin/python3.10'):
+      inter = '/usr/bin/python3.10'
+  except:
+    inter = '/usr/bin/python3'
+
   with open(f"{project_path}/o", "w") as o_file:
     o_file.write(f"""#!/bin/bash
 cd {project_path}
 clear
-echo
-{executable} run.py tools $@
-echo
+{inter} -c "
+try:
+  from sys import path;from os import environ;from core.tools import tools;
+except ImportError:
+  from os import system;system('{inter} -m pip install -r core/requirements.txt');
+from sys import path;from os import environ;from core.tools import tools;
+if '{project_path}' not in path: path.insert(0, '{project_path}');
+from django.core.wsgi import get_wsgi_application;
+application = get_wsgi_application();
+tools.run()
+"
 """)
   system("chmod +x ./o")
+
+
+def pytest_ini(project_path='.'):
+  if not exists(f"{project_path}/pytest.ini"):
+    print("Generating pytest.ini")
+    with open(f"{project_path}/pytest.ini", "w") as pytest_ini:
+      pytest_ini.write("""[pytest]
+DJANGO_SETTINGS_MODULE = web.settings
+FAIL_INVALID_TEMPLATE_VARS = True
+python_files = */test_*.py
+django_debug_mode = true
+""")

@@ -1,10 +1,22 @@
 # Overlord library
-from core.tools.library import console
 from .api import domain, fetch_api
+from core.library import console
 
 
 def request():
-    print('\nReloading', domain, '...\n')
+    console.out(f"\n> Reload Server @ {domain}")
+
+    console.out(f"  {console.wait} Reloading ... ", end="\r")
+
     data = fetch_api('webapps', args=(domain, 'reload'), method='POST')
-    print('status:', console.colour_status_code(data['status']), '\n')
-    if data['status'] != 'OK': exit()
+    console.out(
+        "  ✅ Successfully Reloaded  ", "success"
+    ) if data['status'] == "OK" else console.out(
+        "  ⚠️ Unknown Error       ", "yellow"
+    )
+
+    if 'data' in data and data['data'] == "[500] Internal server error.":
+        print('REASON:', console.out(data['data'], 'red'))
+        print('\nAre you using the correct authentication method?')
+
+    return data

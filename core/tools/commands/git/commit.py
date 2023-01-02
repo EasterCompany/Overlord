@@ -34,7 +34,7 @@ def all(message):
 
 def error_message():
     return print("""
-    `COMMIT` tool requires 2 arguments beggining with `-`
+    `COMMIT` tool requires 2 arguments beginning with `-`
 
         ./o commit -server  -message
         ./o commit -clients -message

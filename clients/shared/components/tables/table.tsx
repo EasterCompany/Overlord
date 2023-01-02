@@ -1,6 +1,6 @@
 // React imports
 import './table.css';
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 // Shared library
 import api from '../../library/server/api';
 // Shared components
@@ -40,23 +40,25 @@ const Table = (props: any) => {
     /* TABLE */
     tableHeaders: props.headers || [ 'ERROR', ],
     tableData: props.data || [
-      [ 'No headers & data props on the <Table .. headers=[string, ] .. data = [ [], ]>', ],
+      [ 'No headers & data props on the Table component <Table .. headers=[string, ] .. data = [ [], ] .. />', ],
     ],
 
     /* API Paths */
     viewAPI: props.view !== null ? props.view : <ErrorView error="No view & edit option."/>,
     createAPI: props.create !== null ? props.create : <ErrorView error="No create view option."/>,
     deleteAPI: props.delete !== null ? props.delete : <ErrorView error="No delete view option."/>,
+
   };
+
+  // On Table Type Change
+  useEffect(() => {
+    setCreateView(false);
+  }, [props.name])
 
   // View State Variables
   const buttonTxt = viewAll ? `..SEE LESS` : `SEE MORE..`;
 
   // Alternative Views
-  if (createView) {
-    return <props.CreateView close={() => { setCreateView(false); }}/>
-  }
-
   if (editView) {
     const pkRowEl = document.getElementById(selectedRow) as HTMLElement
     const pkEl = pkRowEl.firstChild as HTMLElement
@@ -70,11 +72,15 @@ const Table = (props: any) => {
     const PK = pkEl.innerText
 
     const onAccept = () => {
-      api(
-        `${config.deleteAPI}/${encodeURIComponent(PK)}`,
-        (resp: any) => null,
-        (resp: any) => window.location.reload()
-      );
+      props.onDelete === undefined ?
+        api(
+          `${config.deleteAPI}/${encodeURIComponent(PK)}`,
+          (resp: any) => null,
+          (resp: any) => window.location.reload()
+        )
+      :
+        props.onDelete(PK);
+        setDeleteView(false);
     }
 
     const modal = {
@@ -85,7 +91,20 @@ const Table = (props: any) => {
     }
 
     return <ConfirmationModal modal={modal} />
+  }
 
+  if (createView) {
+    return <>
+      <h2>NEW [{props.name.toUpperCase()}] RECORD</h2>
+      <props.create/>
+      <div style={{ display: 'flex', justifyContent: 'space-evenly' }}>
+        <button onClick={() => setCreateView(false)}>Cancel</button>
+        <button onClick={() => {
+          if (props.onCreate !== undefined) {props.onCreate()}
+          setCreateView(false)
+        }}>Accept</button>
+      </div>
+    </>
   }
 
   return <>
@@ -221,7 +240,7 @@ const Table = (props: any) => {
         <button
           style={{ margin: '32px 0' }}
           onClick={() => setViewAll(!viewAll)}
-          disabled={ props.data.length <= props.previewSize ? true : false }
+          disabled={ config.tableData.length <= props.previewSize ? true : false }
         >{buttonTxt}</button>
       </div>
     </div>

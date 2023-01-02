@@ -4,8 +4,8 @@
 
 # Standard library
 import os
-from sys import path
 from json import loads
+
 # Overlord library
 from core.library import numbers
 from core.tools.commands.install import (
@@ -15,13 +15,14 @@ from core.tools.commands.install import (
     make_server_config
 )
 
-# Load Custom Project Settings
-BASE_DIR = path[0]
+# Default Project Configuration
+BASE_DIR = os.getcwd()
+LOGGER_DIR = f"{BASE_DIR}/.logs/logger"
 SECRET_DATA = {
     'SERVER_KEY': 'no secret key',
 }
 
-# Load Settings
+# Load JSON Configuration Files
 __init_config_directory__()
 __init_logs_directory__()
 
@@ -39,21 +40,27 @@ with open(BASE_DIR + '/.config/clients.json') as CLIENT_FILE:
 
 if not os.path.exists(BASE_DIR + '/.config/secret.json'):
     SECRET_DATA = {
-        'ROOT_EMAIL': '',
-        'SERVER_KEY': '',
-        'PA_USER_ID': '',
-        'PA_API_KEY': '',
-        'DOMAIN_URL': ''
+        "ROOT_EMAIL": "",
+        "SERVER_KEY": "",
+        "PUBLIC_KEY": "",
+        "PA_USER_ID": "",
+        "PA_API_KEY": "",
+        "DOMAIN_URL": "",
+        "REDIS-USER": "",
+        "REDIS-PASS": "",
+        "REDIS-HTTP": ""
     }
 else:
     with open(BASE_DIR + '/.config/secret.json') as SECRET_FILE:
         SECRET_DATA = loads(SECRET_FILE.read())
 
-# Set Settings
+# Set Administration Configuration
 ROOT_EMAIL = SECRET_DATA['ROOT_EMAIL']
 SERVER_KEY = SECRET_DATA['SERVER_KEY']
 SECRET_KEY = SECRET_DATA['SERVER_KEY']
+PUBLIC_KEY = SECRET_DATA['PUBLIC_KEY']
 
+# Set Server Configuration
 INDEX = SERVER_DATA['INDEX']
 DEBUG = SERVER_DATA['DEBUG']
 LANGUAGE_CODE = SERVER_DATA['LANGUAGE_CODE']
@@ -61,7 +68,7 @@ TIME_ZONE = SERVER_DATA['TIME_ZONE']
 USE_I18N = True
 USE_TZ = True
 
-ALLOWED_HOSTS = SERVER_DATA['ALLOWED_HOSTS']
+ALLOWED_HOSTS = SERVER_DATA['ALLOWED_HOSTS'] if not DEBUG else ['*']
 INSTALLED_APPS = SERVER_DATA['INSTALLED_APPS']
 MIDDLEWARE = SERVER_DATA['MIDDLEWARE']
 ROOT_URLCONF = SERVER_DATA['ROOT_URLCONF']
@@ -107,6 +114,7 @@ MEDIA_ROOT = BASE_DIR + '/assets'
 MEDIA_URL = '/assets/'
 
 CORS_ORIGIN_ALLOW_ALL = SERVER_DATA['CORS_ORIGIN_ALLOW_ALL']
+
 if DEBUG:
     CORS_ORIGIN_WHITELIST = [
         'http://localhost:3000',    # Default Django development server (standalone)
@@ -118,4 +126,6 @@ if DEBUG:
         # Ports 8100 - 8199 are reserved for react development clients
     ]
 else:
-    CORS_ORIGIN_WHITELIST = []
+    CORS_ORIGIN_WHITELIST = [
+        'https://www.easter.company'    # Allows this application to be managed by E-Panel
+    ]

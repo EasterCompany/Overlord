@@ -1,10 +1,17 @@
 # Overlord library
-from .api import domain, fetch_domain
-from core.tools.library import console
+from .api import domain, server
+from core.library import console
 
 
 def request():
-    print('\nUpgrading', domain, '...\n')
-    data = fetch_domain('upgrade')
-    print('status:', console.colour_status_code(data['status']), '\n')
-    if data['status'] != 'OK': exit()
+    print(f'\n> Upgrade Server @ {domain}')
+    console.out(f"  {console.wait} Upgrading ...", end="\r")
+
+    data = server('upgrade')
+    console.out(
+        "  ✅ Server Upgraded  ", "success"
+    ) if data['status'] == "OK" else console.out(
+        "  ⚠️ Unknown Error ",
+    )
+
+    return data

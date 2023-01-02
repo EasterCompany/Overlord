@@ -1,5 +1,5 @@
 # Standard library
-from sys import path
+import subprocess
 from json import loads
 from time import sleep
 from shutil import rmtree
@@ -15,7 +15,8 @@ from ..install import (
     make_server_config
 )
 from ..node.share import __update_shared_files__
-from core.tools.library import console
+from core.library import console
+from web.settings import BASE_DIR
 
 # Variable app meta data
 meta_data = {
@@ -26,14 +27,17 @@ meta_data = {
 # Client build meta data
 def update_client_meta_data(app_data):
     # Read index.html file content
-    index_path = app_data['static'] + '/index.html'
+    if BASE_DIR in app_data['static']:
+        index_path = f"{app_data['static']}/index.html"
+    else:
+        index_path = f"{BASE_DIR}{app_data['static']}/index.html"
 
-    # Pass if build doesn't exist
+    # ERROR handling when index.html is not generated
     if not exists(index_path):
-        return False
+        index_path = index_path.replace('/index.html', '/index')
 
     # Read Content
-    with open(index_path) as index_file:
+    with open(index_path, 'r') as index_file:
         index_file_content = index_file.read()
 
     # Iterate over all variable meta data
@@ -56,15 +60,48 @@ def update_client_meta_data(app_data):
     return True
 
 
-# Client thread function
-def client(app_data, build=False):
-    chdir(app_data['src'])
+def client(app_data, build=False, app_name=""):
+    """
+    Runs a client using npm in development mode, not to be used on a live server unless using the 'build'
+    parameter which builds the client for production
+
+    :return None:
+    """
     if build and 'build' in app_data:
-        system('npm run build')
+        print(f"\n> {app_name}@{clients_json[app_name]['version']}")
+
+        console.out(f"  {console.wait} Installing", end="\r")
+        subprocess.run(
+            "npm install",
+            shell=True,
+            cwd=app_data['src'],
+            bufsize=1,
+            stdout=subprocess.PIPE,
+            stderr=subprocess.STDOUT,
+            text=True,
+            universal_newlines=True
+        )
+        console.out("  ✅ Installed     ", "success")
+
+        console.out(f"  {console.wait} Compiling", end="\r")
+        subprocess.run(
+            "npm run build",
+            shell=True,
+            cwd=app_data['src'],
+            bufsize=1,
+            stdout=subprocess.PIPE,
+            stderr=subprocess.STDOUT,
+            text=True,
+            universal_newlines=True
+        )
+        console.out("  ✅ Compiled      ", "success")
+
+        console.out(f"  {console.wait} Post-Processing", end="\r")
         update_client_meta_data(app_data)
-    elif 'start' in app_data:
-        system('npm run start')
-    chdir(path[0])
+        console.out("  ✅ Post-Processed    ", "success")
+
+    elif not build and 'start' in app_data:
+        subprocess.call("npm run start", shell=True, cwd=app_data['src'])
 
 
 # Create client thread
@@ -81,8 +118,8 @@ clients_json = {}
 def update_client_json():
     global clients_json
     # All clients data from config file
-    if exists(path[0] + '/.config/clients.json'):
-        with open(path[0] + '/.config/clients.json') as clients_file:
+    if exists(BASE_DIR + '/.config/clients.json'):
+        with open(BASE_DIR + '/.config/clients.json') as clients_file:
             clients_json = loads(clients_file.read())
     else:
         clients_json = {}
@@ -110,20 +147,30 @@ def install(target=None):
         run_install(clients_json[target]['src'])
         print('')
 
-    return chdir(path[0])
+    return chdir(BASE_DIR)
 
 
 # Run client
-def run(name, build, new_thread):
+def run(name:str, build:bool, new_thread:bool):
     if name not in clients_json:
-        print('\n    Client `%s` does not exist\n' % name), exit()
+        print(f'\n    Client `{name}` does not exist\n')
+        x = [ clients_json.keys(), None ]
+        for client_name in x[0]:
+            if name in client_name and x[1] is None: x[1] = name
+            elif name in client_name and x[1] is not None: x[1] = None
+        if x[1] is None:
+            return 'Err0'
+        else:
+            return console.out()
+
     client_data = clients_json[name]
-    thread = new_client(name, client_data, build)
     if new_thread:
-        thread.start()              # Start thread
-        sleep(3)                    # Give NPM time to collect package.json
-        return chdir(path[0])       # Return to root directory
-    return thread.run()             # ELSE: Run on main thread
+        thread = new_client(name, client_data, build)
+        thread.start()
+        sleep(3)
+        return chdir(BASE_DIR)
+
+    return client(client_data, build)
 
 
 # Run all clients on a separate thread except the last one
@@ -135,18 +182,24 @@ def run_all(none_on_main_thread=False):
             run(client, build=False, new_thread=False)
     sleep(5)
     system('clear')
-    return print('Running all clients...\n')
+    return print('Running all clients ...\n')
 
 
 # Build specific client on the main thread
 def build(name):
-    return run(name, build=True, new_thread=False)
+    client(clients_json[name], build=True, app_name=name)
 
 
 # Build all clients on the main thread
 def build_all():
-    for client in clients_json:
-        run(client, build=True, new_thread=False)
+    console.out("\n> Global Build Options")
+
+    console.out(f"  {console.wait} Updating shared files", end="\r")
+    __update_shared_files__()
+    console.out("  ✅ Updated Shared Files      ", "success")
+
+    for _ in clients_json:
+        client(clients_json[_], build=True, app_name=_)
 
 
 # Create new client
@@ -167,24 +220,24 @@ def create(name, native=False, custom_repo=None):
         __init_logs_directory__()
 
         # Default environment configuration
-        client_data = make_clients_config(path[0])
-        server_data = path[0] + '/.config/server.json'
+        client_data = make_clients_config(BASE_DIR)
+        server_data = BASE_DIR + '/.config/server.json'
 
         if exists(server_data):
             with open(server_data) as server_data_file:
                 server_data = loads(server_data_file.read())
         else:
-            server_data = make_server_config(path[0])
+            server_data = make_server_config(BASE_DIR)
 
         # Default start-up behavior
         __update_shared_files__()
         load_order = url.make_client_load_order(client_data, server_data['INDEX'])
-        url.write_django_urls(load_order, path[0] + '/web/urls.py')
+        url.write_django_urls(load_order, BASE_DIR + '/web/urls.py')
 
     # Make directory checks
     if exists(f'clients/{name}'):
         return print(
-            console.col('\n[ABORTED]', 'red') + f" client with name '{name}' already exists.\n"
+            console.out('\n[ABORTED]', 'red') + f" client with name '{name}' already exists.\n"
         )
 
     # Fetch react-native app template from github
@@ -196,7 +249,7 @@ def create(name, native=False, custom_repo=None):
     elif custom_repo is not None:
         print("\nDownloading custom-client template...")
         download_repo(custom_repo, name)
-        print(console.col(f'Successfully created a custom client: {name} !', 'green'))
+        console.out(f'Successfully created a custom client: {name} !', 'green')
         print(f'To install your client use this command `./o install -{name}`\n')
         return update_overlord_configuration()
 
@@ -259,7 +312,7 @@ def create(name, native=False, custom_repo=None):
 
     update_overlord_configuration()
 
-    print(console.col(f'Successfully created a web client: {name} !', 'green'))
+    console.out(f'Successfully created a web client: {name} !', 'green')
     print(f'To install your client use this command `./o install -{name}`\n')
 
 

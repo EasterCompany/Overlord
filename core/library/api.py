@@ -1,14 +1,14 @@
 # Standard library
+import json
 from urllib import parse
-# Django library
-from django.http import JsonResponse
 # Overlord library
 from web.settings import DEBUG
-from .console import Console
+from django.urls import path as new_path
+from django.http import JsonResponse
+from core.library import console
 
 OK = 'OK'
 BAD = 'BAD'
-CON = Console()
 
 
 # Overlord Standard Response Function ----------------------------------------------------------------------------------
@@ -51,7 +51,7 @@ def error(exception=None):
   """
   if exception is not None and DEBUG:
     print(f"""
-      [{CON.output("INTERNAL SERVER ERROR", "red")}]
+      [{console.out("INTERNAL SERVER ERROR", "red")}]
 
     {exception}
     """)
@@ -94,29 +94,32 @@ def table(Table, Headers, Body, filter={ "order_by": str() }):
   return std(OK, {'head': [], 'body': [ [] ]})
 
 
-def get_arg(_arg):
+def get_arg(_arg) -> str:
   """
-  Unquotes an argument from the URI and strips it
+  Unquotes an argument from the request and strips it
 
   :param _arg str: any string
   :return str: unquoted and stripped string
   """
-  return parse.unquote(_arg).strip()
+  return str(parse.unquote(_arg)).strip()
 
 
-def get_user(req):
+def get_user(req) -> list:
   """
   Acquires the user uuid and session token from the authorization header
-  passed by api, POST & xapi the JS functions
+  passed by api, POST & xapi client side functions
 
   :param req obj: default django request object
   :return list: [ user_uuid, user_token ]
   """
-  auth_token = req.headers.get('Authorization').split("[:~OLT~:]")
-  return auth_token[0].split('Basic ')[1].strip(), auth_token[1]
+  try:
+    auth_token = req.headers.get('Authorization').split("[:~OLT~:]")
+    return auth_token[0].split('Basic ')[1].strip(), auth_token[1]
+  except:
+    return '', ''
 
 
-def get_body(req):
+def get_body(req) -> str:
   """
   Consumes the request input and returns a decoded utf-8 string containing
   the content of the body
@@ -127,7 +130,18 @@ def get_body(req):
   return req.body.decode('utf-8')
 
 
-def get_api_url(panelObj):
+def get_json(req) -> str:
+  """
+  Consumes the request input and returns a dictionary containing
+  the content of the body which is expected to be stringified json
+
+  :param req obj: default django request object
+  :return str: body content as json
+  """
+  return json.loads(req.body.decode('utf-8'))
+
+
+def get_api_url(panelObj) -> str:
   """
   Consumes a panel database object and returns a constructed URL that points
   towards the associated API endpoint for this panel
@@ -138,3 +152,34 @@ def get_api_url(panelObj):
   if panelObj.isWeb:
     return f"https://{panelObj.name}/{panelObj.api}/"
   return f"https://{panelObj.api}/"
+
+
+class UniversalAPI:
+  """
+  Server Configuration for any Overlord based API.
+
+  This class contains all the data for a single Universal API
+  which is used to configure and control the endpoints hosted
+  by that API.
+  """
+
+  # API.URLS records custom endpoints added by new api
+  URLS=None
+
+  # API.NAME records the interface name for this new api
+  NAME=None
+
+  # API.CLIENT_NAME records the client related to this api
+  CLIENT_NAME=None
+
+  def __init__(self) -> None:
+    self.URLS = []
+
+  def path(self, endpoint, view, description="Auto Generated Path", *args, **kwargs):
+    if self.NAME is None:
+      _path = f"api/{endpoint}"
+    else:
+      _path = f"api/{self.NAME}/{endpoint}"
+    return self.URLS.append(
+      new_path(_path, view, name=description)
+    )

@@ -35,17 +35,15 @@ Example Usage (working example):
 # Std library
 import json
 import threading
-from sys import path
 from time import sleep
 from shutil import copy
 from os import mkdir, remove, walk
 from os.path import exists, isdir, getmtime
 from distutils.dir_util import copy_tree
 # Overlord library
-from core.tools.library import console
+from core.library import console
 from web.settings import CLIENT_DATA, BASE_DIR
 
-log_path = path[0] + '/clients/shared/.log'
 client_log = lambda client: CLIENT_DATA[client]['src'] + '/shared.json'
 
 
@@ -94,7 +92,7 @@ def add_to_log(shared_path, client_name, share_type):
 
     # Prevents sharing of the .log file
     if shared_path == '/.log':
-        print(console.col("You can't share the log file.", 'red'))
+        console.out("You can't share the log file.", "red")
         return None
 
     # Append client to log
@@ -116,38 +114,28 @@ def add_to_log(shared_path, client_name, share_type):
             print('''
     {path} is already shared with {name} via a module.
             '''.format(
-            path=console.col(shared_path, 'yellow'),
-            name=console.col(client_name, 'yellow')
+            path=console.out(shared_path, 'yellow'),
+            name=console.out(client_name, 'yellow')
                 )
             )
             return
 
     # Write to log file
     if shared_path not in log[client_name][share_type]:
-        if exists(path[0] + '/clients/shared/' + shared_path):
-            if exists(path[0] + '/clients/' + client_name):
+        if exists(BASE_DIR + '/clients/shared/' + shared_path):
+            if exists(BASE_DIR + '/clients/' + client_name):
                 log[client_name][share_type].append(shared_path)
             else:
-                print('''
-    '%s' client does not exist
-    ''' % console.col(client_name, 'red')
-        )
-                return
+                return console.out(f"\n    '{client_name}' client does not exist", "red")
         else:
-            print('''
-    %s
-    does not exist in the shared directory
-    ''' % console.col(shared_path, 'red')
-        )
-            return
+            return console.out(f"\n    '{shared_path}' does not exist in the shared directory", "red")
     else:
-        print('''
-    {path} is already shared with {name}
-    '''.format(
-        path=console.col(shared_path, 'yellow'),
-        name=console.col(client_name, 'yellow')
-    )
-    )
+        console.out(
+            "\n    {path} is already shared with {name}".format(
+                path=console.out(shared_path, 'yellow', False),
+                name=console.out(client_name, 'yellow', False)
+            )
+        )
         return
 
     # Optimize module sharing
@@ -169,18 +157,18 @@ def add_to_log(shared_path, client_name, share_type):
             print('''
     Removed {x} files from {name} because they're
     included within {path}'''.format(
-        x=console.col(str(len(removed_files)), 'green'),
-        path=console.col(shared_path, 'green'),
-        name=console.col(client_name, 'green')
+        x=console.out(str(len(removed_files)), 'green', False),
+        path=console.out(shared_path, 'green', False),
+        name=console.out(client_name, 'green', False)
     ))
 
         if len(removed_modules) > 0:
             print('''
     Removed {x} submodules from {name} because they're
     included within {path}'''.format(
-        x=console.col(str(len(removed_modules)), 'green'),
-        path=console.col(shared_path, 'green'),
-        name=console.col(client_name, 'green')
+        x=console.out(str(len(removed_modules)), 'green', False),
+        path=console.out(shared_path, 'green', False),
+        name=console.out(client_name, 'green', False)
     ))
 
     # Save log file
@@ -190,8 +178,8 @@ def add_to_log(shared_path, client_name, share_type):
     return print('''
     shared {path} with {name}
     '''.format(
-        path=console.col(shared_path, 'green'),
-        name=console.col(client_name, 'green')
+        path=console.out(shared_path, 'green', False),
+        name=console.out(client_name, 'green', False)
     )), __update_shared_files__()
 
 
@@ -217,7 +205,7 @@ def share_file(file_path, client):
 
 
 def target(path_to_target, client):
-    if isdir(path[0] + '/clients/shared/' + path_to_target):
+    if isdir(BASE_DIR + '/clients/shared/' + path_to_target):
         return share_module(path_to_target, client)
     return share_file(path_to_target, client)
 
@@ -288,16 +276,14 @@ def __update_clients_files__(client, logs, spath):
 
 
 def __update_shared_files__():
-    if not exists(log_path):
-        return None
     logs = get_log()
-    spath = path[0] + '/clients/shared/'
+    spath = BASE_DIR + '/clients/shared/'
     for client in logs:
         __update_clients_files__(client, logs, spath)
 
 
 def file_updater_thread():
-    spath = path[0] + '/clients/shared/'
+    spath = BASE_DIR + '/clients/shared/'
 
     def get_clients():
         clients = []
@@ -307,22 +293,31 @@ def file_updater_thread():
                 clients.append(client)
         return clients
 
-    clients = get_clients()
-    while len(clients) > 0:
-        logs = get_log()
-        for client in clients:
-            __update_clients_files__(client, logs, spath)
-        sleep(.5)
+    def background_process():
         clients = get_clients()
+        while len(clients) > 0:
+            logs = get_log()
+            for client in clients:
+                __update_clients_files__(client, logs, spath)
+            sleep(.5)
+            clients = get_clients()
+
+    thread = threading.Thread(
+        None,
+        background_process,
+        'shared-files-updater',
+        ()
+    )
+    return thread.start(), sleep(6)
 
 
 def error_message():
     return print('''
     `SHARE` tool requires 2 arguments beginning with `-`
 
-        ./o share -"path_to_folder" -"client_name"
+    ./o share -"path_to_folder" -"client_name"
 
-        or
+    or
 
-        ./o share -"path_to_file" -"client_name"
+    ./o share -"path_to_file" -"client_name"
     ''')

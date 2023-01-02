@@ -3,16 +3,29 @@ from cryptography.fernet import Fernet
 # Overlord library
 from web.settings import SECRET_DATA
 
+# Generates a fernet instance using the server key
 ENGINE = Fernet(bytes(SECRET_DATA['SERVER_KEY'], 'utf-8'))
 
 
-def encrypt(data):
+def encrypt(data:str|bytes|int|float) -> str:
+  """
+  Encrypt almost any datatype and return it as a string
+
+  :param data str|bytes|int|float: raw data
+  :return str: encrypted string
+  """
   if not isinstance(data, bytes):
     data = bytes(str(data), 'utf-8')
   return ENGINE.encrypt(data).decode('utf-8')
 
 
-def decrypt(data):
+def decrypt(data:str|bytes|int|float) -> str:
+  """
+  Decrypt almost any datatype and return it as a string
+
+  :param data str|bytes|int|float: encrypted data
+  :return str: raw data
+  """
   if not isinstance(data, bytes):
     data = bytes(str(data), 'utf-8')
   return ENGINE.decrypt(data).decode('utf-8')
