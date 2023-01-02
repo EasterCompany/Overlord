@@ -46,7 +46,7 @@ def status(repo_path:str) -> str:
   if committed is not None:
     console.out(f"\n  Committed:\n    {console.out(committed, 'green', False)}")
   if new is None and committed is None:
-    console.out(f"  ✅ up-to-date", "success")
+    console.out(f"  ✅ Updated '{branch_name}'", "success")
 
 
 
