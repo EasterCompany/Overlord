@@ -239,18 +239,15 @@ def run_tool(command, index=0):
                 GIT.merge(BASE_DIR, target=PRODUCTION_BRANCH)
             elif cur_branch == PRODUCTION_BRANCH:
                 console.out("\n  [ERROR] Cannot merge Production Branch", "red")
-            GIT.checkout(cur_branch)
         else:
-            if arguments_remaining == 2:
-                if arguments[0] == 'all': git.merge.all(git_message)
-                else: git.merge.with_message(git_message, git_repo)
-            git.merge.error_message()
+            console.out("\n  [ERROR] `merge` command does not take any arguments", "red")
 
     elif command == 'branch':
         cur_branch = GIT.branch(BASE_DIR)
-        console.out(f"\nLocal: {console.out(cur_branch, 'green', False)}")
-        console.out(f"Staging: {console.out(PRODUCTION_BRANCH, 'yellow', False)}")
-        console.out(f"Production: {console.out(PRODUCTION_BRANCH, 'yellow', False)}")
+        console.out(f"\nCurrent: {console.out(cur_branch, 'green', False)}")
+        console.out(f"\nEnvironments ----\n  Local: {console.out(LOCAL_BRANCH, 'yellow', False)}")
+        console.out(f"  Staging: {console.out(STAGING_BRANCH, 'yellow', False)}")
+        console.out(f"  Production: {console.out(PRODUCTION_BRANCH, 'yellow', False)}")
 
     elif command == 'new_secret_key':
         django.secret_key.new()
