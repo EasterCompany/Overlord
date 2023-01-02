@@ -1,3 +1,6 @@
+#  core/__init__.py
+#    automatically generated file
+#    do not modify or remove
 
 def create_super_user():
   '''

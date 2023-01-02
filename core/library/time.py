@@ -2,7 +2,7 @@
 from datetime import datetime as _datetime
 
 
-def get_datetime_string(datetime=None, include_seconds=False):
+def get_datetime_string(datetime=None, include_seconds=False) -> _datetime:
     """
     Get a standardised date time string for use anywhere in your projects
 
@@ -16,7 +16,12 @@ def get_datetime_string(datetime=None, include_seconds=False):
     return datetime_obj.strftime("%Y-%m-%dT%H:%M:00.0Z")
 
 
-def timestamp():
+def timestamp() -> str:
+    """
+    Creates a simple timestamp and return it as a string in human readable format
+
+    :return str: string containing timestamp
+    """
     _date, _time = get_datetime_string(None, True).split('T')
     _time = _time.split('.')[0]
     return f"{_date} {_time}"

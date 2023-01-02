@@ -8,6 +8,7 @@ from core.tools.commands.external import external_command
 from web.settings import SECRET_DATA, SERVER_DATA, CLIENT_DATA, BASE_DIR, LOGGER_DIR
 
 
+# TODO: *** DEPRECATED ***
 def view_local_clients(req, *args, **kwargs):
   """
   Returns a json object containing the primary client & secondary clients list
@@ -33,6 +34,7 @@ def view_local_clients(req, *args, **kwargs):
   return api.error()
 
 
+# TODO: *** DEPRECATED ***
 def update_primary_client(req, *args, **kwargs):
   """
   Consumes the input and updates this servers "index" setting, also known as the Primary Client
@@ -64,6 +66,7 @@ def update_primary_client(req, *args, **kwargs):
   return api.error()
 
 
+# TODO: *** DEPRECATED ***
 def view_local_logs():
   """
   Read the local logging file and return it in a consumable HTML based format
@@ -78,51 +81,41 @@ def view_local_logs():
 
 
 URLS = [
-
-  # --- STATUS ---
-
+  # TODO: Deprecated endpoint needs removing
   path(
     "api/o-core/status",
     lambda req, *args, **kwargs: api.std(api.OK, "API Endpoint Root"),
     name="Check API Status"
   ),
-
-  # --- KEY VERIFICATION ---
-
+  # TODO: Deprecated endpoint needs removing
   path(
     "api/o-core/verify",
     lambda req, *args, **kwargs: \
       api.std(api.OK, "Verified") if req.GET.get("key") == SECRET_DATA['PUBLIC_KEY'] else api.error(),
     name="Check API Key Status"
   ),
-
-  # --- WEB CONSOLE ---
-
+  # TODO: Deprecated endpoint needs removing
   path(
     "api/o-core/logs",
     lambda req, *args, **kwargs: \
       view_local_logs() if req.GET.get("key") == SECRET_DATA['PUBLIC_KEY'] else api.error(),
     name="View API Logs"
   ),
-
-  path(
-    "api/o-core/external-command",
-    external_command,
-    name="Use External Command"
-  ),
-
-  # --- CLIENTS ----
-
+  # TODO: Deprecated endpoint needs removing
   path(
     "api/o-core/clients",
     view_local_clients,
     name="View This Servers Clients"
   ),
-
+  # TODO: Deprecated endpoint needs removing
   path(
     "api/o-core/updatePrimaryClient",
     update_primary_client,
     name="Update This Servers Primary Client"
   ),
-
+  path(
+    "api/o-core/external-command",
+    external_command,
+    name="Use External Command"
+  ),
 ]

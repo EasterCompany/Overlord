@@ -40,6 +40,3 @@ from django.urls import path, re_path, include
 
 # Utils
 from django.utils.crypto import get_random_string
-
-# Bonus functions
-
