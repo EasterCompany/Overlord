@@ -6,14 +6,13 @@ class Version():
         from core.tools import __version_control__
         version_data = __version_control__
         # Initialize version data
-        self.type = version_data['type']
         self.major = version_data['major']
         self.minor = version_data['minor']
         self.patch = version_data['patch']
 
     def __str__(self):
-        # Return string representation of software version eg; 1.0.0 DEV
-        return f"{self.major}.{self.minor}.{self.patch} {self.type}"
+        # Return string representation of software version eg; 1.0.0
+        return f"{self.major}.{self.minor}.{self.patch}"
 
     def increment_patch_count(self):
         self.patch = int(self.patch) + 1

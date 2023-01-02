@@ -337,13 +337,13 @@ def run_tool(command, index=0):
                 if cur_branch == STAGING_BRANCH or cur_branch == PRODUCTION_BRANCH:
                     if cur_branch == STAGING_BRANCH:
                         system('clear')
-                        console.out(f"\n> Building All Clients", "blue")
+                        console.out(f"\n======== Building All Clients ========", "blue")
                         node.clients.build_all()
-                        console.out(f"\n> Merging `{PRODUCTION_BRANCH}` Branch", "blue")
+                        console.out(f"\n======== Merging `{PRODUCTION_BRANCH}` Branch ========", "blue")
                         GIT.merge(BASE_DIR, PRODUCTION_BRANCH)
-                        console.out(f"\n> Syncing & Resetting `{LOCAL_BRANCH}` Branch", "blue")
+                        console.out(f"\n======== Syncing & Resetting `{LOCAL_BRANCH}` Branch ========", "blue")
                         GIT.merge(BASE_DIR, LOCAL_BRANCH)
-                        console.out(f"\n> Deploying v{_version} to Production Server", "blue")
+                        console.out(f"\n======== Deploying v{_version} to Production Server ========", "blue")
                     pa.upgrade.request()
                     pa.reload.request()
                     pa.status.request()
