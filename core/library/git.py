@@ -87,7 +87,10 @@ def checkout(repo_path:str, target:str = PRODUCTION_BRANCH, silent=False) -> Non
   console.input(f'git checkout {target}', cwd=repo_path)
   branch_destination = branch(repo_path)
   if not silent:
-    console.out(f"\n> Switched Branch '{branch_origin}' -> '{branch_destination}'")
+    console.out(
+      f"\n> Switched Branch "
+      f"'{console.out(branch_origin, 'yellow', False)}' -> '{console.out(branch_destination, 'green', False)}'"
+    )
 
 
 def merge(repo_path:str, target:str = PRODUCTION_BRANCH) -> None:
@@ -100,9 +103,9 @@ def merge(repo_path:str, target:str = PRODUCTION_BRANCH) -> None:
   :return None:
   """
   branch_name = branch(repo_path)
-  console.out(
-    f"\n> Merge branch '{console.out(branch_name, 'green', False)}' into '{console.out(target, 'yellow', False)}'"
-  )
+  #console.out(
+  #  f"\n> Merge branch '{console.out(branch_name, 'green', False)}' into '{console.out(target, 'yellow', False)}'"
+  #)
   sync(repo_path)
   checkout(repo_path, target, silent=True)
   console.input(f'git pull origin {branch_name}', cwd=repo_path)

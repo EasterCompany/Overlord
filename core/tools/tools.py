@@ -224,12 +224,6 @@ def run_tool(command, index=0):
     elif command == 'push':
         git.push.all()
 
-    elif command == 'dev' or command == 'development':
-        git.branch.switch('dev')
-
-    elif command == 'main' or command == 'production':
-        git.branch.switch('main')
-
     elif command == 'merge':
         if arguments_remaining == 0:
             cur_branch = GIT.branch(BASE_DIR)
@@ -243,11 +237,17 @@ def run_tool(command, index=0):
             console.out("\n  [ERROR] `merge` command does not take any arguments", "red")
 
     elif command == 'branch':
-        cur_branch = GIT.branch(BASE_DIR)
-        console.out(f"\nCurrent: {console.out(cur_branch, 'green', False)}")
-        console.out(f"\nEnvironments ----\n  Local: {console.out(LOCAL_BRANCH, 'yellow', False)}")
-        console.out(f"  Staging: {console.out(STAGING_BRANCH, 'yellow', False)}")
-        console.out(f"  Production: {console.out(PRODUCTION_BRANCH, 'yellow', False)}")
+        if arguments_remaining == 1:
+            target_branch = arguments[0].title() if arguments[0].title() in [
+                LOCAL_BRANCH, STAGING_BRANCH, PRODUCTION_BRANCH
+            ] else arguments[0]
+            GIT.checkout(BASE_DIR, target_branch)
+        else:
+            cur_branch = GIT.branch(BASE_DIR)
+            console.out(f"\nCurrent: {console.out(cur_branch, 'green', False)}")
+            console.out(f"\nEnvironments ----\n  Local: {console.out(LOCAL_BRANCH, 'yellow', False)}")
+            console.out(f"  Staging: {console.out(STAGING_BRANCH, 'yellow', False)}")
+            console.out(f"  Production: {console.out(PRODUCTION_BRANCH, 'yellow', False)}")
 
     elif command == 'new_secret_key':
         django.secret_key.new()
@@ -338,6 +338,7 @@ def run_tool(command, index=0):
                     system('clear')
                     node.clients.build_all()
                     GIT.merge(BASE_DIR, PRODUCTION_BRANCH)
+                    GIT.merge(BASE_DIR, LOCAL_BRANCH)
                     pa.upgrade.request()
                     pa.reload.request()
                     pa.status.request()
