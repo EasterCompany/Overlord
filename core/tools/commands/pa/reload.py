@@ -10,7 +10,7 @@ def request():
 
     data = fetch_api('webapps', args=(domain, 'reload'), method='POST')
     console.out(
-        "  ✅ Successfully Reloaded  ", "success"
+        "  ✅ Server Reloaded     ", "success"
     ) if data['status'] == "OK" else console.out(
         "  ⚠️ Unknown Error       ", "yellow"
     )
