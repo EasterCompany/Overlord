@@ -46,7 +46,7 @@ def status(repo_path:str) -> str:
   if committed is not None:
     console.out(f"\n  Committed:\n    {console.out(committed, 'green', False)}")
   if new is None and committed is None:
-    console.out(f"  ✅ Updated '{branch_name}'", "success")
+    console.out(f"  ✅ Branch is up-to-date", "success")
 
 
 
@@ -106,4 +106,4 @@ def merge(repo_path:str, target:str = PRODUCTION_BRANCH) -> None:
   checkout(repo_path, target)
   console.input(f'git pull origin {branch_name}', cwd=repo_path)
   sync(repo_path)
-  console.out(f"  ✅ Successfully Merged '{branch_name}' -> '{target}'")
+  console.out(f"  ✅ Merged '{branch_name}' -> '{target}'", "success")
