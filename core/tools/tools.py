@@ -5,7 +5,7 @@ from os.path import exists
 from os import system, getcwd, environ
 from sys import argv, path, executable, version_info
 # Overlord library
-from web.settings import SECRET_DATA, CLIENT_DATA, INDEX, BASE_DIR, PRODUCTION_BRANCH
+from web.settings import *
 from core import create_user, create_super_user
 from core.library import execute_from_command_line, console, git as GIT
 from core.library.version import Version
@@ -232,7 +232,13 @@ def run_tool(command, index=0):
 
     elif command == 'merge':
         if arguments_remaining == 0:
-            return GIT.merge(BASE_DIR, target='Lab')
+            cur_branch = GIT.branch(BASE_DIR)
+            if cur_branch == LOCAL_BRANCH:
+                GIT.merge(BASE_DIR, target=STAGING_BRANCH)
+            elif cur_branch == STAGING_BRANCH:
+                GIT.merge(BASE_DIR, target=PRODUCTION_BRANCH)
+            elif cur_branch == PRODUCTION_BRANCH:
+                console.out("\n  [ERROR] Cannot merge Production Branch", "red")
         else:
             if arguments_remaining == 2:
                 if arguments[0] == 'all': git.merge.all(git_message)
