@@ -343,7 +343,7 @@ def run_tool(command, index=0):
                         GIT.merge(BASE_DIR, PRODUCTION_BRANCH)
                         console.out(f"\n======== Merging `{LOCAL_BRANCH}` Branch ========", "blue")
                         GIT.merge(BASE_DIR, LOCAL_BRANCH)
-                        console.out(f"\n======== Deploying v{_version} to Server ========", "blue")
+                        console.out(f"\n======== Deploy v{_version} to Server ========", "blue")
                     pa.upgrade.request()
                     pa.reload.request()
                     pa.status.request()
