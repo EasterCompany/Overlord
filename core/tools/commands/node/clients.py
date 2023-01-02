@@ -68,7 +68,7 @@ def client(app_data, build=False, app_name=""):
     :return None:
     """
     if build and 'build' in app_data:
-        print(f"\n> {app_name}@{clients_json[app_name]['version']}")
+        print(f"\n> {app_name} @ {clients_json[app_name]['version']}")
 
         console.out(f"  {console.wait} Installing", end="\r")
         subprocess.run(
