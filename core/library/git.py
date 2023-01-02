@@ -106,7 +106,6 @@ def merge(repo_path:str, target:str = PRODUCTION_BRANCH) -> None:
   )
   sync(repo_path)
   checkout(repo_path, target)
-  sync(repo_path)
   console.input(f'git pull origin {branch_name}', cwd=repo_path)
   sync(repo_path)
   checkout(branch_name)
