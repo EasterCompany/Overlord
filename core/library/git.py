@@ -42,7 +42,7 @@ def status(repo_path:str) -> str:
 
   console.out(f"\n> Branch '{branch_name}' Status")
   if new is not None:
-    console.out(f"\n  New:\n    {console.out(new, 'red', False)}")
+    console.out(f"\n  New Changes:\n    {console.out(new, 'red', False)}")
   if committed is not None:
     console.out(f"\n  Committed:\n    {console.out(committed, 'green', False)}")
   if new is None and committed is None:
@@ -75,7 +75,7 @@ def sync(repo_path:str) -> None:
   console.out(f"     {commit_msg}", "yellow")
 
 
-def checkout(repo_path:str, target:str = PRODUCTION_BRANCH) -> None:
+def checkout(repo_path:str, target:str = PRODUCTION_BRANCH, silent=False) -> None:
   """
   Sync the current branch and then switch branch from the repo_path onto the target branch
 
@@ -86,7 +86,8 @@ def checkout(repo_path:str, target:str = PRODUCTION_BRANCH) -> None:
   branch_origin = branch(repo_path)
   console.input(f'git checkout {target}', cwd=repo_path)
   branch_destination = branch(repo_path)
-  console.out(f"\n> Switched Branch '{branch_origin}' -> '{branch_destination}'")
+  if not silent:
+    console.out(f"\n> Switched Branch '{branch_origin}' -> '{branch_destination}'")
 
 
 def merge(repo_path:str, target:str = PRODUCTION_BRANCH) -> None:
@@ -103,7 +104,7 @@ def merge(repo_path:str, target:str = PRODUCTION_BRANCH) -> None:
     f"\n> Merge branch '{console.out(branch_name, 'green', False)}' into '{console.out(target, 'yellow', False)}'"
   )
   sync(repo_path)
-  checkout(repo_path, target)
+  checkout(repo_path, target, silent=True)
   console.input(f'git pull origin {branch_name}', cwd=repo_path)
   sync(repo_path)
   console.out(f"  ✅ Merged '{branch_name}' -> '{target}'", "success")
