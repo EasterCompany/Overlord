@@ -26,10 +26,17 @@ def sync(repo_path:str) -> None:
   :param repo_path str: path to the target repository
   :return None:
   """
+  branch_name = branch(repo_path)
+  commit_msg = f'🤖 [AUTO] {current_version} {time.timestamp()}'
+  console.out(f"  {console.wait} Syncing '{branch_name}' Branch", end="\r")
+
   console.input('git pull -f', cwd=repo_path, show_output=True)
   console.input('git add .', cwd=repo_path, show_output=True)
-  console.input(f'git commit -m "🤖 [AUTO] {current_version} {time.timestamp()}"', cwd=repo_path, show_output=True)
+  console.input(f'git commit -m "{commit_msg}"', cwd=repo_path, show_output=True)
   console.input('git push -f', cwd=repo_path, show_output=True)
+
+  console.out(f"  ✅ Synced '{branch_name}' Branch    ", "success")
+  console.out(f"     {commit_msg}", "yellow")
 
 
 def checkout(repo_path:str, target:str = PRODUCTION_BRANCH) -> None:
@@ -53,8 +60,12 @@ def merge(repo_path:str, target:str = PRODUCTION_BRANCH) -> None:
   :return None:
   """
   branch_name = branch(repo_path)
+  console.out(
+    f"> Merge branch '{console.out(branch_name, 'green', False)}' into '{console.out(target, 'yellow', False)}'"
+  )
   sync(repo_path)
   checkout(repo_path, target)
   sync(repo_path)
   console.input(f'git pull origin {branch_name}', cwd=repo_path, show_output=True)
   sync(repo_path)
+  checkout(branch_name)
