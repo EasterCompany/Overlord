@@ -103,6 +103,9 @@ def make_server_config(project_path='.'):
     "DEBUG": True,
     "LANGUAGE_CODE": 'en-gb',
     "TIME_ZONE": 'UTC',
+    "LOCAL_BRANCH": 'main',
+    "STAGING_BRANCH": 'main',
+    "PRODUCTION_BRANCH": 'main',
     "ALLOWED_HOSTS": [
       '.0.0.0.0',
       '.127.0.0.1',
