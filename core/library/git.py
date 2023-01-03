@@ -49,8 +49,7 @@ def status(repo_path:str) -> str:
     console.out(f"  ✅ Branch is up-to-date", "success")
 
 
-
-def sync(repo_path:str) -> None:
+def sync(repo_path:str, silent=False) -> None:
   """
   This function uses the console.input method to run pull and push commands on the repository located at repo_path.
   The output of the commands is printed to the console.
@@ -64,15 +63,29 @@ def sync(repo_path:str) -> None:
   status(repo_path)
   branch_name = branch(repo_path)
   commit_msg = f'🤖 [AUTO] {current_version} {time.timestamp()}'
-  console.out(f"  {console.wait} Syncing '{branch_name}' Branch", end="\r")
+
+  if not silent:
+    console.out(f"  {console.wait} Syncing '{branch_name}' Branch", end="\r")
 
   console.input('git pull -f', cwd=repo_path)
   console.input('git add .', cwd=repo_path)
   console.input(f'git commit -m "{commit_msg}"', cwd=repo_path)
   console.input('git push -f', cwd=repo_path)
 
-  console.out(f"  ✅ Synced '{branch_name}' Branch    ", "success")
-  console.out(f"     {commit_msg}", "yellow")
+  if not silent:
+    console.out(f"  ✅ Synced '{branch_name}' Branch    ", "success")
+    console.out(f"     {commit_msg}", "yellow")
+
+
+def sync_local_with_production(repo_path:str) -> None:
+  """
+  Silently syncs the local branch with the production branch of this project; usually run after a deployment
+  had been made and the CLI has returned back to the local branch.
+
+  :param repo_path str: path to the target repository
+  """
+  console.input(f"git pull origin {PRODUCTION_BRANCH}", cwd=repo_path)
+  sync(repo_path, silent=True)
 
 
 def checkout(repo_path:str, target:str = PRODUCTION_BRANCH, silent=False) -> None:

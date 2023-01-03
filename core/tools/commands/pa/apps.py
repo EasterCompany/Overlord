@@ -9,7 +9,7 @@ def display():
     for app in data:
 
         name = app['domain_name'].split('www.')[1] if 'www.' in app['domain_name'] else app['domain_name']
-        name = console.out(name, 'yellow')
+        name = console.out(name, 'yellow', False)
 
         if app['force_https']:
             protocol = 'https'

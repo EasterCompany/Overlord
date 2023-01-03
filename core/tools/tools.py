@@ -312,17 +312,13 @@ def run_tool(command, index=0):
         if arguments_remaining == 1:
 
             if arguments[0] == 'apps':
-                pa.apps.display()
-                return print()
+                return pa.apps.display()
             elif arguments[0] == 'consoles':
-                pa.consoles.display()
-                return print()
+                return pa.consoles.display()
             elif arguments[0] == 'cpu':
-                pa.cpu.display()
-                return print()
+                return pa.cpu.display()
             elif arguments[0] == 'tasks':
-                pa.tasks.display()
-                return print()
+                return pa.tasks.display()
             elif arguments[0] == 'reload':
                 pa.reload.request()
                 return print()
@@ -342,6 +338,7 @@ def run_tool(command, index=0):
                         console.out(f"\n======== Merging `{PRODUCTION_BRANCH}` Branch ========", "blue")
                         GIT.merge(BASE_DIR, PRODUCTION_BRANCH)
                         GIT.checkout(BASE_DIR, LOCAL_BRANCH)
+                        GIT.sync_local_with_production(BASE_DIR)
                         console.out(f"\n======= Deploy {_version} to Server =======", "blue")
                     pa.upgrade.request()
                     pa.reload.request()
