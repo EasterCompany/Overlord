@@ -1,30 +1,30 @@
-# Python (Files)
+# Overlord -------------------------------------------------------------------------------------------------------------
+/o
+/*.key
+/.logs
+/.config
+/core/migrations
+/.vscode
+/.idea
+*.sqlite3
+*.sqlite3-journal
 .pytest_cache
 __pycache__
 
-# Sqlite (Files)
-*.sqlite3
-*.sqlite3-journal
-
-# Overlord (Files)
-/o
-/*.key
-
-# Overlord (Directories)
-/.logs
-/.config
-/clients
-!/clients/shared
-/core/migrations
-/static/.temp/
+# API
 /api
 !/api/__init__.py
 !/api/apps.py
 !/api/migrations/__init__.py
+
+# Clients
+/clients
+!/clients/shared
+
+# Web
 /web
 !/web/wsgi.py
 !/web/__init__.py
 
-# Developer Envrionment (Directories)
-/.vscode
-/.idea
+# Static
+/static/.temp
