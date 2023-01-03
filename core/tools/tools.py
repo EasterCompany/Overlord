@@ -219,6 +219,10 @@ def run_tool(command, index=0):
     elif command == 'push':
         git.push.all()
 
+    elif command == 'sync':
+        GIT.sync(BASE_DIR)
+        GIT.sync_all_clients()
+
     elif command == 'merge':
         if arguments_remaining == 0:
             cur_branch = GIT.branch(BASE_DIR)
