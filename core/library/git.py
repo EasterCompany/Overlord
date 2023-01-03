@@ -94,7 +94,6 @@ def sync_all_clients() -> None:
   :return None:
   """
   for client in CLIENT_DATA:
-    print("\n")
     source_dir = CLIENT_DATA[client]["src"]
     source_api = BASE_DIR + f'/api/{client}'
 
@@ -103,7 +102,7 @@ def sync_all_clients() -> None:
       sync(repo_path=source_dir)
 
     if exists(f"{source_api}/.git"):
-      console.out(f"> api @ {client}")
+      console.out(f"\n> api @ {client}")
       sync(repo_path=source_dir)
 
 
