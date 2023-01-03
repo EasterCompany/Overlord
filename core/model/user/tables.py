@@ -1,10 +1,14 @@
 # Overlord library
 from . import session
-from api.eastercompany.tables import AdminPanel
 from core.library import time, models, uuid, \
   api, encrypt, decrypt, get_datetime_string, \
   JsonResponse
 from core.library import console
+
+try:
+  from api.eastercompany.tables import AdminPanel
+except ImportError:
+  pass
 
 
 class newUserObj:
@@ -156,7 +160,10 @@ class Users(UserModel):
       user.panels = ','.join(invited_panels) + ','
       user.save()
       for panel in user.panels.split(',')[:-1]:
-        AdminPanel.add_user_to_panel(user.uuid, panel, 1)
+        try:
+          AdminPanel.add_user_to_panel(user.uuid, panel, 1)
+        except:
+          pass
       invites.delete()
     # Response status
     return api.success()

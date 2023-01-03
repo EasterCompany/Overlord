@@ -1,6 +1,6 @@
 # web/settings.py
 #   automatically generated file
-#   do not edit or delete
+#   do not delete, although edits are acceptable
 
 # Standard library
 import os
@@ -12,14 +12,15 @@ from core.tools.commands.install import (
     __init_config_directory__,
     __init_logs_directory__,
     make_clients_config,
-    make_server_config
+    make_server_config,
+    make_secrets_file
 )
 
 # Default Project Configuration
 BASE_DIR = os.getcwd()
 PRODUCTION_BRANCH = 'main'
-STAGING_BRANCH = 'staging'
-LOCAL_BRANCH = 'local'
+STAGING_BRANCH = 'main'
+LOCAL_BRANCH = 'main'
 LOGGER_DIR = f"{BASE_DIR}/.logs/logger"
 SECRET_DATA = {
     'SERVER_KEY': 'no secret key',
@@ -29,33 +30,23 @@ SECRET_DATA = {
 __init_config_directory__()
 __init_logs_directory__()
 
+# Initialize Server File
 if not os.path.exists(BASE_DIR + '/.config/server.json'):
     make_server_config()
-
 with open(BASE_DIR + '/.config/server.json') as SERVER_FILE:
     SERVER_DATA = loads(SERVER_FILE.read())
 
+# Initialize Clients File
 if not os.path.exists(BASE_DIR + '/.config/clients.json'):
     make_clients_config()
-
 with open(BASE_DIR + '/.config/clients.json') as CLIENT_FILE:
     CLIENT_DATA = loads(CLIENT_FILE.read())
 
+# Initialize Secrets Files
 if not os.path.exists(BASE_DIR + '/.config/secret.json'):
-    SECRET_DATA = {
-        "ROOT_EMAIL": "",
-        "SERVER_KEY": "",
-        "PUBLIC_KEY": "",
-        "PA_USER_ID": "",
-        "PA_API_KEY": "",
-        "DOMAIN_URL": "",
-        "REDIS-USER": "",
-        "REDIS-PASS": "",
-        "REDIS-HTTP": ""
-    }
-else:
-    with open(BASE_DIR + '/.config/secret.json') as SECRET_FILE:
-        SECRET_DATA = loads(SECRET_FILE.read())
+    make_secrets_file()
+with open(BASE_DIR + '/.config/secret.json') as SECRET_FILE:
+    SECRET_DATA = loads(SECRET_FILE.read())
 
 # Set Administration Configuration
 ROOT_EMAIL = SECRET_DATA['ROOT_EMAIL']

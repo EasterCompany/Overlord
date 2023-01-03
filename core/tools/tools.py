@@ -173,14 +173,15 @@ def run_tool(command, index=0):
     elif command == 'install':
 
         # Install python requirements
-        if arguments[0] == 'r' or arguments[0] == 'requirements':
+        if arguments_remaining > 0 and 'r' in arguments:
             django.server.install_requirements()
-            # Include developer dependencies
-            if arguments[1] == 'd':
-                django.server.install_requirements_dev()
+
+        # Include developer dependencies
+        if arguments_remaining > 0  and 'd' in arguments:
+            django.server.install_requirements_dev()
 
         # Install all clients
-        elif arguments_remaining == 1 and (arguments[0] == 'clients' or arguments[0] == 'all'):
+        if arguments_remaining == 1 and (arguments[0] == 'clients' or arguments[0] == 'all'):
             print("\nInstalling all clients:")
             node.clients.install()
 
@@ -204,15 +205,16 @@ def run_tool(command, index=0):
                     return output("User did not confirm to a system overwrite.")
             # Install Overlord Dependencies
             output('Installing requirements.txt...')
-            system(f'{executable} -m pip install -r requirements.txt')
+            django.server.install_requirements()
             output('\nInstalling Overlord-Tools...')
-            git.pull.branch_origins('dev', None)
-            git.pull.branch_origins('main', None)
+            git.pull.branch_origins(LOCAL_BRANCH, None)
+            git.pull.branch_origins(STAGING_BRANCH, None)
+            git.pull.branch_origins(PRODUCTION_BRANCH, None)
             print(' ')
             # Install Overlord Configurations
             install.make_server_config(project_path)
             install.django_files(project_path)
-            install.secrets_file(project_path)
+            install.make_secrets_file(project_path)
             install.o_file(project_path)
             install.pytest_ini(project_path)
             django.secret_key.new(project_path)
@@ -245,9 +247,9 @@ def run_tool(command, index=0):
         else:
             cur_branch = GIT.branch(BASE_DIR)
             console.out(f"\nCurrent: {console.out(cur_branch, 'green', False)}")
-            console.out(f"\nEnvironments ----\n  Local: {console.out(LOCAL_BRANCH, 'yellow', False)}")
-            console.out(f"  Staging: {console.out(STAGING_BRANCH, 'yellow', False)}")
-            console.out(f"  Production: {console.out(PRODUCTION_BRANCH, 'yellow', False)}")
+            console.out(f"\nLocal: {console.out(LOCAL_BRANCH, 'yellow', False)}")
+            console.out(f"Staging: {console.out(STAGING_BRANCH, 'yellow', False)}")
+            console.out(f"Production: {console.out(PRODUCTION_BRANCH, 'yellow', False)}")
 
     elif command == 'new_secret_key':
         django.secret_key.new()

@@ -3,4 +3,4 @@
 #    do not edit or remove
 
 # API Database Models
-from api.eastercompany.tables import *
+

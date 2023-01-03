@@ -2,9 +2,17 @@
 from cryptography.fernet import Fernet
 # Overlord library
 from web.settings import SECRET_DATA
+from core.library import console
 
 # Generates a fernet instance using the server key
-ENGINE = Fernet(bytes(SECRET_DATA['SERVER_KEY'], 'utf-8'))
+try:
+  ENGINE = Fernet(bytes(SECRET_DATA['SERVER_KEY'], 'utf-8'))
+except:
+  console.out(
+    "\n  [ERROR] Server Key is not a 32 character url-safe string\n",
+    "red"
+  )
+  exit()
 
 
 def encrypt(data:str|bytes|int|float) -> str:

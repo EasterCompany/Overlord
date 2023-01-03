@@ -167,22 +167,23 @@ def django_files(project_path='.'):
   install_file('urls.py', '/web', project_path)
 
 
-def secrets_file(project_path='.'):
-  print('Generating secrets config...')
-  token_data = {
-    "ROOT_EMAIL": "root@example.com",
-    "SERVER_KEY": secrets.token_urlsafe(),
-    "PUBLIC_KEY": secrets.token_urlsafe(),
-    "PA_USER_ID": "",
-    "PA_API_KEY": "",
-    "DOMAIN_URL": "",
-    "EMAIL_USER": "",
-    "EMAIL_PASS": "",
-    "REDIS-USER": "",
-    "REDIS-PASS": "",
-    "REDIS-HTTP": ""
-  }
-  return dump_json('secret', token_data, project_path)
+def make_secrets_file(project_path='.'):
+  if not exists(project_path + '/.config/secret.json'):
+    print('Generating secrets config...')
+    token_data = {
+      "ROOT_EMAIL": "root@example.com",
+      "SERVER_KEY": secrets.token_urlsafe(32) + '=',
+      "PUBLIC_KEY": secrets.token_urlsafe(32),
+      "PA_USER_ID": "",
+      "PA_API_KEY": "",
+      "DOMAIN_URL": "",
+      "EMAIL_USER": "",
+      "EMAIL_PASS": "",
+      "REDIS-USER": "",
+      "REDIS-PASS": "",
+      "REDIS-HTTP": ""
+    }
+    return dump_json('secret', token_data, project_path)
 
 
 def o_file(project_path=None):
