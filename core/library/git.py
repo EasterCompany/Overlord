@@ -96,13 +96,15 @@ def sync_all_clients() -> None:
   for client in CLIENT_DATA:
     source_dir = CLIENT_DATA[client]["src"]
     source_api = BASE_DIR + f'/api/{client}'
+    console.out("======= Deploy 1.2.0 to Server =======")
+    console.out(f"\n> Sync `{client}` Source Code")
 
     if exists(f"{source_dir}/.git"):
-      console.out(f"> client @ {client}")
+      console.out(f"\nCLIENT -------------------------------", end="")
       sync(repo_path=source_dir)
 
     if exists(f"{source_api}/.git"):
-      console.out(f"\n> api @ {client}")
+      console.out(f"\nAPI ----------------------------------", end="")
       sync(repo_path=source_dir)
 
 
