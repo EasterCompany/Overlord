@@ -348,7 +348,8 @@ def run_tool(command, index=0):
                     return print()
                 else:
                     console.out(
-                        f"\n  [ERROR] You can only deploy from the `{STAGING_BRANCH}` branch", "red"
+                        f"\n  [ERROR] You can only deploy from the `{STAGING_BRANCH}` or `{PRODUCTION_BRANCH}` branch",
+                        "red"
                     )
         else:
             return pa.api.error_message()
