@@ -203,22 +203,15 @@ def run_tool(command, index=0):
                 _input = input('Type "confirm" to continue anyway: ')
                 if not _input.lower() == "confirm":
                     return output("User did not confirm to a system overwrite.")
-            # Install Overlord Dependencies
-            output('Installing requirements.txt...')
             django.server.install_requirements()
-            output('\nInstalling Overlord-Tools...')
-            git.pull.branch_origins(LOCAL_BRANCH, None)
-            git.pull.branch_origins(STAGING_BRANCH, None)
-            git.pull.branch_origins(PRODUCTION_BRANCH, None)
-            print(' ')
-            # Install Overlord Configurations
             install.make_server_config(project_path)
             install.django_files(project_path)
             install.make_secrets_file(project_path)
             install.o_file(project_path)
             install.pytest_ini(project_path)
             django.secret_key.new(project_path)
-            console.out('\nSuccess!\n', 'green')
+            console.out('\nSuccessfully Installed!', 'success')
+            console.out(f'Enter {console.out("./o", "yellow", False)} to begin using Overlord.')
 
     elif command == 'pull':
         git.pull.all()
