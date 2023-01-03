@@ -21,5 +21,8 @@ def check_version_status():
 
 
 def version_status_label():
-  _ver_str, _ver_col = check_version_status()
-  return console.out(_ver_str, _ver_col, False)
+  try:
+    _ver_str, _ver_col = check_version_status()
+    return console.out(_ver_str, _ver_col, False)
+  except TypeError:
+    return console.out("", "white", False)
