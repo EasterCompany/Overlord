@@ -2,11 +2,12 @@
 import os
 from datetime import date
 # Overlord library
-from core.library import console
+from core.library import console, time, version
 from web.settings import BASE_DIR, CLIENT_DATA
 
+current_version = version.Version()
 COMMIT_DATE = date.today().strftime("%d/%b/%y")
-AUTO_COMMIT_MESSAGE=f"🤖 [AUTO] {COMMIT_DATE}".upper()
+AUTO_COMMIT_MESSAGE=f'🤖 [AUTO] {current_version} {time.timestamp()}'
 
 
 def all():
