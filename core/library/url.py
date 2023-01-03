@@ -60,7 +60,7 @@ def acquire_client_api(client:str, git_ssh:str, api_dir:str) -> dict|None:
     """
     console.out(f"    Cloning API for '{client}'", end=" ...\r")
     out = console.input(f"git clone {git_ssh} {client}", cwd=api_dir, show_output=False)
-    if out.returncode == 0:
+    if out == 0:
         console.out(f"    ✔️ Successfully cloned API for '{client}'              ", "green")
     else:
         console.out(f"    ❌ Failed to clone API for '{client}'                  ", "red")
@@ -78,7 +78,7 @@ def acquire_all_clients_api(client_data:dict, cwd:str = '.') -> None:
     statements = []
     for client in client_data:
         api_dir = f"{cwd}/api"
-        if 'api' in client_data[client]:
+        if client_data[client]['api'] is not None:
             statements.append({
                 'urls_import': f'from api.{client}.urls import API as __{client}__',
                 'models_import': f'from api.{client}.tables import *',
