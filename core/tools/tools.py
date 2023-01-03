@@ -335,6 +335,7 @@ def run_tool(command, index=0):
                         system('clear')
                         console.out(f"\n======== Building All Clients ========", "blue")
                         node.clients.build_all()
+                        GIT.sync_all_clients()
                         console.out(f"\n======== Merging `{PRODUCTION_BRANCH}` Branch ========", "blue")
                         GIT.merge(BASE_DIR, PRODUCTION_BRANCH)
                         GIT.checkout(BASE_DIR, LOCAL_BRANCH)

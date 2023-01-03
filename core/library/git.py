@@ -1,6 +1,6 @@
 # Overlord library
-from web.settings import PRODUCTION_BRANCH
-from core.library import console, time, version
+from web.settings import *
+from core.library import console, time, version, exists
 current_version = version.Version()
 
 
@@ -86,6 +86,25 @@ def sync_local_with_production(repo_path:str) -> None:
   """
   console.input(f"git pull origin {PRODUCTION_BRANCH}", cwd=repo_path)
   sync(repo_path, silent=True)
+
+
+def sync_all_clients() -> None:
+  """
+  Syncs all the clients on their current current branch and also attempts to sync any associated APIs
+  :return None:
+  """
+  for client in CLIENT_DATA:
+    print("\n")
+    source_dir = CLIENT_DATA[client]["src"]
+    source_api = BASE_DIR + f'/api/{client}'
+
+    if exists(f"{source_dir}/.git"):
+      console.out(f"> client @ {client}")
+      sync(repo_path=source_dir)
+
+    if exists(f"{source_api}/.git"):
+      console.out(f"> api @ {client}")
+      sync(repo_path=source_dir)
 
 
 def checkout(repo_path:str, target:str = PRODUCTION_BRANCH, silent=False) -> None:
