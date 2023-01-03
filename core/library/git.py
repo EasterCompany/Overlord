@@ -96,7 +96,6 @@ def sync_all_clients() -> None:
   for client in CLIENT_DATA:
     source_dir = CLIENT_DATA[client]["src"]
     source_api = BASE_DIR + f'/api/{client}'
-    console.out("======= Deploy 1.2.0 to Server =======")
     console.out(f"\n> Sync `{client}` Source Code")
 
     if exists(f"{source_dir}/.git"):
