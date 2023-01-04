@@ -1,5 +1,5 @@
 # Overlord library
-from core.library import path, include, exists, console, rmdir
+from core.library import path, include, exists, console
 
 
 def make_django_urls(client):
@@ -59,12 +59,8 @@ def acquire_client_api(client:str, git_ssh:str, api_dir:str) -> dict:
     :return str: returns the import statements for this api
     """
     console.out(f"    Cloning API for '{client}'", end=" ...\r")
-    out = console.input(f"git clone {git_ssh} {client}", cwd=api_dir, show_output=False)
-    if out == 0:
-        console.out(f"    ✔️ Successfully cloned API for '{client}'              ", "green")
-    else:
-        console.out(f"    ❌ Failed to clone API for '{client}'                  ", "red")
-        return None
+    console.input(f"git clone {git_ssh} {client}", cwd=api_dir, show_output=False)
+    console.out(f"    ✔️ Successfully cloned API for '{client}'              ", "green")
 
 
 def acquire_all_clients_api(client_data:dict, cwd:str = '.') -> None:

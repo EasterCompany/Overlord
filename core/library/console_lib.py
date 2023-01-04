@@ -64,7 +64,7 @@ class Console:
       self.colours["yellow"] + text
     )
 
-  def status(self, status:str|int, message:str = None) -> str:
+  def status(self, status:str, message:str = None) -> str:
     """
     Using the type of the status to determine the input (int == http status code // str == api response)
     returns a string with the appropriate colour for the status code.
@@ -94,13 +94,13 @@ class Console:
       else:
         return self.out(' [WARNING] ' + txt, 'yellow')
 
-  def input(self, command:str|list, cwd:str = BASE_DIR, show_output:bool = False) -> str|int:
+  def input(self, command:str, cwd:str = BASE_DIR, show_output:bool = False) -> str:
     """
     Using the os.system() method execute the command (a string) in a sub-shell.
     This method is implemented by calling the standard C function system(), and has the same limitations.
 
     :param command str: the input command(s) to send to the system
-    :return str|int: the returncode if output was shown or the output if it was not shown
+    :return str: the returncode if output was shown or the output if it was not shown
     """
     if show_output:
       out = subprocess.call(

@@ -15,7 +15,7 @@ except:
   exit()
 
 
-def encrypt(data:str|bytes|int|float) -> str:
+def encrypt(data) -> str:
   """
   Encrypt almost any datatype and return it as a string
 
@@ -27,7 +27,7 @@ def encrypt(data:str|bytes|int|float) -> str:
   return ENGINE.encrypt(data).decode('utf-8')
 
 
-def decrypt(data:str|bytes|int|float) -> str:
+def decrypt(data) -> str:
   """
   Decrypt almost any datatype and return it as a string
 
