@@ -32,6 +32,10 @@ def status(repo_path:str) -> str:
     while '  ' in new:
       new = new.replace('  ', ' ')
     new = new.replace('\t', '     ').strip()
+    new = new.replace(
+      '\nUntracked files:\n (use "git add <file>..." to include in what will be committed)',
+      console.out('  New Files:', 'white', False) + '\33[31m'
+    )
   if 'Changes to be committed:' in s:
     committed = s.split('(use "git restore --staged <file>..." to unstage)')[1]
     if 'Changes not staged for commit:' in committed:
@@ -74,7 +78,6 @@ def sync(repo_path:str, silent=False) -> None:
 
   if not silent:
     console.out(f"  ✅ Synced '{branch_name}' Branch    ", "success")
-    console.out(f"     {commit_msg}", "yellow")
 
 
 def sync_local_with_production(repo_path:str) -> None:
