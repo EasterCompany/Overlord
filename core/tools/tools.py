@@ -37,10 +37,7 @@ def awaitInput(ascii_art=True):
             To get help & information read the documentation here
                     https://www.easter.company/overlord
 
-    -------------------------------------------------------------------
-        ''')
-    else:
-        print('')
+    -------------------------------------------------------------------''')
 
     try:
         from web import urls as __web_urls__
@@ -48,8 +45,9 @@ def awaitInput(ascii_art=True):
             console.out("\n> Creating Database & Making Migrations\n")
             django.server.migrate_database()
     except SyntaxError:
-        console.out("\r         [WARNING] No installed clients found within this project.", "yellow")
+        console.out("         [WARNING] No installed clients found within this project.", "yellow")
 
+    print('')
     readline.clear_history()
     flag = gracefulExit.GracefulExit()
 
