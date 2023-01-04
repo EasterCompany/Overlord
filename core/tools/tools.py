@@ -173,15 +173,14 @@ def run_tool(command, index=0):
     elif command == 'install':
 
         # Install python requirements
-        if arguments_remaining > 0 and 'r' in arguments:
-            django.server.install_requirements()
-
-        # Include developer dependencies
-        if arguments_remaining > 0  and 'd' in arguments:
-            django.server.install_requirements_dev()
+        if arguments_remaining > 0 and ('r' in arguments or 'd' in arguments):
+            if arguments_remaining > 0 and 'r' in arguments:
+                django.server.install_requirements()
+            if arguments_remaining > 0  and 'd' in arguments:
+                django.server.install_requirements_dev()
 
         # Install all clients
-        if arguments_remaining == 1 and (arguments[0] == 'clients' or arguments[0] == 'all'):
+        elif arguments_remaining == 1 and (arguments[0] == 'clients' or arguments[0] == 'all'):
             print("\nInstalling all clients:")
             node.clients.install()
 
