@@ -49,7 +49,7 @@ def write_django_urls(load_order, urls_file_path) -> None:
         urls_file.write(file_content.replace('__installed_clients_tag__', load_order))
 
 
-def acquire_client_api(client:str, git_ssh:str, api_dir:str) -> dict|None:
+def acquire_client_api(client:str, git_ssh:str, api_dir:str) -> dict:
     """
     Automatically acquires installs an API from a git ssh link
 
