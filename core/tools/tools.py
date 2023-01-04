@@ -7,7 +7,7 @@ from sys import argv, path, executable, version_info
 # Overlord library
 from web.settings import *
 from core import create_user, create_super_user
-from core.library import execute_from_command_line, console, git as GIT
+from core.library import execute_from_command_line, console, git as GIT, url
 from core.library.version import Version
 from core.tools.library import gracefulExit
 from core.tools.commands import install, git, django, node, pytest, pa, vscode
@@ -40,7 +40,8 @@ def awaitInput(ascii_art=True):
     -------------------------------------------------------------------''')
 
     try:
-        from web import urls as __web_urls__
+        client_load_order = url.make_client_load_order(CLIENT_DATA, INDEX)
+        url.initialize_clients(client_load_order)
         if not exists(f'{BASE_DIR}/db.sqlite3'):
             console.out("\n> Creating Database & Making Migrations\n")
             django.server.migrate_database()

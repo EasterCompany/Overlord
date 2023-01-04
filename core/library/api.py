@@ -51,10 +51,9 @@ def error(exception=None):
   """
   if exception is not None and DEBUG:
     print(f"""
-      [{console.out("INTERNAL SERVER ERROR", "red")}]
-
-    {exception}
-    """)
+  [{console.out("INTERNAL SERVER ERROR", "red", False)}]
+  {exception}
+  """)
   return std(BAD, "[500] Internal server error.")
 
 

@@ -49,6 +49,22 @@ def write_django_urls(load_order, urls_file_path) -> None:
         urls_file.write(file_content.replace('__installed_clients_tag__', load_order))
 
 
+def initialize_clients(load_order:str, cwd:str = '.') -> None:
+    """
+    Automatically generates the 'web/clients.py' file by using the load order and urls generation and then
+    initializes all the clients so that they generate their '.env' files
+
+    :param load_order str: the results of the <make_client_load_order> function
+    """
+    with open(f"{cwd}/core/tools/assets/clients.py", "r") as of, open(f"{cwd}/web/clients.py", "w") as nf:
+        template = of.read()
+        nf.write(template.replace('__installed_clients_tag__', load_order))
+    try:
+        from web import clients as __clients_init__
+    except:
+        pass
+
+
 def acquire_client_api(client:str, git_ssh:str, api_dir:str) -> dict:
     """
     Automatically acquires installs an API from a git ssh link
