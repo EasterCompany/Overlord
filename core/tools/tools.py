@@ -42,10 +42,14 @@ def awaitInput(ascii_art=True):
     else:
         print('')
 
-    from web import urls as __web_urls__
-    if not exists(f'{BASE_DIR}/db.sqlite3'):
-        console.out("\n> Creating Database & Making Migrations\n")
-        django.server.migrate_database()
+    try:
+        from web import urls as __web_urls__
+        if not exists(f'{BASE_DIR}/db.sqlite3'):
+            console.out("\n> Creating Database & Making Migrations\n")
+            django.server.migrate_database()
+    except SyntaxError:
+        console.out("\r         [WARNING] No installed clients found within this project.", "yellow")
+
     readline.clear_history()
     flag = gracefulExit.GracefulExit()
 
