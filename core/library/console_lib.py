@@ -35,8 +35,7 @@ class Console:
     if cmd is not None:
       self.input(cmd)
 
-  def out(self,
-    text="", colour:str|None = None, print_to_console:bool = True, end:str = '\n') -> str:
+  def out(self, text="", colour:str = "white", print_to_console:bool = True, end:str = '\n') -> str:
     """
     Returns a string converted variable [text] wrapped in colour
     tags to the console which also end by defaulting back to
