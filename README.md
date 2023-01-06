@@ -34,8 +34,8 @@ echo 'alias create-app="~/create-app"' >> ~/.bashrc
 
 ### Documentation
 
-If you're looking for our beautifully crafted and detailed documentation then you should visit our website,
-[here](https://www.easter.company/overlord).
+If you're looking for our beautifully crafted and detailed documentation then you should
+[visit our website](https://www.easter.company/overlord).
 
 The documentation also includes a full series of tutorial style videos to guide you in a more entertaining fashion;
 however, if you are a well-seasoned professional you may prefer to just read the written format on each page.
