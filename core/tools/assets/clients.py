@@ -1,13 +1,17 @@
 # web/clients.py
 #   automatically generated file
 #   do not edit or delete
+from core.library import console
 
 try:
   from clients import (
   __installed_clients_tag__
   )
 except ImportError as client_import_error:
-  print(f"    {client_import_error}\n    is your server 'index' configuration set correctly?")
+  console.out(
+    f"    {client_import_error}\n    your server.json 'INDEX' configuration may be set incorrectly.",
+    "yellow"
+  )
 
 installed_clients = [
 __installed_clients_tag__

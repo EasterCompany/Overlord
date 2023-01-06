@@ -1,9 +1,36 @@
-<h6 align="center" style="border-bottom:0px;padding:9px 0 0 0;"> [ v1.2.1 29/12/2022 ] </h6>
-<h2 align="center" style="margin-bottom:32px;border-bottom:0px;"> The Overlord Framework </h1>
+<h6 align="center" style="border-bottom:0px;padding:9px 0 0 0;"> [ v1.2.0 06/01/2023 ] </h6>
+<h1 align="center" style="margin-bottom:32px;border-bottom:0px;"> The Overlord Framework </h1>
 
 ### Welcome
 
-Welcome to The Overlord Framework, the one true full stack framework. Developed by Easter Company.
+The Overlord Framework, developed by Easter Company, is the one true full stack framework for developing
+Python/Typescript Web & Mobile applications. General updates are released on an unscheduled basis and LTS
+(long-term-support) versions are released annually.
+[Watch a short introduction video here.](https://www.easter.company/overlord/introduction)
+
+### Install
+
+You can either download the contents of this repository and start building your project that way, or you can install
+Overlord's `create-app` command. Which will allow you to create an Overlord App from your terminal. To do so, just copy
+the code below into your terminal and hit enter.
+
+```bash
+sudo rm /bin/create-app &>/dev/null
+sudo wget -P /bin/ https://raw.githubusercontent.com/EasterCompany/RDFS/Prd/Overlord/create-app
+sudo chmod +x /bin/create-app
+```
+
+### Install Without Sudo
+
+If you don't have sudo permissions or you don't want to install the `create-app` command globally on your system you can
+use this as an alternative.
+
+```bash
+rm ~/create-app &>/dev/null
+wget -P ~/ https://raw.githubusercontent.com/EasterCompany/RDFS/Prd/Overlord/create-app
+chmod +x ~/create-app
+echo 'alias create-app="~/create-app"' >> ~/.bashrc
+```
 
 ### Documentation
 

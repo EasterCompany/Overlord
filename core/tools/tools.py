@@ -2,7 +2,7 @@
 import readline
 import subprocess
 from os.path import exists
-from os import system, getcwd, environ
+from os import system, getcwd, environ, mkdir
 from sys import argv, path, executable, version_info
 # Overlord library
 from web.settings import *
@@ -49,6 +49,15 @@ def awaitInput(ascii_art=True):
         console.out("         [WARNING] No installed clients found within this project.", "yellow")
 
     print('')
+    for _dir in STATICFILES_DIRS:
+        if not exists(_dir):
+            try:
+                mkdir(_dir)
+            except Exception as static_directory_creation_error:
+                console.out(
+                    f"    failed to create static files directory {_dir}\n{static_directory_creation_error}",
+                    "yellow"
+                )
     readline.clear_history()
     flag = gracefulExit.GracefulExit()
 

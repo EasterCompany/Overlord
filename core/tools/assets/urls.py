@@ -35,17 +35,20 @@ __installed_clients_tag__
 # Core web files are generated for each client within your clients directory
 # however; currently only the index client supports them in production.
 
-index = installed_clients[-1].Client()
-index_app_files = [
+if len(installed_clients) > 0 and settings.INDEX is not None and settings.INDEX != "":
+  index = installed_clients[-1].Client()
+  index_app_files = [
     path('robots.txt', index.robots, name="Application Robots File"),
     path('manifest.json', index.manifest, name="Application Manifest File"),
     path('asset-manifest.json', index.assets, name="Application Assets File"),
-]
+  ]
 
-if index.PWA: index_app_files = index_app_files + [
+  if index.PWA: index_app_files = index_app_files + [
     path('service-worker.js', index.service_worker, name="Application Service Worker"),
     path('service-worker.js.map', index.service_worker_map, name="Application Service Worker Map"),
-]
+  ]
+else:
+  index_app_files = []
 
 # Url Patterns are for django
 # this variable determines which endpoint the user has requested
@@ -61,10 +64,10 @@ if index.PWA: index_app_files = index_app_files + [
 # path for each client or api endpoint eg; path('user-login', user.login, name="user login")
 
 urlpatterns = (
-    index_app_files +
-    [make_django_urls(client) for client in installed_clients] +
-    static(settings.STATIC_URL, document_root=settings.STATIC_ROOT) +
-    static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT) +
-    API.URLS +
-    CORE.URLS
+  index_app_files +
+  [make_django_urls(client) for client in installed_clients] +
+  static(settings.STATIC_URL, document_root=settings.STATIC_ROOT) +
+  static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT) +
+  API.URLS +
+  CORE.URLS
 )

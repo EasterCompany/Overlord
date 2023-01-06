@@ -28,9 +28,11 @@ def make_client_load_order(client_data, index):
 
     for client in client_data:
         if not client == index:
-            load_order += f"    {client},\n"
+            load_order += f"  {client},\n"
 
-    return load_order + f"    {index}"
+    if index is not None and index != "":
+        return load_order + f"  {index}"
+    return load_order
 
 
 def write_django_urls(load_order, urls_file_path) -> None:
@@ -46,6 +48,12 @@ def write_django_urls(load_order, urls_file_path) -> None:
         file_content = urls_file.read()
 
     with open(urls_file_path, 'w+') as urls_file:
+        if load_order == str():
+            file_content = file_content.replace(
+                "from clients import (\n"
+                "__installed_clients_tag__\n"
+                ")", ""
+            )
         urls_file.write(file_content.replace('__installed_clients_tag__', load_order))
 
 
