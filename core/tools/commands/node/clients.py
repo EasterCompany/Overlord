@@ -249,9 +249,10 @@ def create(name, native=False, custom_repo=None):
     elif custom_repo is not None:
         print("\nDownloading custom-client template...")
         download_repo(custom_repo, name)
+        update_overlord_configuration()
         console.out(f'Successfully created a custom client: {name} !', 'green')
-        print(f'To install your client use this command `./o install -{name}`\n')
-        return update_overlord_configuration()
+        console.out(f'\nInstalling new custom client: {name}')
+        return install(name)
 
     # Fetch default react-web template from github
     else:
@@ -311,9 +312,9 @@ def create(name, native=False, custom_repo=None):
         env_file.write('PORT=%s' % next_port)
 
     update_overlord_configuration()
-
     console.out(f'Successfully created a web client: {name} !', 'green')
-    print(f'To install your client use this command `./o install -{name}`\n')
+    console.out(f'\nInstalling new web client: {name}')
+    return install(name)
 
 
 # Module error message

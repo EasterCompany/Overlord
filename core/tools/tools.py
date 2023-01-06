@@ -287,9 +287,16 @@ def run_tool(command, index=0):
                 node.share.file_updater_thread()
 
         elif command == 'run':
-            node.clients.run(INDEX, False, True)
-            django.server.start()
-            node.share.file_updater_thread()
+            if INDEX is not None and INDEX != '':
+                node.clients.run(INDEX, False, True)
+                django.server.start()
+                node.share.file_updater_thread()
+            else:
+                console.out(
+                    "\n  [ERROR] `run` command requires a client to be set as your `INDEX`"
+                    "\n          from within your .config/server.json configuration file. ",
+                    "red"
+                )
 
         return awaitInput(False)
 
@@ -385,6 +392,11 @@ def run_tool(command, index=0):
         # Invalid input error
         else:
             node.clients.error_message()
+        # Acquire associated APIs for any new clients
+        client_data = install.make_clients_config(BASE_DIR)
+        statements = url.acquire_all_clients_api(client_data, BASE_DIR, no_tab=True)
+        url.write_api_urls(statements, BASE_DIR)
+        url.write_api_models(statements, BASE_DIR)
 
     elif command == 'share':
         if arguments_remaining == 2:

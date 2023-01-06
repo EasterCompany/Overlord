@@ -73,7 +73,7 @@ def initialize_clients(load_order:str, cwd:str = '.') -> None:
         pass
 
 
-def acquire_client_api(client:str, git_ssh:str, api_dir:str) -> dict:
+def acquire_client_api(client:str, git_ssh:str, api_dir:str, no_tab:bool = False) -> dict:
     """
     Automatically acquires installs an API from a git ssh link
 
@@ -84,10 +84,12 @@ def acquire_client_api(client:str, git_ssh:str, api_dir:str) -> dict:
     """
     console.out(f"    Cloning API for '{client}'", end=" ...\r")
     console.input(f"git clone {git_ssh} {client}", cwd=api_dir, show_output=False)
-    console.out(f"    ✔️ Successfully cloned API for '{client}'              ", "green")
+    if no_tab:
+        return console.out(f"✔️ Successfully cloned API for '{client}'              ", "green")
+    return console.out(f"    ✔️ Successfully cloned API for '{client}'              ", "green")
 
 
-def acquire_all_clients_api(client_data:dict, cwd:str = '.') -> None:
+def acquire_all_clients_api(client_data:dict, cwd:str = '.', no_tab:bool = False) -> None:
     """
     Automatically scan each client for any missing associated APIs which may have
     not already been installed
@@ -105,7 +107,7 @@ def acquire_all_clients_api(client_data:dict, cwd:str = '.') -> None:
                 'urls_access': "+ \\" + f'\n  __{client}__.URLS'
             })
             if not exists(f"{api_dir}/{client}"):
-                acquire_client_api(client, client_data[client]['api'], api_dir)
+                acquire_client_api(client, client_data[client]['api'], api_dir, no_tab)
     return statements
 
 
