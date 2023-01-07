@@ -129,7 +129,7 @@ def purge_temp_directory() -> None:
 
 def _log_path(path, names):
   logging.info(f'Installing {path} ...')
-  return []
+  return [ '.git' ]
 
 
 def clone_latest_version() -> None:
