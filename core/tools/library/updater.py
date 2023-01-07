@@ -121,9 +121,9 @@ def purge_temp_directory() -> None:
   :return None:
   """
   if exists(temp_update_path):
-    rmdir(temp_update_path)
+    shutil.rmtree(temp_update_path)
   if exists(temp_directory):
-    rmdir(temp_directory)
+    shutil.rmtree(temp_directory)
 
 
 def clone_latest_version() -> None:
@@ -146,7 +146,7 @@ def clone_latest_version() -> None:
     )
     console.out("  ✅ Downloaded Update   ", "success")
     console.out("  Installing Update ... ", end="\r")
-    shutil.move(temp_directory, BASE_DIR)
+    shutil.move(temp_update_path, BASE_DIR)
     console.out("  ✅ Installed Update   ", "success")
   except Exception as update_error:
     purge_temp_directory()
