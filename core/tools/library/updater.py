@@ -134,13 +134,19 @@ def clone_latest_version() -> None:
   :return None:
   """
   purge_temp_directory()
-  console.out("  Downloading Update ... ", end="\r")
-  console.input(
-    "git clone --quiet --single-branch --branch Prd --depth=1 git@github.com:EasterCompany/Overlord.git"
-    f" {random_file_hash}"
-  )
-  console.out("  ✅ Downloaded Update   ", "success")
-  console.out("  Installing Update ... ")
-  shutil.move(temp_directory, BASE_DIR)
-  console.out("  ✅ Installed Update   ", "success")
+
+  try:
+    console.out("  Downloading Update ... ", end="\r")
+    console.input(
+      "git clone --quiet --single-branch --branch Prd --depth=1 git@github.com:EasterCompany/Overlord.git"
+      f" {temp_directory}"
+    )
+    console.out("  ✅ Downloaded Update   ", "success")
+    console.out("  Installing Update ... ", end="\r")
+    shutil.move(temp_directory, BASE_DIR)
+    console.out("  ✅ Installed Update   ", "success")
+  except Exception as update_error:
+    purge_temp_directory()
+    console.out(f"\n  Failed to update due an unexpected error\n  {update_error}")
+
   return purge_temp_directory()

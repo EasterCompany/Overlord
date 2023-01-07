@@ -9,7 +9,7 @@
 /core/migrations
 /.vscode
 /.idea
-/.temp
+/.temp-overlord-update
 *.sqlite3
 *.sqlite3-journal
 .pytest_cache
