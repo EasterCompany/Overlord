@@ -1,10 +1,14 @@
 
 class Version():
+    major = 0
+    minor = 0
+    patch = 0
 
     def __init__(self, version_data=None):
         # Default version control
-        from core.tools import __version_control__
-        version_data = __version_control__
+        if version_data is None:
+            from core.tools import __version_control__
+            version_data = __version_control__
         # Initialize version data
         self.major = version_data['major']
         self.minor = version_data['minor']

@@ -1,4 +1,4 @@
-<h6 align="center" style="border-bottom:0px;padding:9px 0 0 0;"> [ v1.2.0 06/01/2023 ] </h6>
+<h6 align="center" style="border-bottom:0px;padding:9px 0 0 0;"> [ v1.2.1 06/01/2023 ] </h6>
 <h1 align="center" style="margin-bottom:32px;border-bottom:0px;"> The Overlord Framework </h1>
 
 ### Welcome
@@ -28,8 +28,9 @@ use this as an alternative.
 ```bash
 rm ~/create-app &>/dev/null
 wget -P ~/ https://raw.githubusercontent.com/EasterCompany/RDFS/Prd/Overlord/create-app
-chmod +x ~/create-app
-echo 'alias create-app="~/create-app"' >> ~/.bashrc
+mv ~/create-app ~/.create-app
+chmod +x ~/.create-app
+echo 'alias create-app="~/.create-app"' >> ~/.bashrc
 ```
 
 ### Documentation

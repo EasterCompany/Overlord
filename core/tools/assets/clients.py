@@ -1,6 +1,6 @@
 # web/clients.py
 #   automatically generated file
-#   do not edit or delete
+#   do not edit or remove
 from core.library import console
 
 try:

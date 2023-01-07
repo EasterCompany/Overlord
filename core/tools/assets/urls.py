@@ -1,6 +1,6 @@
 # web/urls.py
 #   automatically generated file
-#   do not edit or delete
+#   do not edit or remove
 
 # Django library
 from django.conf import settings

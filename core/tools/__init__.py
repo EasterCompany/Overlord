@@ -16,7 +16,7 @@ from .commands.node.share import __update_shared_files__
 # Version Configuration
 __version_control__ = {
     'major': 1,
-    'minor': 2,
+    'minor': 1,
     'patch': 0
 }
 __version__ = Version(version_data=__version_control__)
@@ -48,3 +48,6 @@ url.write_django_urls(load_order, getcwd() + '/web/urls.py')
 statements = url.acquire_all_clients_api(client_data, getcwd())
 url.write_api_urls(statements, getcwd())
 url.write_api_models(statements, getcwd())
+
+# Initialize updater
+from core.tools.library import updater as __updater__

@@ -1,5 +1,6 @@
-# Import the raw settings file from Overlord-Tools if the installed version in the project directory
-# is not found. This allows Overlord-Server to boot the installation using default settings process without crashing.
+# web/__init__.py
+#   automatically generated file
+#   do not edit or remove
 
 try:
     from . import settings

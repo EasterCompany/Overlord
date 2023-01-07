@@ -9,7 +9,7 @@ from web.settings import *
 from core import create_user, create_super_user
 from core.library import execute_from_command_line, console, git as GIT, url
 from core.library.version import Version
-from core.tools.library import gracefulExit
+from core.tools.library import gracefulExit, updater
 from core.tools.commands import install, git, django, node, pytest, pa, vscode
 
 tools_path = '/'.join(__file__.split('/')[:-1])
@@ -40,6 +40,9 @@ def awaitInput(ascii_art=True):
     -------------------------------------------------------------------''')
 
     try:
+        update_status = updater.check_status()
+        if update_status[0]:
+            console.out(f"    {update_status[1]}", "yellow")
         client_load_order = url.make_client_load_order(CLIENT_DATA, INDEX)
         url.initialize_clients(client_load_order)
         if not exists(f'{BASE_DIR}/db.sqlite3'):
@@ -495,6 +498,12 @@ def run_tool(command, index=0):
     elif command == 'createuser':
         create_user()
 
+    elif command == 'update':
+        update_status = updater.check_status(force=True)
+        console.out(f"\n  {update_status[1]}")
+        if update_status[0]:
+            updater.clone_latest_version()
+
     else:
         line_start = "\n" if index == 0 else ""
         console.out(f"{line_start}  [ERROR] No command matching input\n    ./o {command}", "red")
@@ -507,9 +516,10 @@ def run():
         return console.out(
             "\n[ERROR] Python 3.10 or greater is required by Overlord\n"
             "        You may have installed using the wrong executable\n"
-            "        Try installing Overlord again using this command:\n"
+            "        Try installing Overlord again using this command\n"
+            "        from within your projects directory:\n"
             "        \n"
-            "        python3.10 core.py tools install\n"
+            "        >> python3.10 core.py tools install\n"
             "        \n"
             "        or set python 3.10 (or greater) to be your system default\n"
             "        when calling 'python3' from the command line.\n",
@@ -517,4 +527,4 @@ def run():
         ), exit()
     if len(command_line) <= 0:
         return awaitInput()
-    [run_tool(arg, index) for index, arg in enumerate(command_line)]
+    [run_tool(arg, index) if not arg == './o' else None for index, arg in enumerate(command_line)]
