@@ -127,8 +127,8 @@ def purge_temp_directory() -> None:
 
 
 def _log_path(path, names):
-  console.out(f'  Installing {path} ...', end="\r")
-  return [ '.git', 'README.md', 'SECURITY.md' ]
+  console.out(f'  Installing {path}')
+  return [ '.git', '.gitignore', 'README.md', 'SECURITY.md' ]
 
 
 def clone_latest_version() -> None:
@@ -156,7 +156,7 @@ def clone_latest_version() -> None:
     shutil.rmtree(f"{BASE_DIR}/core")
     shutil.rmtree(f"{BASE_DIR}/clients/shared")
     shutil.copytree(temp_update_path, BASE_DIR, ignore=_log_path, dirs_exist_ok=True)
-    console.out("  ✅ Installed Update Successfully!", "success")
+    console.out("\n  ✅ Installed Update Successfully!", "success")
   except Exception as update_error:
     purge_temp_directory()
     console.out(f"\n  Failed to update due an unexpected error\n  {update_error}")
