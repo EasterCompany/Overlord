@@ -128,8 +128,8 @@ def purge_temp_directory() -> None:
 
 
 def _log_path(path, names):
-  logging.info(f'Installing {path} ...')
-  return [ '.git' ]
+  console.out(f'  Installing {path} ...', end="\r")
+  return [ '.git', 'README.md', 'SECURITY.md' ]
 
 
 def clone_latest_version() -> None:
