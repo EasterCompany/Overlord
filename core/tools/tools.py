@@ -500,9 +500,11 @@ def run_tool(command, index=0):
 
     elif command == 'update':
         update_status = updater.check_status(force=True)
-        console.out(f"\n> Updating Overlord {update_status[1]}")
         if update_status[0]:
+            console.out(f"\n> Updating Overlord {update_status[1]}")
             updater.clone_latest_version()
+        else:
+            console.out(f"\n> {update_status[1]}")
 
     else:
         line_start = "\n" if index == 0 else ""
