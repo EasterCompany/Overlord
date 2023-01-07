@@ -15,7 +15,8 @@ update_logger_dir = f'{BASE_DIR}/.logs'
 update_logger_path = f'{BASE_DIR}/.logs/update_logger'
 random_file_name = f"{random.randint(1000, 9999)}".encode()
 random_file_hash = md5(random_file_name).hexdigest()
-temp_directory = f"{BASE_DIR}/.temp-overlord-update/{random_file_hash}"
+temp_directory = f"{BASE_DIR}/.temp-overlord-update"
+temp_update_path = f"{temp_directory}/{random_file_hash}"
 
 # Create the logs directory if it doesn't exist
 if not exists(update_logger_dir):
@@ -119,11 +120,10 @@ def purge_temp_directory() -> None:
 
   :return None:
   """
-  if exists(f"{BASE_DIR}/.temp-overlord-update"):
-    rmdir(f"{BASE_DIR}/.temp-overlord-update")
-
-
-atexit.register(purge_temp_directory)
+  if exists(temp_update_path):
+    rmdir(temp_update_path)
+  if exists(temp_directory):
+    rmdir(temp_directory)
 
 
 def clone_latest_version() -> None:
@@ -133,13 +133,16 @@ def clone_latest_version() -> None:
 
   :return None:
   """
+  atexit.register(purge_temp_directory)
   purge_temp_directory()
 
   try:
     console.out("  Downloading Update ... ", end="\r")
+    mkdir(temp_directory)
     console.input(
-      "git clone --quiet --single-branch --branch Prd --depth=1 git@github.com:EasterCompany/Overlord.git"
-      f" {temp_directory}"
+      f"cd {temp_directory} && "
+      f"git clone --quiet --single-branch --branch Prd --depth=1 git@github.com:EasterCompany/Overlord.git "
+      f"{random_file_hash}"
     )
     console.out("  ✅ Downloaded Update   ", "success")
     console.out("  Installing Update ... ", end="\r")
@@ -148,5 +151,8 @@ def clone_latest_version() -> None:
   except Exception as update_error:
     purge_temp_directory()
     console.out(f"\n  Failed to update due an unexpected error\n  {update_error}")
+    return False
 
-  return purge_temp_directory()
+  purge_temp_directory()
+  atexit.unregister(purge_temp_directory)
+  return True
