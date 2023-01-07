@@ -152,8 +152,7 @@ def clone_latest_version() -> None:
     )
     console.out("  ✅ Downloaded Update   ", "success")
     console.out("  Installing Update ...  ")
-    shutil.copytree(temp_update_path, BASE_DIR, ignore=_log_path)
-    shutil.move(temp_update_path, BASE_DIR)
+    shutil.copytree(temp_update_path, BASE_DIR, ignore=_log_path, dirs_exist_ok=True)
     console.out("  ✅ Installed Update Successfully!", "success")
   except Exception as update_error:
     purge_temp_directory()
