@@ -4,11 +4,12 @@ import atexit
 import random
 import shutil
 import requests
+import logging
 from hashlib import md5
 # Overlord library
 from web.settings import BASE_DIR
 from core.library.version import Version
-from core.library import exists, mkdir, rmdir, json, console
+from core.library import exists, mkdir, json, console
 version = Version()
 update_logger = None
 update_logger_dir = f'{BASE_DIR}/.logs'
@@ -111,7 +112,7 @@ def check_status(force:bool = False) -> list:
   else:
     cur_version = console.out(f"v{version.major}.{version.minor}.{version.patch}", "yellow", False)
 
-  return True, f"There is an update available `{cur_version}` -> `{new_version}`"
+  return True, f"`{cur_version}` -> `{new_version}`"
 
 
 def purge_temp_directory() -> None:
@@ -124,6 +125,11 @@ def purge_temp_directory() -> None:
     shutil.rmtree(temp_update_path)
   if exists(temp_directory):
     shutil.rmtree(temp_directory)
+
+
+def _log_path(path, names):
+  logging.info(f'Installing {path} ...')
+  return []
 
 
 def clone_latest_version() -> None:
@@ -145,9 +151,10 @@ def clone_latest_version() -> None:
       f"{random_file_hash}"
     )
     console.out("  ✅ Downloaded Update   ", "success")
-    console.out("  Installing Update ... ", end="\r")
+    console.out("  Installing Update ...  ")
+    shutil.copytree(temp_update_path, BASE_DIR, ignore=_log_path)
     shutil.move(temp_update_path, BASE_DIR)
-    console.out("  ✅ Installed Update   ", "success")
+    console.out("  ✅ Installed Update Successfully!", "success")
   except Exception as update_error:
     purge_temp_directory()
     console.out(f"\n  Failed to update due an unexpected error\n  {update_error}")

@@ -42,7 +42,7 @@ def awaitInput(ascii_art=True):
     try:
         update_status = updater.check_status()
         if update_status[0]:
-            console.out(f"    {update_status[1]}", "yellow")
+            console.out(f"                   Update Available {update_status[1]}", "yellow")
         client_load_order = url.make_client_load_order(CLIENT_DATA, INDEX)
         url.initialize_clients(client_load_order)
         if not exists(f'{BASE_DIR}/db.sqlite3'):
@@ -500,7 +500,7 @@ def run_tool(command, index=0):
 
     elif command == 'update':
         update_status = updater.check_status(force=True)
-        console.out(f"\n  {update_status[1]}")
+        console.out(f"\n> Updating Overlord {update_status[1]}")
         if update_status[0]:
             updater.clone_latest_version()
 
