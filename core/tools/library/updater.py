@@ -161,7 +161,7 @@ def clone_latest_version() -> None:
     console.out("\n  ✅ Installed Update Successfully!\n", "success")
     restart = input("\nDo you want to restart the program? [y/n] > ")
     if restart == "y":
-        os.execl(sys.executable, os.path.abspath(__file__), *sys.argv)
+        os.execl(sys.executable, f"{BASE_DIR}/core.py", "tools")
   except Exception as update_error:
     purge_temp_directory()
     console.out(f"\n  Failed to update due an unexpected error\n  {update_error}")
