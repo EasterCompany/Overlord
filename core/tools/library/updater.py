@@ -1,4 +1,6 @@
 # Standard library
+import os
+import sys
 import time
 import atexit
 import random
@@ -156,7 +158,10 @@ def clone_latest_version() -> None:
     shutil.rmtree(f"{BASE_DIR}/core")
     shutil.rmtree(f"{BASE_DIR}/clients/shared")
     shutil.copytree(temp_update_path, BASE_DIR, ignore=_log_path, dirs_exist_ok=True)
-    console.out("\n  ✅ Installed Update Successfully!", "success")
+    console.out("\n  ✅ Installed Update Successfully!\n", "success")
+    restart = input("\nDo you want to restart the program? [y/n] > ")
+    if restart == "y":
+        os.execl(sys.executable, os.path.abspath(__file__), *sys.argv)
   except Exception as update_error:
     purge_temp_directory()
     console.out(f"\n  Failed to update due an unexpected error\n  {update_error}")
