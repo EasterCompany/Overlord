@@ -4,12 +4,11 @@ import atexit
 import random
 import shutil
 import requests
-import logging
 from hashlib import md5
 # Overlord library
 from web.settings import BASE_DIR
 from core.library.version import Version
-from core.library import exists, mkdir, json, console
+from core.library import exists, mkdir, json, console, remove
 version = Version()
 update_logger = None
 update_logger_dir = f'{BASE_DIR}/.logs'
@@ -152,8 +151,8 @@ def clone_latest_version() -> None:
     )
     console.out("  ✅ Downloaded Update   ", "success")
     console.out("  Installing Update ...  ")
-    shutil.rmtree(f"{BASE_DIR}/pytest.ini")
-    shutil.rmtree(f"{BASE_DIR}/core.py")
+    remove(f"{BASE_DIR}/pytest.ini")
+    remove(f"{BASE_DIR}/core.py")
     shutil.rmtree(f"{BASE_DIR}/core")
     shutil.rmtree(f"{BASE_DIR}/clients/shared")
     shutil.copytree(temp_update_path, BASE_DIR, ignore=_log_path, dirs_exist_ok=True)
