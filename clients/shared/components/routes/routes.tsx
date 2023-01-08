@@ -27,10 +27,10 @@ const scrollContentToTop = (selector:string) => {
 
 
 /*
-  SET APP TITLE (Set HTML <Title> Content)
+  SET PAGE TITLE (Set HTML <Title> Content)
   overwrites the existing page title in the html for this route
 */
-export const setAppTitle = (title:string) => {
+export const setPageTitle = (title:string) => {
   return document.title = `${title} | ${process.env.REACT_APP_NAME}`;
 }
 
@@ -60,8 +60,9 @@ const goto = (path:string) => {
   ROUTE OBJECT (React-Router-Dom Wrapper)
   creates a new route
 */
-export const Route = (props: any) => <NewRoute path={dp(props.path)} element={<props.app/>}/>
-
+export const Route = (props: any) => <NewRoute path={dp(props.path)} element={
+  props.app === undefined ? <props.page/> : <props.app/>
+}/>
 
 /*
   LINK OBJECT (Route Navigation Button)
