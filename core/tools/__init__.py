@@ -17,7 +17,7 @@ from .commands.node.share import __update_shared_files__
 __version_control__ = {
     'major': 1,
     'minor': 2,
-    'patch': 1
+    'patch': 2
 }
 __version__ = Version(version_data=__version_control__)
 
