@@ -5,9 +5,10 @@
 # Standard library
 import json
 import subprocess
+from pathlib import Path
 from sys import executable
 from os import mkdir, rmdir, remove
-from os.path import exists
+from os.path import exists, realpath, dirname
 from urllib.parse import unquote
 from uuid import uuid1 as uuid
 from time import sleep

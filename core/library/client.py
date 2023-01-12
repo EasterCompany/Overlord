@@ -1,6 +1,6 @@
 # Overlord library
 from web import settings
-from core.library import re_path, render
+from core.library import re_path, render, realpath, dirname, Path
 
 # Random Ports Used Counter
 _RPU = 0
@@ -23,7 +23,7 @@ class WebClient():
     Server Configuration for any Create-React-App based Client.
 
     Settings will be loaded initially; then we will load the
-    React-Client with consideration for configuration for
+    Web-Client with consideration for configuration for
     either local development, staging or production environments.
 
     The .env file will be overwritten when the application loads
@@ -34,12 +34,15 @@ class WebClient():
     '''
 
     # Client.ENVIRONMENT [ local, staging, production... ]
-    ENV = ''
+    ENV = __file__.replace('__init__.py', '.env')
 
-    # Client.NAME and directory name for this client source files should be identical
-    # otherwise you can specify the directory for this client with the DIR variable
-    DIR = None
-    NAME = ''
+    # Client.DIR represents which sub-directory inside the 'clients/'
+    # directory contains the source code for this client
+    DIR = ''
+
+    # Client.NAME represents what the stylized name of this client should be
+    # for example; this is often used to set the HTML <title> element content
+    NAME = DIR
 
     # Client.PORT by default will be automatically determined if PORT is None.
     # otherwise you can specify a port number as a string.

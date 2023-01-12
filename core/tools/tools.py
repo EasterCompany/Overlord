@@ -18,7 +18,6 @@ command_line = argv[2:]
 _version = Version()
 environ.setdefault('DJANGO_SETTINGS_MODULE', 'web.settings')
 
-
 def awaitInput(ascii_art=True):
     global command_line
 
@@ -45,8 +44,9 @@ def awaitInput(ascii_art=True):
         console.out(f"                   Update Available {update_status[1]}", "yellow")
 
     # Initialize Clients
-    client_load_order = url.make_client_load_order(CLIENT_DATA, INDEX)
-    url.initialize_clients(client_load_order)
+    CLIENT_DATA = node.clients.update_client_json()
+    for _client in CLIENT_DATA:
+        node.clients.initialize(_client)
 
     # Initialize Database
     if not exists(f'{BASE_DIR}/db.sqlite3'):
@@ -175,17 +175,6 @@ def run_tool(command, index=0):
             arguments.append('-'.join(arg.split('-')[1:]))
         else:
             break
-
-    # Used for commit, merge & deploy commands
-    if arguments_remaining >= 2:
-        git_repo = ''.join(
-            command_line[index + 1].split('-')[1:]
-        )
-        git_message = ''.join(
-            ' '.join(command_line[index + 2:]).split('-')[1:]
-        )
-    else:
-        git_repo, git_message = None, None
 
     # Return an error prompt if the command string is an argument
     if command.startswith('-') and index == 0:

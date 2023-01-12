@@ -263,7 +263,7 @@ def create(name, native=False, custom_repo=None):
     # Fetch default react-web template from github
     else:
         print("\nDownloading web-client template...")
-        download_repo('git@github.com:EasterCompany/Overlord-React-Client.git', name)
+        download_repo('git@github.com:EasterCompany/Overlord-Web-Client.git', name)
 
     # De-git repository
     print('De-git repository...')
@@ -306,16 +306,6 @@ def create(name, native=False, custom_repo=None):
         content = content.replace('app-name', name)
         with open(f'clients/{name}/package.json', 'w') as new_file:
             new_file.write(content)
-
-    # Update environment variables
-    print('Update environment data...\n')
-    clients_data = {}
-    next_port = 8100
-    with open('.config/clients.json') as clients_json:
-        clients_data = loads(clients_json.read())
-        next_port += len(clients_data)
-    with open(f'clients/{name}/.env', 'w+') as env_file:
-        env_file.write('PORT=%s' % next_port)
 
     update_overlord_configuration()
     console.out(f'Successfully created a web client: {name} !', 'green')
