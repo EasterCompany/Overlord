@@ -39,18 +39,21 @@ def awaitInput(ascii_art=True):
 
     -------------------------------------------------------------------''')
 
-    try:
-        update_status = updater.check_status()
-        if update_status[0]:
-            console.out(f"                   Update Available {update_status[1]}", "yellow")
-        client_load_order = url.make_client_load_order(CLIENT_DATA, INDEX)
-        url.initialize_clients(client_load_order)
-        if not exists(f'{BASE_DIR}/db.sqlite3'):
-            console.out("\n> Creating Database & Making Migrations\n")
-            django.server.migrate_database()
-    except SyntaxError:
-        console.out("         [WARNING] No installed clients found within this project.", "yellow")
+    # Check for updates
+    update_status = updater.check_status()
+    if update_status[0]:
+        console.out(f"                   Update Available {update_status[1]}", "yellow")
 
+    # Initialize Clients
+    client_load_order = url.make_client_load_order(CLIENT_DATA, INDEX)
+    url.initialize_clients(client_load_order)
+
+    # Initialize Database
+    if not exists(f'{BASE_DIR}/db.sqlite3'):
+        console.out("\n> Creating Database & Making Migrations\n")
+        django.server.migrate_database()
+
+    # Initialize Static Directories
     print('')
     for _dir in STATICFILES_DIRS:
         if not exists(_dir):
@@ -61,6 +64,8 @@ def awaitInput(ascii_art=True):
                     f"    failed to create static files directory {_dir}\n{static_directory_creation_error}",
                     "yellow"
                 )
+
+    # Initialize Console Interface
     readline.clear_history()
     flag = gracefulExit.GracefulExit()
 

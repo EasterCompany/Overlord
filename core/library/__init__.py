@@ -5,6 +5,7 @@
 # Standard library
 import json
 import subprocess
+from sys import executable
 from os import mkdir, rmdir, remove
 from os.path import exists
 from urllib.parse import unquote

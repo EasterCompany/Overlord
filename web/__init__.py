@@ -1,6 +1,8 @@
 # web/__init__.py
 #   automatically generated file
 #   do not edit or remove
+from os import makedirs
+from os.path import exists
 
 try:
     from . import settings
@@ -15,3 +17,6 @@ except ImportError:
     except ImportError as exception:
         print(exception)
         exit()
+
+if not exists(settings.STATIC_ROOT):
+    makedirs(settings.STATIC_ROOT, exist_ok=True)

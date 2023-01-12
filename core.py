@@ -1,8 +1,8 @@
 #! /usr/bin/python3
 
 # Standard library
-from sys import argv
 from os import environ
+from sys import argv
 # Overlord library
 from core import create_super_user, create_user
 from core.tools import tools

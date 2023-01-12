@@ -15,7 +15,7 @@ from ..install import (
     make_server_config
 )
 from ..node.share import __update_shared_files__
-from core.library import console
+from core.library import console, executable
 from web.settings import BASE_DIR
 
 # Variable app meta data
@@ -129,6 +129,10 @@ def update_client_json():
 update_client_json()
 
 
+# Initialize client
+def initialize(target=None):
+    return console.input(f'''{executable} -c "from clients import {target};{target}.Client()"''', cwd=BASE_DIR)
+
 # Install client
 def install(target=None):
 
@@ -142,10 +146,12 @@ def install(target=None):
         for client in clients_json:
             print('\n', client, '----------------')
             run_install(clients_json[client]['src'])
-        print('')
+            initialize(client)
+            __update_shared_files__()
     else:
         run_install(clients_json[target]['src'])
-        print('')
+        initialize(target)
+        __update_shared_files__()
 
     return chdir(BASE_DIR)
 
