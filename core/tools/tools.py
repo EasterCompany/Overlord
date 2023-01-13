@@ -18,6 +18,7 @@ command_line = argv[2:]
 _version = Version()
 environ.setdefault('DJANGO_SETTINGS_MODULE', 'web.settings')
 
+
 def awaitInput(ascii_art=True):
     global command_line
 
@@ -44,7 +45,6 @@ def awaitInput(ascii_art=True):
         console.out(f"                   Update Available {update_status[1]}", "yellow")
 
     # Initialize Clients
-    CLIENT_DATA = node.clients.update_client_json()
     for _client in CLIENT_DATA:
         node.clients.initialize(_client)
 

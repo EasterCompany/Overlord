@@ -131,7 +131,12 @@ update_client_json()
 
 # Initialize client
 def initialize(target=None):
-    return console.input(f'''{executable} -c "from clients import {target};{target}.Client()"''', cwd=BASE_DIR)
+    return console.input(
+        f'''{executable} -c "from core.tools import tools;from clients import {target};{target}.Client();"''',
+        cwd=BASE_DIR,
+        show_output=True
+    )
+
 
 # Install client
 def install(target=None):

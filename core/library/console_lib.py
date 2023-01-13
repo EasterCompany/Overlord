@@ -108,7 +108,7 @@ class Console:
         shell=True,
         cwd=cwd
       )
-      return out.returncode
+      return out
     else:
       out = subprocess.run(
         command,
