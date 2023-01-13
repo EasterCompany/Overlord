@@ -45,7 +45,7 @@ def awaitInput(ascii_art=True):
         console.out(f"                   Update Available {update_status[1]}", "yellow")
 
     # Initialize Clients
-    for _client in CLIENT_DATA:
+    for _client in node.clients.update_client_json():
         node.clients.initialize(_client)
 
     # Initialize Database

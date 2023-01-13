@@ -132,7 +132,9 @@ update_client_json()
 # Initialize client
 def initialize(target=None):
     return console.input(
-        f'''{executable} -c "from core.tools import tools;from clients import {target};{target}.Client();"''',
+        f'''{executable} -c "try:\n  '''
+        f'''from core.tools import tools;from clients import {target};{target}.Client();\n'''
+        f'''except: print('    > Error occurred when initializing {target}')"''',
         cwd=BASE_DIR,
         show_output=True
     )
