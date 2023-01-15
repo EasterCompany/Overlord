@@ -3,12 +3,12 @@ from web.settings import BASE_DIR
 from core.library import console, exists, is_alphanumeric, to_alphanumeric
 
 
-def download_repo(repo_link, name):
+def download_repo(repo_link:str, name:str) -> None:
   """
-  Downloads a git repository with a given name
+  Downloads a git repository with a given name to the ./api directory
   """
   console.out(f"  {console.wait} Downloading ... ", end="\r")
-  console.input(f"git clone {repo_link} {name}", cwd=BASE_DIR+'/clients')
+  console.input(f"git clone {repo_link} {name}", cwd=BASE_DIR+'/api')
   console.out(f"  ✅ Downloaded                  ", "success")
 
 
@@ -37,9 +37,16 @@ def create(name:str, git_repo:str = None, standalone:bool = False) -> None:
     console.out(
       f"\n[WARNING] Client with name `{name}` does not exist.\n"
        "          This will create a standalone universal API\n"
-       "          enter 'Y' to continue or 'N' to cancel."
+       "          enter 'Y' to continue or 'N' to cancel.",
+       "yellow"
     )
-    standalone = input("\nMake Standalone API & Continue (Y/N):").lower() == 'y'
+    standalone = input("\nMake Standalone API & Continue (Y/N): ").lower() == 'y'
     if not standalone: return None
 
-  #
+  # Download API Template
+  if git_repo is not None:
+    console.out(f"\n> Download `{name}` API")
+    download_repo(git_repo, name)
+  else:
+    console.out(f"\n> Download API Template")
+    download_repo("git@github.com:EasterCompany/Overlord-Universal-API.git", name)

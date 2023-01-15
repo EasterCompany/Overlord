@@ -33,7 +33,7 @@ def std(status, message="Invalid Status Response"):
 # Overlord API Specific Response Types ---------------------------------------------------------------------------------
 
 
-def success():
+def success() -> JsonResponse:
   """
   Request was executed successfully response
 
@@ -42,7 +42,7 @@ def success():
   return std(OK, "Request was executed successfully.")
 
 
-def error(exception=None):
+def error(exception=None) -> JsonResponse:
   """
   Internal server error standard response method
 
@@ -57,7 +57,7 @@ def error(exception=None):
   return std(BAD, "[500] Internal server error.")
 
 
-def data(JSON):
+def data(JSON:dict) -> JsonResponse:
   """
   Request has successfully produced data to return to the user
 

@@ -399,7 +399,11 @@ def create_cmd_error_message() -> None:
 
   to create a custom client enter a repo link as an argument
 
-    ./o create -git@github.com:<user_name>/<project_name>.git
+    ./o create -<git_repo_link>
+
+    or use a custom name
+
+    ./o create -<git_repo_link> -<client_name>
 
   to create a web client enter a name as an argument
 
@@ -412,4 +416,12 @@ def create_cmd_error_message() -> None:
   to create an API use the `-api` argument first
 
     ./o create -api -<api_name>
+
+    or use a custom template
+
+    ./o create -api -<git_repo_link>
+
+    or use a custom template with a custom name
+
+    ./o create -api -<git_repo_link> -<api_name>
   """)
