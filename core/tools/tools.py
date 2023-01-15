@@ -106,19 +106,18 @@ def output(line, error=False, success=False, warning=False):
 
 def help():
     return print(f'''
-    Welcome to Overlord.
+    {console.out("Welcome to Overlord.", "blue", False)}
 
-    This command is here to help you get started with the basics.
-    To begin with lets go over some simple developer commands that'll
-    help make your experience here simple and easy.
-
-    01. clients
-        - Lists all the clients in your clients directory that are either
-          installed or ready-to-install.
+    The help command lists the 10 most common commands within Overlord-CLI
+    which should be useful when getting started with the framework.
 
     02. clear
         - Clears the terminal window of any input/output allowing you to
           free up space on your screen.
+
+    02. clients
+        - Lists all the clients in your clients directory that are either
+          installed or ready-to-install.
 
     03. code
         - Opens vscode in the root directory of your current project.
@@ -139,13 +138,17 @@ def help():
         - Automatically detect all git repositories within this projects
           scope and push the latest commits to the current branch.
 
-    07. main                                      {console.out("[Experimental Feature]", "yellow", False)}
-        - Automatically detect all git repositories within this projects
-          scope and switch them to the `main` branch.
+    07. merge                                     {console.out("[Experimental Feature]", "yellow", False)}
+        - Automatically merges your current branch into the next logical
+          branch for your projects flow.
+        - Set `LOCAL_BRANCH`, `STAGING_BRANCH` & `PRODUCTION_BRANCH`
+          branch names for your project inside your server.json
+          configuration file.
 
-    08. dev                                       {console.out("[Experimental Feature]", "yellow", False)}
-        - Automatically detect all git repositories within this projects
-          scope and switch them to the `dev` branch.
+    08. branch
+        - Prints the current branch to the terminal and also displays
+          your current configuration for local, staging & production
+          branches
 
     09. create
         - Used to create a new web based or multi-platform client.
@@ -180,7 +183,7 @@ def run_tool(command, index=0):
     if command.startswith('-') and index == 0:
         console.out("\n  [ERROR] Commands cannot start with '-'", "red")
 
-    elif command.startswith('-'):
+    elif command.startswith('-') or command == '':
         return None
 
     elif command == 'install':
@@ -373,8 +376,19 @@ def run_tool(command, index=0):
             return pa.api.error_message()
 
     elif command == 'create':
+        # Universal API
+        if arguments_remaining >= 1 and arguments[0] == 'api':
+            if arguments_remaining == 3 and (arguments[1].startswith('https://') or arguments[1].startswith('git@')):
+                django.api.create(arguments[2], arguments[1])
+            elif arguments_remaining == 2 and (arguments[1].startswith('https://') or arguments[1].startswith('git@')):
+                new_api_name = arguments[1].split('/')[-1].split('.git')[0].lower()
+                django.api.create(new_api_name, arguments[1])
+            elif arguments_remaining == 2:
+                django.api.create(arguments[1])
+            else:
+                node.clients.create_cmd_error_message()
         # Custom client
-        if arguments_remaining == 1 and (arguments[0].startswith('https://') or arguments[0].startswith('git@')):
+        elif arguments_remaining == 1 and (arguments[0].startswith('https://') or arguments[0].startswith('git@')):
             new_client_name = arguments[0].split('/')[-1].split('.git')[0].lower()
             node.clients.create(new_client_name, custom_repo=arguments[0])
         # Default web client
@@ -388,7 +402,7 @@ def run_tool(command, index=0):
             node.clients.create(arguments[1].lower(), custom_repo=arguments[0])
         # Invalid input error
         else:
-            node.clients.error_message()
+            node.clients.create_cmd_error_message()
         # Acquire associated APIs for any new clients
         client_data = install.make_clients_config(BASE_DIR)
         statements = url.acquire_all_clients_api(client_data, BASE_DIR, no_tab=True)

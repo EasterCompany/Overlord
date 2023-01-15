@@ -22,7 +22,6 @@ const endpoint = process.env.REACT_APP_ENDPOINT === undefined ? null : process.e
 const scrollContentToTop = (selector:string) => {
   const content = document.querySelector(selector) as HTMLElement;
   if (content !== undefined) return content.scrollTop = 0;
-  return null;
 }
 
 
@@ -69,7 +68,7 @@ export const Route = (props: any) => <NewRoute path={dp(props.path)} element={
   links to an existing route
 */
 export const Link = ({ to, name, children } : any) => {
-  return <NewLink to={dp(to)} onClick={() => scrollContentToTop('#site-container')}>
+  return <NewLink to={dp(to)} onClick={() => scrollContentToTop('#web-app-container')}>
     {name !== undefined ? name : ""}
     {children !== undefined ? children : <></>}
   </NewLink>;

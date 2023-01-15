@@ -69,9 +69,12 @@ class WebClient():
         if self.ENDPOINT == '':
             self.ENDPOINT = self.DIR if not self.DIR == settings.INDEX else ''
         self.IS_INDEX = str(self.ENDPOINT == '').lower()
-        # Generate local environment file
-        with open(self.ENV, '+w') as env:
-            env.write(self._env())
+        # Generate production environment file
+        with open(self.ENV, 'w') as prd_env:
+            prd_env.write(self._env(prd=True))
+        # Generate development production file
+        with open(self.ENV + '.dev', 'w') as dev_env:
+            dev_env.write(self._env(prd=False))
         # Build the url structure for django
         self.URL = self._url()
 
@@ -83,28 +86,44 @@ class WebClient():
         re_path_str = def_str + app_str if not self.PWA else def_str + pwa_str + app_str
         return re_path(re_path_str, self.app, name=f"{self.NAME} App")
 
-    def _env(self):
+    def _env(self, prd=True):
         '''
         Generate Client Environment Configuration
 
         Creates the .env file for this client on this environment which
         automatically adjusts between local development, staging or production
         '''
-        port = self.PORT if self.PORT is not None else RPU()
+        if self.PORT is None:
+            self.PORT = RPU()
         api = self.API if self.API is not None else f'api/{self.DIR}/'
         pwa = 'true' if self.PWA else 'false'
 
-        return f'''# .env
+        if prd: return f'''# .env
         #   automatically generated file
         #   do not edit or delete
-        PORT={port}
-        PUBLIC_URL=/static/{self.DIR}
+        PORT={self.PORT}
+        BUILD_PATH={settings.BASE_DIR + '/static/' + self.DIR}
+        PUBLIC_URL=/{self.ENDPOINT}
         REACT_APP_NAME={self.NAME}
-        REACT_APP_ENDPOINT={self.ENDPOINT}
-        REACT_APP_IS_INDEX={self.IS_INDEX}
         REACT_APP_API={api}
         REACT_APP_PWA={pwa}
+        REACT_APP_STATIC=/static/{self.DIR}/
+        REACT_APP_ENDPOINT={self.ENDPOINT}
+        REACT_APP_IS_INDEX={self.IS_INDEX}
+        '''.replace('    ', '')
+
+        return f'''# .env.dev
+        #   automatically generated file
+        #   do not edit or delete
+        PORT={self.PORT}
         BUILD_PATH={settings.BASE_DIR + '/static/' + self.DIR}
+        PUBLIC_URL=/{self.ENDPOINT}
+        REACT_APP_NAME={self.NAME}
+        REACT_APP_API={api}
+        REACT_APP_PWA={pwa}
+        REACT_APP_STATIC=/
+        REACT_APP_ENDPOINT={self.ENDPOINT}
+        REACT_APP_IS_INDEX={self.IS_INDEX}
         '''.replace('    ', '')
 
     def _path(self, file_name):

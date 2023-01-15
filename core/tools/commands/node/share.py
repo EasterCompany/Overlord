@@ -155,29 +155,27 @@ def add_to_log(shared_path, client_name, share_type):
 
         if len(removed_files) > 0:
             print('''
-    Removed {x} files from {name} because they're
+    Removed {x} file(s) from {name} because they're
     included within {path}'''.format(
-        x=console.out(str(len(removed_files)), 'green', False),
-        path=console.out(shared_path, 'green', False),
-        name=console.out(client_name, 'green', False)
+        x=console.out(str(len(removed_files)), 'blue', False),
+        path=console.out(shared_path, 'blue', False),
+        name=console.out(client_name, 'blue', False)
     ))
 
         if len(removed_modules) > 0:
             print('''
-    Removed {x} submodules from {name} because they're
+    Removed {x} submodule(s) from {name} because they're
     included within {path}'''.format(
-        x=console.out(str(len(removed_modules)), 'green', False),
-        path=console.out(shared_path, 'green', False),
-        name=console.out(client_name, 'green', False)
+        x=console.out(str(len(removed_modules)), 'blue', False),
+        path=console.out(shared_path, 'blue', False),
+        name=console.out(client_name, 'blue', False)
     ))
 
     # Save log file
     save_log(log)
 
     # Return success!
-    return print('''
-    shared {path} with {name}
-    '''.format(
+    return print("\n    shared {path} with {name}".format(
         path=console.out(shared_path, 'green', False),
         name=console.out(client_name, 'green', False)
     )), __update_shared_files__()

@@ -35,6 +35,10 @@ class Console:
     if cmd is not None:
       self.input(cmd)
 
+  def output(self, text="", colour:str = "white", print_to_console:bool = True, end:str = '\n') -> str:
+    """ console.out alias function """
+    return self.out(text, colour, print_to_console, end)
+
   def out(self, text="", colour:str = "white", print_to_console:bool = True, end:str = '\n') -> str:
     """
     Returns a string converted variable [text] wrapped in colour

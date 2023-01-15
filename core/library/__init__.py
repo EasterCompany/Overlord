@@ -20,6 +20,7 @@ from django.shortcuts import render
 from django.apps import AppConfig
 
 # Core
+from core.library.regex import is_alphanumeric, to_alphanumeric
 from core.library.console_lib import console
 from core.library.api import get_api_url, get_arg, get_body, get_json, get_user
 from core.library.cryptography import encrypt, decrypt
