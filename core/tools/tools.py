@@ -107,9 +107,7 @@ def output(line, error=False, success=False, warning=False):
 def help():
     return print(f'''
     {console.out("Welcome to Overlord.", "blue", False)}
-
     The help command lists the 10 most common commands within Overlord-CLI
-    which should be useful when getting started with the framework.
 
     02. clear
         - Clears the terminal window of any input/output allowing you to
@@ -146,9 +144,10 @@ def help():
           configuration file.
 
     08. branch
-        - Prints the current branch to the terminal and also displays
-          your current configuration for local, staging & production
-          branches
+        - If no arguments are passed it prints the current branch
+          to the terminal and also displays your current
+          configuration for local, staging & production branches
+        - Pass a single argument `-<branch_name>` to switch branch
 
     09. create
         - Used to create a new web based or multi-platform client.
