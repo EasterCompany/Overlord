@@ -17,19 +17,18 @@ __pycache__
 
 # API
 /api/*
-!/api/__init__.py
-!/api/apps.py
-!/api/migrations/__init__.py
+!api/__init__.py
+!api/apps.py
+!api/migrations/__init__.py
 
 # Clients
 /clients/*
-!/clients/shared
+!clients/shared
 
 # Web
 /web/*
-!/web/wsgi.py
-!/web/__init__.py
+!web/wsgi.py
+!web/__init__.py
 
 # Static
-/static/
-/static/.temp
+/static/*

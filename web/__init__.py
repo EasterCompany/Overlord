@@ -18,5 +18,6 @@ except ImportError:
         print(exception)
         exit()
 
-if not exists(settings.STATIC_ROOT):
-    makedirs(settings.STATIC_ROOT, exist_ok=True)
+for _dir in settings.STATICFILES_DIRS:
+    if not exists(_dir):
+        makedirs(_dir, exist_ok=True)

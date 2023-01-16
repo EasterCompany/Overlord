@@ -103,7 +103,7 @@ class WebClient():
         #   do not edit or delete
         PORT={self.PORT}
         BUILD_PATH={settings.BASE_DIR + '/static/' + self.DIR}
-        PUBLIC_URL=/{self.ENDPOINT}
+        PUBLIC_URL=/static/{self.DIR}/
         REACT_APP_NAME={self.NAME}
         REACT_APP_API={api}
         REACT_APP_PWA={pwa}
