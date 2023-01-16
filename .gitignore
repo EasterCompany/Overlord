@@ -16,17 +16,17 @@
 __pycache__
 
 # API
-/api
+/api/*
 !/api/__init__.py
 !/api/apps.py
 !/api/migrations/__init__.py
 
 # Clients
-/clients
+/clients/*
 !/clients/shared
 
 # Web
-/web
+/web/*
 !/web/wsgi.py
 !/web/__init__.py
 

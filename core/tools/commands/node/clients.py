@@ -357,7 +357,7 @@ def create(name:str, native:bool = False, custom_repo:str = None):
   if exists(f"{BASE_DIR}/clients/{name}/shared.json"):
     console.out(f"  {console.wait} Updating shared.json", end="\r")
     with open(f'{BASE_DIR}/clients/{name}/shared.json') as shared:
-      content = package.read()
+      content = shared.read()
       content = content.replace('overlord_web_client', name)
       with open(f'{BASE_DIR}/clients/{name}/shared.json', 'w') as new_file:
         new_file.write(content)
