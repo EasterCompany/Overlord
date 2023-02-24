@@ -4,6 +4,7 @@
 
 # Standard library
 import json
+import secrets
 import subprocess
 from pathlib import Path
 from sys import executable

@@ -174,6 +174,15 @@ class UniversalAPI:
   def __init__(self) -> None:
     self.URLS = []
 
+  def abspath(self,
+    endpoint:str, view:callable, prefix:str = None,
+    description:str = "Auto Generated Absolute Path",
+    *args, **kwargs
+  ):
+    _path = f"{self.CLIENT_NAME}/{endpoint}" if prefix == "client" else \
+      f"{self.NAME}/{endpoint}" if prefix == "name" else f"{endpoint}"
+    return self.URLS.append(new_path(_path, view, name=description))
+
   def path(self, endpoint, view, description="Auto Generated Path", *args, **kwargs):
     if self.NAME is None:
       _path = f"api/{endpoint}"

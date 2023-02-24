@@ -4,6 +4,7 @@
 
 # Standard library
 import os
+import mimetypes
 from json import loads
 
 # Overlord library
@@ -122,3 +123,8 @@ else:
     CORS_ORIGIN_WHITELIST = [
         'https://www.easter.company'    # Allows this application to be managed by E-Panel
     ]
+
+# Sets mime types for specific file types
+mimetypes.add_type("text/html", "", True)
+mimetypes.add_type("text/javascript", ".js", True)
+mimetypes.add_type("text/css", ".css", True)
