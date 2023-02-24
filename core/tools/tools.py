@@ -222,7 +222,7 @@ def run_tool(command, index=0):
             install.django_files(project_path)
             install.make_secrets_file(project_path)
             install.o_file(project_path)
-            install.pytest_ini(project_path)
+            install.setup_cfg(project_path)
             django.secret_key.new(project_path)
             console.out('\nSuccessfully Installed!', 'success')
             console.out(f'Enter {console.out("./o", "yellow", False)} to begin using Overlord.')

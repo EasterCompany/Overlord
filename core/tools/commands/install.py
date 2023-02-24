@@ -228,13 +228,15 @@ tools.run()
   system("chmod +x ./o")
 
 
-def pytest_ini(project_path='.'):
-  if not exists(f"{project_path}/pytest.ini"):
-    print("Generating pytest.ini")
-    with open(f"{project_path}/pytest.ini", "w") as pytest_ini:
-      pytest_ini.write("""[pytest]
-DJANGO_SETTINGS_MODULE = web.settings
-FAIL_INVALID_TEMPLATE_VARS = True
+def setup_cfg(project_path='.'):
+  if not exists(f"{project_path}/setup.cfg"):
+    print("Generating setup.cfg")
+    with open(f"{project_path}/setup.cfg", "w") as setup_cfg_file:
+      setup_cfg_file.write("""[tool:pytest]
+minversion = 7.0
 python_files = */test_*.py
 django_debug_mode = true
+django_find_project = true
+DJANGO_SETTINGS_MODULE = web.settings
+FAIL_INVALID_TEMPLATE_VARS = true
 """)

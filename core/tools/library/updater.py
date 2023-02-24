@@ -153,7 +153,7 @@ def clone_latest_version() -> None:
     )
     console.out("  ✅ Downloaded Update   ", "success")
     console.out("  Installing Update ...  ")
-    remove(f"{BASE_DIR}/pytest.ini")
+    remove(f"{BASE_DIR}/pytest.cfg")
     remove(f"{BASE_DIR}/core.py")
     shutil.rmtree(f"{BASE_DIR}/core")
     shutil.rmtree(f"{BASE_DIR}/clients/shared")
