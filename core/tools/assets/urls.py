@@ -37,7 +37,9 @@ __installed_clients_tag__
 
 if len(installed_clients) > 0 and settings.INDEX is not None and settings.INDEX != "":
   index = installed_clients[-1].Client()
+
   index_app_files = [
+    path('sitemap.xml', index.sitemap, name="Application Sitemap File"),
     path('robots.txt', index.robots, name="Application Robots File"),
     path('manifest.json', index.manifest, name="Application Manifest File"),
     path('asset-manifest.json', index.assets, name="Application Assets File"),
@@ -47,6 +49,7 @@ if len(installed_clients) > 0 and settings.INDEX is not None and settings.INDEX 
     path('service-worker.js', index.service_worker, name="Application Service Worker"),
     path('service-worker.js.map', index.service_worker_map, name="Application Service Worker Map"),
   ]
+
 else:
   index_app_files = []
 

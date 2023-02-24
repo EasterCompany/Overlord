@@ -97,6 +97,7 @@ class WebClient():
             self.PORT = RPU()
         api = self.API if self.API is not None else f'api/{self.DIR}/'
         pwa = 'true' if self.PWA else 'false'
+        dev_url = f"/{self.ENDPOINT}/" if len(self.ENDPOINT) > 0 else "/"
 
         if prd: return f'''# .env
         #   automatically generated file
@@ -117,11 +118,11 @@ class WebClient():
         #   do not edit or delete
         PORT={self.PORT}
         BUILD_PATH={settings.BASE_DIR + '/static/' + self.DIR}
-        PUBLIC_URL=/{self.ENDPOINT}
+        PUBLIC_URL={dev_url}
         REACT_APP_NAME={self.NAME}
         REACT_APP_API={api}
         REACT_APP_PWA={pwa}
-        REACT_APP_STATIC=/
+        REACT_APP_STATIC={dev_url}
         REACT_APP_ENDPOINT={self.ENDPOINT}
         REACT_APP_IS_INDEX={self.IS_INDEX}
         '''.replace('    ', '')
@@ -144,6 +145,9 @@ class WebClient():
 
     def app(self, req, *args, **kwargs):
         return render(req, self._path('index'), content_type='text/html')
+
+    def sitemap(self, req, *args, **kwargs):
+        return render(req, self._path('sitemap.xml'), content_type='text/html')
 
     def robots(self, req, *args, **kwargs):
         return render(req, self._path('robots.txt'), content_type='text/plain')
