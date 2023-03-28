@@ -6,12 +6,10 @@ from os.path import exists
 
 try:
     from . import settings
-
 except ImportError:
     from core.tools.assets import settings
     from core.tools.commands.install import install_file
     install_file('settings.py', '/web', settings.BASE_DIR)
-
     try:
         from . import settings
     except ImportError as exception:

@@ -1,6 +1,8 @@
+# Standard library
+from wsgiref.util import FileWrapper
 # Overlord library
 from web import settings
-from core.library import re_path, render, realpath, dirname, Path
+from core.library import HttpResponse, re_path, render
 
 # Random Ports Used Counter
 _RPU = 0
@@ -61,6 +63,10 @@ class WebClient():
 
     # Client.PWA is a boolean which indicates whether or not to enable service workers
     PWA = False
+
+    # Client.RENDER_APP is overridable with a function which will be called to serve your
+    # react application. URL parameters are passed as parameters to this function.
+    ON_RENDER = None
 
     def __init__(self):
         # User setup dependent options
@@ -144,6 +150,8 @@ class WebClient():
         return False
 
     def app(self, req, *args, **kwargs):
+        if self.ON_RENDER is not None and callable(self.ON_RENDER):
+            return self.ON_RENDER(req)
         return render(req, self._path('index'), content_type='text/html')
 
     def sitemap(self, req, *args, **kwargs):
@@ -163,6 +171,43 @@ class WebClient():
 
     def service_worker_map(self, req, *args, **kwargs):
         return render(req, self._path('service-worker.js.map'), content_type='application/x-javascript')
+
+    def serve_file(self, path):
+        _file = FileWrapper(open(path, "rb"))
+        if path.endswith('.mp4'):
+            return HttpResponse(_file, content_type='video/mp4')
+        elif path.endswith('.mp3'):
+            return HttpResponse(_file, content_type='audio/mp3')
+        elif path.endswith('.png'):
+            return HttpResponse(_file, content_type='image/png')
+        elif path.endswith('.jpg'):
+            return HttpResponse(_file, content_type='image/jpeg')
+        elif path.endswith('.svg'):
+            return HttpResponse(_file, content_type='image/svg+xml')
+        elif path.endswith('.cur'):
+            return HttpResponse(_file, content_type='image/x-win-bitmap')
+        elif path.endswith('.wasm'):
+            return HttpResponse(_file, content_type='application/wasm')
+        elif path.endswith('.js'):
+            return HttpResponse(_file, content_type='application/x-javascript')
+        elif path.endswith('.json'):
+            return HttpResponse(_file, content_type='application/json')
+        elif path.endswith('.css'):
+            return HttpResponse(_file, content_type='application/x-pointplus')
+        elif path.endswith('.txt'):
+            return HttpResponse(_file, content_type='text/plain')
+        elif path.endswith('.xml'):
+            return HttpResponse(_file, content_type='text/xml')
+        elif path.endswith('.html'):
+            return HttpResponse(_file, content_type='text/html')
+        elif path.endswith('.woff'):
+            return HttpResponse(_file, content_type='font/woff')
+        elif path.endswith('.ttf'):
+            return HttpResponse(_file, content_type='font/ttf')
+        elif path.endswith('.eot'):
+            return HttpResponse(_file, content_type='font/eot')
+        else:
+            return HttpResponse(_file)
 
 
 class NativeClient():

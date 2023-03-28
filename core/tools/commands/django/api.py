@@ -26,8 +26,7 @@ def create(name:str, git_repo:str = None, standalone:bool = False) -> None:
     console.out(
       "\n[WARNING] Client names may only contain alphanumeric characters\n"
       "          including underscores and must be URL safe.\n\n"
-      "          Any non-alphanumeric or underscore characters will be\n"
-      "          purged from the name.",
+      "          Any non-supported characters will be replaced or purged.\n",
       "yellow"
     )
     name = to_alphanumeric(name)

@@ -39,6 +39,9 @@ from django.db import models
 # Http
 from django.http import JsonResponse, HttpResponse
 
+# Template
+from django.template import loader as html_loader
+
 # Urls
 from django.urls import path, re_path, include
 
