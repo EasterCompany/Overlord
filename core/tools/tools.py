@@ -246,20 +246,20 @@ def run_tool(command, index=0):
     else:
       console.out("\n  [ERROR] `merge` command does not take any arguments", "red")
 
-    elif command == 'branch':
-        if not exists(f"{BASE_DIR}/.git"):
-            console.out(f"\nProject is not contained within a repository", "red")
-        elif arguments_remaining == 1:
-            target_branch = arguments[0].title() if arguments[0].title() in [
-                LOCAL_BRANCH, STAGING_BRANCH, PRODUCTION_BRANCH
-            ] else arguments[0]
-            GIT.checkout(BASE_DIR, target_branch)
-        else:
-            cur_branch = GIT.branch(BASE_DIR)
-            console.out(f"\nCurrent: {console.out(cur_branch, 'green', False)}")
-            console.out(f"\nLocal: {console.out(LOCAL_BRANCH, 'yellow', False)}")
-            console.out(f"Staging: {console.out(STAGING_BRANCH, 'yellow', False)}")
-            console.out(f"Production: {console.out(PRODUCTION_BRANCH, 'yellow', False)}")
+  elif command == 'branch':
+    if not exists(f"{BASE_DIR}/.git"):
+      console.out(f"\nProject is not contained within a repository", "red")
+    elif arguments_remaining == 1:
+      target_branch = arguments[0].title() if arguments[0].title() in [
+          LOCAL_BRANCH, STAGING_BRANCH, PRODUCTION_BRANCH
+      ] else arguments[0]
+      GIT.checkout(BASE_DIR, target_branch)
+    else:
+      cur_branch = GIT.branch(BASE_DIR)
+      console.out(f"\nCurrent: {console.out(cur_branch, 'green', False)}")
+      console.out(f"\nLocal: {console.out(LOCAL_BRANCH, 'yellow', False)}")
+      console.out(f"Staging: {console.out(STAGING_BRANCH, 'yellow', False)}")
+      console.out(f"Production: {console.out(PRODUCTION_BRANCH, 'yellow', False)}")
 
   elif command == 'new_secret_key':
     django.secret_key.new()

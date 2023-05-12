@@ -76,7 +76,7 @@ class WebClient():
     # Client .html is an overridable object which contains the template for this client
     html:object = html_loader.get_template(html_path)
 
-    def __init__(self):
+    def __init__(self) -> ClientRenderFunction:
         # User setup dependent options
         if self.DIR is None:
             self.DIR = self.NAME
@@ -263,7 +263,7 @@ class NativeClient():
     # Client.PWA is a boolean which indicates whether or not to enable service workers
     PWA = False
 
-    def __init__(self):
+    def __init__(self) -> ClientRenderFunction:
         # User setup dependent options
         if self.ENDPOINT == '':
             self.ENDPOINT = self.NAME if not self.NAME == settings.INDEX else ''
