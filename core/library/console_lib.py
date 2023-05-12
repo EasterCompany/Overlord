@@ -7,7 +7,7 @@ from core.library.time import timestamp
 
 
 class Console:
-  # Colour Pallet
+  # Color Pallet
   colours = {
     "red": '\33[31m',
     "green": '\33[32m',
@@ -19,6 +19,8 @@ class Console:
     "success": '\33[1;32m'
   }
   wait = "\33[5;33m🔶\33[0m"
+  success = "✅"
+  failure = "❌"
 
   def __init__(self, cmd=None, *args, **kwargs) -> None:
     """
@@ -68,7 +70,7 @@ class Console:
       self.colours["yellow"] + text
     )
 
-  def status(self, status:str, message:str = None) -> str:
+  def status(self, status:str, message=None) -> str:
     """
     Using the type of the status to determine the input (int == http status code // str == api response)
     returns a string with the appropriate colour for the status code.
@@ -76,9 +78,9 @@ class Console:
     :param status any: HTTP status code (int) or API response (str)
     :return str:
     """
-    txt = status if message is None else message
+    txt = status if message is None else str(message)
 
-    # HTTP Status Code Colours
+    # HTTP Status Code Colors
     if isinstance(status, int):
       if 100 <= status <= 199:
         return self.out(' [UNKNOWN] ' + txt, 'white')
@@ -89,14 +91,36 @@ class Console:
       else:
         return self.out(' [ERROR] ' + txt, 'red')
 
-    # API Response Colours
+    # API Response Colors
     elif isinstance(status, str):
-      if status == 'BAD':
+      status = status.lower()
+      if status == 'bad' or status == 'error':
         return self.out(' [ERROR] ' + txt, 'red')
-      elif status == 'OK':
+      elif status == 'ok':
         return self.out(' [SUCCESS] ' + txt, 'green')
       else:
         return self.out(' [WARNING] ' + txt, 'yellow')
+
+  def verify(self, warning:str|None = None, message:str|None = None):
+    """
+    Prints a message asking for the user to verify using the options (Y/N) whether not
+    the user wishes to proceed with the current action.
+
+    :return bool: true if the user verifies, false if not
+    """
+    print()
+
+    if message is None:
+      message = "  Do you still wish to proceed? (Y/N): "
+
+    if warning is not None:
+      console.status('warn', warning)
+      message = "         " + message
+
+    response = input(message)
+
+    print()
+    return True if response.lower() == 'y' or response.lower() == 'yes' else False
 
   def input(self, command:str, cwd:str = BASE_DIR, show_output:bool = False) -> str:
     """

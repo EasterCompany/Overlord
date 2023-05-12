@@ -1,11 +1,13 @@
 # Standard library
+from typing import NewType
 from wsgiref.util import FileWrapper
 # Overlord library
 from web import settings
-from core.library import HttpResponse, re_path, render
+from core.library import HttpResponse, re_path, render, html_loader
 
 # Random Ports Used Counter
 _RPU = 0
+ClientRenderFunction = NewType('ClientRenderFunction', )
 
 
 def RPU():
@@ -36,37 +38,43 @@ class WebClient():
     '''
 
     # Client.ENVIRONMENT [ local, staging, production... ]
-    ENV = __file__.replace('__init__.py', '.env')
+    ENV:str = __file__.replace('__init__.py', '.env')
 
     # Client.DIR represents which sub-directory inside the 'clients/'
     # directory contains the source code for this client
-    DIR = ''
+    DIR:str = ''
 
     # Client.NAME represents what the stylized name of this client should be
     # for example; this is often used to set the HTML <title> element content
-    NAME = DIR
+    NAME:str = DIR
 
     # Client.PORT by default will be automatically determined if PORT is None.
     # otherwise you can specify a port number as a string.
-    PORT = RPU()
+    PORT:str = RPU()
 
     # Client.ENDPOINT controls which `base url` will host your application
     # By default, only the INDEX client can connect to the root (http..com/) url
     # Also, all paths beginning with this ENDPOINT will instead be forwarded to
     # this application - this is why we give the INDEX setting special treatment.
-    ENDPOINT = NAME if not NAME == settings.INDEX else ''
-    IS_INDEX = str(ENDPOINT == '').lower()
+    ENDPOINT:str = NAME if not NAME == settings.INDEX else ''
+    IS_INDEX:bool = str(ENDPOINT == '').lower()
 
     # Client.API is a string representing which endpoint to connect to when making API
     # requests. By default, `http../api` will be used if API is set to `None`
-    API = None
+    API:str|None = None
 
     # Client.PWA is a boolean which indicates whether or not to enable service workers
-    PWA = False
+    PWA:bool = False
 
-    # Client.RENDER_APP is overridable with a function which will be called to serve your
+    # Client.render is an overridable function which will be called to serve your
     # react application. URL parameters are passed as parameters to this function.
-    ON_RENDER = None
+    __context__:object|None = None
+
+    # Client.html_path is an overridable str which contains the path to the client template
+    html_path:str = f'{NAME}/public/index.html' if settings.DEBUG else f'{NAME}/index'
+
+    # Client .html is an overridable object which contains the template for this client
+    html:object = html_loader.get_template(html_path)
 
     def __init__(self):
         # User setup dependent options
@@ -86,7 +94,7 @@ class WebClient():
 
     def _url(self):
         # Client.URL is a re_path pointing towards the client index file
-        def_str = r"^(?!static)^(?!api)^(?!robots.txt)^(?!manifest.json)^(?!asset-manifest.json)"
+        def_str = r"^(?!static)^(?!api)^(?!robots.txt)^(?!manifest.json)^(?!asset-manifest.json)^(?!sitemap.xml)"
         pwa_str = r"^(?!service-worker.js)^(?!service-worker.js.map)"
         app_str = r".*$"
         re_path_str = def_str + app_str if not self.PWA else def_str + pwa_str + app_str
@@ -149,9 +157,15 @@ class WebClient():
         '''
         return False
 
+    def render_html(self, req:object, context:dict) -> HttpResponse:
+        '''
+        Returns rendered html from the loaded template file
+        '''
+        return HttpResponse(self.html(context, req), content_type="text/html")
+
     def app(self, req, *args, **kwargs):
-        if self.ON_RENDER is not None and callable(self.ON_RENDER):
-            return self.ON_RENDER(req)
+        if self.__context__ is not None and callable(self.ON_RENDER):
+            return self.render_html(self.__context__(req))
         return render(req, self._path('index'), content_type='text/html')
 
     def sitemap(self, req, *args, **kwargs):

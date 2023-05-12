@@ -14,9 +14,10 @@ from ..install import (
   make_clients_config,
   make_server_config
 )
+from web import settings
 from ..node.share import __update_shared_files__
 from core.library import console, executable, is_alphanumeric, to_alphanumeric
-from web.settings import BASE_DIR
+from core.tools.commands.install import make_clients_config
 
 # Variable app meta data
 meta_data = {
@@ -27,10 +28,10 @@ meta_data = {
 # Client build meta data
 def update_client_meta_data(app_data):
   # Read index.html file content
-  if BASE_DIR in app_data['static']:
+  if settings.BASE_DIR in app_data['static']:
     index_path = f"{app_data['static']}/index.html"
   else:
-    index_path = f"{BASE_DIR}{app_data['static']}/index.html"
+    index_path = f"{settings.BASE_DIR}{app_data['static']}/index.html"
 
   # ERROR handling when index.html is not generated
   if not exists(index_path):
@@ -115,18 +116,36 @@ new_client = lambda app_name, app_data, build: Thread(
 clients_json = {}
 
 
-def update_client_json():
+def load_clients_json() -> dict:
+  """
+  Loads the installed clients configuration file from source and updates
+  the web.settings.CLIENT_DATA environment variable
+
+  :return dict: contains all clients data
+  """
   global clients_json
-  # All clients data from config file
-  if exists(BASE_DIR + '/.config/clients.json'):
-    with open(BASE_DIR + '/.config/clients.json') as clients_file:
+
+  if exists(settings.BASE_DIR + '/.config/clients.json'):
+    with open(settings.BASE_DIR + '/.config/clients.json') as clients_file:
       clients_json = loads(clients_file.read())
   else:
     clients_json = {}
+
+  settings.CLIENT_DATA = clients_json
   return clients_json
 
 
-update_client_json()
+def generate_clients_json() -> dict:
+  """
+  Generates a new clients.json config file and loads it into memory
+
+  :return dict: contains all clients data
+  """
+  make_clients_config()
+  return load_clients_json()
+
+
+load_clients_json()
 
 
 # Initialize client
@@ -135,7 +154,7 @@ def initialize(target=None):
     f'''{executable} -c "try:\n  '''
     f'''from core.tools import tools;from clients import {target};{target}.Client();\n'''
     f'''except: print('    > Error occurred when initializing {target}')"''',
-    cwd=BASE_DIR,
+    cwd=settings.BASE_DIR,
     show_output=True
   )
 
@@ -167,7 +186,7 @@ def install(target:str = None) -> None:
     __update_shared_files__()
     console.out(f"  ✅ Distributed Shared Files             ", "success")
 
-  update_client_json()
+  load_clients_json()
 
   if target is None:
     for client in clients_json:
@@ -200,7 +219,7 @@ def run(name:str, build:bool, new_thread:bool):
     thread = new_client(name, client_data, build)
     thread.start()
     sleep(3)
-    return chdir(BASE_DIR)
+    return chdir(settings.BASE_DIR)
 
   return client(client_data, build)
 
@@ -225,7 +244,6 @@ def build(name):
 # Build all clients on the main thread
 def build_all():
   console.out("\n> Global Build Options")
-
   console.out(f"  {console.wait} Updating shared files", end="\r")
   __update_shared_files__()
   console.out("  ✅ Updated Shared Files      ", "success")
@@ -234,14 +252,49 @@ def build_all():
     client(clients_json[_], build=True, app_name=_)
 
 
-# Create new client
+def remove(name:str):
+  """
+  Uninstall & delete related data for an existing client
+
+  :param name str: name of the client
+  :return None:
+  """
+  if not name in settings.CLIENT_DATA:
+    return console.out(f'\n  {console.failure} No client with the name `{name}` exists.\n', 'error')
+
+  console.out(f'\n> Remove client `{name}`')
+  if not console.verify(
+    f'The following action will remove all data\n           related to the `{name}` client'
+  ): return None
+
+  try:
+    console.out(f'  {console.wait} Deleting ./clients/{name} ...', end='\r')
+    rmtree(settings.CLIENT_DATA[name]['src'])
+    console.out(f'  {console.success} Successfully removed client source {" " * len(name)}', 'success')
+
+    generate_clients_json()
+    if name not in settings.CLIENT_DATA:
+      console.out(f'  {console.success} Successfully removed from clients.json', 'success')
+    else:
+      console.out(f'  {console.failure} Failed to remove from clients.json', 'error')
+
+  except FileNotFoundError:
+    console.out(f'  {console.failure} Source code for client does not exist', 'success')
+
+  except Exception:
+    console.out(f'  {console.failure} Failed to remove client source {" " * len(name)}', 'error')
+
+  return print()
+
+
 def create(name:str, native:bool = False, custom_repo:str = None):
   """
   Create a new client from the basic web or native client templates or download a custom repo
 
-  :param name str: name of the client (raw)
+  :param name str: name of the client
   :param native bool: is this a native client
   :param custom_repo str|None: ssh link for custom repo
+  :return None:
   """
   if not is_alphanumeric(name):
     console.out(
@@ -254,7 +307,7 @@ def create(name:str, native:bool = False, custom_repo:str = None):
 
   def download_repo(repo_link, name):
     console.out(f"  {console.wait} Downloading ... ", end="\r")
-    console.input(f"git clone {repo_link} {name}", cwd=BASE_DIR+'/clients')
+    console.input(f"git clone {repo_link} {name}", cwd=settings.BASE_DIR+'/clients')
     console.out(f"  ✅ Downloaded                  ", "success")
 
   def update_overlord_configuration():
@@ -266,19 +319,19 @@ def create(name:str, native:bool = False, custom_repo:str = None):
     __init_logs_directory__()
 
     # Default environment configuration
-    client_data = make_clients_config(BASE_DIR)
-    server_data = BASE_DIR + '/.config/server.json'
+    client_data = make_clients_config(settings.BASE_DIR)
+    server_data = settings.BASE_DIR + '/.config/server.json'
 
     if exists(server_data):
       with open(server_data) as server_data_file:
         server_data = loads(server_data_file.read())
     else:
-      server_data = make_server_config(BASE_DIR)
+      server_data = make_server_config(settings.BASE_DIR)
 
     # Default start-up behavior
     __update_shared_files__()
     load_order = url.make_client_load_order(client_data, server_data['INDEX'])
-    url.write_django_urls(load_order, BASE_DIR + '/web/urls.py')
+    url.write_django_urls(load_order, settings.BASE_DIR + '/web/urls.py')
     return console.out("  ✅ Updated .config/*        ", "success")
 
   # Make directory checks
@@ -336,29 +389,29 @@ def create(name:str, native:bool = False, custom_repo:str = None):
 
     # Update manifest.json
     console.out(f"  {console.wait} Updating public/manifest.json", end="\r")
-    with open(f'{BASE_DIR}/clients/{name}/public/manifest.json') as manifest:
+    with open(f'{settings.BASE_DIR}/clients/{name}/public/manifest.json') as manifest:
       content = manifest.read()
       content = content.replace('app-name', name)
-      with open(f'{BASE_DIR}/clients/{name}/public/manifest.json', 'w') as new_file:
+      with open(f'{settings.BASE_DIR}/clients/{name}/public/manifest.json', 'w') as new_file:
         new_file.write(content)
     console.out("  ✅ Updated public/manifest.json              ", "success")
 
   # Update package.json
   console.out(f"  {console.wait} Updating package.json", end="\r")
-  with open(f'{BASE_DIR}/clients/{name}/package.json') as package:
+  with open(f'{settings.BASE_DIR}/clients/{name}/package.json') as package:
     content = package.read()
     content = content.replace('app-name', name)
-    with open(f'{BASE_DIR}/clients/{name}/package.json', 'w') as new_file:
+    with open(f'{settings.BASE_DIR}/clients/{name}/package.json', 'w') as new_file:
       new_file.write(content)
   console.out("  ✅ Updated package.json              ", "success")
 
   # Update shared.json
-  if exists(f"{BASE_DIR}/clients/{name}/shared.json"):
+  if exists(f"{settings.BASE_DIR}/clients/{name}/shared.json"):
     console.out(f"  {console.wait} Updating shared.json", end="\r")
-    with open(f'{BASE_DIR}/clients/{name}/shared.json') as shared:
+    with open(f'{settings.BASE_DIR}/clients/{name}/shared.json') as shared:
       content = shared.read()
       content = content.replace('overlord_web_client', name)
-      with open(f'{BASE_DIR}/clients/{name}/shared.json', 'w') as new_file:
+      with open(f'{settings.BASE_DIR}/clients/{name}/shared.json', 'w') as new_file:
         new_file.write(content)
     console.out("  ✅ Updated shared.json              ", "success")
 
@@ -375,17 +428,15 @@ def error_message():
 
     ./o run
     ./o run -client_name
-    ./o runclient -client_name
+    ./o install -client_name
     ./o build -client_name
+    ./o remove -client_name
 
   or use -all to effect all clients
 
     ./o run -all
     ./o build -all
-
-  to view details on the `create` command enter:
-
-    ./o create
+    ./o install -all
   """)
 
 
@@ -394,7 +445,7 @@ def create_cmd_error_message() -> None:
   Outputs an instructional error message to the console interface
   """
   return console.out("""
-  The `CREATE` command requires 1 or 2 arguments
+  The `create` command requires 1 or 2 arguments
 
   to create a custom client enter a repo link as an argument
 
@@ -423,4 +474,15 @@ def create_cmd_error_message() -> None:
     or use a custom template with a custom name
 
     ./o create -api -<git_repo_link> -<api_name>
+  """)
+
+
+def remove_cmd_error_message() -> None:
+  """
+  Outputs an instructional error message to the console interface
+  """
+  return console.out("""
+  The `remove` command requires a single argument
+
+    ./o remove -<client_name>
   """)
