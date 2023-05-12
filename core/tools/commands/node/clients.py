@@ -6,7 +6,7 @@ from shutil import rmtree
 from os.path import exists
 from threading import Thread
 from datetime import datetime
-from os import chdir, system, rename, remove
+from os import chdir, system, rename, remove as rm_file
 # Overlord library
 from ..install import (
   __init_config_directory__,
@@ -55,9 +55,9 @@ def update_client_meta_data(app_data):
 
   # Remove status code specific html files
   if exists(app_data['static'] + '/200.html'):
-    remove(app_data['static'] + '/200.html')
+    rm_file(app_data['static'] + '/200.html')
   if exists(app_data['static'] + '/404.html'):
-    remove(app_data['static'] + '/404.html')
+    rm_file(app_data['static'] + '/404.html')
   return True
 
 
@@ -153,13 +153,13 @@ def initialize(target=None):
   return console.input(
     f'''{executable} -c "try:\n  '''
     f'''from core.tools import tools;from clients import {target};{target}.Client();\n'''
-    f'''except: print('    > Error occurred when initializing {target}')"''',
+    f'''except: print('  > Error occurred when initializing {target}')"''',
     cwd=settings.BASE_DIR,
     show_output=True
   )
 
 
-def install(target:str = None) -> None:
+def install(target:str|None = None) -> None:
   """
   Installs a specific client if a target is set and installs all clients if the target is None by
   downloading node modules, initializing the python init file and distributing any required shared
@@ -287,7 +287,7 @@ def remove(name:str):
   return print()
 
 
-def create(name:str, native:bool = False, custom_repo:str = None):
+def create(name:str, native:bool = False, custom_repo:str|None = None):
   """
   Create a new client from the basic web or native client templates or download a custom repo
 
@@ -440,7 +440,7 @@ def error_message():
   """)
 
 
-def create_cmd_error_message() -> None:
+def create_cmd_error_message() -> str:
   """
   Outputs an instructional error message to the console interface
   """
@@ -477,7 +477,7 @@ def create_cmd_error_message() -> None:
   """)
 
 
-def remove_cmd_error_message() -> None:
+def remove_cmd_error_message() -> str:
   """
   Outputs an instructional error message to the console interface
   """
