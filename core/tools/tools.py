@@ -250,7 +250,9 @@ def run_tool(command, index=0):
             console.out("\n  [ERROR] `merge` command does not take any arguments", "red")
 
     elif command == 'branch':
-        if arguments_remaining == 1:
+        if not exists(f"{BASE_DIR}/.git"):
+            console.out(f"\nProject is not contained within a repository", "red")
+        elif arguments_remaining == 1:
             target_branch = arguments[0].title() if arguments[0].title() in [
                 LOCAL_BRANCH, STAGING_BRANCH, PRODUCTION_BRANCH
             ] else arguments[0]

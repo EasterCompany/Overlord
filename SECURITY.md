@@ -26,10 +26,10 @@ a "patch release".
 **Major releases** mean that your method of updating is now broken, any previous projects using this framework may no-longer
 be supported or will at least require some level of re-write to be made compatible again.
 
-**Minor releases** mean that you may not notice any difference when you update to the new version, except you will have
+**Minor releases** mean that you may not notice any difference when you update to the new version, except you may have
 more features than before.
 
-**Patch releases** mean that you won't notice any difference at all, except the new version contains bug fixes.
+**Patch releases** mean that you won't notice much difference at all, except a few bug fixes.
 
 Each minor version release follows a pattern - and this is where the version labeling system becomes quite unique.
 
