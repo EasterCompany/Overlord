@@ -13,7 +13,8 @@ if argv[1] == 'venv':
     i = input("\nA virtual environment already exists for this project, would you like delete it? (Y/n): ")
     if not i.lower() == 'y':
       exit()
-    rmtree(env_path), print('')
+    rmtree(env_path)
+    print('')
 
   system(f"cd {root} && {executable} -m venv .env")
   system(f"cd {root} && {root}.env/bin/python -m pip install -r core/requirements.txt")

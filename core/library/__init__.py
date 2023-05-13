@@ -43,7 +43,7 @@ from django.http import JsonResponse, HttpResponse
 from django.template import loader as html_loader
 
 # Urls
-from django.urls import path, re_path, include
+from django.urls import path, re_path, include, URLResolver
 
 # Utils
 from django.utils.crypto import get_random_string

@@ -1,8 +1,8 @@
 # Overlord library
-from core.library import path, include, exists, console
+from core.library import path, include, exists, console, URLResolver
 
 
-def make_django_urls(client):
+def make_django_urls(client) -> URLResolver:
     """
     Automatically generates the URL patterns for your project using your clients __init__.py file
 
@@ -14,7 +14,7 @@ def make_django_urls(client):
     return path(endpoint, include([client.URL]), name=client.NAME)
 
 
-def make_client_load_order(client_data, index):
+def make_client_load_order(client_data, index) -> str:
     """
     Automatically generates which order to import and install clients. Load order decides which clients
     get priority of their declared url paths. The INDEX client will always load last and overwrite
@@ -57,7 +57,7 @@ def write_django_urls(load_order, urls_file_path) -> None:
         urls_file.write(file_content.replace('__installed_clients_tag__', load_order))
 
 
-def acquire_client_api(client:str, git_ssh:str, api_dir:str, no_tab:bool = False) -> dict:
+def acquire_client_api(client:str, git_ssh:str, api_dir:str, no_tab:bool = False) -> str:
     """
     Automatically acquires installs an API from a git ssh link
 
@@ -73,7 +73,7 @@ def acquire_client_api(client:str, git_ssh:str, api_dir:str, no_tab:bool = False
     return console.out(f"    ✔️ Successfully cloned API for '{client}'              ", "green")
 
 
-def acquire_all_clients_api(client_data:dict, cwd:str = '.', no_tab:bool = False) -> None:
+def acquire_all_clients_api(client_data:dict, cwd:str = '.', no_tab:bool = False) -> list:
     """
     Automatically scan each client for any missing associated APIs which may have
     not already been installed

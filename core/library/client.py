@@ -1,5 +1,4 @@
 # Standard library
-from typing import NewType
 from wsgiref.util import FileWrapper
 # Overlord library
 from web import settings
@@ -7,7 +6,6 @@ from core.library import HttpResponse, re_path, render, html_loader
 
 # Random Ports Used Counter
 _RPU = 0
-ClientRenderFunction = NewType('ClientRenderFunction', )
 
 
 def RPU():
@@ -57,7 +55,10 @@ class WebClient():
     # Also, all paths beginning with this ENDPOINT will instead be forwarded to
     # this application - this is why we give the INDEX setting special treatment.
     ENDPOINT:str = NAME if not NAME == settings.INDEX else ''
-    IS_INDEX:bool = str(ENDPOINT == '').lower()
+
+    # Client.IS_INDEX is a boolean which indicates weather or not this client
+    # is the index client hosted on the root of the domain
+    IS_INDEX:bool = ENDPOINT == ''
 
     # Client.API is a string representing which endpoint to connect to when making API
     # requests. By default, `http../api` will be used if API is set to `None`
@@ -66,23 +67,23 @@ class WebClient():
     # Client.PWA is a boolean which indicates whether or not to enable service workers
     PWA:bool = False
 
-    # Client.render is an overridable function which will be called to serve your
+    # Client.__context__ is an overridable function which will be called to serve your
     # react application. URL parameters are passed as parameters to this function.
-    __context__:object|None = None
+    __context__:function|None = None
 
     # Client.html_path is an overridable str which contains the path to the client template
     html_path:str = f'{NAME}/public/index.html' if settings.DEBUG else f'{NAME}/index'
 
     # Client .html is an overridable object which contains the template for this client
-    html:object = html_loader.get_template(html_path)
+    html:function = html_loader.get_template(html_path)
 
-    def __init__(self) -> ClientRenderFunction:
+    def __init__(self):
         # User setup dependent options
         if self.DIR is None:
             self.DIR = self.NAME
         if self.ENDPOINT == '':
             self.ENDPOINT = self.DIR if not self.DIR == settings.INDEX else ''
-        self.IS_INDEX = str(self.ENDPOINT == '').lower()
+        self.IS_INDEX = self.ENDPOINT == ''
         # Generate production environment file
         with open(self.ENV, 'w') as prd_env:
             prd_env.write(self._env(prd=True))
@@ -124,7 +125,7 @@ class WebClient():
         REACT_APP_PWA={pwa}
         REACT_APP_STATIC=/static/{self.DIR}/
         REACT_APP_ENDPOINT={self.ENDPOINT}
-        REACT_APP_IS_INDEX={self.IS_INDEX}
+        REACT_APP_IS_INDEX={str(self.IS_INDEX).lower()}
         '''.replace('    ', '')
 
         return f'''# .env.dev
@@ -138,7 +139,7 @@ class WebClient():
         REACT_APP_PWA={pwa}
         REACT_APP_STATIC={dev_url}
         REACT_APP_ENDPOINT={self.ENDPOINT}
-        REACT_APP_IS_INDEX={self.IS_INDEX}
+        REACT_APP_IS_INDEX={str(self.IS_INDEX).lower()}
         '''.replace('    ', '')
 
     def _path(self, file_name):
@@ -148,7 +149,7 @@ class WebClient():
         '''
         return settings.BASE_DIR + f"/static/{self.DIR}/{file_name}"
 
-    def is_native():
+    def is_native(self):
         '''
         Lets the Overlord know that this is not a React-Native based Client
         and it is a default React Web App based client
@@ -164,8 +165,8 @@ class WebClient():
         return HttpResponse(self.html(context, req), content_type="text/html")
 
     def app(self, req, *args, **kwargs):
-        if self.__context__ is not None and callable(self.ON_RENDER):
-            return self.render_html(self.__context__(req))
+        if self.__context__ is not None and callable(self.__context__):
+            return self.render_html(self.__context__(req), context={})
         return render(req, self._path('index'), content_type='text/html')
 
     def sitemap(self, req, *args, **kwargs):
@@ -207,7 +208,7 @@ class WebClient():
         elif path.endswith('.json'):
             return HttpResponse(_file, content_type='application/json')
         elif path.endswith('.css'):
-            return HttpResponse(_file, content_type='application/x-pointplus')
+            return HttpResponse(_file, content_type='text/css')
         elif path.endswith('.txt'):
             return HttpResponse(_file, content_type='text/plain')
         elif path.endswith('.xml'):
@@ -263,7 +264,7 @@ class NativeClient():
     # Client.PWA is a boolean which indicates whether or not to enable service workers
     PWA = False
 
-    def __init__(self) -> ClientRenderFunction:
+    def __init__(self):
         # User setup dependent options
         if self.ENDPOINT == '':
             self.ENDPOINT = self.NAME if not self.NAME == settings.INDEX else ''
@@ -308,7 +309,7 @@ class NativeClient():
         '''
         return settings.BASE_DIR + f"/static/{self.NAME}/{file_name}"
 
-    def is_native():
+    def is_native(self):
         '''
         Lets the Overlord know that this is a React-Native based Client
         as opposed to a regular default React Web App.
