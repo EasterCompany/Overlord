@@ -58,7 +58,7 @@ class WebClient():
 
     # Client.IS_INDEX is a boolean which indicates weather or not this client
     # is the index client hosted on the root of the domain
-    IS_INDEX:bool = ENDPOINT == ''
+    IS_INDEX:bool = NAME == settings.INDEX
 
     # Client.API is a string representing which endpoint to connect to when making API
     # requests. By default, `http../api` will be used if API is set to `None`
@@ -69,13 +69,13 @@ class WebClient():
 
     # Client.__context__ is an overridable function which will be called to serve your
     # react application. URL parameters are passed as parameters to this function.
-    __context__:function|None = None
+    __context__ = None
 
     # Client.html_path is an overridable str which contains the path to the client template
     html_path:str = f'{NAME}/public/index.html' if settings.DEBUG else f'{NAME}/index'
 
     # Client .html is an overridable object which contains the template for this client
-    html:function = html_loader.get_template(html_path)
+    html = None
 
     def __init__(self):
         # User setup dependent options
@@ -162,11 +162,13 @@ class WebClient():
         '''
         Returns rendered html from the loaded template file
         '''
+        if self.html is None:
+            self.html = html_loader.get_template(self.html_path)
         return HttpResponse(self.html(context, req), content_type="text/html")
 
     def app(self, req, *args, **kwargs):
         if self.__context__ is not None and callable(self.__context__):
-            return self.render_html(self.__context__(req), context={})
+            return self.render_html(req, self.__context__())
         return render(req, self._path('index'), content_type='text/html')
 
     def sitemap(self, req, *args, **kwargs):

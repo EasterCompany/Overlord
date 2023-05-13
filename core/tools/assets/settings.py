@@ -72,7 +72,7 @@ TEMPLATES = [
     {
         'BACKEND': SERVER_DATA['BACKEND_TEMPLATE'],
         'DIRS': [
-            os.path.join(BASE_DIR, 'static', client) for client in CLIENT_DATA
+            os.path.join(BASE_DIR, 'static')
         ] if DEBUG else [
             os.path.join(BASE_DIR, 'clients')
         ],

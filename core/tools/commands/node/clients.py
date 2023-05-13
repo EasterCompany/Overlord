@@ -153,7 +153,7 @@ def initialize(target=None):
   return console.input(
     f'''{executable} -c "try:\n  '''
     f'''from core.tools import tools;from clients import {target};{target}.Client();\n'''
-    f'''except: print('  > Error occurred when initializing {target}')"''',
+    f'''except Exception as e: print('  > Error occurred when initializing {target}', '\\n   ', e)"''',
     cwd=settings.BASE_DIR,
     show_output=True
   )
