@@ -14,7 +14,7 @@ BAD = 'BAD'
 # Overlord Standard Response Function ----------------------------------------------------------------------------------
 
 
-def std(status, message="Invalid Status Response"):
+def std(status:str, message:list|tuple|int|str|float|dict = "Invalid Status Response"):
   """
   Standard API Response Method
 
@@ -103,7 +103,7 @@ def get_arg(_arg) -> str:
   return str(parse.unquote(_arg)).strip()
 
 
-def get_user(req) -> list:
+def get_user(req) -> tuple:
   """
   Acquires the user uuid and session token from the authorization header
   passed by api, POST & xapi client side functions
@@ -163,19 +163,19 @@ class UniversalAPI:
   """
 
   # API.URLS records custom endpoints added by new api
-  URLS=None
+  URLS:list = []
 
   # API.NAME records the interface name for this new api
-  NAME=None
+  NAME:str|None = None
 
   # API.CLIENT_NAME records the client related to this api
-  CLIENT_NAME=None
+  CLIENT_NAME:str|None = None
 
   def __init__(self) -> None:
     self.URLS = []
 
   def abspath(self,
-    endpoint:str, view:callable, prefix:str = None,
+    endpoint:str, view, prefix:str|None = None,
     description:str = "Auto Generated Absolute Path",
     *args, **kwargs
   ):

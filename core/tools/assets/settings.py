@@ -68,14 +68,11 @@ INSTALLED_APPS = SERVER_DATA['INSTALLED_APPS']
 MIDDLEWARE = SERVER_DATA['MIDDLEWARE']
 ROOT_URLCONF = SERVER_DATA['ROOT_URLCONF']
 WSGI_APPLICATION = SERVER_DATA['WSGI_APPLICATION']
+
 TEMPLATES = [
     {
         'BACKEND': SERVER_DATA['BACKEND_TEMPLATE'],
-        'DIRS': [
-            os.path.join(BASE_DIR, 'static')
-        ] if DEBUG else [
-            os.path.join(BASE_DIR, 'clients')
-        ],
+        'DIRS': [f"{BASE_DIR}/static/{client}" for client in CLIENT_DATA],
         'APP_DIRS': SERVER_DATA['APP_DIRS_TEMPLATE'],
         'OPTIONS': SERVER_DATA['OPTIONS_TEMPLATE']
     },

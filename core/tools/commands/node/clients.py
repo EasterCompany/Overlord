@@ -26,7 +26,7 @@ meta_data = {
 
 
 # Client build meta data
-def update_client_meta_data(app_data):
+def update_client_meta_data(app_name:str, app_data:dict) -> None:
   # Read index.html file content
   if settings.BASE_DIR in app_data['static']:
     index_path = f"{app_data['static']}/index.html"
@@ -51,14 +51,13 @@ def update_client_meta_data(app_data):
     index_file.write(index_file_content)
 
   # Rename html tag from built index file
-  rename(index_path, index_path.replace('.html', ''))
+  rename(index_path, index_path.replace('index.html', f'{app_name}.app'))
 
   # Remove status code specific html files
   if exists(app_data['static'] + '/200.html'):
     rm_file(app_data['static'] + '/200.html')
   if exists(app_data['static'] + '/404.html'):
     rm_file(app_data['static'] + '/404.html')
-  return True
 
 
 def client(app_data, build=False, app_name=""):
@@ -98,7 +97,7 @@ def client(app_data, build=False, app_name=""):
     console.out("  ✅ Compiled      ", "success")
 
     console.out(f"  {console.wait} Post-Processing", end="\r")
-    update_client_meta_data(app_data)
+    update_client_meta_data(app_name, app_data)
     console.out("  ✅ Post-Processed    ", "success")
 
   elif not build and 'start' in app_data:

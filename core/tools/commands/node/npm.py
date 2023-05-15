@@ -9,9 +9,11 @@ def install(target_client:str, package_name:str, uninstall:bool=False) -> None:
   package = package_name.strip()
   client_src = CLIENT_DATA[target_client]['src']
   if uninstall:
-    return console.input(f"npm uninstall {package}", cwd=client_src)
+    console.input(f"npm uninstall {package}", cwd=client_src)
   else:
-    return chdir(client_src), system(f"npm install {package}"), chdir(BASE_DIR)
+    chdir(client_src)
+    system(f"npm install {package}")
+    chdir(BASE_DIR)
 
 
 def install_all() -> None:
@@ -19,5 +21,5 @@ def install_all() -> None:
     install(client, '', False)
 
 
-def install_expo_cli(target_client:str) -> console.input:
+def install_expo_cli(target_client:str) -> str|int:
   return console.input("npm install --global expo-cli")

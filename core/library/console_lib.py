@@ -122,7 +122,7 @@ class Console:
     print()
     return True if response.lower() == 'y' or response.lower() == 'yes' else False
 
-  def input(self, command:str, cwd:str = BASE_DIR, show_output:bool = False) -> str:
+  def input(self, command:str, cwd:str = BASE_DIR, show_output:bool = False) -> str|int:
     """
     Using the os.system() method execute the command (a string) in a sub-shell.
     This method is implemented by calling the standard C function system(), and has the same limitations.
@@ -131,12 +131,11 @@ class Console:
     :return str: the returncode if output was shown or the output if it was not shown
     """
     if show_output:
-      out = subprocess.call(
+      return subprocess.call(
         command,
         shell=True,
         cwd=cwd
       )
-      return out
     else:
       out = subprocess.run(
         command,
