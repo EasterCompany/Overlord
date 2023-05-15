@@ -168,7 +168,7 @@ class WebClient():
 
     def app(self, req, *args, **kwargs):
         if self.__context__ is not None and callable(self.__context__):
-            return self.render_html(req, self.__context__())
+            return self.render_html(req, self.__context__(req))
         return render(req, self._path('index'), content_type='text/html')
 
     def sitemap(self, req, *args, **kwargs):
