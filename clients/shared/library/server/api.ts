@@ -42,7 +42,7 @@ export const getEndpoints = () => {
         client: process.env.REACT_APP_NAME === '' ?
           `http://127.0.0.1:8000/` :
           `http://127.0.0.1:8000/${process.env.REACT_APP_NAME}/`,
-        server: `http://127.0.0.1:8000/admin`,
+        server: `http://127.0.0.1:8000/`,
         api: `http://127.0.0.1:8000/${process.env.REACT_APP_API}`
       }
     }
@@ -91,38 +91,36 @@ export const api = async (API: string, BAD: any = null, OK: any = null) => {
   const user = USER();
   const _auth = `${user.UUID} ${user.SESH}`;
 
-  await fetch(serverAPI + API, {
-    method: 'POST',
-    headers: new Headers({
+  try {
+    const response = await fetch(serverAPI + API, {
+      method: 'POST',
+      headers: {
         'Authorization': `Basic ${_auth}`,
         'Content-Type': 'application/x-www-form-urlencoded'
-    })
-  })
-  .then(resp => resp.json())
-  .then(respJson => {
+      }
+    });
 
+    if (!response.ok) {
+      throw new Error(`Request failed with status ${response.status}`);
+    }
+
+    const respJson = await response.json();
     const respStatus = respJson['status'];
     const respData = respJson['data'];
 
-    // OK API RESULT HANDLER
     if (respStatus === 'OK') {
-      try { return OK !== null ? OK(respData) : respData }
-      catch (error) {
-        console.log(`OK Callback Error @ ${API}`)
-        console.log({status:respStatus, data:respData, error:error})
-      }
+      return OK !== null ? OK(respData) : respData;
+    } else if (respStatus === 'BAD') {
+      return BAD !== null ? BAD(respData) : respData;
     }
 
-    // BAD API RESULT HANDLER
-    else if (respStatus === 'BAD') {
-      try{ return BAD !== null ? BAD(respData) : respData }
-      catch (error) {
-        console.log(`BAD Callback Error @ ${API}`)
-        console.log({status:respStatus, data:respData, error:error})
-      }
-    }
-  })
-}
+  } catch (error) {
+    console.log(`Error @ ${API}`);
+    console.log(error);
+    return BAD({})
+  }
+
+};
 
 // Request data from the API
 export const POST = async (API: string, _POST: any, BAD: any = null, OK: any = null) => {

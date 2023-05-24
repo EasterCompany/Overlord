@@ -11,7 +11,7 @@ from sys import executable
 from os import mkdir, rmdir, remove
 from os.path import exists, realpath, dirname
 from urllib.parse import unquote
-from uuid import uuid1 as uuid
+from uuid import uuid1
 from time import sleep
 
 # Shortcuts
@@ -37,7 +37,7 @@ from django.conf.urls.static import static
 from django.db import models
 
 # Http
-from django.http import JsonResponse, HttpResponse
+from django.http import JsonResponse, HttpResponse, FileResponse
 
 # Template
 from django.template import loader as html_loader
@@ -47,3 +47,7 @@ from django.urls import path, re_path, include, URLResolver
 
 # Utils
 from django.utils.crypto import get_random_string
+
+
+def uuid() -> str:
+  return str(uuid1())

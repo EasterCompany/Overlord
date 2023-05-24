@@ -31,7 +31,7 @@ def _server(start:bool = True, migrate:bool = False, collectstatic:bool = False)
         call_command('collectstatic', '--noinput', '-i admin')
 
     if start:
-        system(f"cd {BASE_DIR} && {sys.executable} core.py runserver localhost:8000")
+        system(f"cd {BASE_DIR} && {sys.executable} core.py runserver 0.0.0.0:8000")
 
 
 # Server database migration shortcut

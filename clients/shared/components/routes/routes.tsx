@@ -19,9 +19,9 @@ const endpoint = process.env.REACT_APP_ENDPOINT === undefined ? null : process.e
   will automatically scrolls any content to the top which is useful for when you
   are keeping certain elements consistent across routes, but need to reset them
 */
-const scrollContentToTop = (selector:string) => {
+export const scrollContentToTop = (selector:string) => {
   const content = document.querySelector(selector) as HTMLElement;
-  if (content !== undefined) return content.scrollTop = 0;
+  if (content !== undefined && content !== null) return content.scrollTop = 0;
 }
 
 

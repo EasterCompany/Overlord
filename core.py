@@ -5,7 +5,7 @@ from os import environ, system, path
 from shutil import rmtree
 from sys import argv, executable
 
-if argv[1] == 'venv':
+if argv[1] == 'venv' or argv[1] == 'env':
   root = __file__.replace('core.py', '')
   env_path = __file__.replace('core.py', '.env')
 
