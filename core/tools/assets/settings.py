@@ -19,6 +19,7 @@ from core.tools.commands.install import (
 
 # Default Project Configuration
 BASE_DIR = os.getcwd()
+PROJECT_NAME = os.path.basename(BASE_DIR)
 LOGGER_DIR = f"{BASE_DIR}/.logs/logger"
 SECRET_DATA = {
     'SERVER_KEY': 'no secret key',

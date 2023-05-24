@@ -3,7 +3,7 @@ import os
 from sys import path
 # Overlord library
 from core.library import console
-from web.settings import CLIENT_DATA, BASE_DIR
+from web.settings import CLIENT_DATA, BASE_DIR, PROJECT_NAME
 
 
 def branch_origins(branch, repo=None):
@@ -24,7 +24,7 @@ def all():
   """
   os.chdir(BASE_DIR)
 
-  console.out("\nOVERLORD", "yellow")
+  console.out(f"\n{PROJECT_NAME.upper()}", "yellow")
   print("-------------------------")
   os.system("git pull --recurse-submodules")
 

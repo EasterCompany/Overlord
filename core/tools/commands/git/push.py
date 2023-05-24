@@ -3,7 +3,7 @@ import os
 from datetime import date
 # Overlord library
 from core.library import console, time, version
-from web.settings import BASE_DIR, CLIENT_DATA
+from web.settings import BASE_DIR, CLIENT_DATA, PROJECT_NAME
 
 current_version = version.Version()
 COMMIT_DATE = date.today().strftime("%d/%b/%y")
@@ -16,7 +16,7 @@ def all():
   """
   os.chdir(BASE_DIR)
 
-  console.out("\nOVERLORD", "yellow")
+  console.out(f"\n{PROJECT_NAME.upper()}", "yellow")
   print("-------------------------")
   os.system(f'''git add . && git commit -m "{AUTO_COMMIT_MESSAGE}" && git push''')
 
