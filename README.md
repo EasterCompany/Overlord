@@ -1,4 +1,4 @@
-<h6 align="center" style="border-bottom:0px;padding:9px 0 0 0;"> [ v1.2.9 12/05/2023 ] </h6>
+<h6 align="center" style="border-bottom:0px;padding:9px 0 0 0;"> [ v1.2.11 24/05/2023 ] </h6>
 <h1 align="center" style="margin-bottom:32px;border-bottom:0px;"> The Overlord Framework </h1>
 
 ### Welcome
