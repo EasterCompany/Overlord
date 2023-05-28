@@ -1,48 +1,39 @@
-# Security Policy
+# Supported Versions
 
-## Supported Versions
-
-LTS (long-term-support) versions are released annually in January of each year and regular versions are released on an
-unscheduled basis.
-
-LTS versions will no longer be supported once the next LTS version has been released and unsupported versions will
-receive a notification to update as soon as possible.
-
-New feature updates will be developed and deployed with a "it's ready when it's ready" policy.
-
-| Version | Currently Supported | LTS                |
-| ------- | ------------------- | ------------------ |
-| 1.2.x   | :white_check_mark:  | :white_check_mark: |
-| 1.0.x   | :x:                 | :x:                |
+| Version | Latest Version      | LTS Version        | Feature Updates    | Security Updates   |
+| ------- | ------------------- | ------------------ | ------------------ | ------------------ |
+| 1.2.x   | :white_check_mark:  | :white_check_mark: | :white_check_mark: | :white_check_mark: |
+| 1.1.x   | :x:                 | :x:                | :x:                | :x:                |
+| 1.0.x   | :x:                 | :x:                | :x:                | :x:                |
 
 ## Version Labels
 
-The Overlord Framework has a simple version labeling strategy although it is unique.
+Version labels are broke down into 3 components, Major, Minor & Patch.
+The first number represents major releases, the second is minor and the third represents patches.
 
-A version label contains three numbers each separated by a point like this: `1.2.3`
-The first number represents a "major release", the second number represents a "minor release" and the third represents
-a "patch release".
+**Major Releases:** Indicate a significant change which may cause existing projects to become incompatible with the new
+version. You should take care when upgrading an existing project to a new major release as it may require alterations
+to your existing source code.
 
-**Major releases** mean that your method of updating is now broken, any previous projects using this framework may no-longer
-be supported or will at least require some level of re-write to be made compatible again.
+**Minor Releases:** Indicates that new features have been added, removed, deprecated or modified in a way which the user
+will be effected by.
 
-**Minor releases** mean that you may not notice any difference when you update to the new version, except you may have
-more features than before.
+**Patch Releases:** Usually indicate bug fixes or back end changes which should leave the user unaffected. Sometimes
+this includes additional features that were supposed to already exist but had been excluded from a previous release due
+to known issues that hadn't been resolved yet.
 
-**Patch releases** mean that you won't notice much difference at all, except a few bug fixes.
+## Latest Version
 
-Each minor version release follows a pattern - and this is where the version labeling system becomes quite unique.
+The 'latest version' is recommended for personal & educational projects. This will include the latest features, security
+updates and bug fixes. The latest version will be updated regularly and sometimes on a weekly basis.
 
-Publicly available versions of Overlord will always contain an even number for the minor release value. Odd numbers for
-the minor release are private versions that are only to be used internally at Easter Company. This is because we use
-Overlord for all of our products and usually run a private version internally in-which we prototype new ideas to satisfy
-our requirements.
+## LTS Version
 
-It may take some time before we can make all of these features public due to various reasons, sometimes this is because
-certain features may have security vulnerabilities and sometimes this may be because certain features are dependent on
-proprietary software developed by Easter Company.
+The 'LTS version' is recommended for business projects. This will usually be 1 major release behind the latest version
+and is always considered to be the most secure and stable version. When the LTS version falls behind the latest version
+it will no-longer receive feature updates; however, security updates will still be released for the current LTS version.
 
-## Reporting a Vulnerability
+## Reporting Vulnerabilities
 
 If you have identified a vulnerability within the Framework or just want to make a feature request please get in-touch
 with as using this email address [contact@easter.company](mailto:contact@easter.company)
