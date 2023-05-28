@@ -1,5 +1,5 @@
 # Overlord library
-from core.library import path, include, exists, console, URLResolver
+from core.library import listdir, isdir, path, include, exists, console, URLResolver
 
 
 def make_django_urls(client) -> URLResolver:
@@ -73,17 +73,18 @@ def acquire_client_api(client:str, git_ssh:str, api_dir:str, no_tab:bool = False
     return console.out(f"    ✔️ Successfully cloned API for '{client}'              ", "green")
 
 
-def acquire_all_clients_api(client_data:dict, cwd:str = '.', no_tab:bool = False) -> list:
+def acquire_all_apis(client_data:dict, cwd:str = '.', no_tab:bool = False) -> list:
     """
     Automatically scan each client for any missing associated APIs which may have
     not already been installed
 
     :param client_data dict: a dictionary containing all the captured client data
-    :param cwd str: current working directory of the server
+    :param cwd str: current project working directory
     """
     statements = []
+    api_dir = f"{cwd}/api"
+
     for client in client_data:
-        api_dir = f"{cwd}/api"
         if client_data[client]['api'] is not None:
             statements.append({
                 'urls_import': f'from api.{client}.urls import API as __{client}__',
@@ -92,6 +93,17 @@ def acquire_all_clients_api(client_data:dict, cwd:str = '.', no_tab:bool = False
             })
             if not exists(f"{api_dir}/{client}"):
                 acquire_client_api(client, client_data[client]['api'], api_dir, no_tab)
+
+    potential_apis = listdir(api_dir)
+    for dir in potential_apis:
+        if (dir_path := f"{api_dir}/{dir}") and isdir(dir_path) and (contents := listdir(dir_path)):
+            if '__init__.py' in contents and 'tables.py' in contents and 'urls.py' in contents:
+                statements.append({
+                    'urls_import': f'from api.{dir}.urls import API as __{dir}__',
+                    'models_import': f'from api.{dir}.tables import *',
+                    'urls_access': "+ \\" + f'\n  __{dir}__.URLS'
+                })
+
     return statements
 
 

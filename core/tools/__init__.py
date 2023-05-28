@@ -45,7 +45,7 @@ load_order = url.make_client_load_order(client_data, server_data['INDEX'])
 url.write_django_urls(load_order, getcwd() + '/web/urls.py')
 
 # Generate (api/urls.py)
-statements = url.acquire_all_clients_api(client_data, getcwd())
+statements = url.acquire_all_apis(client_data, getcwd())
 url.write_api_urls(statements, getcwd())
 url.write_api_models(statements, getcwd())
 

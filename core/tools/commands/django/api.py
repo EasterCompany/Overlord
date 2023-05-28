@@ -1,6 +1,6 @@
 # Overlord library
 from web.settings import BASE_DIR
-from core.library import console, exists, is_alphanumeric, to_alphanumeric
+from core.library import rmtree, console, exists, is_alphanumeric, to_alphanumeric
 
 
 def download_repo(repo_link:str, name:str) -> None:
@@ -32,7 +32,7 @@ def create(name:str, git_repo:str = None, standalone:bool = False) -> None:
     name = to_alphanumeric(name)
 
   # Existing Client Match / Standalone API
-  if not exists(f'clients/{name}'):
+  if not exists(f"{BASE_DIR}/clients/{name}"):
     console.out(
       f"\n[WARNING] Client with name `{name}` does not exist.\n"
        "          This will create a standalone universal API\n"
@@ -49,3 +49,4 @@ def create(name:str, git_repo:str = None, standalone:bool = False) -> None:
   else:
     console.out(f"\n> Download API Template")
     download_repo("git@github.com:EasterCompany/Overlord-Universal-API.git", name)
+    rmtree(f"{BASE_DIR}/api/{name}/.git")

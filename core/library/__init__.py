@@ -8,8 +8,9 @@ import secrets
 import subprocess
 from pathlib import Path
 from sys import executable
-from os import mkdir, rmdir, remove
-from os.path import exists, realpath, dirname
+from os import mkdir, rmdir, remove, walk, listdir
+from os.path import exists, realpath, dirname, isdir
+from shutil import rmtree
 from urllib.parse import unquote
 from uuid import uuid1
 from time import sleep

@@ -403,7 +403,7 @@ def run_tool(command, index=0):
       node.clients.create_cmd_error_message()
     # Acquire associated APIs for any new clients
     client_data = install.make_clients_config(BASE_DIR)
-    statements = url.acquire_all_clients_api(client_data, BASE_DIR, no_tab=True)
+    statements = url.acquire_all_apis(client_data, BASE_DIR, no_tab=True)
     url.write_api_urls(statements, BASE_DIR)
     url.write_api_models(statements, BASE_DIR)
 
