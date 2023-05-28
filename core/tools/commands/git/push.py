@@ -21,7 +21,6 @@ def all():
   api_dir = f"{BASE_DIR}/api"
 
   for client in CLIENT_DATA:
-    print("\n")
     source_dir = CLIENT_DATA[client]["src"]
     source_api = BASE_DIR + f'/api/{client}'
 
