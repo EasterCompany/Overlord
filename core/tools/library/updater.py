@@ -156,11 +156,10 @@ def clone_latest_version() -> None:
     remove(f"{BASE_DIR}/setup.cfg")
     remove(f"{BASE_DIR}/core.py")
     shutil.rmtree(f"{BASE_DIR}/core")
-    shutil.rmtree(f"{BASE_DIR}/clients/shared")
     shutil.copytree(temp_update_path, BASE_DIR, ignore=_log_path, dirs_exist_ok=True)
+    purge_temp_directory()
     console.out("\n  ✅ Installed Update Successfully!\n", "success")
     console.out("\n  You will need to exit and restart the CLI now.\n", "success")
-    purge_temp_directory()
     sys.exit()
   except Exception as update_error:
     purge_temp_directory()
