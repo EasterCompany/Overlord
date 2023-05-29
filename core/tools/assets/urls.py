@@ -29,7 +29,7 @@ __installed_clients_tag__ # type: ignore
 # then the original home path will overwrite the app2 path and the app2 client won't be able to be served
 
 installed_clients = [
-__installed_clients_tag__
+__installed_clients_tag__ # type: ignore
 ]
 
 # Core web files are generated for each client within your clients directory
@@ -57,7 +57,8 @@ else:
 # self.__urls__ function from the clients __init__.py file
 
 for client in installed_clients:
-  print(client)
+  if client.URLS is not None and len(client.URLS > 0):
+    index_app_files += client.URLS
 
 # Url Patterns are for django
 # this variable determines which endpoint the user has requested

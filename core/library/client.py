@@ -46,6 +46,10 @@ class WebClient():
   # the clients own endpoint
   URLS:list = []
 
+  # Client.URLS_re_paths records the custom endpoints added by the client
+  # in an r string so that the app file ignores those endpoints
+  URLS_re_paths:str = r""
+
   # Client.NAME represents what the stylized name of this client should be
   # for example; this is often used to set the HTML <title> element content
   NAME:str = DIR
@@ -101,11 +105,14 @@ class WebClient():
     self.html_path = f'{self.DIR}.app'
 
   def _url(self):
-    # Client.URL is a re_path pointing towards the client index file
+    ''' Client._url is a re_path pointing towards the clients app file '''
     def_str = r"^(?!static)^(?!api)^(?!robots.txt)^(?!manifest.json)^(?!asset-manifest.json)^(?!sitemap.xml)"
     pwa_str = r"^(?!service-worker.js)^(?!service-worker.js.map)"
     app_str = r".*$"
-    re_path_str = def_str + app_str if not self.PWA else def_str + pwa_str + app_str
+    if self.PWA:
+      re_path_str = def_str + self.URLS_re_paths + pwa_str + app_str
+    else:
+      re_path_str = def_str + self.URLS_re_paths + app_str
     return re_path(re_path_str, self.app, name=f"{self.NAME} App")
 
   def _env(self, prd=True):
@@ -157,7 +164,8 @@ class WebClient():
     return settings.BASE_DIR + f"/static/{self.DIR}/{file_name}"
 
   def path(self, endpoint:str, view, description:str = "Auto Generated Path", *args, **kwargs):
-    _path = f"api/{self.DIR}/{endpoint}"
+    _path = f"{self.DIR}/{endpoint}" if not self.IS_INDEX else f"{endpoint}"
+    self.URLS_re_paths += rf"^(?!{endpoint})"
     return self.URLS.append(
       new_path(_path, view, name=description)
     )
