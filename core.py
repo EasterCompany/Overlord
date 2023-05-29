@@ -26,10 +26,9 @@ if __name__ == '__main__':
   # Overlord library
   from core import create_super_user, create_user
   from core.tools import tools
-  from core.library import console, get_wsgi_application
+  from core.library import console, wsgi_interface
 
-  environ.setdefault('DJANGO_SETTINGS_MODULE', 'web.settings')
-  application = get_wsgi_application()
+  application = wsgi_interface()
   command = lambda x: len(argv) > 1 and argv[1] == x
 
   if command('createsuperuser') or command('createadmin'):
