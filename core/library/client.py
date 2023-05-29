@@ -2,7 +2,7 @@
 from wsgiref.util import FileWrapper
 # Overlord library
 from web import settings
-from core.library import HttpResponse, re_path, render, html_loader
+from core.library import HttpResponse, re_path, render, html_loader, path as new_path
 
 # Random Ports Used Counter
 _RPU = 0
@@ -42,6 +42,10 @@ class WebClient():
   # directory contains the source code for this client
   DIR:str = ''
 
+  # Client.URLS records custom endpoints added by the client relative to
+  # the clients own endpoint
+  URLS:list = []
+
   # Client.NAME represents what the stylized name of this client should be
   # for example; this is often used to set the HTML <title> element content
   NAME:str = DIR
@@ -71,8 +75,9 @@ class WebClient():
   # react application. URL parameters are passed as parameters to this function.
   __context__ = None
 
-  # Client.__urls__ is an overridable function which will be called to discover any
-  # custom endpoints a client might have. Such as serving javascript or html files.
+  # Client.__urls__ is an overridable function which will be called when generating
+  # the urls for this client, it can provide additional urls outside of the basic
+  # react web app functionalities.
   __urls__ = None
 
   def __init__(self):
@@ -90,6 +95,7 @@ class WebClient():
       dev_env.write(self._env(prd=False))
     # Build the url structure for django
     self.URL = self._url()
+    self.URLS = self.__urls__() if callable(self.__urls__) else []
     # Load HTML Template
     self.html = None
     self.html_path = f'{self.DIR}.app'
@@ -149,6 +155,12 @@ class WebClient():
     for the file you would like to serve.
     '''
     return settings.BASE_DIR + f"/static/{self.DIR}/{file_name}"
+
+  def path(self, endpoint:str, view, description:str = "Auto Generated Path", *args, **kwargs):
+    _path = f"api/{self.DIR}/{endpoint}"
+    return self.URLS.append(
+      new_path(_path, view, name=description)
+    )
 
   def is_native(self):
     '''
@@ -220,8 +232,15 @@ class WebClient():
   def service_worker_map(self, req, *args, **kwargs):
     return render(req, self._path('service-worker.js.map'), content_type='application/x-javascript')
 
-  def serve_file(self, path):
-    _file = FileWrapper(open(path, "rb"))
+  def serve_file(self, path:str, abspath:bool=False):
+    '''
+    Loads a file into memory and then serves it with the appropriate mime type in an http response
+
+    :param path str: usually a relative path to a file from within the public directory of the client
+    :param abspath bool: indicates that the path parameter is an absolute path to anywhere on the system
+    :return HttpResponse:
+    '''
+    _file = FileWrapper(open(path if abspath else self._path(path), "rb"))
     if path.endswith('.mp4'):
       return HttpResponse(_file, content_type='video/mp4')
     elif path.endswith('.mp3'):
