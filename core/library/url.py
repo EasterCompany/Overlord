@@ -51,10 +51,10 @@ def write_urls(load_order, urls_file_path) -> None:
         if load_order == str():
             file_content = file_content.replace(
                 "from clients import (\n"
-                "__installed_clients_tag__\n"
+                "__installed_clients_tag__ # type: ignore\n"
                 ")", ""
             )
-        urls_file.write(file_content.replace('__installed_clients_tag__', load_order))
+        urls_file.write(file_content.replace('__installed_clients_tag__ # type: ignore', load_order))
 
 
 def acquire_client_api(client:str, git_ssh:str, api_dir:str, no_tab:bool = False) -> str:

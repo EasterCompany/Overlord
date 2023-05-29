@@ -16,7 +16,7 @@ from core import urls as CORE
 
 # Overlord clients
 from clients import (
-__installed_clients_tag__
+__installed_clients_tag__ # type: ignore
 )
 
 # Installed Clients are clients that are available to be served over HTTP(S)
@@ -52,6 +52,12 @@ if len(installed_clients) > 0 and settings.INDEX is not None and settings.INDEX 
 
 else:
   index_app_files = []
+
+# Any additional endpoints for clients are generated here, these endpoints are declared from inside a clients
+# self.__urls__ function from the clients __init__.py file
+
+for client in installed_clients:
+  print(client)
 
 # Url Patterns are for django
 # this variable determines which endpoint the user has requested
