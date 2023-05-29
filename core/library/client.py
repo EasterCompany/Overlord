@@ -71,6 +71,10 @@ class WebClient():
   # react application. URL parameters are passed as parameters to this function.
   __context__ = None
 
+  # Client.__urls__ is an overridable function which will be called to discover any
+  # custom endpoints a client might have. Such as serving javascript or html files.
+  __urls__ = None
+
   def __init__(self):
     # User setup dependent options
     if self.DIR is None:

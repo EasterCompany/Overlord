@@ -2,7 +2,7 @@
 from core.library import listdir, isdir, path, include, exists, console, URLResolver
 
 
-def make_django_urls(client) -> URLResolver:
+def make_urls(client) -> URLResolver:
     """
     Automatically generates the URL patterns for your project using your clients __init__.py file
 
@@ -35,9 +35,9 @@ def make_client_load_order(client_data, index) -> str:
     return load_order
 
 
-def write_django_urls(load_order, urls_file_path) -> None:
+def write_urls(load_order, urls_file_path) -> None:
     """
-    Automatically generates the 'web/urls.py' file by using the <make_django_urls> & <make_client_load_order>
+    Automatically generates the 'web/urls.py' file by using the <make_urls> & <make_client_load_order>
     functions
 
     :param load_order str: the results of the <make_client_load_order> function

@@ -330,7 +330,7 @@ def create(name:str, native:bool = False, custom_repo:str|None = None):
     # Default start-up behavior
     __update_shared_files__()
     load_order = url.make_client_load_order(client_data, server_data['INDEX'])
-    url.write_django_urls(load_order, settings.BASE_DIR + '/web/urls.py')
+    url.write_urls(load_order, settings.BASE_DIR + '/web/urls.py')
     return console.out("  ✅ Updated .config/*        ", "success")
 
   # Make directory checks

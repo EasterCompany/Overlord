@@ -8,7 +8,7 @@ from django.conf.urls.static import static
 
 # Overlord library
 from core.library import path
-from core.library.url import make_django_urls
+from core.library.url import make_urls
 
 # Overlord api
 from api import urls as API
@@ -45,7 +45,7 @@ if len(installed_clients) > 0 and settings.INDEX is not None and settings.INDEX 
     path('asset-manifest.json', index.assets, name="Application Assets File"),
   ]
 
-  if index.PWA: index_app_files = index_app_files + [
+  if index.PWA: index_app_files += [
     path('service-worker.js', index.service_worker, name="Application Service Worker"),
     path('service-worker.js.map', index.service_worker_map, name="Application Service Worker Map"),
   ]
@@ -68,7 +68,7 @@ else:
 
 urlpatterns = (
   index_app_files +
-  [make_django_urls(client) for client in installed_clients] +
+  [make_urls(client) for client in installed_clients] +
   static(settings.STATIC_URL, document_root=settings.STATIC_ROOT) +
   static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT) +
   API.URLS +

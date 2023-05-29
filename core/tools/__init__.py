@@ -42,7 +42,7 @@ __update_shared_files__()
 from core.library import url
 install_file('urls.py', '/web', getcwd(), log=False)
 load_order = url.make_client_load_order(client_data, server_data['INDEX'])
-url.write_django_urls(load_order, getcwd() + '/web/urls.py')
+url.write_urls(load_order, getcwd() + '/web/urls.py')
 
 # Generate (api/urls.py)
 statements = url.acquire_all_apis(client_data, getcwd())

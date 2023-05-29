@@ -8,7 +8,7 @@ import secrets
 import subprocess
 from pathlib import Path
 from sys import executable
-from os import mkdir, rmdir, remove, walk, listdir
+from os import mkdir, rmdir, remove, walk, listdir, environ
 from os.path import exists, realpath, dirname, isdir
 from shutil import rmtree
 from urllib.parse import unquote
@@ -27,7 +27,7 @@ from core.library.console_lib import console
 from core.library.api import get_api_url, get_arg, get_body, get_json, get_user
 from core.library.cryptography import encrypt, decrypt
 from core.library.time import get_datetime_string
-from django.core.wsgi import get_wsgi_application
+from django.core.wsgi import WSGIHandler, get_wsgi_application as __wsgi_application__
 from django.core.management import execute_from_command_line
 
 # Conf
@@ -52,3 +52,8 @@ from django.utils.crypto import get_random_string
 
 def uuid() -> str:
   return str(uuid1())
+
+
+def wsgi_interface() -> WSGIHandler:
+  environ.setdefault('DJANGO_SETTINGS_MODULE', 'web.settings')
+  return __wsgi_application__()
