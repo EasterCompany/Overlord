@@ -1,5 +1,6 @@
 from core.library import console, exists, listdir, isdir, git as GIT
 from web.settings import BASE_DIR, PROJECT_NAME, CLIENT_DATA, LOCAL_BRANCH, STAGING_BRANCH, PRODUCTION_BRANCH
+designated_branches = [ LOCAL_BRANCH, STAGING_BRANCH, PRODUCTION_BRANCH ]
 
 
 def switch(target:str, repo_name:str, repo_path:str) -> str:
@@ -21,7 +22,6 @@ def switch_all(target:str) -> str:
   ''' Recursively switches all repositories within the project to a designated branch '''
   print('')
 
-  designated_branches = [ LOCAL_BRANCH, STAGING_BRANCH, PRODUCTION_BRANCH ]
   if target not in designated_branches:
     return console.out("  [ERROR] Target branch is not a designated branch", "red")
 
@@ -58,12 +58,10 @@ def list_all() -> None:
     cur_branch = GIT.branch(BASE_DIR)
     if cur_branch == PRODUCTION_BRANCH:
       cur_branch_col = "green"
-    elif cur_branch == STAGING_BRANCH:
+    elif cur_branch in designated_branches:
       cur_branch_col = "amber"
-    elif cur_branch == LOCAL_BRANCH:
-      cur_branch_col = "red"
     else:
-      cur_branch_col = "blue"
+      cur_branch_col = "red"
     cur_branch = console.out(cur_branch, cur_branch_col, False)
     console.out(f"{PROJECT_NAME.upper()}: {cur_branch}")
 
@@ -78,12 +76,10 @@ def list_all() -> None:
       cur_branch = GIT.branch(source_dir)
       if cur_branch == PRODUCTION_BRANCH:
         cur_branch_col = "green"
-      elif cur_branch == STAGING_BRANCH:
+      elif cur_branch in designated_branches:
         cur_branch_col = "amber"
-      elif cur_branch == LOCAL_BRANCH:
-        cur_branch_col = "red"
       else:
-        cur_branch_col = "blue"
+        cur_branch_col = "red"
       cur_branch = console.out(cur_branch, cur_branch_col, False)
       console.out(f"{client.upper()} (CLIENT): {cur_branch}")
 
@@ -92,12 +88,10 @@ def list_all() -> None:
       cur_branch = GIT.branch(source_api)
       if cur_branch == PRODUCTION_BRANCH:
         cur_branch_col = "green"
-      elif cur_branch == STAGING_BRANCH:
+      elif cur_branch in designated_branches:
         cur_branch_col = "amber"
-      elif cur_branch == LOCAL_BRANCH:
-        cur_branch_col = "red"
       else:
-        cur_branch_col = "blue"
+        cur_branch_col = "red"
       cur_branch = console.out(cur_branch, cur_branch_col, False)
       console.out(f"{client.upper()} (API): {cur_branch}")
 
@@ -108,11 +102,9 @@ def list_all() -> None:
         cur_branch = GIT.branch(dir_path)
         if cur_branch == PRODUCTION_BRANCH:
           cur_branch_col = "green"
-        elif cur_branch == STAGING_BRANCH:
+        elif cur_branch in designated_branches:
           cur_branch_col = "amber"
-        elif cur_branch == LOCAL_BRANCH:
-          cur_branch_col = "red"
         else:
-          cur_branch_col = "blue"
+          cur_branch_col = "red"
         cur_branch = console.out(cur_branch, cur_branch_col, False)
         console.out(f"{dir.upper()} (API): {cur_branch}")

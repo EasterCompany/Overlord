@@ -249,7 +249,7 @@ def run_tool(command, index=0):
       ] else arguments[0]
       git.branch.switch_all(target_branch)
     else:
-      console.out(f"\nLocal: {console.out(LOCAL_BRANCH, 'red', False)}")
+      console.out(f"\nLocal: {console.out(LOCAL_BRANCH, 'amber', False)}")
       console.out(f"Staging: {console.out(STAGING_BRANCH, 'amber', False)}")
       console.out(f"Production: {console.out(PRODUCTION_BRANCH, 'green', False)}")
       git.branch.list_all()
