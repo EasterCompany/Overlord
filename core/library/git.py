@@ -106,7 +106,7 @@ def sync_all_clients() -> None:
       console.out(f"\n> Sync `{client}` Source Code")
 
     if client_is_git:
-      console.out(f"\nCLIENT -------------------------------", end="")
+      console.out(f"\n{client.upper()} -------------------------------", end="")
       sync(repo_path=source_dir)
 
     if api_is_git:
