@@ -63,7 +63,7 @@ def list_all() -> None:
     else:
       cur_branch_col = "red"
     cur_branch = console.out(cur_branch, cur_branch_col, False)
-    console.out(f"{PROJECT_NAME.upper()}: {cur_branch}")
+    console.out(f"> {PROJECT_NAME.upper()}: {cur_branch}")
 
   printed_apis = []
   api_dir = f"{BASE_DIR}/api"
@@ -81,7 +81,7 @@ def list_all() -> None:
       else:
         cur_branch_col = "red"
       cur_branch = console.out(cur_branch, cur_branch_col, False)
-      console.out(f"{client.upper()} (CLIENT): {cur_branch}")
+      console.out(f"> {client.upper()} (CLIENT): {cur_branch}")
 
     if exists(f"{source_api}/.git"):
       printed_apis.append(client)
@@ -93,7 +93,7 @@ def list_all() -> None:
       else:
         cur_branch_col = "red"
       cur_branch = console.out(cur_branch, cur_branch_col, False)
-      console.out(f"{client.upper()} (API): {cur_branch}")
+      console.out(f"> {client.upper()} (API): {cur_branch}")
 
   potential_apis = listdir(api_dir)
   for dir in potential_apis:
@@ -107,4 +107,4 @@ def list_all() -> None:
         else:
           cur_branch_col = "red"
         cur_branch = console.out(cur_branch, cur_branch_col, False)
-        console.out(f"{dir.upper()} (API): {cur_branch}")
+        console.out(f"> {dir.upper()} (API): {cur_branch}")
