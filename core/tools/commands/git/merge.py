@@ -69,7 +69,9 @@ def merge(repo_name:str, repo_path:str):
   elif check(origin) == 2: dest = PRODUCTION_BRANCH
   elif check(origin) == 3: dest = LOCAL_BRANCH
   else: return console.out(f"  [ERROR] Unexpected error while merging @ {repo_path}", "red")
-  console.out(f"> {repo_name.upper()}: merge '{origin}' -> '{dest}'")
+  origin_label = console.out(origin, "amber", False)
+  dest_label = console.out(dest, "green", False)
+  console.out(f"> {repo_name.upper()}: merge '{origin_label}' -> '{dest_label}'")
   console.input(
     f"git checkout {dest} || git checkout -b {dest}",
     cwd=repo_path

@@ -238,7 +238,7 @@ def run_tool(command, index=0):
     if arguments_remaining == 0:
       git.merge.merge_all()
     else:
-      console.out("\n  [ERROR] `merge` command does not take any arguments", "red")
+      git.merge.error_message()
 
   elif command == 'branch':
     if not exists(f"{BASE_DIR}/.git"):
