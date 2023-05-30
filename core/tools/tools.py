@@ -236,13 +236,7 @@ def run_tool(command, index=0):
 
   elif command == 'merge':
     if arguments_remaining == 0:
-      cur_branch = GIT.branch(BASE_DIR)
-      if cur_branch == LOCAL_BRANCH:
-        GIT.merge(BASE_DIR, target=STAGING_BRANCH)
-      elif cur_branch == STAGING_BRANCH:
-        GIT.merge(BASE_DIR, target=PRODUCTION_BRANCH)
-      elif cur_branch == PRODUCTION_BRANCH:
-        console.out("\n  [ERROR] Cannot merge Production Branch", "red")
+      git.merge.merge_all()
     else:
       console.out("\n  [ERROR] `merge` command does not take any arguments", "red")
 
@@ -253,13 +247,12 @@ def run_tool(command, index=0):
       target_branch = arguments[0].title() if arguments[0].title() in [
           LOCAL_BRANCH, STAGING_BRANCH, PRODUCTION_BRANCH
       ] else arguments[0]
-      GIT.checkout(BASE_DIR, target_branch)
+      git.branch.switch_all(target_branch)
     else:
-      cur_branch = GIT.branch(BASE_DIR)
-      console.out(f"\nCurrent: {console.out(cur_branch, 'green', False)}")
-      console.out(f"\nLocal: {console.out(LOCAL_BRANCH, 'yellow', False)}")
-      console.out(f"Staging: {console.out(STAGING_BRANCH, 'yellow', False)}")
-      console.out(f"Production: {console.out(PRODUCTION_BRANCH, 'yellow', False)}")
+      console.out(f"\nLocal: {console.out(LOCAL_BRANCH, 'red', False)}")
+      console.out(f"Staging: {console.out(STAGING_BRANCH, 'amber', False)}")
+      console.out(f"Production: {console.out(PRODUCTION_BRANCH, 'green', False)}")
+      git.branch.list_all()
 
   elif command == 'new_secret_key':
     django.secret_key.new()

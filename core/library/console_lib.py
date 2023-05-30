@@ -12,6 +12,8 @@ class Console:
     "red": '\33[31m',
     "green": '\33[32m',
     "yellow": '\33[33m',
+    "orange": '\33[33m',
+    "amber": '\33[33m',
     "blue": '\33[34m',
     "white": '\33[0m',
     "flash": '\33[5;30m',

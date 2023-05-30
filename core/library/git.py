@@ -13,7 +13,7 @@ def branch(repo_path:str) -> str:
   return str(console.input('git rev-parse --abbrev-ref HEAD', cwd=repo_path)).strip()
 
 
-def status(repo_path:str) -> str:
+def status(repo_path:str) -> None:
   """
   Get current status of Git repository
 

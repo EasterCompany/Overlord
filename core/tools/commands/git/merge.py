@@ -1,44 +1,125 @@
-from sys import path
-from os import system, chdir
-
-git_cmd = '''
-    git checkout main && git pull origin main &&
-    git merge dev -m '{message}' &&
-    git push origin main && git checkout dev
-'''.replace('\n', ' ')
+from core.library import console, exists, listdir, isdir, git as GIT
+from web.settings import BASE_DIR, PROJECT_NAME, LOCAL_BRANCH, STAGING_BRANCH, PRODUCTION_BRANCH, CLIENT_DATA
 
 
-def with_message(message, module_name):
-    module = module_name
-    if module == 'server':
-        module = None
-
-    print('\n', module_name, ":------------------\n")
-    if module is not None:
-        chdir(path[0] + '/' + module)
-
-    system(git_cmd.format(message=message))
-    return print(''), chdir(path[0])
+def check(branch_name:str):
+  ''' Checks if a given branch name is designated or feature '''
+  if branch_name == LOCAL_BRANCH:
+    return 1
+  elif branch_name == STAGING_BRANCH:
+    return 2
+  elif branch_name == PRODUCTION_BRANCH:
+    return 3
+  return 0
 
 
-def all(message):
-    print('\nSubmodules :------------------\n')
-    system('''
-        git submodule foreach --recursive "{git_cmd} && echo '' || :"
-    '''.format(git_cmd=git_cmd.format(message=message)).\
-        replace('\n', ' '))
+def check_branches_are_merge_ready():
+  ''' Recursively checks all repositories current branch is logical '''
+  lowest_branch_level = 9
+  highest_branch_level = 0
 
-    print('\nParent :----------------------\n')
-    system(git_cmd)
-    return print('')
+  if exists(f"{BASE_DIR}/.git"):
+    project_branch = check(GIT.branch(BASE_DIR))
+    if project_branch < lowest_branch_level:
+      lowest_branch_level = project_branch
+    if project_branch > highest_branch_level:
+      highest_branch_level = project_branch
+
+  checked_apis = []
+  api_dir = f"{BASE_DIR}/api"
+
+  for client in CLIENT_DATA:
+    source_dir = CLIENT_DATA[client]["src"]
+    source_api = BASE_DIR + f'/api/{client}'
+
+    if exists(f"{source_dir}/.git"):
+      client_branch = check(GIT.branch(source_dir))
+      if client_branch < lowest_branch_level:
+        lowest_branch_level = client_branch
+      if client_branch > highest_branch_level:
+        highest_branch_level = client_branch
+
+    if exists(f"{source_api}/.git"):
+      client_api_branch = check(GIT.branch(source_api))
+      if client_api_branch < lowest_branch_level:
+        lowest_branch_level = client_api_branch
+      if client_api_branch > highest_branch_level:
+        highest_branch_level = client_api_branch
+
+  potential_apis = listdir(api_dir)
+  for dir in potential_apis:
+    if (dir_path := f"{BASE_DIR}/api/{dir}") and isdir(dir_path) and (contents := listdir(dir_path)):
+      if '.git' in contents and dir not in checked_apis:
+        api_branch = check(GIT.branch(dir_path))
+        if api_branch < lowest_branch_level:
+          lowest_branch_level = api_branch
+        if api_branch > highest_branch_level:
+          highest_branch_level = api_branch
+
+  if lowest_branch_level == highest_branch_level:
+    return True
+  return False
+
+
+def merge(repo_name:str, repo_path:str):
+  ''' Merges the selected repository into the next logical branch '''
+  origin = GIT.branch(repo_path)
+  if check(origin) == 0: dest = LOCAL_BRANCH
+  elif check(origin) == 1: dest = STAGING_BRANCH
+  elif check(origin) == 2: dest = PRODUCTION_BRANCH
+  elif check(origin) == 3: dest = LOCAL_BRANCH
+  else: return console.out(f"  [ERROR] Unexpected error while merging @ {repo_path}", "red")
+  console.out(f"> {repo_name.upper()}: merge '{origin}' -> '{dest}'")
+  console.input(
+    f"git checkout {dest} || git checkout -b {dest}",
+    cwd=repo_path
+  )
+  console.input(
+    f"git pull origin {origin} && git push origin {dest}",
+    cwd=repo_path
+  )
+
+
+def merge_all():
+  ''' Recursively merges all repositories current branch into the next logical branch '''
+  print()
+  merge_ready = check_branches_are_merge_ready()
+  if not merge_ready:
+    console.out("  [ERROR] One or more branches are out of sync", "red")
+
+  if exists(f"{BASE_DIR}/.git"):
+    merge(PROJECT_NAME, BASE_DIR)
+
+  checked_apis = []
+  api_dir = f"{BASE_DIR}/api"
+
+  for client in CLIENT_DATA:
+    source_dir = CLIENT_DATA[client]["src"]
+    source_api = BASE_DIR + f'/api/{client}'
+    if exists(f"{source_dir}/.git"):
+      merge(f"{client} (CLIENT)", source_dir)
+    if exists(f"{source_api}/.git"):
+      merge(f"{client} (API)", source_api)
+
+  potential_apis = listdir(api_dir)
+  for dir in potential_apis:
+    if (dir_path := f"{BASE_DIR}/api/{dir}") and isdir(dir_path) and (contents := listdir(dir_path)):
+      if '.git' in contents and dir not in checked_apis:
+        merge(f"{dir} (API)", dir_path)
 
 
 def error_message():
-    return print("""
-    `MERGE` tool requires two arguments beginning with `-`
+  return console.out("""
+  `MERGE` tool takes no arguments and requires that you are on
+    a designated or feature branch and will merge your current
+    branch into the next logical designated branch.
 
-        ./o merge -all -"merge message"
-        ./o merge -server -"merge message"
-        ./o merge -clients -"merge message"
-        ./o merge -tools -"merge message"
-    """)
+    FEATURE_BRANCH -> into -> LOCAL_BRANCH
+    LOCAL_BRANCH -> into -> STAGING BRANCH
+    STAGING_BRANCH -> into -> PRODUCTION_BRANCH
+
+    Any branch which is not listed as a designated branch will
+    be assumed as a feature branch while using the merge tool.
+
+    ./o merge
+  """)
