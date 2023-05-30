@@ -324,7 +324,7 @@ def run_tool(command, index=0):
       node.clients.build_all()
       django.server.start()
     else:
-      gracefulExit(99)
+      exit("One or more unit tests failed")
 
   elif command == 'server':
 

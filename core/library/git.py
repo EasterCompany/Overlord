@@ -10,7 +10,7 @@ def branch(repo_path:str) -> str:
 
   :return str: name of current branch
   """
-  return console.input('git rev-parse --abbrev-ref HEAD', cwd=repo_path).strip()
+  return str(console.input('git rev-parse --abbrev-ref HEAD', cwd=repo_path)).strip()
 
 
 def status(repo_path:str) -> str:
@@ -21,7 +21,7 @@ def status(repo_path:str) -> str:
   :return str: current status output
   """
   branch_name = branch(repo_path)
-  s = console.input("git status", cwd=repo_path)
+  s = str(console.input("git status", cwd=repo_path))
   new = None
   committed = None
 
