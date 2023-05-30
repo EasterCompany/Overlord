@@ -42,7 +42,7 @@ def awaitInput(ascii_art=True):
   # Check for updates
   update_status = updater.check_status()
   if update_status[0]:
-    console.out(f"                   Update Available {update_status[1]}", "yellow")
+    console.out(f"                 Update Available {update_status[1]}", "yellow")
 
   # Initialize Clients
   for _client in node.clients.load_clients_json():
