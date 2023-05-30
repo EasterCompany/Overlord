@@ -56,7 +56,7 @@ else:
 for client in installed_clients:
   app = client.Client()
   if app.URLS is not None and len(app.URLS) > 0:
-    index_app_files += app.URLS
+    index_app_files = app.URLS + index_app_files
 
 # Url Patterns are for django
 # this variable determines which endpoint the user has requested

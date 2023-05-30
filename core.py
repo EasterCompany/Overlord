@@ -1,7 +1,7 @@
 #! /usr/bin/python3
 
 # Standard library
-from os import environ, system, path
+from os import system, path
 from shutil import rmtree
 from sys import argv, executable
 

@@ -40,11 +40,11 @@ class WebClient():
 
   # Client.DIR represents which sub-directory inside the 'clients/'
   # directory contains the source code for this client
-  DIR:str = ''
+  DIR:str = str()
 
   # Client.URLS records custom endpoints added by the client relative to
   # the clients own endpoint
-  URLS:list = []
+  URLS:list|None = []
 
   # Client.URLS_re_paths records the custom endpoints added by the client
   # in an r string so that the app file ignores those endpoints
@@ -99,7 +99,7 @@ class WebClient():
       dev_env.write(self._env(prd=False))
     # Build the url structure for django
     self.URL = self._url()
-    self.URLS = self.__urls__() if callable(self.__urls__) else []
+    self.URLS = self.__urls__() if callable(self.__urls__) else None
     # Load HTML Template
     self.html = None
     self.html_path = f'{self.DIR}.app'
@@ -166,9 +166,7 @@ class WebClient():
   def path(self, endpoint:str, view, description:str = "Auto Generated Path", *args, **kwargs):
     _path = f"{self.DIR}/{endpoint}" if not self.IS_INDEX else f"{endpoint}"
     self.URLS_re_paths += rf"^(?!{endpoint})"
-    return self.URLS.append(
-      new_path(_path, view, name=description)
-    )
+    return new_path(_path, view, name=description)
 
   def is_native(self):
     '''
@@ -249,40 +247,40 @@ class WebClient():
     :return HttpResponse:
     '''
     _file = FileWrapper(open(path if abspath else self._path(path), "rb"))
+    mime_type = None
     if path.endswith('.mp4'):
-      return HttpResponse(_file, content_type='video/mp4')
+      mime_type = 'video/mp4'
     elif path.endswith('.mp3'):
-      return HttpResponse(_file, content_type='audio/mp3')
+      mime_type = 'audio/mp3'
     elif path.endswith('.png'):
-      return HttpResponse(_file, content_type='image/png')
+      mime_type = 'image/png'
     elif path.endswith('.jpg'):
-      return HttpResponse(_file, content_type='image/jpeg')
+      mime_type = 'image/jpeg'
     elif path.endswith('.svg'):
-      return HttpResponse(_file, content_type='image/svg+xml')
+      mime_type = 'image/svg+xml'
     elif path.endswith('.cur'):
-      return HttpResponse(_file, content_type='image/x-win-bitmap')
+      mime_type = 'image/x-win-bitmap'
     elif path.endswith('.wasm'):
-      return HttpResponse(_file, content_type='application/wasm')
+      mime_type = 'application/wasm'
     elif path.endswith('.js'):
-      return HttpResponse(_file, content_type='application/x-javascript')
+      mime_type = 'application/x-javascript'
     elif path.endswith('.json'):
-      return HttpResponse(_file, content_type='application/json')
+      mime_type = 'application/json'
     elif path.endswith('.css'):
-      return HttpResponse(_file, content_type='text/css')
+      mime_type = 'text/css'
     elif path.endswith('.txt'):
-      return HttpResponse(_file, content_type='text/plain')
+      mime_type = 'text/plain'
     elif path.endswith('.xml'):
-      return HttpResponse(_file, content_type='text/xml')
+      mime_type = 'text/xml'
     elif path.endswith('.html'):
-      return HttpResponse(_file, content_type='text/html')
+      mime_type = 'text/html'
     elif path.endswith('.woff'):
-      return HttpResponse(_file, content_type='font/woff')
+      mime_type = 'font/woff'
     elif path.endswith('.ttf'):
-      return HttpResponse(_file, content_type='font/ttf')
+      mime_type = 'font/ttf'
     elif path.endswith('.eot'):
-      return HttpResponse(_file, content_type='font/eot')
-    else:
-      return HttpResponse(_file)
+      mime_type = 'font/eot'
+    return lambda req, *args, **kwargs: HttpResponse(_file, content_type=mime_type)
 
 
 class NativeClient():
