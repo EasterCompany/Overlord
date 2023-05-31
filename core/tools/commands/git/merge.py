@@ -92,7 +92,7 @@ def merge_all():
   if exists(f"{BASE_DIR}/.git"):
     merge(PROJECT_NAME, BASE_DIR)
 
-  checked_apis = []
+  merged_apis = []
   api_dir = f"{BASE_DIR}/api"
 
   for client in CLIENT_DATA:
@@ -101,12 +101,13 @@ def merge_all():
     if exists(f"{source_dir}/.git"):
       merge(f"{client} (CLIENT)", source_dir)
     if exists(f"{source_api}/.git"):
+      merged_apis.append(client)
       merge(f"{client} (API)", source_api)
 
   potential_apis = listdir(api_dir)
   for dir in potential_apis:
     if (dir_path := f"{BASE_DIR}/api/{dir}") and isdir(dir_path) and (contents := listdir(dir_path)):
-      if '.git' in contents and dir not in checked_apis:
+      if '.git' in contents and dir not in merged_apis:
         merge(f"{dir} (API)", dir_path)
 
 
