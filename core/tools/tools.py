@@ -10,7 +10,7 @@ from core import create_user, create_super_user
 from core.library import execute_from_command_line, console, git as GIT, url
 from core.library.version import Version
 from core.tools.library import gracefulExit, updater
-from core.tools.commands import install, git, django, node, pytest, pa, vscode
+from core.tools.commands import install, git, django, node, pytest, pa, vscode, fs
 
 tools_path = '/'.join(__file__.split('/')[:-1])
 project_path = path[0]
@@ -510,6 +510,12 @@ def run_tool(command, index=0):
       updater.clone_latest_version()
     else:
       console.out(f"\n> {update_status[1]}")
+
+  elif command == 'ls':
+    if arguments_remaining == 0:
+      fs.ls.ls_project()
+    else:
+      fs.ls.ls_project(arguments)
 
   else:
     line_start = "\n" if index == 0 else ""
