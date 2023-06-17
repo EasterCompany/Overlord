@@ -17,7 +17,7 @@ def RPU():
   global _RPU
   _CACHE = _RPU
   _RPU = _CACHE + 1
-  return str(8199 - _RPU)
+  return 8199 - _RPU
 
 
 class WebClient():
@@ -56,7 +56,7 @@ class WebClient():
 
   # Client.PORT by default will be automatically determined if PORT is None.
   # otherwise you can specify a port number as a string.
-  PORT:str = RPU()
+  PORT:int|None = RPU()
 
   # Client.ENDPOINT controls which `base url` will host your application
   # By default, only the INDEX client can connect to the root (http..com/) url
@@ -197,13 +197,13 @@ class WebClient():
 
   def current_path(self, req) -> list:
     '''
-    Returns the current path from the uri
+    Returns the current path from the url
     '''
     return req.build_absolute_uri('?').replace(self.current_domain(req), '').strip('/').split('/')
 
   def current_view(self, req) -> str:
     '''
-    Returns the last item from the uri path list as a string
+    Returns the last item from the url path list as a string
     '''
     return req.build_absolute_uri('?').split('/')[-1]
 

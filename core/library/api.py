@@ -12,8 +12,6 @@ BAD = 'BAD'
 
 
 # Overlord Standard Response Function ----------------------------------------------------------------------------------
-
-
 def std(status:str, message:list|tuple|int|str|float|dict = "Invalid Status Response"):
   """
   Standard API Response Method
@@ -31,8 +29,6 @@ def std(status:str, message:list|tuple|int|str|float|dict = "Invalid Status Resp
 
 
 # Overlord API Specific Response Types ---------------------------------------------------------------------------------
-
-
 def success() -> JsonResponse:
   """
   Request was executed successfully response
@@ -93,6 +89,7 @@ def table(Table, Headers, Body, filter={ "order_by": str() }):
   return std(OK, {'head': [], 'body': [ [] ]})
 
 
+# Overlord API View Tools ----------------------------------------------------------------------------------------------
 def get_arg(_arg) -> str:
   """
   Unquotes an argument from the request and strips it
@@ -153,6 +150,7 @@ def get_api_url(panelObj) -> str:
   return f"https://{panelObj.api}/"
 
 
+# Overlord Universal API Controller Class ------------------------------------------------------------------------------
 class UniversalAPI:
   """
   Server Configuration for any Overlord based API.

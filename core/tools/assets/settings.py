@@ -1,6 +1,7 @@
 # web/settings.py
 #   automatically generated file
-#   do not remove (although edits are acceptable)
+#   do not remove, you may edit this file.
+#   any modifications will be lost if reinstalled.
 
 # Standard library
 import os
@@ -101,8 +102,9 @@ AUTH_PASSWORD_VALIDATORS = [
     },
 ]
 
-STATIC_URL = SERVER_DATA['STATIC_URL']
-STATICFILES_DIRS = [ SERVER_DATA['STATIC_DIR'], ]
+STATIC_URL = '/static/'
+STATICFILES_DIRS = [ os.path.join(BASE_DIR, 'static'), ] if DEBUG else []
+STATIC_ROOT = None if DEBUG else os.path.join(BASE_DIR, 'static')
 
 MEDIA_ROOT = BASE_DIR + '/assets'
 MEDIA_URL = '/assets/'

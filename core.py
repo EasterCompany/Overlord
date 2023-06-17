@@ -1,6 +1,4 @@
 #! /usr/bin/python3
-
-# Standard library
 from os import system, path
 from shutil import rmtree
 from sys import argv, executable
@@ -23,7 +21,6 @@ if argv[1] == 'venv' or argv[1] == 'env':
   exit()
 
 if __name__ == '__main__':
-  # Overlord library
   from core import create_super_user, create_user
   from core.tools import tools
   from core.library import console, wsgi_interface

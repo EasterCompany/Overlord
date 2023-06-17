@@ -1,5 +1,5 @@
 // Shared library
-import { oapi } from '../server/api';
+import { oapi } from './api';
 
 
 /*

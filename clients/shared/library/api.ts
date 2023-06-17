@@ -1,5 +1,5 @@
 // Overlord library
-import { USER } from '../local/user';
+import { USER } from './user';
 
 // Shortcuts
 export const isDev = window.location.toString().startsWith("http://localhost:8");
@@ -22,7 +22,7 @@ export const getEndpoints = () => {
     };
   }
 
-  // Parent Local Django Server
+  // Localhost Django Server
   else if (window.location.host.startsWith('localhost')) {
     const client_endpoint =
       process.env.REACT_APP_NAME === '' ?
@@ -32,6 +32,19 @@ export const getEndpoints = () => {
       client: client_endpoint,
       server: `http://localhost:8000/`,
       api: `http://localhost:8000/${process.env.REACT_APP_API}`
+    };
+  }
+
+  // 0.0.0.0 Default Django Server
+  else if (window.location.host.startsWith('0.0.0.0')) {
+    const client_endpoint =
+      process.env.REACT_APP_NAME === '' ?
+        `http://0.0.0.0:8000/` :
+        `http://0.0.0.0:8000/${process.env.REACT_APP_NAME}/`
+    return {
+      client: client_endpoint,
+      server: `http://0.0.0.0:8000/`,
+      api: `http://0.0.0.0:8000/${process.env.REACT_APP_API}`
     };
   }
 

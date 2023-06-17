@@ -1,14 +1,11 @@
-
-# Overlord Essential Packages
-django>=4.1.2
 cors>=1.0.1
-django-cors-headers>=3.11.0
-whitenoise>=6.0.0
 cryptography>=37.0.4
-requests_html>=0.10.0
-
-# Overlord Server Packages
-redis>=4.5.1
+django>=4.1.2
+django-cors-headers>=3.11.0
+django-extensions>=3.1.5
 pytest>=7.0.1
 pytest-django>=4.5.2
-django-extensions>=3.1.5
+pylint>=3.0.0a4
+redis>=4.5.1
+requests_html>=0.10.0
+whitenoise>=6.0.0
