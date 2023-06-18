@@ -109,7 +109,7 @@ def help():
   {console.out("Welcome to Overlord.", "blue", False)}
   The help command lists the 10 most common commands within Overlord-CLI
 
-  02. clear
+  01. clear
     - Clears the terminal window of any input/output allowing you to
       free up space on your screen.
 
@@ -119,7 +119,7 @@ def help():
 
   03. code
     - Opens vscode in the root directory of your current project.
-    - Takes 1 optional argument "client_name" which opens a client
+    - Takes 1 optional argument `-<client_name>` which opens a client
       and it's associated API in an isolated workspace.
     - Only works for vscode stable release channel, not insiders.
       (unless you use an alias)
@@ -136,7 +136,7 @@ def help():
     - Automatically detect all git repositories within this projects
       scope and push the latest commits to the current branch.
 
-  07. merge                                     {console.out("[Experimental Feature]", "yellow", False)}
+  07. merge
     - Automatically merges your current branch into the next logical
       branch for your projects flow.
     - Set `LOCAL_BRANCH`, `STAGING_BRANCH` & `PRODUCTION_BRANCH`
@@ -145,9 +145,9 @@ def help():
 
   08. branch
     - If no arguments are passed it prints the current branch
-      to the terminal and also displays your current
-      configuration for local, staging & production branches
-    - Pass a single argument `-<branch_name>` to switch branch
+      of each API & Client within your project.
+    - Pass a single argument `-<branch_name>` to recursively
+      switch the branch of each API & Client within your project
 
   09. create
     - Used to create a new web based or multi-platform client.
@@ -161,7 +161,7 @@ def help():
       instructions
 
     Detailed and up-to-date documentation is kept on our website
-          {console.out("https://www.easter.company/overlord", "blue", False)}'''
+                {console.out("https://www.easter.company/overlord", "blue", False)}'''
   )
 
 
