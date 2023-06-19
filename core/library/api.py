@@ -126,17 +126,18 @@ def get_body(req) -> str:
   return req.body.decode('utf-8')
 
 
-def get_json(req) -> str:
+def get_json(req) -> dict:
   """
   Consumes the request input and returns a dictionary containing
   the content of the body which is expected to be stringified json
 
   :param req obj: default django request object
-  :return str: body content as json
+  :return dict: body content as json
   """
   return json.loads(req.body.decode('utf-8'))
 
 
+# ePanel support functions --------------------------------------------------------------------------------------------
 def get_api_url(panelObj) -> str:
   """
   Consumes a panel database object and returns a constructed URL that points

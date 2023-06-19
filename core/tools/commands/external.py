@@ -61,31 +61,38 @@ def external_command(req, *args, **kwargs) -> JsonResponse:
   :return output: reference the output function
   """
   try:
+    # Acquire request data
     json = api.get_json(req)
     command = json['command'] if 'command' in json else None
     pub_key = json['pub_key'] if 'pub_key' in json else None
+    arguments = json['arguments'] if 'arguments' in json else None
 
     # Authenticate request
-    if pub_key == PUBLIC_KEY and PUBLIC_KEY is not None and PUBLIC_KEY != '': pass
+    if pub_key == PUBLIC_KEY and PUBLIC_KEY is not None and PUBLIC_KEY != '':
+      pass
     else:
       return api.error("Failed to Authentication User")
 
     # Check for commands matching input
     if command in commands:
       try:
-        return commands[command]()
+        if arguments is None:
+          # Execute command without arguments
+          return commands[command]()
+        # Execute command with arguments
+        return commands[command](*arguments)
       except Exception as exec_error:
+        # Command executed with error
         return output(str(exec_error))
-
     # No command executed
     return output(f"[ERROR] No command matching '{command}'")
-
+  # Encountered unexpected error
   except Exception as exception:
     return api.error(str(exception))
 
 
-# External Command Input List
-commands = {
+# External command options
+commands:dict = {
   "status": OK,
   "upgrade": upgrade,
   "reload": reload_server,

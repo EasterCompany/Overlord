@@ -6,6 +6,7 @@
 import json
 import secrets
 import subprocess
+from getpass import getpass
 from pathlib import Path
 from sys import executable
 from os import mkdir, rmdir, remove, walk, listdir, environ
@@ -49,6 +50,8 @@ from django.urls import path, re_path, include, URLResolver
 # Utils
 from django.utils.crypto import get_random_string
 
+sudo_pass = ""
+
 
 def uuid() -> str:
   return str(uuid1())
@@ -57,3 +60,16 @@ def uuid() -> str:
 def wsgi_interface():
   environ.setdefault('DJANGO_SETTINGS_MODULE', 'web.settings')
   return __wsgi_application__()
+
+
+def prompt_sudo_pass() -> str:
+  global sudo_pass
+  sudo_pass = getpass("[sudo] Enter password: ")
+  return sudo_pass
+
+
+def sudo(function):
+  def sudo_required_function(*args, **kwargs):
+    _sudo_pass = prompt_sudo_pass() if sudo_pass == "" else sudo_pass
+    return function(_sudo_pass, *args, **kwargs)
+  return sudo_required_function

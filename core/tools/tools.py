@@ -10,7 +10,7 @@ from core import create_user, create_super_user
 from core.library import execute_from_command_line, console, git as GIT, url
 from core.library.version import Version
 from core.tools.library import gracefulExit, updater
-from core.tools.commands import install, git, django, node, pytest, pa, vscode, fs
+from core.tools.commands import install, git, django, node, pytest, pa, vscode, fs, nginx
 
 tools_path = '/'.join(__file__.split('/')[:-1])
 project_path = path[0]
@@ -516,6 +516,15 @@ def run_tool(command, index=0):
       fs.ls.ls_project()
     else:
       fs.ls.ls_project(arguments)
+
+  elif command == 'nginx':
+    if arguments_remaining == 0:
+      nginx.error_message()
+    elif arguments_remaining == 1:
+      if arguments[0] == 'setup':
+        nginx.run()
+      elif arguments[0] == 'restart':
+        nginx.restart()
 
   else:
     line_start = "\n" if index == 0 else ""
