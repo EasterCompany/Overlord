@@ -90,6 +90,7 @@ def create_runner() -> bool:
   console.sudo(f"rm {BASE_DIR}/{PROJECT_NAME}.run")
   console.sudo(f"touch {PROJECT_NAME}.run", cwd=BASE_DIR)
   console.sudo(f"echo {runner_file} | sudo -S tee {PROJECT_NAME}.run", cwd=BASE_DIR)
+  console.sudo(f"chmod +x {PROJECT_NAME}.run", cwd=BASE_DIR)
   if exists(f"{BASE_DIR}/{PROJECT_NAME}.run"):
     return True
   return False
