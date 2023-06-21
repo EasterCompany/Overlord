@@ -33,19 +33,19 @@ __init_logs_directory__()
 # Initialize Server File
 if not os.path.exists(BASE_DIR + '/.config/server.json'):
     make_server_config()
-with open(BASE_DIR + '/.config/server.json') as SERVER_FILE:
+with open(BASE_DIR + '/.config/server.json', 'r') as SERVER_FILE:
     SERVER_DATA = loads(SERVER_FILE.read())
 
 # Initialize Clients File
 if not os.path.exists(BASE_DIR + '/.config/clients.json'):
     make_clients_config()
-with open(BASE_DIR + '/.config/clients.json') as CLIENT_FILE:
+with open(BASE_DIR + '/.config/clients.json', 'r') as CLIENT_FILE:
     CLIENT_DATA = loads(CLIENT_FILE.read())
 
 # Initialize Secrets Files
 if not os.path.exists(BASE_DIR + '/.config/secret.json'):
     make_secrets_file()
-with open(BASE_DIR + '/.config/secret.json') as SECRET_FILE:
+with open(BASE_DIR + '/.config/secret.json', 'r') as SECRET_FILE:
     SECRET_DATA = loads(SECRET_FILE.read())
 
 # Set Administration Configuration
@@ -105,6 +105,7 @@ AUTH_PASSWORD_VALIDATORS = [
 STATIC_URL = '/static/'
 STATICFILES_DIRS = [ os.path.join(BASE_DIR, 'static'), ] if DEBUG else []
 STATIC_ROOT = None if DEBUG else os.path.join(BASE_DIR, 'static')
+STATICFILES_STORAGE = 'whitenoise.storage.CompressedManifestStaticFilesStorage'
 
 MEDIA_ROOT = BASE_DIR + '/assets'
 MEDIA_URL = '/assets/'

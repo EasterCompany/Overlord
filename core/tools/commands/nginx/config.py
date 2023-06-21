@@ -26,7 +26,7 @@ server {
     proxy_set_header X-Forwarded-Proto $scheme;
   }
 
-  location /static {
+  location /static/ {
     autoindex on;
     alias ''' + BASE_DIR + '''/static;
   }
