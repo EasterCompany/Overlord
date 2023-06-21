@@ -215,12 +215,12 @@ def run_tool(command, index=0):
         if not _input.lower() == "confirm":
           return output("User did not confirm to a system overwrite.")
       django.server.install_requirements()
-      install.make_server_config(project_path)
-      install.django_files(project_path)
-      install.make_secrets_file(project_path)
-      install.o_file(project_path)
-      install.setup_cfg(project_path)
-      django.secret_key.new(project_path)
+      install.make_server_config()
+      install.django_files()
+      install.make_secrets_file()
+      install.o_file()
+      install.setup_cfg()
+      django.secret_key.new()
       console.out('\nSuccessfully Installed!', 'success')
       console.out(f'Enter {console.out("./o", "yellow", False)} to begin using Overlord.')
 

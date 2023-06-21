@@ -325,7 +325,7 @@ def create(name:str, native:bool = False, custom_repo:str|None = None):
       with open(server_data) as server_data_file:
         server_data = loads(server_data_file.read())
     else:
-      server_data = make_server_config(settings.BASE_DIR)
+      server_data = make_server_config()
 
     # Default start-up behavior
     __update_shared_files__()

@@ -8,13 +8,15 @@ from os.path import exists, join as pathjoin
 # Overlord library
 from core.library.time import timestamp
 
+BASE_DIR = getcwd()
 
-def __init_config_directory__(project_path='.'):
+
+def __init_config_directory__(project_path=BASE_DIR):
   if not exists(project_path + '/.config'):
     mkdir(project_path + '/.config')
 
 
-def __init_logs_directory__(project_path='.'):
+def __init_logs_directory__(project_path=BASE_DIR):
   if not exists(project_path + '/.logs'):
     mkdir(project_path + '/.logs')
   if not exists(project_path + '/.logs/requests.json'):
@@ -25,7 +27,7 @@ def __init_logs_directory__(project_path='.'):
       logger.write(f'[{timestamp()}] Created log file')
 
 
-def dump_json(filename, data, project_path='.'):
+def dump_json(filename, data, project_path=BASE_DIR):
   file_path = project_path + '/.config/' + filename + '.json'
   with open(file_path, 'w') as conf_file:
     json.dump(
@@ -35,7 +37,7 @@ def dump_json(filename, data, project_path='.'):
     )
 
 
-def install_file(filename, destination, project_path='.', log=True, rename=None):
+def install_file(filename, destination, project_path=BASE_DIR, log=True, rename=None):
   if rename is None:
     rename = filename
   if log:
@@ -45,7 +47,7 @@ def install_file(filename, destination, project_path='.', log=True, rename=None)
       new_file.write(base.read())
 
 
-def make_clients_config(project_path='.'):
+def make_clients_config(project_path=BASE_DIR):
   client_paths = sorted([
     f.path for f in scandir(project_path + "/clients") if f.is_dir()
   ])
@@ -95,7 +97,7 @@ def make_clients_config(project_path='.'):
   return clients
 
 
-def make_server_config(project_path='.'):
+def make_server_config():
   print('Generating server config...')
 
   server_core_data = {
@@ -156,21 +158,21 @@ def make_server_config(project_path='.'):
     return False
 
   installed_apps = [
-    f.path.split("/")[-1] for f in scandir(project_path) if is_app(f)
+    f.path.split("/")[-1] for f in scandir(BASE_DIR) if is_app(f)
   ]
 
   server_core_data["INSTALLED_APPS"] += installed_apps
 
-  dump_json('server', server_core_data, project_path)
+  dump_json('server', server_core_data, BASE_DIR)
   return server_core_data
 
 
-def django_files(project_path='.'):
+def django_files(project_path=BASE_DIR):
   install_file('settings.py', '/web', project_path)
   install_file('urls.py', '/web', project_path)
 
 
-def make_secrets_file(project_path='.'):
+def make_secrets_file(project_path=BASE_DIR):
   if not exists(project_path + '/.config/secret.json'):
     print('Generating secrets config...')
     token_data = {
@@ -189,7 +191,7 @@ def make_secrets_file(project_path='.'):
     return dump_json('secret', token_data, project_path)
 
 
-def o_file(project_path=None):
+def o_file(project_path=BASE_DIR):
   print("Generating o file...")
   inter = executable
 
@@ -228,7 +230,7 @@ tools.run()
   system("chmod +x ./o")
 
 
-def setup_cfg(project_path='.'):
+def setup_cfg(project_path=BASE_DIR):
   if not exists(f"{project_path}/setup.cfg"):
     print("Generating setup.cfg")
     with open(f"{project_path}/setup.cfg", "w") as setup_cfg_file:

@@ -33,7 +33,7 @@ if exists(server_data):
     with open(server_data) as server_data_file:
         server_data = json.loads(server_data_file.read())
 else:
-    server_data = make_server_config(getcwd())
+    server_data = make_server_config()
 
 # Default start-up behavior
 __update_shared_files__()
