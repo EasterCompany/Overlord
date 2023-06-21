@@ -113,3 +113,4 @@ def generate_ssl_certificate() -> None:
     f" -d {application_domain} -d *.{application_domain}",
     show_output=True
   )
+  console.sudo("certbot renew --dry-run")

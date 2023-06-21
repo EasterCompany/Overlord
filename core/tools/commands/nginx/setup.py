@@ -28,12 +28,14 @@ def run() -> None:
     console.out(f"  {console.success} nginx", "success")
     console.out(f"  {console.wait} certbot", end="\r")
     if not package.apt_installed and package.yum_installed:
-      package.install("epel-release")
-      package.install("https://dl.fedoraproject.org/pub/epel/epel-release-latest-7.noarch.rpm")
-      package.update()
-      package.install("mod_ssl")
-      package.install("python-certbot-nginx")
-    package.install("certbot")
+      package.install("python3-venv")
+      package.install("augeas-libs")
+      console.sudo("python3 -m venv /opt/certbot/")
+      console.sudo("/opt/certbot/bin/pip install --upgrade pip")
+      console.sudo("/opt/certbot/bin/pip install certbot certbot-nginx")
+      console.sudo("ln -s /opt/certbot/bin/certbot /usr/bin/certbot")
+    else:
+      package.install("certbot")
     console.out(f"  {console.success} certbot", "success")
     console.out(f"  {console.wait} python3-certbot-nginx", end="\r")
     package.install("python3-certbot-nginx")
@@ -74,15 +76,20 @@ def run() -> None:
 
   console.out("\n> Generating SSL certificate")
   if config.generate_ssl_certificate():
+    if service.stop() == 0:
+      console.out(f"  {console.success} Stopped nginx service", "success")
+    else:
+      console.out(f"  {console.failure} Failed to stop nginx service", "error")
+      return
     console.out(f"  {console.success} Created SSL certificates")
   else:
     console.out(f"  {console.failure} Failed to create certificates")
     return
 
-  console.out("\n> Restart nginx service")
-  if service.restart() == 0:
+  console.out("\n> Starting nginx service")
+  if service.start() == 0:
     console.out(f"  {console.success} Successfully configured SSL", "success")
-    console.out(f"  {console.success} Restarted nginx service", "success")
+    console.out(f"  {console.success} Started nginx service", "success")
   else:
     console.out(f"  {console.failure} Failed to restart nginx service", "error")
     return
