@@ -1,5 +1,5 @@
 import shlex
-from core.library import console, exists, mkdir
+from core.library import console, exists
 from web.settings import BASE_DIR, SECRET_DATA, PROJECT_NAME
 
 sites_enabled_dir = "/etc/nginx/sites-enabled"
@@ -77,9 +77,9 @@ def generate_site_files() -> bool:
   file_contents = site_available_conf_no_ssl()
 
   if not exists(sites_available_dir):
-    console.sudo(f"mkdir {sites_available_dir}")
+    console.sudo(f"mkdir sites-available", cwd="/etc/nginx")
   if not exists(sites_enabled_dir):
-    console.sudo(f"mkdir {sites_enabled_dir}")
+    console.sudo(f"mkdir sites-enabled", cwd="/etc/nginx")
   if exists(sites_available_file):
     console.sudo(f"rm {sites_available_file}")
   if exists(sites_enabled_file):

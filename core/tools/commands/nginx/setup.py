@@ -16,9 +16,8 @@ def run() -> None:
     Some packages will be installed:
     nginx, certbot & python3-certbot-nginx
   '''): return
-  if not service.reload() == 0:
-    console.status("error", "There is an existing error with your nginx configuration.")
 
+  service.stop(show=False)
   console.out("> Installing packages")
   if not (package.apt_installed or package.yum_installed):
     console.out(f"  {console.failure} No package manager (apt/yum) found.", "error")
