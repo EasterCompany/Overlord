@@ -114,7 +114,8 @@ def run() -> None:
   else:
     console.out(f"  {console.failure} Unexpected error encountered", "error")
 
-  console.out(f"\nVerify your applications status with the following command:\nsudo systemctl status {PROJECT_NAME}")
+  console.out("\nVerify your applications status with the following command:")
+  console.out(f"sudo systemctl status {PROJECT_NAME}", "green")
 
 
 def error_message() -> str:
