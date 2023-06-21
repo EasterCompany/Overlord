@@ -90,6 +90,9 @@ def create_www_data_user() -> None:
   current_user = getuser()
   console.sudo("adduser  --no-create-home  --system  --user-group --shell /bin/false   www-data")
   console.sudo(f"usermod -a -G {current_user} www-data")
+  console.sudo(f"usermod -a -G {current_user} nginx")
+  console.sudo(f"chown -R www-data:www-data {BASE_DIR}/static")
+  console.sudo(f"ls -al /root && sudo chmod o+x {BASE_DIR} && chmod o+x {BASE_DIR}/static")
 
 
 def generate_site_files() -> bool:
