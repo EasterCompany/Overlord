@@ -182,6 +182,7 @@ def make_secrets_file(project_path=BASE_DIR):
       "PA_USER_ID": "",
       "PA_API_KEY": "",
       "DOMAIN_URL": "",
+      "LOCAL_PORT": "8000",
       "EMAIL_USER": "",
       "EMAIL_PASS": "",
       "REDIS-USER": "",

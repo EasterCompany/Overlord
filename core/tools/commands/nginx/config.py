@@ -10,6 +10,7 @@ sites_enabled_file = f"{sites_enabled_dir}/{PROJECT_NAME}"
 sites_available_file = f"{sites_available_dir}/{PROJECT_NAME}"
 application_domain = SECRET_DATA['DOMAIN_URL'] if not SECRET_DATA['DOMAIN_URL'].startswith('www.') else\
   SECRET_DATA['DOMAIN_URL'].replace('www.', '', 1)
+application_port = SECRET_DATA['LOCAL_PORT'] if 'LOCAL_PORT' in SECRET_DATA else 8000
 site_available_conf_no_ssl = lambda: shlex.quote('''
 server {
   listen 80;
@@ -21,7 +22,7 @@ server {
   listen 443 ssl;
 
   location / {
-    proxy_pass http://127.0.0.1:8000;
+    proxy_pass http://127.0.0.1:''' + str(application_port) + ''';
     proxy_set_header Host $host;
     proxy_set_header X-Forwarded-Proto $scheme;
   }
@@ -41,7 +42,7 @@ ExecStart={BASE_DIR}/{PROJECT_NAME}.run
 WantedBy=default.target''')
 run_prd_template = lambda: shlex.quote(f'''#!/bin/bash
 cd {BASE_DIR}
-{executable} -m gunicorn web.wsgi:application 127.0.0.1:8000''')
+{executable} -m gunicorn --bind :{application_port} web.wsgi:application''')
 
 
 def create_service() -> bool:
