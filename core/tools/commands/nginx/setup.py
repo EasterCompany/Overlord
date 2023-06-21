@@ -27,6 +27,9 @@ def run() -> None:
     package.install("nginx")
     console.out(f"  {console.success} nginx", "success")
     console.out(f"  {console.wait} certbot", end="\r")
+    if not package.apt_installed and package.yum_installed:
+      package.install("epel-release")
+      package.update()
     package.install("certbot")
     console.out(f"  {console.success} certbot", "success")
     console.out(f"  {console.wait} python3-certbot-nginx", end="\r")
