@@ -37,6 +37,10 @@ def run() -> None:
     console.status("error", "Cannot find Nginx on this system @ /etc/nginx")
     return
 
+  console.out("\n> Creating www-data user")
+  config.create_www_data_user()
+  console.out(f"  {console.success} Created user", "success")
+
   if service.stop() == 0:
     console.out("\n> Generating nginx.conf file")
     console.out(f"  {console.success} Stopped nginx service", "success")
