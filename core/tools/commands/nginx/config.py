@@ -74,7 +74,7 @@ def create_www_data_user() -> str|int:
   '''
   Creates the www-data user on this system
   '''
-  return console.sudo("adduser --system --no-create-home --shell /bin/false --group www-data")
+  return console.sudo("adduser  --no-create-home  --system  --user-group --shell /bin/false   www-data")
 
 
 def generate_site_files() -> bool:
