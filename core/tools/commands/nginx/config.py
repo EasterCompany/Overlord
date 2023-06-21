@@ -6,7 +6,30 @@ sites_enabled_dir = "/etc/nginx/sites-enabled"
 sites_available_dir = "/etc/nginx/sites-available"
 sites_enabled_file = f"{sites_enabled_dir}/{PROJECT_NAME}"
 sites_available_file = f"{sites_available_dir}/{PROJECT_NAME}"
-application_domain = SECRET_DATA['DOMAIN_URL']
+application_domain = SECRET_DATA['DOMAIN_URL'] if not SECRET_DATA['DOMAIN_URL'].startswith('www.') else\
+  SECRET_DATA['DOMAIN_URL'].replace('www.', '', 1)
+site_available_conf_no_ssl = lambda: shlex.quote('''
+server {
+  listen 80;
+  return 301 https://$host$request_uri;
+}
+
+server {
+  server_name .''' + application_domain + '''
+  listen 443 ssl;
+
+  location / {
+    proxy_pass http://127.0.0.1:8000;
+    proxy_set_header Host $host;
+    proxy_set_header X-Forwarded-Proto $scheme;
+  }
+
+  location /static {
+    autoindex on;
+    alias ''' + BASE_DIR + '''/static;
+  }
+}
+''')
 site_available_conf = lambda: shlex.quote('''
 server {
   listen 80;
@@ -14,11 +37,12 @@ server {
 }
 
 server {
+  server_name .''' + application_domain + '''
   listen 443 ssl;
-  #ssl_certificate /etc/letsencrypt/live/''' + application_domain + '''/fullchain.pem;
-  #ssl_certificate_key /etc/letsencrypt/live/''' + application_domain + '''/privkey.pem;
-  #include /etc/letsencrypt/options-ssl-nginx.conf;
-  #ssl_dhparam /etc/letsencrypt/ssl-dhparams.pem;
+  ssl_certificate /etc/letsencrypt/live/''' + application_domain + '''/fullchain.pem;
+  ssl_certificate_key /etc/letsencrypt/live/''' + application_domain + '''/privkey.pem;
+  include /etc/letsencrypt/options-ssl-nginx.conf;
+  ssl_dhparam /etc/letsencrypt/ssl-dhparams.pem;
 
   location / {
     proxy_pass http://127.0.0.1:8000;
@@ -50,7 +74,7 @@ def generate_site_files() -> bool:
   '''
   Generates the site config files at /etc/nginx/sites-available & /etc/nginx/sites-enabled/ for this project
   '''
-  file_contents = site_available_conf()
+  file_contents = site_available_conf_no_ssl()
 
   if not exists(sites_available_dir):
     console.sudo(f"mkdir {sites_available_dir}")
@@ -70,8 +94,15 @@ def generate_site_files() -> bool:
   return False
 
 
-def generate_ssl_certificate() -> bool:
+def generate_ssl_certificate() -> None:
   '''
-
+  Generates the ssl certificates using certbot for nginx, this will also create a cronjob which automatically
+  renews the certificates once per year before they expire
   '''
-  return True
+  console.input(
+    "echo Y |"
+    " sudo -S certbot -v --nginx"
+    " --register-unsafely-without-email --renew-by-default"
+    f" -d {application_domain} -d *.{application_domain}",
+    show_output=True
+  )
