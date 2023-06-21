@@ -27,19 +27,18 @@ def run() -> None:
     package.install("nginx")
     console.out(f"  {console.success} nginx", "success")
     console.out(f"  {console.wait} certbot", end="\r")
-    if not package.apt_installed and package.yum_installed:
-      package.install("python3-venv")
+    if package.apt_installed:
+      package.install("libaugeas0")
+    elif package.yum_installed:
       package.install("augeas-libs")
-      console.sudo("python3 -m venv /opt/certbot/")
-      console.sudo("/opt/certbot/bin/pip install --upgrade pip")
-      console.sudo("/opt/certbot/bin/pip install certbot certbot-nginx")
-      console.sudo("ln -s /opt/certbot/bin/certbot /usr/bin/certbot")
-    else:
-      package.install("certbot")
+    package.install("python3-venv")
+    console.sudo("python3 -m venv /opt/certbot/")
+    console.sudo("/opt/certbot/bin/pip install --upgrade pip")
+    console.sudo("/opt/certbot/bin/pip install certbot")
+    console.sudo("/opt/certbot/bin/pip install certbot-nginx")
+    console.sudo("rm -rf /usr/bin/certbot")
+    console.sudo("ln -s /opt/certbot/bin/certbot /usr/bin/certbot")
     console.out(f"  {console.success} certbot", "success")
-    console.out(f"  {console.wait} python3-certbot-nginx", end="\r")
-    package.install("python3-certbot-nginx")
-    console.out(f"  {console.success} python3-certbot-nginx", "success")
 
   if not exists("/etc/nginx"):
     console.status("error", "Cannot find Nginx on this system @ /etc/nginx")
@@ -74,6 +73,14 @@ def run() -> None:
     console.out(f"  {console.failure} Failed to generate configuration files", "error")
     return
 
+  console.out("\n> Starting nginx service")
+  if service.start() == 0:
+    console.out(f"  {console.success} Successfully configured SSL", "success")
+    console.out(f"  {console.success} Started nginx service", "success")
+  else:
+    console.out(f"  {console.failure} Failed to restart nginx service", "error")
+    return
+
   console.out("\n> Generating SSL certificate")
   if config.generate_ssl_certificate():
     if service.stop() == 0:
@@ -84,14 +91,6 @@ def run() -> None:
     console.out(f"  {console.success} Created SSL certificates")
   else:
     console.out(f"  {console.failure} Failed to create certificates")
-    return
-
-  console.out("\n> Starting nginx service")
-  if service.start() == 0:
-    console.out(f"  {console.success} Successfully configured SSL", "success")
-    console.out(f"  {console.success} Started nginx service", "success")
-  else:
-    console.out(f"  {console.failure} Failed to restart nginx service", "error")
     return
 
 
