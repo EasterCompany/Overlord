@@ -14,6 +14,7 @@
 *.sqlite3-journal
 .pytest_cache
 __pycache__
+*.run
 
 # API
 /api/*

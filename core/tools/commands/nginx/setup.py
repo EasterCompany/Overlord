@@ -1,6 +1,7 @@
 # Automate Nginx Gateways for Overlord Web Apps
 # Currently only available for Unix based systems
 from . import service, config
+from web.settings import PROJECT_NAME
 from core.library import exists, console, package
 
 
@@ -103,7 +104,17 @@ def run() -> None:
   else:
     console.out(f"  {console.failure} Failed to create service")
 
-  service.start_app()
+  console.out("\n> Reloading system services")
+  if service.reload() == 0:
+    console.out(f"  {console.success} Services reloaded")
+    if service.restart_app() == 0:
+      console.out(f"  {console.success} App service restarted")
+    else:
+      console.out(f"  {console.failure} Failed to restart app")
+  else:
+    console.out(f"  {console.failure} Unexpected error encountered")
+
+  console.out(f"\nVerify your applications status with the following command:\nsudo systemctl status {PROJECT_NAME}")
 
 
 def error_message() -> str:
