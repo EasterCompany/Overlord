@@ -1,9 +1,26 @@
 # Standard library
 import os
 import subprocess
+from getpass import getpass
 # Overlord library
-from web.settings import BASE_DIR, LOGGER_DIR
 from core.library.time import timestamp
+from web.settings import BASE_DIR, LOGGER_DIR
+
+sudo_pass:str|None = None
+
+
+def prompt_sudo_pass() -> str:
+  global sudo_pass
+  sudo_pass = getpass("  [sudo] enter password: ")
+  print()
+  return sudo_pass
+
+
+def sudo(function):
+  def sudo_required_function(*args, **kwargs):
+    _sudo_pass = prompt_sudo_pass() if sudo_pass == None else sudo_pass
+    return function(sudo_pass=_sudo_pass, *args, **kwargs)
+  return sudo_required_function
 
 
 class Console:
@@ -114,13 +131,10 @@ class Console:
 
     if message is None:
       message = "  Do you still wish to proceed? (Y/N): "
-
     if warning is not None:
       console.status('warn', warning)
-      message = "         " + message
 
     response = input(message)
-
     print()
     return True if response.lower() == 'y' or response.lower() == 'yes' else False
 
@@ -147,6 +161,20 @@ class Console:
         encoding='utf-8'
       )
       return out.stdout
+
+  @sudo
+  def sudo(self, command:str, cwd:str = BASE_DIR, show_output:bool = False, *args, **kwargs) -> str|int:
+    """
+    Using the console.input method combined with the sudo decorator we can correctly handle
+    the use of sudo via the console library.
+    """
+    if command.strip().startswith('sudo ') and not command.strip().startswith('sudo -S '):
+      command.replace('sudo ', 'sudo -S ', 1)
+    if not command.strip().startswith('sudo'):
+      command = 'sudo -S ' + command
+    if len(kwargs['sudo_pass']) == 0:
+      return console.input(command=command, cwd=cwd, show_output=show_output)
+    return console.input(command=f'''echo {kwargs['sudo_pass']} | {command}''', cwd=cwd, show_output=show_output)
 
   def run_script(self, path:str) -> object:
     """

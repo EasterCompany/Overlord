@@ -522,9 +522,13 @@ def run_tool(command, index=0):
       nginx.error_message()
     elif arguments_remaining == 1:
       if arguments[0] == 'setup':
-        nginx.run()
+        nginx.setup.run()
+      elif arguments[0] == 'start':
+        nginx.service.start()
+      elif arguments[0] == 'stop':
+        nginx.service.stop()
       elif arguments[0] == 'restart':
-        nginx.restart()
+        nginx.service.restart()
 
   else:
     line_start = "\n" if index == 0 else ""

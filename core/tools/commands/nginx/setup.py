@@ -1,88 +1,80 @@
-# Automate Nginx Gateways for Overlord Server
+# Automate Nginx Gateways for Overlord Web Apps
 # Currently only available for Unix based systems
-import shlex
-from core.library import exists, console, sudo
-from web.settings import PROJECT_NAME, BASE_DIR
-
-site_available_conf = lambda: shlex.quote('''
-# HTTP Redirect to HTTPS
-server {
-  listen 80;
-  return 301 https://$host$request_uri;
-}
-
-# HTTPS /w SSL Certificate
-server {
-  listen 443 ssl;
-  #ssl_certificate /etc/letsencrypt/live/findseo.net/fullchain.pem;
-  #ssl_certificate_key /etc/letsencrypt/live/findseo.net/privkey.pem;
-  #include /etc/letsencrypt/options-ssl-nginx.conf;
-  #ssl_dhparam /etc/letsencrypt/ssl-dhparams.pem;
-
-  location / {
-    proxy_pass http://127.0.0.1:8000;
-    proxy_set_header Host $host;
-    proxy_set_header X-Forwarded-Proto $scheme;
-  }
-
-  location /static {
-    autoindex on;
-    alias ''' + BASE_DIR + '''/static;
-  }
-}
-''')
+from . import service, config
+from core.library import exists, console, package
 
 
-@sudo
-def generate_config_files(sudo_pass:str, *args, **kwargs) -> str|int:
-  '''
-    Generates config files at /etc/nginx/sites-available & /etc/nginx/sites-enabled/
-    for this project.
-  '''
-  site_enabled_conf_path = f'/etc/nginx/sites-enabled/{PROJECT_NAME}'
-  site_available_conf_path = f'/etc/nginx/sites-available/{PROJECT_NAME}'
-  file_contents = site_available_conf()
+def run() -> None:
+  if not console.verify(
+    warning='''Using the Nginx automation tool via Overlord-CLI will
+    overwrite any existing Nginx configurations on this system.
 
-  if exists(site_available_conf_path):
-    console.input(f'''echo {sudo_pass} | sudo -S rm {site_available_conf_path}''')
-  console.input(
-    f'''echo {sudo_pass} | sudo -S touch {PROJECT_NAME} && echo {file_contents} | sudo -S tee {PROJECT_NAME}''',
-    cwd="/etc/nginx/sites-available",
-    show_output=True
-  )
+    You can proceed to customize your Nginx setup after using this
+    command, however the initial setup will require overwriting some
+    critical files.
 
-  console.input(
-    f'''echo {sudo_pass} | sudo ln -sf {site_available_conf_path} /etc/nginx/sites-enabled/''',
-    show_output=True
-  )
+    Some packages will attempt to be installed:
+    nginx, certbot & python3-certbot-nginx
+  '''): return
 
-  if exists(site_available_conf_path) and exists(site_enabled_conf_path):
-    return True
-  return False
+  console.out("> Installing packages")
+  if not (package.apt_installed or package.yum_installed):
+    console.out(f"  {console.failure} No package manager (apt/yum) found.", "red")
+    console.out(f"  you will need to manually generate ssl certificates.", "red")
+  else:
+    console.out(f"  {console.wait} nginx", end="\r")
+    package.install("nginx")
+    console.out(f"  {console.success} nginx", "success")
+    console.out(f"  {console.wait} certbot", end="\r")
+    package.install("certbot")
+    console.out(f"  {console.success} certbot", "success")
+    console.out(f"  {console.wait} python3-certbot-nginx", end="\r")
+    package.install("python3-certbot-nginx")
+    console.out(f"  {console.success} python3-certbot-nginx", "success")
 
+  if not exists("/etc/nginx"):
+    console.status('error', 'Cannot find Nginx on this system @ /etc/nginx')
+    return
 
-@sudo
-def restart(sudo_pass:str, *args, **kwargs) -> str|int:
-  ''' Restarts the nginx service on this machine '''
-  return console.input(
-    f'''echo {sudo_pass} | sudo -S systemctl restart nginx'''
-  )
+  if service.stop() == 0:
+    console.out("\n> Generating nginx.conf file")
+    console.out(f"  {console.success} Stopped nginx service", "green")
+  else:
+    console.out(f"  {console.failure} Failed to stop nginx service", "red")
+    return
 
+  config.overwrite_nginx_conf()
+  console.out(f"  {console.success} Created configuration files", "green")
 
-@sudo
-def run(sudo_pass:str = "", *args, **kwargs) -> str|int:
-  ''' Runs the initial setup process for nginx on this machine '''
-  conf_generation = generate_config_files(sudo_pass)
+  if service.start() == 0:
+    console.out(f"  {console.success} Started nginx service", "green")
+  else:
+    console.out(f"  {console.failure} Failed to start nginx service", "red")
+    return
 
-  console.out('\n> Generating Nginx Config Files')
-  if not conf_generation:
-    return console.out(
-      f'  {console.failure} Failed to generate configuration files,\n    does the current user have root permissions?',
-      'red'
-    )
-  console.out(f'  {console.success} Configuration files exist', 'green')
-  restart(sudo_pass)
-  return console.out(f'  {console.success} Restarted nginx service', 'green')
+  console.out("\n> Generating site files")
+  site_file_status = config.generate_site_files()
+
+  if site_file_status:
+    console.out(f"  {console.success} Created site files", "green")
+  else:
+    console.out(f"  {console.failure} Failed to generate configuration files", "red")
+    return
+
+  console.out("\n> Generating SSL certificate")
+  ssl_status = config.generate_ssl_certificate()
+
+  if ssl_status:
+    console.out(f"  {console.success} Created self-signed certificates")
+  else:
+    console.out(f"  {console.failure} Failed to create certificates")
+    return
+
+  if service.restart() == 0:
+    console.out(f"  {console.success} Restarted nginx service", "green")
+  else:
+    console.out(f"  {console.failure} Failed to restart nginx service", "red")
+    return
 
 
 def error_message() -> str:
@@ -90,7 +82,6 @@ def error_message() -> str:
   The `nginx` command requires at least one argument.
 
   nginx -setup
-
-  or
-
+  nginx -start
+  nginx -stop
   nginx -restart''')
