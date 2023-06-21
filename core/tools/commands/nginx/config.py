@@ -86,9 +86,9 @@ def overwrite_nginx_conf() -> None:
   )
   content = ""
   current_user = getuser()
-  with open(f"{BASE_DIR}/core/tools/commands/nginx/assets/nginx.conf.temp", "r+") as file:
+  with open(f"{BASE_DIR}/core/tools/commands/nginx/assets/nginx.conf.temp", "r") as file:
     content = file.read()
-  with open(f"{BASE_DIR}/core/tools/commands/nginx/assets/nginx.conf.temp", "w+") as file:
+  with open(f"{BASE_DIR}/core/tools/commands/nginx/assets/nginx.conf.temp", "w") as file:
     file.write(content.replace('user www-data;', f'user {current_user};'))
   console.sudo(f"cp {BASE_DIR}/core/tools/commands/nginx/assets/nginx.conf.temp" f"/etc/nginx/nginx.conf")
   console.sudo(f"rm {BASE_DIR}/core/tools/commands/nginx/assets/nginx.conf.temp")
