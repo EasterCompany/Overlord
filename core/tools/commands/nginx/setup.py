@@ -103,6 +103,8 @@ def run() -> None:
   else:
     console.out(f"  {console.failure} Failed to create service")
 
+  service.start_app()
+
 
 def error_message() -> str:
   return console.out('''
