@@ -1,4 +1,5 @@
 import shlex
+from getpass import getuser
 from sys import executable
 from core.library import console, exists
 from web.settings import BASE_DIR, SECRET_DATA, PROJECT_NAME
@@ -18,32 +19,6 @@ server {
 server {
   server_name .''' + application_domain + '''
   listen 443 ssl;
-
-  location / {
-    proxy_pass http://127.0.0.1:8000;
-    proxy_set_header Host $host;
-    proxy_set_header X-Forwarded-Proto $scheme;
-  }
-
-  location /static {
-    autoindex on;
-    alias ''' + BASE_DIR + '''/static;
-  }
-}
-''')
-site_available_conf = lambda: shlex.quote('''
-server {
-  listen 80;
-  return 301 https://$host$request_uri;
-}
-
-server {
-  server_name .''' + application_domain + '''
-  listen 443 ssl;
-  ssl_certificate /etc/letsencrypt/live/''' + application_domain + '''/fullchain.pem;
-  ssl_certificate_key /etc/letsencrypt/live/''' + application_domain + '''/privkey.pem;
-  include /etc/letsencrypt/options-ssl-nginx.conf;
-  ssl_dhparam /etc/letsencrypt/ssl-dhparams.pem;
 
   location / {
     proxy_pass http://127.0.0.1:8000;
@@ -108,11 +83,13 @@ def overwrite_nginx_conf() -> None:
   console.sudo(f"cp {BASE_DIR}/core/tools/commands/nginx/assets/nginx.conf /etc/nginx/")
 
 
-def create_www_data_user() -> str|int:
+def create_www_data_user() -> None:
   '''
   Creates the www-data user on this system
   '''
-  return console.sudo("adduser  --no-create-home  --system  --user-group --shell /bin/false   www-data")
+  current_user = getuser()
+  console.sudo("adduser  --no-create-home  --system  --user-group --shell /bin/false   www-data")
+  console.sudo(f"usermod -a -G {current_user} www-data")
 
 
 def generate_site_files() -> bool:
