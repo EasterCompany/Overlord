@@ -76,10 +76,6 @@ def overwrite_nginx_conf() -> None:
   '''
   Removes any existing nginx.conf file and replaces it with Overlord's default one
   '''
-  if exists("/etc/nginx/sites-available"):
-    console.sudo("rm -rf /etc/nginx/sites-available")
-  if exists("/etc/nginx/sites-enabled"):
-    console.sudo("rm -rf /etc/nginx/sites-enabled")
   console.sudo("rm /etc/nginx/nginx.conf")
   content = ""
   current_user = getuser()
