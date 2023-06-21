@@ -3,24 +3,23 @@ from os import system, path
 from shutil import rmtree
 from sys import argv, executable
 
-if argv[1] == 'venv' or argv[1] == 'env':
-  root = __file__.replace('core.py', '')
-  env_path = __file__.replace('core.py', '.env')
-
-  if path.exists(env_path):
-    i = input("\nA virtual environment already exists for this project, would you like delete it? (Y/n): ")
-    if not i.lower() == 'y':
-      exit()
-    rmtree(env_path)
-    print('')
-
-  system(f"cd {root} && {executable} -m venv .env")
-  system(f"cd {root} && {root}.env/bin/python -m pip install -r core/requirements.txt")
-  system(f"cd {root} && {root}.env/bin/python -m pip install -r core/requirements.dev")
-  system(f"cd {root} && {root}.env/bin/python {root}core.py tools install")
-  exit()
-
 if __name__ == '__main__':
+  if argv[1] == 'venv' or argv[1] == 'env':
+    root = __file__.replace('core.py', '')
+    env_path = __file__.replace('core.py', '.env')
+
+    if path.exists(env_path):
+      i = input("\nA virtual environment already exists for this project, would you like delete it? (Y/n): ")
+      if not i.lower() == 'y':
+        exit()
+      rmtree(env_path)
+      print('')
+
+    system(f"cd {root} && {executable} -m venv .env")
+    system(f"cd {root} && {root}.env/bin/python -m pip install -r core/requirements.txt")
+    system(f"cd {root} && {root}.env/bin/python {root}core.py tools install")
+    exit()
+
   from core import create_super_user, create_user
   from core.tools import tools
   from core.library import console, wsgi_interface
