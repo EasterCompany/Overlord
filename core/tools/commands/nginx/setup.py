@@ -85,11 +85,11 @@ def run() -> None:
   console.out("\n> Generating SSL certificate")
   config.generate_ssl_certificate()
   console.out(f"  {console.success} Created SSL certificates", "success")
-  console.status(
-    "warn",
-    "If you encounter issues with your HTTPS protocol\n "
+  console.out(
+    "\nIf you encounter issues with your HTTPS protocol\n "
     "manually run certbot using the following command:\n "
-    "  certbot --nginx"
+    "  certbot --nginx",
+    "amber"
   )
 
   console.out("\n> Creating run server script")
