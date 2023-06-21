@@ -106,11 +106,13 @@ def generate_ssl_certificate() -> None:
   Generates the ssl certificates using certbot for nginx, this will also create a cronjob which automatically
   renews the certificates once per year before they expire
   '''
+  if len(application_domain) == 0:
+    console.status("warn", "You have not set a DOMAIN_URL configuration in your\n  .config/secrets.json file")
   console.input(
     "echo Y |"
     " sudo -S certbot --nginx"
     " --register-unsafely-without-email --renew-by-default"
-    f" -d {application_domain}",
+    f" -d {application_domain} -d *.{application_domain}",
     show_output=True
   )
   console.sudo("certbot renew --dry-run")
