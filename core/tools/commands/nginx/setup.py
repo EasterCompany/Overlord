@@ -83,15 +83,21 @@ def run() -> None:
 
   console.out("\n> Generating SSL certificate")
   if config.generate_ssl_certificate():
-    if service.stop() == 0:
-      console.out(f"  {console.success} Stopped nginx service", "success")
+    if service.start() == 0:
+      console.out(f"  {console.success} Started nginx service", "success")
     else:
-      console.out(f"  {console.failure} Failed to stop nginx service", "error")
+      console.out(f"  {console.failure} Failed to start nginx service", "error")
       return
     console.out(f"  {console.success} Created SSL certificates")
   else:
     console.out(f"  {console.failure} Failed to create certificates")
     return
+
+  console.status(
+    "warn",
+    "If you encounter issues with your HTTPS protocol, manually run certbot\n"
+    "  use the following command:  certbot --nginx"
+  )
 
 
 def error_message() -> str:
