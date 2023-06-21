@@ -1,4 +1,5 @@
 import shlex
+from sys import executable
 from core.library import console, exists
 from web.settings import BASE_DIR, SECRET_DATA, PROJECT_NAME
 
@@ -56,6 +57,40 @@ server {
   }
 }
 ''')
+systemd_service_template = lambda: shlex.quote(f'''[Unit]
+Description={PROJECT_NAME}
+After=default.target
+[Service]
+ExecStart={BASE_DIR}/{PROJECT_NAME}.run
+[Install]
+WantedBy=default.target''')
+run_prd_template = lambda: shlex.quote(f'''#!/bin/bash
+cd {BASE_DIR}
+{executable} -m gunicorn web.wsgi:application 127.0.0.1:8000''')
+
+
+def create_service() -> bool:
+  '''
+  Creates a systemd service for this server to use in production
+  '''
+  systemd_service_file = systemd_service_template()
+  console.sudo(f"touch {PROJECT_NAME}.service", cwd="/etc/systemd/system")
+  console.sudo(f"echo {systemd_service_file} | sudo -S tee {PROJECT_NAME}.service", cwd="/etc/systemd/system")
+  if exists(f"/etc/systemd/system/{PROJECT_NAME}"):
+    return True
+  return False
+
+
+def create_runner() -> bool:
+  '''
+  Creates a bash script to run the server in production mode
+  '''
+  runner_file = run_prd_template()
+  console.sudo(f"touch {PROJECT_NAME}.run", cwd=BASE_DIR)
+  console.sudo(f"echo {runner_file} | sudo -S tee {PROJECT_NAME}.run", cwd=BASE_DIR)
+  if exists(f"{BASE_DIR}/{PROJECT_NAME}.run"):
+    return True
+  return False
 
 
 def overwrite_nginx_conf() -> None:
@@ -108,5 +143,5 @@ def generate_ssl_certificate() -> None:
   '''
   if len(application_domain) == 0:
     console.status("warn", "You have not set a DOMAIN_URL configuration in your\n  .config/secrets.json file")
-  console.sudo("certbot --nginx", show_output=True)
-  console.sudo("certbot renew --dry-run")
+  console.input("sudo certbot --nginx", show_output=True)
+  console.input("sudo certbot renew --dry-run")

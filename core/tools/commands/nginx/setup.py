@@ -82,22 +82,26 @@ def run() -> None:
     return
 
   console.out("\n> Generating SSL certificate")
-  if config.generate_ssl_certificate():
-    if service.start() == 0:
-      console.out(f"  {console.success} Started nginx service", "success")
-    else:
-      console.out(f"  {console.failure} Failed to start nginx service", "error")
-      return
-    console.out(f"  {console.success} Created SSL certificates")
-  else:
-    console.out(f"  {console.failure} Failed to create certificates")
-    return
-
+  config.generate_ssl_certificate()
+  console.out(f"  {console.success} Created SSL certificates", "success")
   console.status(
     "warn",
-    "If you encounter issues with your HTTPS protocol, manually run certbot\n"
-    "  use the following command:  certbot --nginx"
+    "If you encounter issues with your HTTPS protocol\n "
+    "manually run certbot using the following command:\n "
+    "  certbot --nginx"
   )
+
+  console.out("\n> Creating run server script")
+  if config.create_runner():
+    console.out(f"  {console.success} Created script")
+  else:
+    console.out(f"  {console.failure} Failed to create script")
+
+  console.out("\n> Creating systemd service")
+  if config.create_service():
+    console.out(f"  {console.success} Created service")
+  else:
+    console.out(f"  {console.failure} Failed to create service")
 
 
 def error_message() -> str:
