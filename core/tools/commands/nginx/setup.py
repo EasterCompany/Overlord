@@ -29,7 +29,10 @@ def run() -> None:
     console.out(f"  {console.wait} certbot", end="\r")
     if not package.apt_installed and package.yum_installed:
       package.install("epel-release")
+      package.install("https://dl.fedoraproject.org/pub/epel/epel-release-latest-7.noarch.rpm")
       package.update()
+      package.install("mod_ssl")
+      package.install("python-certbot-nginx")
     package.install("certbot")
     console.out(f"  {console.success} certbot", "success")
     console.out(f"  {console.wait} python3-certbot-nginx", end="\r")
