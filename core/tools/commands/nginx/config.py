@@ -108,9 +108,9 @@ def generate_ssl_certificate() -> None:
   '''
   console.input(
     "echo Y |"
-    " sudo -S certbot -v --nginx"
+    " sudo -S certbot --nginx"
     " --register-unsafely-without-email --renew-by-default"
-    f" -d {application_domain} -d *.{application_domain}",
+    f" -d {application_domain}",
     show_output=True
   )
   console.sudo("certbot renew --dry-run")
