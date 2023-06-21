@@ -86,9 +86,9 @@ def run() -> None:
   config.generate_ssl_certificate()
   console.out(f"  {console.success} Created SSL certificates", "success")
   console.out(
-    "\nIf you encounter issues with your HTTPS protocol\n "
+    "\nIf you encounter issues with your HTTPS protocol\n"
     "manually run certbot using the following command:\n "
-    "  certbot --nginx",
+    " certbot --nginx",
     "amber"
   )
 
@@ -115,7 +115,7 @@ def run() -> None:
     console.out(f"  {console.failure} Unexpected error encountered", "error")
 
   console.out("\nVerify your applications status with the following command:")
-  console.out(f"sudo systemctl status {PROJECT_NAME}", "green")
+  console.out(f" sudo systemctl status {PROJECT_NAME}", "green")
 
 
 def error_message() -> str:
