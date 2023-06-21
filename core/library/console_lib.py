@@ -163,7 +163,7 @@ class Console:
       return out.stdout
 
   @sudo
-  def sudo(self, command:str, cwd:str = BASE_DIR, show_output:bool = True, *args, **kwargs) -> str|int:
+  def sudo(self, command:str, cwd:str = BASE_DIR, show_output:bool = False, *args, **kwargs) -> str|int:
     """
     Using the console.input method combined with the sudo decorator we can correctly handle
     the use of sudo via the console library.

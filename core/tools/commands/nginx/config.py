@@ -108,5 +108,9 @@ def generate_ssl_certificate() -> None:
   '''
   if len(application_domain) == 0:
     console.status("warn", "You have not set a DOMAIN_URL configuration in your\n  .config/secrets.json file")
-  console.input(f"sudo -S certbot --nginx -d {application_domain} -d *.{application_domain}")
-  console.sudo("certbot renew --dry-run")
+  console.input(
+    "sudo -S certbot --nginx --register-unsafely-without-email"
+    f" -d {application_domain} -d *.{application_domain}",
+    show_output=True
+  )
+  #console.sudo("certbot renew --dry-run")
