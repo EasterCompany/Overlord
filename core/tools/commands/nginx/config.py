@@ -112,7 +112,7 @@ def generate_ssl_certificate() -> None:
     "sudo -S certbot --authenticator standalone --installer nginx"
     " --register-unsafely-without-email --renew-by-default"
     f" -d {application_domain} -d *.{application_domain}"
-    ' --pre-hook "service nginx stop" --post-hook "service nginx start"',
+    ' --pre-hook "sudo systemctl stop nginx" --post-hook "sudo systemctl start nginx"',
     show_output=True
   )
   #console.sudo("certbot renew --dry-run")
