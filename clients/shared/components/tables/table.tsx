@@ -2,7 +2,7 @@
 import './table.css';
 import { useState, useEffect } from 'react';
 // Shared library
-import api from '../../library/server/api';
+import api from '../../library/api';
 // Shared components
 import goto from '../routes/routes';
 import ConfirmationModal from '../modals/confirmation';

@@ -5,7 +5,7 @@ import EmailSVG from '../../assets/icons/email.svg';
 import KeySVG from '../../assets/icons/key.svg';
 // Library
 import { Link } from '../routes/routes';
-import { user, login } from '../../library/local/user';
+import { user, login } from '../../library/user';
 
 const NavBarBreakpoint = 1085;
 
