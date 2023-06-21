@@ -94,25 +94,25 @@ def run() -> None:
 
   console.out("\n> Creating run server script")
   if config.create_runner():
-    console.out(f"  {console.success} Created script")
+    console.out(f"  {console.success} Created script", "success")
   else:
-    console.out(f"  {console.failure} Failed to create script")
+    console.out(f"  {console.failure} Failed to create script", "error")
 
   console.out("\n> Creating systemd service")
   if config.create_service():
-    console.out(f"  {console.success} Created service")
+    console.out(f"  {console.success} Created service", "success")
   else:
-    console.out(f"  {console.failure} Failed to create service")
+    console.out(f"  {console.failure} Failed to create service", "error")
 
   console.out("\n> Reloading system services")
   if service.reload() == 0:
-    console.out(f"  {console.success} Services reloaded")
+    console.out(f"  {console.success} Services reloaded", "success")
     if service.restart_app() == 0:
-      console.out(f"  {console.success} App service restarted")
+      console.out(f"  {console.success} App service restarted", "success")
     else:
-      console.out(f"  {console.failure} Failed to restart app")
+      console.out(f"  {console.failure} Failed to restart app", "error")
   else:
-    console.out(f"  {console.failure} Unexpected error encountered")
+    console.out(f"  {console.failure} Unexpected error encountered", "error")
 
   console.out(f"\nVerify your applications status with the following command:\nsudo systemctl status {PROJECT_NAME}")
 
