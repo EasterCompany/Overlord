@@ -28,7 +28,7 @@ server {
 
   location /static/ {
     autoindex on;
-    alias ''' + BASE_DIR + '''/static;
+    alias ''' + BASE_DIR + '''/static/;
   }
 }
 ''')
