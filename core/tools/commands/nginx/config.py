@@ -74,9 +74,10 @@ def create_service() -> bool:
   Creates a systemd service for this server to use in production
   '''
   systemd_service_file = systemd_service_template()
+  console.sudo(f"rm /etc/systemd/system/{PROJECT_NAME}.service")
   console.sudo(f"touch {PROJECT_NAME}.service", cwd="/etc/systemd/system")
   console.sudo(f"echo {systemd_service_file} | sudo -S tee {PROJECT_NAME}.service", cwd="/etc/systemd/system")
-  if exists(f"/etc/systemd/system/{PROJECT_NAME}"):
+  if exists(f"/etc/systemd/system/{PROJECT_NAME}.service"):
     return True
   return False
 
@@ -86,6 +87,7 @@ def create_runner() -> bool:
   Creates a bash script to run the server in production mode
   '''
   runner_file = run_prd_template()
+  console.sudo(f"rm {BASE_DIR}/{PROJECT_NAME}.run")
   console.sudo(f"touch {PROJECT_NAME}.run", cwd=BASE_DIR)
   console.sudo(f"echo {runner_file} | sudo -S tee {PROJECT_NAME}.run", cwd=BASE_DIR)
   if exists(f"{BASE_DIR}/{PROJECT_NAME}.run"):
