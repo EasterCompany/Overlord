@@ -414,6 +414,9 @@ def create(name:str, native:bool = False, custom_repo:str|None = None):
         new_file.write(content)
     console.out("  ✅ Updated shared.json              ", "success")
 
+  if native:
+    console.input("npm install -g expo-cli", cwd=f"{settings.BASE_DIR}/clients/{name}")
+
   update_overlord_configuration()
   return install(name)
 
