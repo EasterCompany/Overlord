@@ -84,6 +84,10 @@ class WebClient():
   # react web app functionalities.
   __urls__ = None
 
+  # Client.is_native is an non-overridable variable which indicates weather or not
+  # this client is a react-native based client or not.
+  is_native:bool = True
+
   def __init__(self):
     # User setup dependent options
     if self.DIR is None:
@@ -94,10 +98,10 @@ class WebClient():
     # Generate production environment file
     with open(self.ENV, 'w') as prd_env:
       prd_env.write(self._env(prd=True))
-    # Generate development production file
+    # Generate development environment file
     with open(self.ENV + '.dev', 'w') as dev_env:
       dev_env.write(self._env(prd=False))
-    # Build the url structure for django
+    # Build the url structure
     self.URL = self._url()
     self.URLS = self.__urls__() if callable(self.__urls__) else None
     # Load HTML Template
@@ -167,15 +171,6 @@ class WebClient():
     _path = f"{self.DIR}/{endpoint}" if not self.IS_INDEX else f"{endpoint}"
     self.URLS_re_paths += rf"^(?!{endpoint})"
     return new_path(_path, view, name=description)
-
-  def is_native(self):
-    '''
-    Lets the Overlord know that this is not a React-Native based Client
-    and it is a default React Web App based client
-
-    :return: False
-    '''
-    return False
 
   def current_uri(self, req) -> str:
     '''
@@ -298,11 +293,26 @@ class NativeClient(WebClient):
   [SPACES ARE PURGED FROM CONFIGURATION SETTINGS IN THE ENV FILE]
   '''
 
-  def is_native(self):
-    '''
-    Lets the Overlord know that this is a React-Native based Client
-    as opposed to a regular default React Web App.
+  # Client.is_native is an non-overridable variable which indicates weather or not
+  # this client is a react-native based client or not.
+  is_native:bool = True
 
-    :return: True
-    '''
-    return True
+  def __init__(self):
+    # User setup dependent options
+    if self.DIR is None:
+      self.DIR = self.NAME
+    if self.ENDPOINT == '':
+      self.ENDPOINT = self.DIR if not self.DIR == settings.INDEX else ''
+    self.IS_INDEX = self.ENDPOINT == ''
+    # Generate production environment file
+    with open(self.ENV, 'w') as prd_env:
+      prd_env.write(self._env(prd=True))
+    # Generate development environment file
+    with open(self.ENV + '.development', 'w') as dev_env:
+      dev_env.write(self._env(prd=False))
+    # Build the url structure
+    self.URL = self._url()
+    self.URLS = self.__urls__() if callable(self.__urls__) else None
+    # Load HTML Template
+    self.html = None
+    self.html_path = f'{self.DIR}.app'
