@@ -60,7 +60,7 @@ def update_client_meta_data(app_name:str, app_data:dict) -> None:
     rm_file(app_data['static'] + '/404.html')
 
 
-def client(app_data, build=False, app_name=""):
+def client(app_data:dict = {}, build:bool = False, app_name:str = ""):
   """
   Runs a client using npm in development mode, not to be used on a live server unless using the 'build'
   parameter which builds the client for production
@@ -111,8 +111,7 @@ def client(app_data, build=False, app_name=""):
         console.status(
           "error",
           f"Permission Denied: {static_dir}\n"
-          "  Current user does not have permissions to modify the static directory\n"
-          "  Fix permissions or run `sudo ./o` when accessing the CLI."
+          "  Current user does not have permissions to modify the static directory."
         )
         try:
           rmtree(source_dir)
