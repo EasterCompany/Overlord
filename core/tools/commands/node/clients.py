@@ -98,11 +98,23 @@ def client(app_data, build=False, app_name=""):
     console.out("  ✅ Compiled      ", "success")
 
     if 'export:web' in app_data['build']:
+      source_dir = f"{app_data['src']}/web-build/*"
       console.out(f"  {console.wait} Exporting Static Files", end="\r")
+
       if exists(static_dir):
         rmtree(static_dir)
-      console.input(f"mkdir {app_name}", cwd=f"{settings.BASE_DIR}/static")
-      move(src=f"{app_data['src']}/web-build", dst=static_dir)
+
+      try:
+        move(src=source_dir, dst=static_dir)
+      except PermissionError:
+        console.out(f"  {console.failure} Exported                ", "error")
+        console.status(
+          "error",
+          "Permissions error with static directory, sudo intervention required."
+        )
+        console.sudo(f"chmod 755 {settings.BASE_DIR}/static")
+        move(src=source_dir, dst=static_dir)
+
       console.out(f"  {console.success} Exported                ", "success")
 
     console.out(f"  {console.wait} Post-Processing", end="\r")
