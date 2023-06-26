@@ -269,11 +269,18 @@ def run_tool(command, index=0):
 
     elif arguments_remaining >= 1:
       any_valid_client = False
+      already_started = False
       for arg in arguments:
         if arg in CLIENT_DATA:
-          any_valid_client = True
-        node.clients.run(arg, False, True)
-      if any_valid_client:
+          if 'npx expo' in CLIENT_DATA[arg]['start']:
+            already_started = True
+            django.server.start()
+            node.share.file_updater_thread()
+            node.clients.run(arg, False, False)
+          else:
+            any_valid_client = True
+            node.clients.run(arg, False, True)
+      if any_valid_client and not already_started:
         django.server.start()
         node.share.file_updater_thread()
 
@@ -288,8 +295,6 @@ def run_tool(command, index=0):
           "\n          from within your .config/server.json configuration file. ",
           "red"
         )
-
-    return awaitInput(False)
 
   elif command == 'runserver':
     console.out("\nStarting Production Server", "green")

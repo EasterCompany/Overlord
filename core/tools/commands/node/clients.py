@@ -101,7 +101,10 @@ def client(app_data, build=False, app_name=""):
     console.out("  ✅ Post-Processed    ", "success")
 
   elif not build and 'start' in app_data:
-    subprocess.call("npm run start", shell=True, cwd=app_data['src'])
+    if 'npx expo' in app_data['start']:
+      system(f"cd {app_data['src']} && npm run start && cd {settings.BASE_DIR}")
+    else:
+      subprocess.call("npm run start", shell=True, cwd=app_data['src'])
 
 
 # Create client thread

@@ -12,7 +12,7 @@ from web.settings import BASE_DIR
 from core.library.version import Version
 from core.library import exists, mkdir, json, console, remove
 version = Version()
-update_logger = None
+update_logger:dict|None = None
 update_logger_dir = f'{BASE_DIR}/.logs'
 update_logger_path = f'{BASE_DIR}/.logs/update_logger'
 random_file_name = f"{random.randint(1000, 9999)}".encode()
@@ -33,7 +33,7 @@ if not exists(update_logger_path):
     update_logger_file.write(json.dumps(default_log, indent=2))
 
 
-def read_update_logger() -> dict:
+def read_update_logger() -> None:
   """
   Read the update logger file and import it's contents into memory
 
@@ -86,7 +86,7 @@ def get_latest_version_label(force:bool = False) -> list:
     update_logger['last_check'][1], update_logger['last_check'][2], update_logger['last_check'][3] = \
       int(ver_list[0]), int(ver_list[1]), int(ver_list[2])
     save_update_logger()
-    return int(ver_list[0]), int(ver_list[1]), int(ver_list[2])
+    return [int(ver_list[0]), int(ver_list[1]), int(ver_list[2])]
   except:
     return last_version
 
@@ -105,7 +105,7 @@ def check_status(force:bool = False) -> list:
   update_available = new_major or new_minor or new_patch
 
   if not update_available:
-    return False, console.out("This instance is currently up-to-date.", "green", False)
+    return [False, console.out("This instance is currently up-to-date.", "green", False)]
 
   new_version = console.out(f"v{latest_version[0]}.{latest_version[1]}.{latest_version[2]}", "green", False)
   if new_minor or new_major:
@@ -113,7 +113,7 @@ def check_status(force:bool = False) -> list:
   else:
     cur_version = console.out(f"v{version.major}.{version.minor}.{version.patch}", "yellow", False)
 
-  return True, f"`{cur_version}` -> `{new_version}`"
+  return [True, f"`{cur_version}` -> `{new_version}`"]
 
 
 def purge_temp_directory() -> None:
@@ -164,4 +164,3 @@ def clone_latest_version() -> None:
   except Exception as update_error:
     purge_temp_directory()
     console.out(f"\n  Failed to update due an unexpected error\n  {update_error}")
-    return False
