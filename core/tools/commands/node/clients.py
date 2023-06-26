@@ -382,7 +382,7 @@ def create(name:str, native:bool = False, custom_repo:str|None = None):
     console.out(f"  {console.wait} Updating app.json", end="\r")
     with open(f'clients/{name}/app.json') as package:
       content = package.read()
-      content = content.replace('app-name', name)
+      content = content.replace('overlord_native_client', name)
       with open(f'clients/{name}/app.json', 'w') as new_file:
         new_file.write(content)
     console.out("  ✅ Updated app.json              ", "success")
@@ -415,7 +415,10 @@ def create(name:str, native:bool = False, custom_repo:str|None = None):
   console.out(f"  {console.wait} Updating package.json", end="\r")
   with open(f'{settings.BASE_DIR}/clients/{name}/package.json') as package:
     content = package.read()
-    content = content.replace('app-name', name)
+    if native:
+      content = content.replace('overlord_native_client', name)
+    else:
+      content = content.replace('app-name', name)
     with open(f'{settings.BASE_DIR}/clients/{name}/package.json', 'w') as new_file:
       new_file.write(content)
   console.out("  ✅ Updated package.json              ", "success")
