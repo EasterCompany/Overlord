@@ -2,7 +2,7 @@
 import subprocess
 from json import loads
 from time import sleep
-from shutil import rmtree
+from shutil import rmtree, move
 from os.path import exists
 from threading import Thread
 from datetime import datetime
@@ -68,6 +68,7 @@ def client(app_data, build=False, app_name=""):
   :return None:
   """
   if build and 'build' in app_data:
+    static_dir = f"{settings.BASE_DIR}/static/{app_name}"
     print(f"\n> {app_name} @ {clients_json[app_name]['version']}")
 
     console.out(f"  {console.wait} Installing", end="\r")
@@ -95,6 +96,13 @@ def client(app_data, build=False, app_name=""):
       universal_newlines=True
     )
     console.out("  ✅ Compiled      ", "success")
+
+    if 'export:web' in app_data['build']:
+      console.out(f"  {console.wait} Exporting Static Files", end="\r")
+      if exists(static_dir):
+        rmtree(static_dir)
+      move(src=f"{app_data['src']}/web-build", dst=static_dir)
+      console.out(f"  {console.success} Exported                ", "success")
 
     console.out(f"  {console.wait} Post-Processing", end="\r")
     update_client_meta_data(app_name, app_data)
@@ -360,7 +368,7 @@ def create(name:str, native:bool = False, custom_repo:str|None = None):
 
   # De-git repository
   console.out(f"  {console.wait} Removing .git/*", end="\r")
-  rmtree(f'clients/{name}/.git')
+  rmtree(f'{settings.BASE_DIR}/clients/{name}/.git')
   console.out("  ✅ Removed .git/*              ", "success")
 
   # Update meta_data
@@ -370,33 +378,38 @@ def create(name:str, native:bool = False, custom_repo:str|None = None):
     console.out("  ✅ Updated meta file            ", "success")
 
   if native:
-    # Update native app.json
+    # Update app.json
     console.out(f"  {console.wait} Updating app.json", end="\r")
     with open(f'clients/{name}/app.json') as package:
       content = package.read()
-      content = content.replace('app-name', name.lower())
+      content = content.replace('app-name', name)
       with open(f'clients/{name}/app.json', 'w') as new_file:
         new_file.write(content)
     console.out("  ✅ Updated app.json              ", "success")
 
-  else:
-    # Update index.html
-    console.out(f"  {console.wait} Updating public/index.html", end="\r")
-    with open(f'clients/{name}/public/index.html') as index_content:
-      content = index_content.read()
-      content = content.replace('{#app_name#}', name)
-      with open(f'clients/{name}/public/index.html', 'w') as new_file:
-        new_file.write(content)
-    console.out("  ✅ Updated public/index.html              ", "success")
+  # Update index.html
+  index_html_path = \
+    f'{settings.BASE_DIR}/clients/{name}/web/index.html' if native else \
+    f'{settings.BASE_DIR}/clients/{name}/public/index.html'
+  console.out(f"  {console.wait} Updating index.html", end="\r")
+  with open(index_html_path, 'r') as index_content:
+    content = index_content.read()
+    content = content.replace('{#app_name#}', name)
+    with open(index_html_path, 'w') as new_file:
+      new_file.write(content)
+  console.out(f"  {console.success} Updated index.html              ", "success")
 
-    # Update manifest.json
-    console.out(f"  {console.wait} Updating public/manifest.json", end="\r")
-    with open(f'{settings.BASE_DIR}/clients/{name}/public/manifest.json') as manifest:
-      content = manifest.read()
-      content = content.replace('app-name', name)
-      with open(f'{settings.BASE_DIR}/clients/{name}/public/manifest.json', 'w') as new_file:
-        new_file.write(content)
-    console.out("  ✅ Updated public/manifest.json              ", "success")
+  # Update manifest.json
+  manifest_json_path = \
+    f'{settings.BASE_DIR}/clients/{name}/web/manifest.json' if native else \
+    f'{settings.BASE_DIR}/clients/{name}/public/manifest.json'
+  console.out(f"  {console.wait} Updating public/manifest.json", end="\r")
+  with open(manifest_json_path, 'r') as manifest:
+    content = manifest.read()
+    content = content.replace('app-name', name)
+    with open(manifest_json_path, 'w') as new_file:
+      new_file.write(content)
+  console.out("  ✅ Updated manifest.json              ", "success")
 
   # Update package.json
   console.out(f"  {console.wait} Updating package.json", end="\r")
@@ -413,12 +426,18 @@ def create(name:str, native:bool = False, custom_repo:str|None = None):
     with open(f'{settings.BASE_DIR}/clients/{name}/shared.json') as shared:
       content = shared.read()
       content = content.replace('overlord_web_client', name)
+      content = content.replace('overlord_native_client', name)
       with open(f'{settings.BASE_DIR}/clients/{name}/shared.json', 'w') as new_file:
         new_file.write(content)
     console.out("  ✅ Updated shared.json              ", "success")
 
   if native:
-    console.input("npm install -g expo-cli", cwd=f"{settings.BASE_DIR}/clients/{name}")
+    console.out(f"  {console.wait} Installing expo-cli", end="\r")
+    console.input("npm install expo-cli", cwd=f"{settings.BASE_DIR}/clients/{name}")
+    console.out(f"  {console.success} Installed expo-cli             ", "success")
+    console.out(f"  {console.wait} Installing eas-cli", end="\r")
+    console.input("npm install eas-cli", cwd=f"{settings.BASE_DIR}/clients/{name}")
+    console.out(f"  {console.success} Installed eas-cli             ", "success")
 
   update_overlord_configuration()
   return install(name)
