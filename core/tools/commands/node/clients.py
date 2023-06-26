@@ -108,7 +108,12 @@ def client(app_data, build=False, app_name=""):
         console.out(f"  {console.success} Exported                ", "success")
       except PermissionError:
         console.out(f"  {console.failure} Exported                ", "error")
-        console.status("error", f"Permission Denied: {static_dir}")
+        console.status(
+          "error",
+          f"Permission Denied: {static_dir}\n"
+          "  Current user does not have permissions to modify the static directory\n"
+          "  Fix permissions or run `sudo ./o` when accessing the CLI."
+        )
         try:
           rmtree(source_dir)
         except Exception:
