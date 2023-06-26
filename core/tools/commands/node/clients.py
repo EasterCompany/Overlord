@@ -101,7 +101,7 @@ def client(app_data, build=False, app_name=""):
       console.out(f"  {console.wait} Exporting Static Files", end="\r")
       if exists(static_dir):
         rmtree(static_dir)
-      mkdir(f'./static/{app_name}')
+      console.input(f"mkdir {app_name}", cwd=f"{settings.BASE_DIR}/static")
       move(src=f"{app_data['src']}/web-build", dst=static_dir)
       console.out(f"  {console.success} Exported                ", "success")
 
