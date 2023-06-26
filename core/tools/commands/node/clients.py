@@ -16,7 +16,7 @@ from ..install import (
 )
 from web import settings
 from ..node.share import __update_shared_files__
-from core.library import console, executable, is_alphanumeric, to_alphanumeric
+from core.library import console, executable, is_alphanumeric, to_alphanumeric, mkdir
 from core.tools.commands.install import make_clients_config
 
 # Variable app meta data
@@ -101,6 +101,7 @@ def client(app_data, build=False, app_name=""):
       console.out(f"  {console.wait} Exporting Static Files", end="\r")
       if exists(static_dir):
         rmtree(static_dir)
+      mkdir(f'./static/{app_name}')
       move(src=f"{app_data['src']}/web-build", dst=static_dir)
       console.out(f"  {console.success} Exported                ", "success")
 
