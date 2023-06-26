@@ -98,7 +98,7 @@ def client(app_data, build=False, app_name=""):
     console.out("  ✅ Compiled      ", "success")
 
     if 'export:web' in app_data['build']:
-      source_dir = f"{app_data['src']}/web-build/*"
+      source_dir = f"{app_data['src']}/web-build"
       console.out(f"  {console.wait} Exporting Static Files", end="\r")
 
       if exists(static_dir):
