@@ -101,21 +101,24 @@ def client(app_data, build=False, app_name=""):
       source_dir = f"{app_data['src']}/web-build"
       console.out(f"  {console.wait} Exporting Static Files", end="\r")
 
-      if exists(static_dir):
-        rmtree(static_dir)
-
       try:
+        if exists(static_dir):
+          rmtree(static_dir)
         move(src=source_dir, dst=static_dir)
+        console.out(f"  {console.success} Exported                ", "success")
       except PermissionError:
         console.out(f"  {console.failure} Exported                ", "error")
         console.status(
           "error",
           "Permissions error with static directory, sudo intervention required."
         )
-        console.sudo(f"chmod 755 {settings.BASE_DIR}/static")
-        move(src=source_dir, dst=static_dir)
-
-      console.out(f"  {console.success} Exported                ", "success")
+        if exists(static_dir):
+          console.sudo(f"rm -rf {static_dir}")
+        console.sudo(f"mkdir {static_dir}")
+        if exists(source_dir):
+          console.sudo(f"mv {source_dir}/* {static_dir}")
+          console.out(f"  {console.success} Circumvented permissions error", "success")
+          console.out(f"    Try fixing your permissions or run `sudo ./o` next time.", "amber")
 
     console.out(f"  {console.wait} Post-Processing", end="\r")
     update_client_meta_data(app_name, app_data)
