@@ -5,11 +5,6 @@ from core.library import time, models, uuid, \
   JsonResponse
 from core.library import console
 
-try:
-  from api.eastercompany.tables import AdminPanel
-except ImportError:
-  pass
-
 
 class newUserObj:
   auth = None
@@ -183,13 +178,20 @@ class Users(UserModel):
         return error
 
   @staticmethod
-  def login(email:str, password:str):
-    user = Users.get(email)
-    if str(user) == "Users matching query does not exist.":
+  def login(req=None, email:str = "", password:str = ""):
+    ''' login a user via http request or email/pass parameters '''
+    if email == "" and req is not None:
+      json_data = api.get_json(req)
+      email = json_data['email']
+      password = json_data['password']
+
+    user = Users.get(email.lower())
+    if isinstance(user, Exception):
       return api.error(user)
     elif password == decrypt(user.key):
       console.log(f"User {user.uuid} logged in")
       return api.data({'uuid': user.uuid, 'email': user.email, 'session': user.session})
+
     return api.error()
 
   @staticmethod

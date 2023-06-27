@@ -2,7 +2,11 @@
 from wsgiref.util import FileWrapper
 # Overlord library
 from web import settings
-from core.library import HttpResponse, re_path, render, html_loader, path as new_path
+from core.library import (
+  HttpResponse, re_path, render,
+  html_loader, path as new_path,
+  local_ip
+)
 
 # Random Ports Used Counter
 _RPU = 0
@@ -135,10 +139,10 @@ class WebClient():
     if prd: return f'''# .env
     #   automatically generated file
     #   do not edit or delete
-    ENV=Prd
     PORT={self.PORT}
     BUILD_PATH={settings.BASE_DIR + '/static/' + self.DIR}
     PUBLIC_URL=/static/{self.DIR}/
+    REACT_APP_ENV=Prd
     REACT_APP_NAME={self.NAME}
     REACT_APP_API={api}
     REACT_APP_PWA={pwa}
@@ -150,10 +154,10 @@ class WebClient():
     return f'''# .env.dev
     #   automatically generated file
     #   do not edit or delete
-    ENV=Dev
     PORT={self.PORT}
     BUILD_PATH={settings.BASE_DIR + '/static/' + self.DIR}
     PUBLIC_URL={dev_url}
+    REACT_APP_ENV=Dev
     REACT_APP_NAME={self.NAME}
     REACT_APP_API={api}
     REACT_APP_PWA={pwa}
@@ -298,3 +302,42 @@ class NativeClient(WebClient):
   # Client.is_native is an non-overridable variable which indicates weather or not
   # this client is a react-native based client or not.
   is_native:bool = True
+
+  def _env(self, prd=True):
+    '''
+    Generate Client Environment Configuration
+
+    Creates the .env file for this client on this environment which
+    automatically adjusts between local development, staging or production
+    '''
+    if self.PORT is None:
+      self.PORT = RPU()
+    api = self.API if self.API is not None else f'api/{self.DIR}/'
+    pwa = 'true' if self.PWA else 'false'
+    dev_url = f"/{self.ENDPOINT}/" if len(self.ENDPOINT) > 0 else "/"
+
+    if prd: return f'''# .env
+    #   automatically generated file
+    #   do not edit or delete
+    API_DOMAIN=http://{local_ip}:8000
+    REACT_APP_ENV=Prd
+    REACT_APP_NAME={self.NAME}
+    REACT_APP_API={api}
+    REACT_APP_PWA={pwa}
+    REACT_APP_STATIC=/static/{self.DIR}/
+    REACT_APP_ENDPOINT={self.ENDPOINT}
+    REACT_APP_IS_INDEX={str(self.IS_INDEX).lower()}
+    '''.replace('    ', '')
+
+    return f'''# .env.dev
+    #   automatically generated file
+    #   do not edit or delete
+    API_DOMAIN=http://{local_ip}:8000
+    REACT_APP_ENV=Dev
+    REACT_APP_NAME={self.NAME}
+    REACT_APP_API={api}
+    REACT_APP_PWA={pwa}
+    REACT_APP_STATIC={dev_url}
+    REACT_APP_ENDPOINT={self.ENDPOINT}
+    REACT_APP_IS_INDEX={str(self.IS_INDEX).lower()}
+    '''.replace('    ', '')

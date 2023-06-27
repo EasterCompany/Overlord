@@ -4,6 +4,7 @@
 
 # Standard library
 import json
+import socket
 import secrets
 import subprocess
 from pathlib import Path
@@ -57,3 +58,11 @@ def uuid() -> str:
 def wsgi_interface():
   environ.setdefault('DJANGO_SETTINGS_MODULE', 'web.settings')
   return __wsgi_application__()
+
+
+hostname = socket.gethostname()
+local_ip = None
+
+with socket.socket(socket.AF_INET, socket.SOCK_DGRAM) as _s:
+  _s.connect(("8.8.8.8", 80))
+  local_ip = _s.getsockname()[0]

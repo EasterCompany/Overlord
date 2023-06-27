@@ -1,39 +1,29 @@
-// Overlord library
-import { USER } from './user';
+// Use AsyncStorage for native cookies
+import AsyncStorage from '@react-native-async-storage/async-storage';
 
 // Shortcuts
-export const isDev = process.env.ENV === 'Dev';
-export const isPrd = process.env.ENV === 'Prd';
-export const mock = (_url:string) => isDev ?
-  _url.replace(_url.split('/')[2], '0.0.0.0:8000').replace('https://', 'http://') : _url
+export const isNative = typeof window.location === 'undefined' || typeof document === 'undefined';
+export const isDev = process.env.REACT_APP_ENV === 'Dev';
+export const isPrd = process.env.REACT_APP_ENV === 'Prd';
+export const mock = isNative ? () => {
+  return isDev ?
+    _url.replace(_url.split('/')[2], `${process.env.API_DOMAIN}:8000`).replace('https://', 'http://') : _url
+} : (_url:string) => {
+  return isDev ?
+    _url.replace(_url.split('/')[2], '0.0.0.0:8000').replace('https://', 'http://') : _url
+}
+if (isNative) document = { cookie: {} };
 
-/*
-  GLOBAL ENVIRONMENT SETUP
-  defines the routing for this Clients Environment
-*/
-export const getEndpoints = typeof window.location === 'undefined' || typeof document === 'undefined' ?
-() => {
-  const client_endpoint_local = process.env.REACT_APP_ENDPOINT === '' ?
-  `http://0.0.0.0:8000/` :
-  `http://0.0.0.0:8000/${process.env.REACT_APP_NAME}/`
 
-  const client_endpoint = process.env.REACT_APP_ENDPOINT === '' ?
-  `/` :
-  `/${process.env.REACT_APP_NAME}/`
-
-  return isDev ? {
-    client: client_endpoint_local,
-    server: `http://0.0.0.0:8000/`,
-    api: `http://0.0.0.0:8000/${process.env.REACT_APP_API}`
-  } : {
-    client: client_endpoint,
-    server: `/`,
-    api: `/${process.env.REACT_APP_API}`
+// Defines the routing for this client & server environment
+export const getEndpoints = isNative ? () => {
+  const client_endpoint = process.env.REACT_APP_ENDPOINT === `` ? `/` : `/${process.env.REACT_APP_ENDPOINT}/`
+  return {
+    client: isDev ? '/' : client_endpoint,
+    server: `${process.env.API_DOMAIN}/`,
+    api: `${process.env.API_DOMAIN}/${process.env.REACT_APP_API}`
   }
 } : () => {
-
-  // Native Fix
-  if (typeof window.location === 'undefined') return {}
 
   // Standalone Local Django Server
   if (window.location.host.endsWith(':3000')) {
@@ -116,18 +106,13 @@ export const getEndpoints = typeof window.location === 'undefined' || typeof doc
 }
 
 
-/*
-  SERVER API FUNCTIONS
-  these may require certain access & permissions parameters
-*/
-
-// Request data from the API
+// Request data from the Client Specific API
 export const api = async (API: string, BAD: any = null, OK: any = null) => {
   const user = USER();
   const _auth = `${user.UUID} ${user.SESH}`;
 
   try {
-    const response = await fetch(serverAPI + API, {
+    const response = await fetch(clientAPI + API, {
       method: 'POST',
       headers: {
         'Authorization': `Basic ${_auth}`,
@@ -157,12 +142,13 @@ export const api = async (API: string, BAD: any = null, OK: any = null) => {
 
 };
 
-// Request data from the API
+
+// POST data to the client specific API
 export const POST = async (API: string, _POST: any, BAD: any = null, OK: any = null) => {
   const user = USER();
   const _auth = `${user.UUID} ${user.SESH}`;
 
-  await fetch(serverAPI + API, {
+  await fetch(clientAPI + API, {
     method: 'POST',
     headers: new Headers({
       'Authorization': `Basic ${_auth}`,
@@ -218,12 +204,12 @@ export const xapi = async (
 }
 
 
-// Request data from a Base Overlord API
-export const oapi = async (API: string, DATA: any = null, BAD: any = null, OK: any = null) => {
+// Post/Request data to/from an Overlord Built-in API
+export const oapi = async (API: string, BAD: any = null, OK: any = null, DATA: any = null) => {
   const user = USER();
   const _auth = `${user.UUID} ${user.SESH}`;
 
-  await fetch(`${serverAdr}api/${API}`, {
+  await fetch(`${serverAdr}api/o-core/${API}`, {
     method: 'POST',
     headers: new Headers({
         'Authorization': `Basic ${_auth}`,
@@ -258,14 +244,165 @@ export const oapi = async (API: string, DATA: any = null, BAD: any = null, OK: a
 }
 
 
-/*
-  GLOBAL ENVIRONMENT
-  contains the state of the API->Client relationship.
-*/
+// Login using the built-in Overlord user model
+export const login = (DATA:any, BAD:any, OK:any) => {
+  oapi(
+    'user/login',
+    (resp) => BAD(resp),
+    (resp) => {
+      __INIT_USER__(
+        resp.uuid,
+        resp.email,
+        resp.session,
+        "", "", "", "",
+        "", "", "", ""
+      );
+      OK(resp);
+    },
+    JSON.stringify(DATA)
+  );
+}
 
-// Core API Library
+
+// Log Out of Current Session
+export const logout = () => {
+  deleteAllCookies();
+  if (!isNative) {
+    window.location.href = '';
+    window.location.reload();
+  }
+}
+
+
+// Create local user data
+export const __INIT_USER__ = (
+  uuid:string, email:string, session:string, dob:string,
+  name:string, image:string, fname:string, mname:string,
+  lname:string, joined:string, last_active:string
+) => {
+  createCookie('USR.UUID', uuid)
+  createCookie('USR.EMAIL', email)
+  createCookie('USR.SESSION', session)
+  createCookie('USR.DOB', dob)
+  createCookie('USR.DISPLAY_NAME', name)
+  createCookie('USR.DISPLAY_IMAGE', image)
+  createCookie('USR.FIRST_NAME', fname)
+  createCookie('USR.MIDDLE_NAMES', mname)
+  createCookie('USR.LAST_NAME', lname)
+  createCookie('USR.JOINED_DATE', joined)
+  createCookie('USR.LAST_ACTIVE', last_active)
+};
+
+
+// Get local user data
+export const USER = () => {
+  return {
+    // Auth
+    UUID: cookie('USR.UUID'),
+    EMAIL: cookie('USR.EMAIL'),
+    SESSION: cookie('USR.SESSION'),
+    // Public
+    DISPLAY_NAME: cookie('USR.DISPLAY_NAME'),
+    DISPLAY_IMAGE: cookie('USR.DISPLAY_IMAGE'),
+    // Private
+    FIRST_NAME: cookie('USR.FIRST_NAME'),
+    MIDDLE_NAMES: cookie('USR.MIDDLE_NAMES'),
+    LAST_NAME: cookie('USR.LAST_NAME'),
+    DOB: cookie('USR.DOB'),
+    // Status
+    JOINED_DATE: cookie('USR.JOINED_DATE'),
+    LAST_ACTIVE: cookie('USR.LAST_ACTIVE'),
+  };
+};
+
+
+// Read AsyncStorage key value
+const nativeCookie = async (key:string) => {
+  try {
+    return await AsyncStorage.getItem(key)
+  } catch (e) {
+    console.log(`Database Error while reading key(${key}): ${e}`);
+  }
+};
+
+
+// Read cookie data
+export const cookie = (key: string) => {
+  if (isNative) return nativeCookie(key);
+  let cookieValue: any = null;
+  if (document.cookie && document.cookie !== '') {
+    const cookies = document.cookie.split(';');
+    for (let i = 0; i < cookies.length; i++) {
+      const cookie = cookies[i].trim();
+      if (cookie.substring(0, key.length + 1) === (key + '=')) {
+        cookieValue = decodeURIComponent(cookie.substring(key.length + 1));
+        break;
+      }
+    }
+  }
+  return cookieValue === "" || cookieValue === null ? undefined : cookieValue;
+};
+
+
+// Create AsyncStorage key value
+const createNativeCookie = async (key:string, value:string) => {
+  if (!isNative) return;
+  try {
+    return await AsyncStorage.setItem(key, value);
+  } catch (e) {
+    console.log(`Database Error while creating key(${key}): ${e}`);
+  }
+};
+
+
+// Create new cookie
+export const createCookie = (key: string, value: any) => {
+  if (isNative) {
+    createNativeCookie(key, value);
+  } else {
+    document.cookie = `${key}=${value};path=/;Secure;SameSite=None;`;
+  }
+};
+
+
+// Remove AsyncStorage key value
+const deleteNativeCookie = async (key:string) => {
+  try {
+    return await AsyncStorage.removeItem(key);
+  } catch (e) {
+    console.log(`Database Error while removing key(${key}): ${e}`);
+  }
+};
+
+
+// Delete cookie
+export const deleteCookie = (key: string) => {
+  if (isNative) {
+    deleteNativeCookie(key);
+  } else {
+    document.cookie = `${key}=;path=/;Secure;SameSite=None;Max-Age=-99999999;`;
+  }
+};
+
+
+// Delete all Local User data
+export const deleteAllCookies = () => {
+  const USR = USER()
+  for(const ITEM in USR){
+    deleteCookie(`USR.${ITEM}`);
+  };
+};
+
+
+// Check if User is logged in
+export const isLoggedIn = () => {
+  return cookie('USR.SESSION') !== undefined;
+};
+
+
+// Export the client->server environment
 export default api;
 export const endPoints = getEndpoints();
 export const clientAdr = endPoints.client;
 export const serverAdr = endPoints.server;
-export const serverAPI = endPoints.api;
+export const clientAPI = endPoints.api;

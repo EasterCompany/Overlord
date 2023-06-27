@@ -58,9 +58,9 @@ API.path(
 )
 
 API.path(
-  "login/<str:email>",
-  lambda req, email, *args, **kwargs: Users.login(email=unquote(email), password=req.body.decode('utf-8')),
-  "Login User by Email"
+  "login",
+  lambda req, *args, **kwargs: Users.login(req),
+  "User Email/Password Login"
 )
 
 """ API.path(
