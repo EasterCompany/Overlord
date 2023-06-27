@@ -22,8 +22,11 @@ API.path(
 )
 
 API.path(
-  "create/<str:email>",
-  lambda req, email, permissions, *args, **kwargs: Users.create(api.get_arg(email), api.get_body(req)),
+  "create",
+  lambda req, permissions, *args, **kwargs: Users.create(
+    api.get_json(req)['email'],
+    api.get_json(req)['password']
+  ),
   "Create New User"
 )
 

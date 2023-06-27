@@ -243,5 +243,5 @@ class Users(UserModel):
     return JsonResponse(Users.fetch(uuid))
 
   @staticmethod
-  def list(uuid):
+  def list():
     return JsonResponse(Users.fetchAll())
