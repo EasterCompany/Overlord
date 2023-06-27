@@ -1,24 +1,3 @@
-// Shared library
-import { oapi } from './api';
-
-
-/*
-  CREATE NEW USER FUNCTIONS
-*/
-export const create_user_from_gui = async (
-  email:string, password:string, permissions:string
-) => {
-  const apiRequest =
-    `user/create/${encodeURIComponent(email)}/${encodeURIComponent(password)}/${encodeURIComponent(permissions)}`;
-  return await oapi(
-    apiRequest,
-    null,
-    (resp: any) => null,
-    (resp: any) => window.location.reload()
-  )
-}
-
-
 /*
   LOCAL DATA (Cookies)
   contains 3 functions to:
@@ -26,6 +5,11 @@ export const create_user_from_gui = async (
     <createCookie> creates a cookie with 'name and value'
     <deleteCookie> deletes a cookie 'by name'
 */
+
+// Native Fix
+if (typeof window === 'undefined' || typeof document === 'undefined') document = {
+  cookie: ''
+};
 
 // Get Cookie
 export const cookie = (name: string) => {

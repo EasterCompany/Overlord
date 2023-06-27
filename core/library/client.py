@@ -135,6 +135,7 @@ class WebClient():
     if prd: return f'''# .env
     #   automatically generated file
     #   do not edit or delete
+    ENV=Prd
     PORT={self.PORT}
     BUILD_PATH={settings.BASE_DIR + '/static/' + self.DIR}
     PUBLIC_URL=/static/{self.DIR}/
@@ -149,6 +150,7 @@ class WebClient():
     return f'''# .env.dev
     #   automatically generated file
     #   do not edit or delete
+    ENV=Dev
     PORT={self.PORT}
     BUILD_PATH={settings.BASE_DIR + '/static/' + self.DIR}
     PUBLIC_URL={dev_url}

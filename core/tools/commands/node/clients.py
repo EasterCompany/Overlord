@@ -16,7 +16,7 @@ from ..install import (
 )
 from web import settings
 from ..node.share import __update_shared_files__
-from core.library import console, executable, is_alphanumeric, to_alphanumeric, mkdir
+from core.library import console, executable, is_alphanumeric, to_alphanumeric
 from core.tools.commands.install import make_clients_config
 
 # Variable app meta data

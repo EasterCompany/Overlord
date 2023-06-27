@@ -286,9 +286,9 @@ def run_tool(command, index=0):
 
     elif command == 'run':
       if INDEX is not None and INDEX != '':
+        node.share.file_updater_thread()
         node.clients.run(INDEX, False, True)
         django.server.start()
-        node.share.file_updater_thread()
       else:
         console.out(
           "\n  [ERROR] `run` command requires a client to be set as your `INDEX`"

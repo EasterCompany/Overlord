@@ -2,16 +2,38 @@
 import { USER } from './user';
 
 // Shortcuts
-export const isDev = window.location.toString().startsWith("http://localhost:8");
-export const isPrd = !isDev;
+export const isDev = process.env.ENV === 'Dev';
+export const isPrd = process.env.ENV === 'Prd';
 export const mock = (_url:string) => isDev ?
-  _url.replace(_url.split('/')[2], 'localhost:8000').replace('https://', 'http://') : _url
+  _url.replace(_url.split('/')[2], '0.0.0.0:8000').replace('https://', 'http://') : _url
 
 /*
   GLOBAL ENVIRONMENT SETUP
   defines the routing for this Clients Environment
 */
-export const getEndpoints = () => {
+export const getEndpoints = typeof window.location === 'undefined' || typeof document === 'undefined' ?
+() => {
+  const client_endpoint_local = process.env.REACT_APP_ENDPOINT === '' ?
+  `http://0.0.0.0:8000/` :
+  `http://0.0.0.0:8000/${process.env.REACT_APP_NAME}/`
+
+  const client_endpoint = process.env.REACT_APP_ENDPOINT === '' ?
+  `/` :
+  `/${process.env.REACT_APP_NAME}/`
+
+  return isDev ? {
+    client: client_endpoint_local,
+    server: `http://0.0.0.0:8000/`,
+    api: `http://0.0.0.0:8000/${process.env.REACT_APP_API}`
+  } : {
+    client: client_endpoint,
+    server: `/`,
+    api: `/${process.env.REACT_APP_API}`
+  }
+} : () => {
+
+  // Native Fix
+  if (typeof window.location === 'undefined') return {}
 
   // Standalone Local Django Server
   if (window.location.host.endsWith(':3000')) {
@@ -22,7 +44,7 @@ export const getEndpoints = () => {
     };
   }
 
-  // Localhost Django Server
+  // Localhost Server
   else if (window.location.host.startsWith('localhost')) {
     const client_endpoint =
       process.env.REACT_APP_NAME === '' ?
@@ -35,7 +57,7 @@ export const getEndpoints = () => {
     };
   }
 
-  // 0.0.0.0 Default Django Server
+  // 0.0.0.0 Server
   else if (window.location.host.startsWith('0.0.0.0')) {
     const client_endpoint =
       process.env.REACT_APP_NAME === '' ?
@@ -48,7 +70,7 @@ export const getEndpoints = () => {
     };
   }
 
-  // Parent 127..:8000 & 127...:81XX Django Server
+  // Parent 127..:8000 & 127...:81XX Server
   else if (window.location.host.startsWith('http://127.0.0.1:8')) {
     if (window.location.host === 'http://127.0.0.1:8000') {
       return {
