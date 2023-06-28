@@ -23,10 +23,7 @@ API.path(
 
 API.path(
   "create",
-  lambda req, permissions, *args, **kwargs: Users.create(
-    api.get_json(req)['email'],
-    api.get_json(req)['password']
-  ),
+  lambda req, *args, **kwargs: Users.create(**api.get_json(req)),
   "Create New User"
 )
 
@@ -62,12 +59,6 @@ API.path(
 
 API.path(
   "login",
-  lambda req, *args, **kwargs: Users.login(req),
-  "User Email/Password Login"
+  lambda req, *args, **kwargs: Users.login(**api.get_json(req)),
+  "User Login"
 )
-
-""" API.path(
-  "login/<str:sms>",
-  lambda req, sms, *args, **kwargs: Users.login(sms=unquote(sms), password=req.body.decode('utf-8')),
-  "Login User by SMS"
-) """

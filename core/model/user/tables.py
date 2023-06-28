@@ -1,8 +1,9 @@
 # Overlord library
 from . import session
+from datetime import timedelta, timezone
+from django.db import DatabaseError, IntegrityError
 from core.library import time, models, uuid, \
-  api, encrypt, decrypt, get_datetime_string, \
-  JsonResponse
+  api, encrypt, decrypt, JsonResponse
 from core.library import console
 
 
@@ -66,7 +67,7 @@ class UserInvite(models.Model):
   created_on = models.DateTimeField(
     null=False,
     blank=False,
-    default=get_datetime_string
+    default=time._datetime.now
   )
 
   @staticmethod
@@ -78,11 +79,13 @@ class UserDetails(UserModel):
   """
   Contains general non-technical information about the user
   """
-  names = models.TextField(default="")
+  first_name = models.TextField(default="")
+  middle_names = models.TextField(default="")
+  last_name = models.TextField(default="")
   display_name = models.TextField(default="")
-  display_image = models.URLField(default="https://www.easter.company/static/eastercompany/favicon.ico")
-  date_of_birth = models.DateTimeField(null=False, blank=False, default=time.get_datetime_string)
-  date_joined = models.DateTimeField(null=False, blank=False, default=time.get_datetime_string)
+  display_image = models.URLField(default="")
+  date_of_birth = models.DateTimeField(blank=False, default=time._datetime.now)
+  date_joined = models.DateTimeField(blank=False, default=time._datetime.now)
 
 
 class Users(UserModel):
@@ -95,8 +98,7 @@ class Users(UserModel):
   key = models.TextField(null=False, blank=False)
   permissions = models.IntegerField(null=False, blank=False, default=0)
   session = models.TextField(unique=True)
-  last_activity = models.DateTimeField(default=time.get_datetime_string)
-  panels = models.TextField(default="")                           # Comma separated panel uuid list
+  last_active = models.DateTimeField(default=time._datetime.now)
 
   @staticmethod
   def invite(email:str, invited_by:str = "", data:str = ""):
@@ -110,20 +112,47 @@ class Users(UserModel):
     return api.error()
 
   @staticmethod
-  def create(email:str, password:str, permissions:int=1):
+  def create(
+    email:str,
+    password:str,
+    first_name:str,
+    last_name:str,
+    date_of_birth,
+    permissions:int=1
+  ):
     ''' default user permission level is 1 '''
-    email = email.lower()                                         # Emails are not case sensitive
-    Users.objects.create(
-      email=email,
-      key=encrypt(password),
-      permissions=int(permissions),
-      session=session.generate()
-    )
-    UserDetails.objects.create(
-      uuid=Users.objects.filter(email=email).first().uuid,
-      display_name=email.split('@')[0] if '@' in email else email
-    )
-    console.log(f"New user created with email {email} and permission level of {permissions}")
+    try:
+      email = email.lower()
+      date_of_birth = time._datetime.strptime(date_of_birth, "%d/%m/%Y")
+      if date_of_birth > time._datetime.now() - timedelta(days=365*13):
+        return api.std(api.BAD, "You must be at least 13 years old.")
+      date_of_birth = date_of_birth.replace(tzinfo=timezone.utc)
+
+      Users.objects.create(
+        email=email,
+        key=encrypt(password),
+        permissions=int(permissions),
+        session=session.generate()
+      )
+
+      UserDetails.objects.create(
+        uuid=Users.objects.get(email=email).uuid,
+        first_name=first_name.title(),
+        last_name=last_name.title(),
+        date_of_birth=date_of_birth,
+        display_name=email.split('@')[0].title() if '@' in email else email
+      )
+
+      console.log(f"New user created with email {email} and permission level of {permissions}")
+
+    except IntegrityError as error:
+      if str(error) == "UNIQUE constraint failed: core_users.email":
+        return api.std(api.BAD, "Email address is already registered.")
+      return api.error(error)
+
+    except DatabaseError as error:
+      return api.error(error)
+
     return api.success()
 
   @staticmethod
@@ -178,20 +207,14 @@ class Users(UserModel):
         return error
 
   @staticmethod
-  def login(req=None, email:str = "", password:str = ""):
+  def login(email:str, password:str):
     ''' login a user via http request or email/pass parameters '''
-    if email == "" and req is not None:
-      json_data = api.get_json(req)
-      email = json_data['email']
-      password = json_data['password']
-
     user = Users.get(email.lower())
     if isinstance(user, Exception):
       return api.error(user)
     elif password == decrypt(user.key):
       console.log(f"User {user.uuid} logged in")
       return api.data({'uuid': user.uuid, 'email': user.email, 'session': user.session})
-
     return api.error()
 
   @staticmethod

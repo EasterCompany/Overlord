@@ -137,7 +137,7 @@ export const api = async (API: string, BAD: any = null, OK: any = null) => {
   } catch (error) {
     console.log(`Error @ ${API}`);
     console.log(error);
-    return BAD({})
+    return BAD("Unexpected Server Error")
   }
 
 };
@@ -209,43 +209,49 @@ export const oapi = async (API: string, BAD: any = null, OK: any = null, DATA: a
   const user = USER();
   const _auth = `${user.UUID} ${user.SESH}`;
 
-  await fetch(`${serverAdr}api/o-core/${API}`, {
-    method: 'POST',
-    headers: new Headers({
-        'Authorization': `Basic ${_auth}`,
-        'Content-Type': DATA === null ? 'application/x-www-form-urlencoded' : 'application/json'
-    }),
-    body: DATA
-  })
-  .then(resp => resp.json())
-  .then(respJson => {
+  try {
+    await fetch(`${serverAdr}api/o-core/${API}`, {
+      method: 'POST',
+      headers: new Headers({
+          'Authorization': `Basic ${_auth}`,
+          'Content-Type': DATA === null ? 'application/x-www-form-urlencoded' : 'application/json'
+      }),
+      body: JSON.stringify(DATA)
+    })
+    .then(resp => resp.json())
+    .then(respJson => {
 
-    const respStatus = respJson['status'];
-    const respData = respJson['data'];
+      const respStatus = respJson['status'];
+      const respData = respJson['data'];
 
-    // OK API RESULT HANDLER
-    if (respStatus === 'OK') {
-      try { return OK !== null ? OK(respData) : respData }
-      catch (error) {
-        console.log(`OK Callback Error @ ${API}`)
-        console.log({status:respStatus, data:respData, error:error})
+      // OK API RESULT HANDLER
+      if (respStatus === 'OK') {
+        try { return OK !== null ? OK(respData) : respData }
+        catch (error) {
+          console.log(`OK Callback Error @ ${API}`)
+          console.log({status:respStatus, data:respData, error:error})
+        }
       }
-    }
 
-    // BAD API RESULT HANDLER
-    else if (respStatus === 'BAD') {
-      try{ return BAD !== null ? BAD(respData) : respData }
-      catch (error) {
-        console.log(`BAD Callback Error @ ${API}`)
-        console.log({status:respStatus, data:respData, error:error})
+      // BAD API RESULT HANDLER
+      else if (respStatus === 'BAD') {
+        try{ return BAD !== null ? BAD(respData) : respData }
+        catch (error) {
+          console.log(`BAD Callback Error @ ${API}`)
+          console.log({status:respStatus, data:respData, error:error})
+        }
       }
-    }
-  })
+    })
+  } catch (error) {
+    console.log(`Error @ ${API}`);
+    console.log(error);
+    return BAD("Unexpected Server Error")
+  }
 }
 
 
 // Login using the built-in Overlord user model
-export const login = (DATA:any, BAD:any, OK:any) => {
+export const login = (BAD:any, OK:any, email:string, password:string, ) => {
   oapi(
     'user/login',
     (resp) => BAD(resp),
@@ -259,7 +265,10 @@ export const login = (DATA:any, BAD:any, OK:any) => {
       );
       OK(resp);
     },
-    JSON.stringify(DATA)
+    {
+      email: email,
+      password: password
+    }
   );
 }
 
