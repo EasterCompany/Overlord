@@ -274,54 +274,56 @@ export const login = (BAD:any, OK:any, email:string, password:string, ) => {
 
 
 // Log Out of Current Session
-export const logout = () => {
-  deleteAllCookies();
-  if (!isNative) {
-    window.location.href = '';
-    window.location.reload();
-  }
-}
+export const logout = async () => {
+  deleteAllCookies().then(() => {
+    if (!isNative) {
+      window.location.href = '';
+      window.location.reload();
+    }
+  });
+};
 
 
 // Create local user data
-export const __INIT_USER__ = (
+export const __INIT_USER__ = async (
   uuid:string, email:string, session:string, dob:string,
   name:string, image:string, fname:string, mname:string,
   lname:string, joined:string, last_active:string
 ) => {
-  createCookie('USR.UUID', uuid)
-  createCookie('USR.EMAIL', email)
-  createCookie('USR.SESSION', session)
-  createCookie('USR.DOB', dob)
-  createCookie('USR.DISPLAY_NAME', name)
-  createCookie('USR.DISPLAY_IMAGE', image)
-  createCookie('USR.FIRST_NAME', fname)
-  createCookie('USR.MIDDLE_NAMES', mname)
-  createCookie('USR.LAST_NAME', lname)
-  createCookie('USR.JOINED_DATE', joined)
-  createCookie('USR.LAST_ACTIVE', last_active)
+  await createCookie('USR.uuid', uuid)
+  await createCookie('USR.email', email)
+  await createCookie('USR.session', session)
+  await createCookie('USR.dateOfBirth', dob)
+  await createCookie('USR.displayName', name)
+  await createCookie('USR.displayImage', image)
+  await createCookie('USR.firstName', fname)
+  await createCookie('USR.middleNames', mname)
+  await createCookie('USR.lastName', lname)
+  await createCookie('USR.dateJoined', joined)
+  await createCookie('USR.lastActive', last_active)
 };
 
 
 // Get local user data
 export const USER = async () => {
-  return {
+  const userData = {
     // Auth
-    uuid: await cookie('USR.UUID'),
-    email: cookie('USR.EMAIL'),
-    session: cookie('USR.SESSION'),
+    uuid: await cookie('USR.uuid'),
+    email: await cookie('USR.email'),
+    session: await cookie('USR.session'),
     // Public
-    displayName: cookie('USR.DISPLAY_NAME'),
-    displayImage: cookie('USR.DISPLAY_IMAGE'),
+    displayName: await cookie('USR.displayName'),
+    displayImage: await cookie('USR.displayImage'),
     // Private
-    firstName: cookie('USR.FIRST_NAME'),
-    middleNames: cookie('USR.MIDDLE_NAMES'),
-    lastName: cookie('USR.LAST_NAME'),
-    dateOfBirth: cookie('USR.DOB'),
+    firstName: await cookie('USR.firstName'),
+    middleNames: await cookie('USR.middleNames'),
+    lastName: await cookie('USR.lastName'),
+    dateOfBirth: await cookie('USR.dateOfBirth'),
     // Status
-    dateJoined: cookie('USR.JOINED_DATE'),
-    lastActive: cookie('USR.LAST_ACTIVE'),
+    dateJoined: await cookie('USR.dateJoined'),
+    lastActive: await cookie('USR.lastActive'),
   };
+  return userData;
 };
 
 
@@ -341,7 +343,7 @@ const nativeCookie = async (key:string) => {
 export const cookie = async (key: string) => {
   let cookieValue: any = null;
   if (isNative) {
-    cookieValue = nativeCookie(key);
+    cookieValue = await nativeCookie(key);
   } else if (document.cookie && document.cookie !== '') {
     const cookies = document.cookie.split(';');
     for (let i = 0; i < cookies.length; i++) {
@@ -370,7 +372,7 @@ const createNativeCookie = async (key:string, value:string) => {
 // Create new cookie
 export const createCookie = async (key: string, value: any) => {
   if (isNative) {
-    createNativeCookie(key, value);
+    await createNativeCookie(key, value);
   } else {
     document.cookie = `${key}=${value};path=/;Secure;SameSite=None;`;
   }
@@ -380,7 +382,7 @@ export const createCookie = async (key: string, value: any) => {
 // Remove AsyncStorage key value
 const deleteNativeCookie = async (key:string) => {
   try {
-    return await AsyncStorage.removeItem(key);
+    await AsyncStorage.removeItem(key);
   } catch (e) {
     console.log(`Database Error while removing key(${key}): ${e}`);
   }
@@ -388,27 +390,28 @@ const deleteNativeCookie = async (key:string) => {
 
 
 // Delete cookie
-export const deleteCookie = (key: string) => {
+export const deleteCookie = async (key: string) => {
   if (isNative) {
     deleteNativeCookie(key);
   } else {
-    document.cookie = `${key}=;path=/;Secure;SameSite=None;Max-Age=-99999999;`;
+    document.cookie = `${key}=;path=/;Secure;SameSite=None;Max-Age=0;expires=` + new Date(0).toUTCString();
   }
 };
 
 
 // Delete all Local User data
-export const deleteAllCookies = () => {
-  const USR = USER()
-  for(const ITEM in USR){
-    deleteCookie(`USR.${ITEM}`);
-  };
+export const deleteAllCookies = async () => {
+  USER().then((userCookies) => {
+    Object.keys(userCookies).map((cookie) => {
+      deleteCookie(`USR.${cookie}`);
+    });
+  });
 };
 
 
 // Check if User is logged in
 export const isLoggedIn = () => {
-  return typeof cookie('USR.SESSION') === 'string';
+  return cookie('USR.SESSION') !== undefined;
 };
 
 
