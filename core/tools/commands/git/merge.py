@@ -73,11 +73,19 @@ def merge(repo_name:str, repo_path:str):
   dest_label = console.out(dest, "green", False)
   console.out(f"> {repo_name.upper()}: merge '{origin_label}' -> '{dest_label}'")
   console.input(
+    f"git branch --set-upstream-to=origin/{origin} {origin}",
+    cwd=repo_path
+  )
+  console.input(
     f"git checkout {dest} || git checkout -b {dest}",
     cwd=repo_path
   )
   console.input(
-    f"git pull origin {origin} && git push origin {dest}",
+    f"git branch --set-upstream-to=origin/{dest} {dest}",
+    cwd=repo_path
+  )
+  console.input(
+    f"git pull && git pull origin {origin} && git push origin {dest}",
     cwd=repo_path
   )
 

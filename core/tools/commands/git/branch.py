@@ -6,7 +6,14 @@ designated_branches = [ LOCAL_BRANCH, STAGING_BRANCH, PRODUCTION_BRANCH ]
 def switch(target:str, repo_name:str, repo_path:str) -> str:
   ''' Create if not exists and checkout a repository at the target branch '''
   origin = GIT.branch(repo_path)
-  console.input(f"git checkout {target} || git checkout -b {target}", cwd=repo_path)
+  console.input(
+    f"git checkout {target} || git checkout -b {target}",
+    cwd=repo_path
+  )
+  console.input(
+    f"git branch --set-upstream-to=origin/{target} {target}",
+    cwd=repo_path
+  )
   if GIT.branch(repo_path) == target:
     return console.out(
       f"> {repo_name.upper()}: branch "

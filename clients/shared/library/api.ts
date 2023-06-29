@@ -304,23 +304,23 @@ export const __INIT_USER__ = (
 
 
 // Get local user data
-export const USER = () => {
+export const USER = async () => {
   return {
     // Auth
-    UUID: cookie('USR.UUID'),
-    EMAIL: cookie('USR.EMAIL'),
-    SESSION: cookie('USR.SESSION'),
+    uuid: await cookie('USR.UUID'),
+    email: cookie('USR.EMAIL'),
+    session: cookie('USR.SESSION'),
     // Public
-    DISPLAY_NAME: cookie('USR.DISPLAY_NAME'),
-    DISPLAY_IMAGE: cookie('USR.DISPLAY_IMAGE'),
+    displayName: cookie('USR.DISPLAY_NAME'),
+    displayImage: cookie('USR.DISPLAY_IMAGE'),
     // Private
-    FIRST_NAME: cookie('USR.FIRST_NAME'),
-    MIDDLE_NAMES: cookie('USR.MIDDLE_NAMES'),
-    LAST_NAME: cookie('USR.LAST_NAME'),
-    DOB: cookie('USR.DOB'),
+    firstName: cookie('USR.FIRST_NAME'),
+    middleNames: cookie('USR.MIDDLE_NAMES'),
+    lastName: cookie('USR.LAST_NAME'),
+    dateOfBirth: cookie('USR.DOB'),
     // Status
-    JOINED_DATE: cookie('USR.JOINED_DATE'),
-    LAST_ACTIVE: cookie('USR.LAST_ACTIVE'),
+    dateJoined: cookie('USR.JOINED_DATE'),
+    lastActive: cookie('USR.LAST_ACTIVE'),
   };
 };
 
@@ -328,18 +328,21 @@ export const USER = () => {
 // Read AsyncStorage key value
 const nativeCookie = async (key:string) => {
   try {
-    return await AsyncStorage.getItem(key)
+    const cookieValue = await AsyncStorage.getItem(key).then((value) => value);
+    return cookieValue
   } catch (e) {
     console.log(`Database Error while reading key(${key}): ${e}`);
+    return null
   }
 };
 
 
 // Read cookie data
-export const cookie = (key: string) => {
-  if (isNative) return nativeCookie(key);
+export const cookie = async (key: string) => {
   let cookieValue: any = null;
-  if (document.cookie && document.cookie !== '') {
+  if (isNative) {
+    cookieValue = nativeCookie(key);
+  } else if (document.cookie && document.cookie !== '') {
     const cookies = document.cookie.split(';');
     for (let i = 0; i < cookies.length; i++) {
       const cookie = cookies[i].trim();
@@ -357,7 +360,7 @@ export const cookie = (key: string) => {
 const createNativeCookie = async (key:string, value:string) => {
   if (!isNative) return;
   try {
-    return await AsyncStorage.setItem(key, value);
+    await AsyncStorage.setItem(key, value);
   } catch (e) {
     console.log(`Database Error while creating key(${key}): ${e}`);
   }
@@ -365,7 +368,7 @@ const createNativeCookie = async (key:string, value:string) => {
 
 
 // Create new cookie
-export const createCookie = (key: string, value: any) => {
+export const createCookie = async (key: string, value: any) => {
   if (isNative) {
     createNativeCookie(key, value);
   } else {
@@ -405,7 +408,7 @@ export const deleteAllCookies = () => {
 
 // Check if User is logged in
 export const isLoggedIn = () => {
-  return cookie('USR.SESSION') !== undefined;
+  return typeof cookie('USR.SESSION') === 'string';
 };
 
 
