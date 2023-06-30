@@ -2,15 +2,7 @@
 from . import session
 from datetime import timedelta, timezone
 from django.db import DatabaseError, IntegrityError
-from core.library import time, models, uuid, \
-  api, encrypt, decrypt, JsonResponse
-from core.library import console
-
-
-class newUserObj:
-  auth = None
-  details = None
-  invites = None
+from core.library import time, models, uuid, api, encrypt, decrypt, console
 
 
 class UserModel(models.Model):
@@ -32,7 +24,7 @@ class UserModel(models.Model):
   class Meta:
     abstract = True
 
-  def __str__(self):
+  def __str__(self, *args, **kwargs):
     """
     Return the selected users uuid as a string
 
@@ -101,17 +93,6 @@ class Users(UserModel):
   last_active = models.DateTimeField(default=time._datetime.now)
 
   @staticmethod
-  def invite(email:str, invited_by:str = "", data:str = ""):
-    ''' data contains additional invite information '''
-    email = email.lower()                                         # Emails are not case sensitive
-    if UserInvite.objects.filter(email=email, data=data).count() == 0 and \
-      Users.objects.filter(email=email).count() == 0:
-      UserInvite.objects.create(email=email, created_by=invited_by, data=data)
-      console.log(f"New invite created for {email} by {invited_by}")
-      return api.success()
-    return api.error()
-
-  @staticmethod
   def create(
     email:str,
     password:str,
@@ -120,21 +101,29 @@ class Users(UserModel):
     date_of_birth,
     permissions:int=1
   ):
-    ''' default user permission level is 1 '''
     try:
+      # Verify Email Criteria
       email = email.lower()
+      if not len(email) >= 5 or not '@' in email or not '.' in email:
+        return api.std(api.BAD, "Must use a valid email address")
+
+      # Verify Password Criteria
+      if not len(password) >= 8:
+        return api.std(api.BAD, "Password must be at least 8 characters.")
+
+      # Verify Date of Birth
       date_of_birth = time._datetime.strptime(date_of_birth, "%d/%m/%Y")
       if date_of_birth > time._datetime.now() - timedelta(days=365*13):
         return api.std(api.BAD, "You must be at least 13 years old.")
       date_of_birth = date_of_birth.replace(tzinfo=timezone.utc)
 
+      # Create User
       Users.objects.create(
         email=email,
         key=encrypt(password),
         permissions=int(permissions),
         session=session.generate()
       )
-
       UserDetails.objects.create(
         uuid=Users.objects.get(email=email).uuid,
         first_name=first_name.title(),
@@ -142,7 +131,6 @@ class Users(UserModel):
         date_of_birth=date_of_birth,
         display_name=email.split('@')[0].title() if '@' in email else email
       )
-
       console.log(f"New user created with email {email} and permission level of {permissions}")
 
     except IntegrityError as error:
@@ -156,89 +144,28 @@ class Users(UserModel):
     return api.success()
 
   @staticmethod
-  def has_invites(email:str):
-    ''' check if an email has invites '''
-    invites = UserInvite.fetch(email)
-    if invites.count() == 0:
-      return api.error()
-    return api.success()
-
-  @staticmethod
-  def accept_invite_and_create(email:str, password:str):
-    ''' accept an invite and create a user '''
-    # Get list of invites for this email
-    invites = UserInvite.objects.filter(email=email.lower())      # Emails are not case sensitive
-    if invites.count() == 0:
-      return api.error()
-    # Make a list of a panels this email was invited to
-    invited_panels = []
-    for invite in invites:
-      if "ePanelInvite" in invite.data and invite.data["ePanelInvite"] not in invited_panels:
-        invited_panels.append(invite.data["ePanelInvite"])
-    # Create new user with email
-    if Users.objects.filter(email=email).count() == 0:
-      Users.create(email, password, 1)
-    if len(invited_panels) > 0:
-      # Add panels to users panel list
-      user = Users.objects.get(email=email)
-      user.panels = ','.join(invited_panels) + ','
-      user.save()
-      for panel in user.panels.split(',')[:-1]:
-        try:
-          AdminPanel.add_user_to_panel(user.uuid, panel, 1)
-        except:
-          pass
-      invites.delete()
-    # Response status
-    return api.success()
-
-  @staticmethod
-  def get(user:str):
-    ''' acquires the user object by uuid or email identifier '''
-    if '@' in user:
-      try:
-        return Users.objects.get(email=user)
-      except Exception as error:
-        return error
-    else:
-      try:
-        return Users.objects.get(uuid=user)
-      except Exception as error:
-        return error
-
-  @staticmethod
   def login(email:str, password:str):
-    ''' login a user via http request or email/pass parameters '''
-    user = Users.fetch(email.lower(), include_private_data=True)
-    if isinstance(user, Exception):
-      return api.error(user)
-    elif password == decrypt(user['key']):
-      return api.data(user)
-    return api.error()
-
-  @staticmethod
-  def purge(uuid):
-    Users.objects.filter(uuid=uuid).delete()
-    UserDetails.objects.filter(uuid=uuid).delete()
-    UserInvite.objects.filter(created_by=uuid).delete()
-    console.log(f"User data for {uuid} was purged")
-    return api.success()
-
-  @staticmethod
-  def _fetchAll(uuid):
-    user = newUserObj()
-    if '@' in uuid:
-      user.auth = Users.objects.filter(email=uuid).first()
-    else:
-      user.auth = Users.objects.filter(uuid=uuid).first()
-    user.details = UserDetails.objects.filter(uuid=user.auth.uuid).first()
-    user.invites = UserInvite.objects.filter(created_by=user.auth.uuid)
-    return user
-
-  @staticmethod
-  def fetch(uuid:str, include_private_data=False):
+    '''
+    Login a user using a email & password combination
+    '''
     try:
-      user = Users._fetchAll(uuid)
+      user = Users.fetch(identifier=email.lower(), include_private_data=True)
+      if password == decrypt(user['key']):
+        return api.data(user)
+      print(user)
+      return api.error()
+    except Exception as exception:
+      print(exception, str(exception))
+      return api.error(exception)
+
+  @staticmethod
+  def fetch(identifier:str, include_private_data=False):
+    '''
+    Loads all user data related to an identifier into
+    a dictionary, usually for returning as a JSON response.
+    '''
+    try:
+      user = User(identifier)
     except Exception as error:
       return error
     return {
@@ -265,13 +192,69 @@ class Users(UserModel):
     }
 
   @staticmethod
-  def fetchAll():
-    pass
+  def delete(uuid:str, session:str, password:str):
+    '''
+    Delete all user data related to a specific uuid.
+    requires a session token & password for verification.
+    '''
+    try:
+      DeleteUser(uuid=uuid, session=session, password=password)
+      return api.success()
+    except Exception as exception:
+      return api.error(exception)
 
   @staticmethod
-  def view(uuid):
-    return JsonResponse(Users.fetch(uuid))
+  def change_email(uuid:str, new_email:str, password:str):
+    '''
+    Update the email of an existing user based on uuid.
+    '''
+    try:
+      user = User(uuid)
+      if password == decrypt(user.auth.key):
+        user.auth.email = new_email
+        user.auth.save()
+        return api.success()
+      else:
+        return api.std(api.BAD, "Invalid password.")
+    except Exception as exception:
+      return api.error(exception)
 
   @staticmethod
-  def list():
-    return JsonResponse(Users.fetchAll())
+  def change_password(uuid:str, current_password:str, new_password:str, confirm_password:str):
+    '''
+    Update the password of an existing user based on uuid.
+    '''
+    try:
+      if not len(new_password) >= 8:
+        return api.error("Password must be at least 8 characters.")
+      if not new_password == confirm_password:
+        return api.error("Passwords do not match.")
+      user = User(uuid)
+      if not current_password == decrypt(user.auth.key):
+        return api.error("Invalid current password.")
+      user.auth.key = encrypt(new_password)
+      user.auth.save()
+      return api.success()
+    except Exception as exception:
+      return api.error(exception)
+
+
+class User:
+
+  def __init__(self, identifier:str, *args, **kwargs) -> None:
+    if '@' in identifier:
+      self.auth = Users.objects.filter(email=identifier).first()
+    else:
+      self.auth = Users.objects.filter(uuid=identifier).first()
+    self.details = UserDetails.objects.filter(uuid=self.auth.uuid).first()
+    self.invites = UserInvite.objects.filter(created_by=self.auth.uuid)
+
+
+class DeleteUser:
+
+  def __init__(self, uuid:str, session:str, password:str, *args, **kwargs) -> None:
+    self.auth = Users.objects.filter(uuid=uuid)
+    if session == self.auth.first().session and password == decrypt(self.auth.first().key):
+      UserDetails.objects.filter(uuid=self.auth.first().uuid).delete()
+      UserInvite.objects.filter(created_by=self.auth.first().uuid).delete()
+      self.auth.delete()

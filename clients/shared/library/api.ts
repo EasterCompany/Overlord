@@ -197,56 +197,52 @@ export const xapi = async (
 
 // Post/Request data to/from an Overlord Built-in API
 export const oapi = async (API: string, BAD: any = null, OK: any = null, DATA: any = null) => {
-  const user = USER();
-  const _auth = `${user.UUID} ${user.SESH}`;
-
-  try {
-    await fetch(`${serverAdr}api/o-core/${API}`, {
-      method: 'POST',
-      headers: new Headers({
-          'Authorization': `Basic ${_auth}`,
-          'Content-Type': DATA === null ? 'application/x-www-form-urlencoded' : 'application/json'
-      }),
-      body: JSON.stringify(DATA)
-    })
-    .then(resp => resp.json())
-    .then(respJson => {
-
-      const respStatus = respJson['status'];
-      const respData = respJson['data'];
-
-      // OK API RESULT HANDLER
-      if (respStatus === 'OK') {
-        try { return OK !== null ? OK(respData) : respData }
-        catch (error) {
-          console.log(`OK Callback Error @ ${API}`)
-          console.log({status:respStatus, data:respData, error:error})
+  USER().then((user:any) => {
+    try {
+      fetch(`${serverAdr}api/o-core/${API}`, {
+        method: 'POST',
+        headers: new Headers({
+            'Authorization': `Basic ${user.UUID} ${user.SESH}`,
+            'Content-Type': DATA === null ? 'application/x-www-form-urlencoded' : 'application/json'
+        }),
+        body: JSON.stringify(DATA)
+      })
+      .then(resp => resp.json())
+      .then(respJson => {
+        const respStatus = respJson['status'];
+        const respData = respJson['data'];
+        // OK API RESULT HANDLER
+        if (respStatus === 'OK') {
+          try { return OK !== null ? OK(respData) : respData }
+          catch (error) {
+            console.log(`OK Callback Error @ ${API}`)
+            console.log({status:respStatus, data:respData, error:error})
+          }
         }
-      }
-
-      // BAD API RESULT HANDLER
-      else if (respStatus === 'BAD') {
-        try{ return BAD !== null ? BAD(respData) : respData }
-        catch (error) {
-          console.log(`BAD Callback Error @ ${API}`)
-          console.log({status:respStatus, data:respData, error:error})
+        // BAD API RESULT HANDLER
+        else if (respStatus === 'BAD') {
+          try{ return BAD !== null ? BAD(respData) : respData }
+          catch (error) {
+            console.log(`BAD Callback Error @ ${API}`)
+            console.log({status:respStatus, data:respData, error:error})
+          }
         }
-      }
-    })
-  } catch (error) {
-    console.log(`Error @ ${API}`);
-    console.log(error);
-    return BAD("Unexpected Server Error")
-  }
-}
+      })
+    } catch (error) {
+      console.log(`Error @ ${API}`);
+      console.log(error);
+      return BAD("Unexpected Server Error")
+    }
+  });
+};
 
 
 // Login using the built-in Overlord user model
 export const login = (BAD:any, OK:any, email:string, password:string, ) => {
   oapi(
     'user/login',
-    (resp) => BAD(resp),
-    (resp) => __INIT_USER__(resp).then(() => OK(resp)),
+    (resp:any) => BAD(resp),
+    (resp:any) => __INIT_USER__(resp).then(() => OK(resp)),
     {
       email: email,
       password: password
@@ -256,9 +252,9 @@ export const login = (BAD:any, OK:any, email:string, password:string, ) => {
 
 
 // Log Out of Current Session
-export const logout = async () => {
+export const logout = async (noRefresh:boolean=false) => {
   deleteAllCookies().then(() => {
-    if (!isNative) {
+    if (!isNative && !noRefresh) {
       window.location.href = '';
       window.location.reload();
     }
