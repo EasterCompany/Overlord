@@ -209,12 +209,11 @@ class Users(UserModel):
   @staticmethod
   def login(email:str, password:str):
     ''' login a user via http request or email/pass parameters '''
-    user = Users.get(email.lower())
+    user = Users.fetch(email.lower(), include_private_data=True)
     if isinstance(user, Exception):
       return api.error(user)
-    elif password == decrypt(user.key):
-      console.log(f"User {user.uuid} logged in")
-      return api.data({'uuid': user.uuid, 'email': user.email, 'session': user.session})
+    elif password == decrypt(user['key']):
+      return api.data(user)
     return api.error()
 
   @staticmethod
@@ -228,27 +227,35 @@ class Users(UserModel):
   @staticmethod
   def _fetchAll(uuid):
     user = newUserObj()
-    user.auth = Users.objects.filter(uuid=uuid).first()
-    user.details = UserDetails.objects.filter(uuid=uuid).first()
-    user.invites = UserInvite.objects.filter(created_by=uuid)
+    if '@' in uuid:
+      user.auth = Users.objects.filter(email=uuid).first()
+    else:
+      user.auth = Users.objects.filter(uuid=uuid).first()
+    user.details = UserDetails.objects.filter(uuid=user.auth.uuid).first()
+    user.invites = UserInvite.objects.filter(created_by=user.auth.uuid)
     return user
 
   @staticmethod
-  def fetch(uuid):
-    user = Users._fetchAll(uuid)
+  def fetch(uuid:str, include_private_data=False):
+    try:
+      user = Users._fetchAll(uuid)
+    except Exception as error:
+      return error
     return {
       "uuid": user.auth.uuid,
+      "key": user.auth.key if include_private_data else None,
+      "session": user.auth.session if include_private_data else None,
       "sms": user.auth.sms,
       "email": user.auth.email,
-      "panels": user.auth.panels,
       "permissions": user.auth.permissions,
-      "details": {
-        "names": user.details.names,
-        "display_name": user.details.display_name,
-        "display_image": user.details.display_image,
-        "date_of_birth": str(user.details.date_of_birth),
-        "date_joined": str(user.details.date_joined)
-      },
+      "firstName": user.details.first_name,
+      "middleNames": user.details.middle_names,
+      "lastName": user.details.last_name,
+      "displayName": user.details.display_name,
+      "displayImage": user.details.display_image,
+      "dateOfBirth": time.timestamp(user.details.date_of_birth, False, True),
+      "dateJoined": time.timestamp(user.details.date_joined, False, True),
+      "lastActive": time.timestamp(user.auth.last_active, True, True),
       "invites": [{
         "email": invite.email,
         "sms": invite.sms,

@@ -21,7 +21,7 @@ export const getEndpoints = isNative ? () => {
   return {
     client: isDev ? '/' : client_endpoint,
     server: `${process.env.API_DOMAIN}/`,
-    api: `${process.env.API_DOMAIN}/${process.env.REACT_APP_API}`
+    api: `${process.env.API_DOMAIN}/api/${process.env.REACT_APP_NAME}`
   }
 } : () => {
 
@@ -43,36 +43,27 @@ export const getEndpoints = isNative ? () => {
     return {
       client: client_endpoint,
       server: `http://localhost:8000/`,
-      api: `http://localhost:8000/${process.env.REACT_APP_API}`
+      api: `http://localhost:8000/api/${process.env.REACT_APP_NAME}`
     };
   }
 
   // 0.0.0.0 Server
   else if (window.location.host.startsWith('0.0.0.0')) {
-    const client_endpoint =
-      process.env.REACT_APP_NAME === '' ?
-        `http://0.0.0.0:8000/` :
-        `http://0.0.0.0:8000/${process.env.REACT_APP_NAME}/`
     return {
-      client: client_endpoint,
+      client: process.env.REACT_APP_NAME === '' ?
+        `http://0.0.0.0:8000/` :
+        `http://0.0.0.0:8000/${process.env.REACT_APP_NAME}/`,
       server: `http://0.0.0.0:8000/`,
       api: `http://0.0.0.0:8000/${process.env.REACT_APP_API}`
     };
   }
 
   // Parent 127..:8000 & 127...:81XX Server
-  else if (window.location.host.startsWith('http://127.0.0.1:8')) {
-    if (window.location.host === 'http://127.0.0.1:8000') {
-      return {
-        client: process.env.REACT_APP_NAME === '' ?
-          `http://127.0.0.1:8000/` :
-          `http://127.0.0.1:8000/${process.env.REACT_APP_NAME}/`,
-        server: `http://127.0.0.1:8000/`,
-        api: `http://127.0.0.1:8000/${process.env.REACT_APP_API}`
-      }
-    }
+  else if (window.location.host.startsWith('127.0.0.1')) {
     return {
-      client: window.location.host,
+      client: process.env.REACT_APP_NAME === '' ?
+        `http://127.0.0.1:8000/` :
+        `http://127.0.0.1:8000/${process.env.REACT_APP_NAME}/`,
       server: `http://127.0.0.1:8000/`,
       api: `http://127.0.0.1:8000/${process.env.REACT_APP_API}`
     }
@@ -255,16 +246,7 @@ export const login = (BAD:any, OK:any, email:string, password:string, ) => {
   oapi(
     'user/login',
     (resp) => BAD(resp),
-    (resp) => {
-      __INIT_USER__(
-        resp.uuid,
-        resp.email,
-        resp.session,
-        "", "", "", "",
-        "", "", "", ""
-      );
-      OK(resp);
-    },
+    (resp) => __INIT_USER__(resp).then(() => OK(resp)),
     {
       email: email,
       password: password
@@ -285,22 +267,20 @@ export const logout = async () => {
 
 
 // Create local user data
-export const __INIT_USER__ = async (
-  uuid:string, email:string, session:string, dob:string,
-  name:string, image:string, fname:string, mname:string,
-  lname:string, joined:string, last_active:string
-) => {
-  await createCookie('USR.uuid', uuid)
-  await createCookie('USR.email', email)
-  await createCookie('USR.session', session)
-  await createCookie('USR.dateOfBirth', dob)
-  await createCookie('USR.displayName', name)
-  await createCookie('USR.displayImage', image)
-  await createCookie('USR.firstName', fname)
-  await createCookie('USR.middleNames', mname)
-  await createCookie('USR.lastName', lname)
-  await createCookie('USR.dateJoined', joined)
-  await createCookie('USR.lastActive', last_active)
+export const __INIT_USER__ = async (resp:any) => {
+  await createCookie('USR.uuid', resp.uuid);
+  await createCookie('USR.email', resp.email);
+  await createCookie('USR.sms', resp.sms);
+  await createCookie('USR.session', resp.session);
+  await createCookie('USR.permissions', resp.permissions);
+  await createCookie('USR.dateOfBirth', resp.dateOfBirth);
+  await createCookie('USR.displayName', resp.displayName);
+  await createCookie('USR.displayImage', resp.displayImage);
+  await createCookie('USR.firstName', resp.firstName);
+  await createCookie('USR.middleNames', resp.middleNames);
+  await createCookie('USR.lastName', resp.lastName);
+  await createCookie('USR.dateJoined', resp.dateJoined);
+  await createCookie('USR.lastActive', resp.lastActive);
 };
 
 
@@ -311,6 +291,7 @@ export const USER = async () => {
     uuid: await cookie('USR.uuid'),
     email: await cookie('USR.email'),
     session: await cookie('USR.session'),
+    permissions: await cookie('USR.permissions'),
     // Public
     displayName: await cookie('USR.displayName'),
     displayImage: await cookie('USR.displayImage'),
@@ -362,7 +343,7 @@ export const cookie = async (key: string) => {
 const createNativeCookie = async (key:string, value:string) => {
   if (!isNative) return;
   try {
-    await AsyncStorage.setItem(key, value);
+    await AsyncStorage.setItem(key, `${value}`);
   } catch (e) {
     console.log(`Database Error while creating key(${key}): ${e}`);
   }

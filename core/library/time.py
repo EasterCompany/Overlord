@@ -21,13 +21,18 @@ def get_datetime_string(datetime:_datetime|None = None, include_seconds:bool = F
   return datetime_obj.strftime("%Y-%m-%dT%H:%M:00.0Z")
 
 
-def timestamp() -> str:
+def timestamp(datetime:_datetime|None = None, include_time=True, gb_format=False) -> str:
   """
   Creates a simple human readable timestamp, this method is good for prepending logs and
   other output which is primarily for users to read.
 
   :return str: string containing timestamp
   """
-  _date, _time = get_datetime_string(None, True).split('T')
+  _date, _time = get_datetime_string(datetime, True).split('T')
   _time = _time.split('.')[0]
-  return f"{_date} {_time}"
+  if gb_format:
+    _date = _date.split('-')
+    _date = f"{_date[2]}/{_date[1]}/{_date[0]}"
+  if include_time:
+    return f"{_date} {_time}"
+  return f"{_date}"
