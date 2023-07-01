@@ -1,9 +1,15 @@
 # Overlord library
 from . import session
+from PIL import Image
+from io import BytesIO
 from datetime import timedelta, timezone
-from django.db import DatabaseError, IntegrityError
-from core.library import time, models, uuid, api, encrypt, decrypt, console
 from web.settings import SERVER_DATA
+from core.library import (
+  time, models, uuid, api,
+  encrypt, decrypt, console,
+  exists, mkdir, remove, base64,
+  DatabaseError, IntegrityError
+)
 
 
 class UserModel(models.Model):
@@ -153,7 +159,20 @@ class Users(UserModel):
       user = Users.fetch(identifier=email.lower(), include_private_data=True)
       if password == decrypt(user['key']):
         return api.data(user)
-      print(user)
+      return api.error()
+    except Exception as exception:
+      print(exception, str(exception))
+      return api.error(exception)
+
+  @staticmethod
+  def refresh(uuid:str, session:str):
+    '''
+    Resync the user data stored on the local device
+    '''
+    try:
+      user = Users.fetch(identifier=uuid, include_private_data=True)
+      if session == user['session']:
+        return api.data(user)
       return api.error()
     except Exception as exception:
       print(exception, str(exception))
@@ -180,7 +199,7 @@ class Users(UserModel):
       "middleNames": user.details.middle_names,
       "lastName": user.details.last_name,
       "displayName": user.details.display_name,
-      "displayImage": user.details.display_image.url if user.details.display_image else "",
+      "displayImage": f"/static{user.details.display_image.url}" if user.details.display_image else "",
       "dateOfBirth": time.timestamp(user.details.date_of_birth, False, True),
       "dateJoined": time.timestamp(user.details.date_joined, False, True),
       "lastActive": time.timestamp(user.auth.last_active, True, True),
@@ -240,19 +259,36 @@ class Users(UserModel):
       return api.error(exception)
 
   @staticmethod
-  def change_details(req, first_name:str, middle_names:str, last_name:str):
+  def change_details(
+    uuid:str,
+    session: str,
+    first_name:str|None = None,
+    middle_names:str|None = None,
+    last_name:str|None = None,
+    display_image:str|None = None
+  ):
     '''
     Update the display image for an existing user based on uuid.
     '''
     try:
-      _json = api.get_json(req)
-      uuid, session = _json['uuid'], _json['session']
       user = User(uuid)
       if user.auth.session != session:
         return api.error()
-      image = req.FILES.get('image')
-      print(image)
-      return api.success()
+
+      if first_name is not None:
+        user.details.first_name = first_name
+      if middle_names is not None:
+        user.details.middle_names = middle_names
+      if last_name is not None:
+        user.details.last_name = last_name
+      if display_image is not None:
+        file_name, file_content = api.get_decoded_base64_file("di", display_image)
+        if user.create_file(name=file_name, content=file_content, resize=(132, 132)):
+          user.details.display_image.delete()
+          user.details.display_image = f"{user.auth.uuid}/{file_name}"
+
+      user.details.save()
+      return api.data(Users.fetch(user.auth.uuid, include_private_data=True))
     except Exception as exception:
       return api.error(exception)
 
@@ -267,6 +303,19 @@ class User:
     self.details = UserDetails.objects.filter(uuid=self.auth.uuid).first()
     self.invites = UserInvite.objects.filter(created_by=self.auth.uuid)
     self.content_dir = f"{SERVER_DATA['MEDIA_DIR']}/{self.auth.uuid}"
+
+  def create_file(self, name:str, content:bytes, resize:set|None = None) -> bool:
+    file_path = f"{self.content_dir}/{name}"
+    if not exists(self.content_dir):
+      mkdir(self.content_dir)
+    if exists(file_path):
+      remove(file_path)
+    if resize is not None:
+      content = Image.open(BytesIO(content)).resize(resize).save(file_path)
+    else:
+      with open(file_path, "+wb") as new_file:
+        new_file.write(content)
+    return exists(file_path)
 
 
 class DeleteUser:

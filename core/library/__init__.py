@@ -4,6 +4,7 @@
 
 # Standard library
 import json
+import base64
 import socket
 import secrets
 import subprocess
@@ -36,7 +37,7 @@ from django.conf import settings
 from django.conf.urls.static import static
 
 # Database
-from django.db import models
+from django.db import models, DatabaseError, IntegrityError
 
 # Http
 from django.http import JsonResponse, HttpResponse, FileResponse

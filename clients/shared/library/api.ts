@@ -290,7 +290,7 @@ export const USER = async () => {
     permissions: await cookie('USR.permissions'),
     // Public
     displayName: await cookie('USR.displayName'),
-    displayImage: await cookie('USR.displayImage'),
+    displayImage: process.env.API_DOMAIN + await cookie('USR.displayImage'),
     // Private
     firstName: await cookie('USR.firstName'),
     middleNames: await cookie('USR.middleNames'),

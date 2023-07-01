@@ -299,6 +299,11 @@ class NativeClient(WebClient):
   [SPACES ARE PURGED FROM CONFIGURATION SETTINGS IN THE ENV FILE]
   '''
 
+  # Client.API_DOMAIN is an overridable variable which tells the client where
+  # the api will be hosted in production. This is essential for native clients
+  # as they won't have a relative domain to access when deployed to Android/iOS.
+  API_DOMAIN:str = f"http://{local_ip}:8000"
+
   # Client.is_native is an non-overridable variable which indicates weather or not
   # this client is a react-native based client or not.
   is_native:bool = True
@@ -319,7 +324,7 @@ class NativeClient(WebClient):
     if prd: return f'''# .env
     #   automatically generated file
     #   do not edit or delete
-    API_DOMAIN=http://{local_ip}:8000
+    API_DOMAIN={self.API_DOMAIN}
     REACT_APP_ENV=Prd
     REACT_APP_NAME={self.NAME}
     REACT_APP_API={api}

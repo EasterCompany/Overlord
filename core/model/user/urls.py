@@ -16,9 +16,21 @@ API.path(
 )
 
 API.path(
+  "refresh",
+  lambda req, *args, **kwargs: Users.refresh(**api.get_json(req)),
+  "Returns session data for an uuid/session combination"
+)
+
+API.path(
   "delete",
   lambda req, *args, **kwargs: Users.delete(**api.get_json(req)),
   "Deletes all data related to a specific uuid or email identifier"
+)
+
+API.path(
+  "edit/email",
+  lambda req, *args, **kwargs: Users.change_email(**api.get_json(req)),
+  "Updates the users email to a new one"
 )
 
 API.path(
@@ -28,7 +40,7 @@ API.path(
 )
 
 API.path(
-  "edit/email",
-  lambda req, *args, **kwargs: Users.change_email(**api.get_json(req)),
-  "Updates the users email to a new one"
+  "edit/details",
+  lambda req, *args, **kwargs: Users.change_details(**api.get_json(req)),
+  "Updates the users details"
 )

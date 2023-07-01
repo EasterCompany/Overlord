@@ -1,5 +1,9 @@
 # Standard library
+import six
+import uuid
 import json
+import imghdr
+import base64
 from urllib import parse
 # Overlord library
 from web.settings import DEBUG
@@ -135,6 +139,28 @@ def get_json(req) -> dict:
   :return dict: body content as json
   """
   return json.loads(req.body.decode('utf-8'))
+
+
+def get_decoded_base64_file(file_name:str, data:str) -> str|bytes:
+
+  def get_file_extension(file_name, decoded_file):
+    extension = imghdr.what(file_name, decoded_file)
+    extension = "jpg" if extension == "jpeg" else extension
+    return extension
+
+  if isinstance(data, six.string_types):
+    if 'data:' in data and ';base64,' in data:
+      header, data = data.split(';base64,')
+
+    try:
+      decoded_file = base64.b64decode(data)
+    except TypeError:
+      TypeError('invalid_image')
+
+    file_extension = get_file_extension(file_name, decoded_file)
+    file_uuid = str(uuid.uuid4())[:7]
+    complete_file_name = "%s.%s.%s" % (file_name, file_uuid, file_extension)
+    return complete_file_name, decoded_file
 
 
 # ePanel support functions --------------------------------------------------------------------------------------------

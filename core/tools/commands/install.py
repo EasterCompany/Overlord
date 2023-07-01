@@ -146,7 +146,7 @@ def make_server_config():
     "APP_DIRS_TEMPLATE": True,
     "STATIC_URL": '/static/',
     "STATIC_DIR": pathjoin(path[0], 'static'),
-    "MEDIA_URL": '/assets/',
+    "MEDIA_URL": '/shared/',
     "MEDIA_DIR": pathjoin(path[0], 'static', 'shared'),
     "CORS_ORIGIN_ALLOW_ALL": True,
     "CORS_ORIGIN_WHITELIST": [
