@@ -3,6 +3,7 @@ from . import session
 from datetime import timedelta, timezone
 from django.db import DatabaseError, IntegrityError
 from core.library import time, models, uuid, api, encrypt, decrypt, console
+from web.settings import SERVER_DATA
 
 
 class UserModel(models.Model):
@@ -75,7 +76,7 @@ class UserDetails(UserModel):
   middle_names = models.TextField(default="")
   last_name = models.TextField(default="")
   display_name = models.TextField(default="")
-  display_image = models.URLField(default="")
+  display_image = models.ImageField()
   date_of_birth = models.DateTimeField(blank=False, default=time._datetime.now)
   date_joined = models.DateTimeField(blank=False, default=time._datetime.now)
 
@@ -179,7 +180,7 @@ class Users(UserModel):
       "middleNames": user.details.middle_names,
       "lastName": user.details.last_name,
       "displayName": user.details.display_name,
-      "displayImage": user.details.display_image,
+      "displayImage": user.details.display_image.url if user.details.display_image else "",
       "dateOfBirth": time.timestamp(user.details.date_of_birth, False, True),
       "dateJoined": time.timestamp(user.details.date_joined, False, True),
       "lastActive": time.timestamp(user.auth.last_active, True, True),
@@ -238,6 +239,23 @@ class Users(UserModel):
     except Exception as exception:
       return api.error(exception)
 
+  @staticmethod
+  def change_details(req, first_name:str, middle_names:str, last_name:str):
+    '''
+    Update the display image for an existing user based on uuid.
+    '''
+    try:
+      _json = api.get_json(req)
+      uuid, session = _json['uuid'], _json['session']
+      user = User(uuid)
+      if user.auth.session != session:
+        return api.error()
+      image = req.FILES.get('image')
+      print(image)
+      return api.success()
+    except Exception as exception:
+      return api.error(exception)
+
 
 class User:
 
@@ -248,6 +266,7 @@ class User:
       self.auth = Users.objects.filter(uuid=identifier).first()
     self.details = UserDetails.objects.filter(uuid=self.auth.uuid).first()
     self.invites = UserInvite.objects.filter(created_by=self.auth.uuid)
+    self.content_dir = f"{SERVER_DATA['MEDIA_DIR']}/{self.auth.uuid}"
 
 
 class DeleteUser:

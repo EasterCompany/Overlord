@@ -1,7 +1,6 @@
 # web/settings.py
 #   automatically generated file
-#   do not remove, you may edit this file.
-#   any modifications will be lost if reinstalled.
+#   do not remove (although edits are acceptable)
 
 # Standard library
 import os
@@ -9,7 +8,6 @@ import mimetypes
 from json import loads
 
 # Overlord library
-from core.library import numbers
 from core.tools.commands.install import (
     __init_config_directory__,
     __init_logs_directory__,
@@ -102,32 +100,22 @@ AUTH_PASSWORD_VALIDATORS = [
     },
 ]
 
-STATIC_URL = '/static/'
-STATICFILES_DIRS = [ os.path.join(BASE_DIR, 'static'), ] if DEBUG else []
-STATIC_ROOT = None if DEBUG else os.path.join(BASE_DIR, 'static')
-STATICFILES_STORAGE = 'whitenoise.storage.CompressedManifestStaticFilesStorage'
+STATIC_URL = SERVER_DATA['STATIC_URL']
+STATICFILES_DIRS = [ SERVER_DATA['STATIC_DIR'], ]
 
-MEDIA_ROOT = BASE_DIR + '/assets'
-MEDIA_URL = '/assets/'
+MEDIA_ROOT = SERVER_DATA['MEDIA_DIR']
+MEDIA_URL = SERVER_DATA['MEDIA_URL']
 
-CORS_ORIGIN_ALLOW_ALL = SERVER_DATA['CORS_ORIGIN_ALLOW_ALL']
+if not os.path.exists(SERVER_DATA['STATIC_DIR']):
+    os.mkdir(SERVER_DATA['STATIC_DIR'])
 
-if DEBUG:
-    CORS_ORIGIN_WHITELIST = [
-        'http://localhost:3000',    # Default Django development server (standalone)
-        'http://localhost:8000',    # Default Django development server
-        'http://localhost:8100',    # Default React development client
-        'http://localhost:45678'    # React-snap chrome client
-    ] + [
-        'http://localhost:81' + numbers.zero_prefixed_integer(x, 2) for x in range(1, 100)
-        # Ports 8100 - 8199 are reserved for react development clients
-    ]
-else:
-    CORS_ORIGIN_WHITELIST = [
-        'https://www.easter.company'    # Allows this application to be managed by E-Panel
-    ]
+if not os.path.exists(SERVER_DATA['MEDIA_DIR']):
+    os.mkdir(SERVER_DATA['MEDIA_DIR'])
 
-# Sets mime types for specific file types
+CORS_ORIGIN_ALLOW_ALL = True if DEBUG else SERVER_DATA['CORS_ORIGIN_ALLOW_ALL']
+CORS_ORIGIN_WHITELIST = SERVER_DATA['CORS_ORIGIN_WHITELIST']
+
+# Set default mime type assumptions
 mimetypes.add_type("text/html", "", True)
 mimetypes.add_type("text/javascript", ".js", True)
 mimetypes.add_type("text/css", ".css", True)
