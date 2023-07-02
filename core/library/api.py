@@ -34,12 +34,13 @@ def std(status:str, message:list|tuple|int|str|float|dict = "Invalid Status Resp
 
 # Overlord API Specific Response Types ---------------------------------------------------------------------------------
 def success() -> JsonResponse:
-  """
-  Request was executed successfully response
-
-  :return: api.std showing a HTTP 200 Success
-  """
+  ''' Request was executed successfully response '''
   return std(OK, "Request was executed successfully.")
+
+
+def fail(message:str) -> JsonResponse:
+  ''' Request was denied or failed to execute '''
+  return std(BAD, message)
 
 
 def error(exception=None) -> JsonResponse:

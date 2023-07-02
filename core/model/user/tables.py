@@ -70,23 +70,22 @@ class UserInvite(models.Model):
     return UserInvite.objects.filter(email=email)
 
 
-class UserDetails(UserModel):
-  ''' Contains general non-technical information about the user '''
+class Users(UserModel):
+  ''' Core database model for user authentication & management '''
+  # Auth
+  email = models.TextField(unique=True)
+  key = models.TextField(null=False, blank=False)
+  session = models.TextField(unique=True)
+  permissions = models.IntegerField(null=False, blank=False, default=0)
+  # Details
   first_name = models.TextField(default="")
   middle_names = models.TextField(default="")
   last_name = models.TextField(default="")
   display_name = models.TextField(default="")
   display_image = models.ImageField()
+  # Datetimes
   date_of_birth = models.DateTimeField(blank=False, default=time._datetime.now)
   date_joined = models.DateTimeField(blank=False, default=time._datetime.now)
-
-
-class Users(UserModel):
-  ''' Core database model for user authentication & management '''
-  email = models.TextField(unique=True)
-  key = models.TextField(null=False, blank=False)
-  permissions = models.IntegerField(null=False, blank=False, default=0)
-  session = models.TextField(unique=True)
   last_active = models.DateTimeField(default=time._datetime.now)
 
   @staticmethod
@@ -100,7 +99,8 @@ class Users(UserModel):
   ):
     ''' Creates a new user with the minimum requirements '''
     try:
-      # Verify Email Criteria
+
+      # Verify Email
       email = email.lower()
       if not len(email) >= 5 or not '@' in email or not '.' in email:
         return api.std(api.BAD, "Must use a valid email address.")
@@ -108,6 +108,14 @@ class Users(UserModel):
       # Verify Password Criteria
       if not len(password) >= 8:
         return api.std(api.BAD, "Password must be at least 8 characters.")
+
+      # Verify First Name
+      if not len(first_name) >= 1:
+        return api.std(api.BAD, "Must enter a valid first name.")
+
+      # Verify Last Name
+      if not len(last_name) >= 1:
+        return api.std(api.BAD, "Must enter a valid last name.")
 
       # Verify Date of Birth
       date_of_birth = time._datetime.strptime(date_of_birth, "%d/%m/%Y")
@@ -119,15 +127,12 @@ class Users(UserModel):
       Users.objects.create(
         email=email,
         key=encrypt(password),
+        session=session.generate(),
         permissions=int(permissions),
-        session=session.generate()
-      )
-      UserDetails.objects.create(
-        uuid=Users.objects.get(email=email).uuid,
         first_name=first_name.title(),
         last_name=last_name.title(),
+        display_name=email.split('@')[0].title() if '@' in email else email,
         date_of_birth=date_of_birth,
-        display_name=email.split('@')[0].title() if '@' in email else email
       )
 
     except IntegrityError as error:
@@ -138,15 +143,16 @@ class Users(UserModel):
     except DatabaseError as error:
       return api.error(error)
 
-    return api.success()
+    return User(email).json(True)
 
   @staticmethod
   def login(email:str, password:str):
     ''' Login a user using an email & password combination '''
     try:
-      user = Users.fetch(identifier=email.lower(), include_private_data=True)
-      if password == decrypt(user['key']):
-        return api.data(user)
+      email = email.strip().lower()
+      user = User(email)
+      if user.data is not None and password == user.password:
+        return user.json(True)
       return api.std(api.BAD, "Invalid email & password combination.")
     except Exception as exception:
       return api.error(exception)
@@ -155,52 +161,23 @@ class Users(UserModel):
   def refresh(uuid:str, session:str):
     ''' Resync the user data stored on the local device '''
     try:
-      user = Users.fetch(identifier=uuid, include_private_data=True)
-      if session == user['session']:
-        return api.data(user)
+      user = User(uuid)
+      if session == user.data.session:
+        return user.json(True)
       return api.error()
     except Exception as exception:
       return api.error(exception)
 
   @staticmethod
-  def fetch(identifier:str, include_private_data=False):
-    '''
-    Loads all user data related to an identifier into
-    a dictionary, usually for returning as a JSON response.
-    '''
-    try:
-      user = User(identifier)
-    except Exception as error:
-      return error
-    return {
-      "uuid": user.auth.uuid,
-      "key": user.auth.key if include_private_data else None,
-      "session": user.auth.session if include_private_data else None,
-      "email": user.auth.email,
-      "permissions": user.auth.permissions,
-      "firstName": user.details.first_name,
-      "middleNames": user.details.middle_names,
-      "lastName": user.details.last_name,
-      "displayName": user.details.display_name,
-      "displayImage": f"/static{user.details.display_image.url}" if user.details.display_image else "",
-      "dateOfBirth": time.timestamp(user.details.date_of_birth, False, True),
-      "dateJoined": time.timestamp(user.details.date_joined, False, True),
-      "lastActive": time.timestamp(user.auth.last_active, True, True),
-      "invites": [{
-        "email": invite.email,
-        "sms": invite.sms,
-        "data": invite.data,
-        "created_on": str(invite.created_on)
-      } for invite in user.invites]
-    }
-
-  @staticmethod
-  def delete(uuid:str = "", password:str = ""):
-    ''' Delete all records related to an existing uuid '''
+  def purge(uuid:str, password:str):
+    ''' Deletes all records related to an existing uuid '''
+    print("DELETE USER:", uuid, password)
     try:
       user = User(uuid)
-      if not password == decrypt(user.auth.key):
+      print("FOUND USER:", user.data.email)
+      if not password == user.password:
         return api.std(api.BAD, "Invalid password.")
+      print("PASSWORDS MATCH:", password, user.password)
       user.delete()
       return api.success()
     except Exception as exception:
@@ -211,13 +188,13 @@ class Users(UserModel):
     ''' Update the email of an existing user based on uuid. '''
     try:
       user = User(uuid)
-      if password == decrypt(user.auth.key):
+      if password == user.password:
         try:
-          user.auth.email = new_email
-          user.auth.save()
+          user.data.email = new_email.strip().lower()
+          user.data.save()
         except Exception:
           return api.std(api.BAD, "Encountered an error, email might already be registered.")
-        return api.success()
+        return user.json(True)
       else:
         return api.std(api.BAD, "Invalid password.")
     except Exception as exception:
@@ -231,12 +208,14 @@ class Users(UserModel):
         return api.error("Password must be at least 8 characters.")
       if not new_password == confirm_password:
         return api.error("Passwords do not match.")
+
       user = User(uuid)
-      if not current_password == decrypt(user.auth.key):
+      if not current_password == user.password:
         return api.error("Invalid current password.")
-      user.auth.key = encrypt(new_password)
-      user.auth.save()
-      return api.success()
+
+      user.data.key = encrypt(new_password)
+      user.data.save()
+      return user.json(True)
     except Exception as exception:
       return api.error(exception)
 
@@ -252,23 +231,23 @@ class Users(UserModel):
     ''' Update the display image for an existing user based on uuid. '''
     try:
       user = User(uuid)
-      if user.auth.session != session:
+      if session != user.session:
         return api.error()
 
       if first_name is not None:
-        user.details.first_name = first_name
+        user.data.first_name = first_name
       if middle_names is not None:
-        user.details.middle_names = middle_names
+        user.data.middle_names = middle_names
       if last_name is not None:
-        user.details.last_name = last_name
+        user.data.last_name = last_name
       if display_image is not None:
-        file_name, file_content = api.get_decoded_base64_file("di", display_image)
+        file_name, file_content = api.get_decoded_base64_file("display_image", display_image)
         if user.create_file(name=file_name, content=file_content, resize=(132, 132)):
-          user.details.display_image.delete()
-          user.details.display_image = f"{user.auth.uuid}/{file_name}"
+          user.data.display_image.delete()
+          user.data.display_image = f"{user.data.uuid}/{file_name}"
 
-      user.details.save()
-      return api.data(Users.fetch(user.auth.uuid, include_private_data=True))
+      user.data.save()
+      return api.data(user.json(True))
     except Exception as exception:
       return api.error(exception)
 
@@ -277,19 +256,18 @@ class User:
 
   def __init__(self, identifier:str, *args, **kwargs) -> None:
     if '@' in identifier:
-      self.auth = Users.objects.filter(email=identifier).first()
+      self.data = Users.objects.filter(email=identifier).first()
     else:
-      self.auth = Users.objects.filter(uuid=identifier).first()
-    self.details = UserDetails.objects.filter(uuid=self.auth.uuid).first()
-    self.invites = UserInvite.objects.filter(created_by=self.auth.uuid)
-    self.content_dir = f"{SERVER_DATA['MEDIA_DIR']}/{self.auth.uuid}"
+      self.data = Users.objects.filter(uuid=identifier).first()
+    if self.data is not None:
+      self.password = decrypt(self.data.key)
+      self.invites = UserInvite.objects.filter(created_by=self.data.uuid)
+      self.content_dir = f"{SERVER_DATA['MEDIA_DIR']}/{self.data.uuid}"
 
   def delete(self) -> None:
-    Users.objects.filter(uuid=self.auth.uuid).delete()
-    UserDetails.objects.filter(uuid=self.auth.uuid).delete()
-    invites = UserInvite.objects.filter(created_by=self.auth.uuid)
-    if invites.count() > 0:
-      invites.delete()
+    self.data.delete()
+    if self.invites.count() > 0:
+      self.invites.delete()
     if exists(self.content_dir):
       rmtree(self.content_dir)
 
@@ -305,3 +283,24 @@ class User:
       with open(file_path, "+wb") as new_file:
         new_file.write(content)
     return exists(file_path)
+
+  def json(self, include_private_data=False) -> dict:
+    return api.data({
+      "uuid": self.data.uuid,
+      "session": self.data.session if include_private_data else None,
+      "email": self.data.email,
+      "permissions": self.data.permissions,
+      "firstName": self.data.first_name,
+      "middleNames": self.data.middle_names,
+      "lastName": self.data.last_name,
+      "displayName": self.data.display_name,
+      "displayImage": f"/static{self.data.display_image.url}" if self.data.display_image else "",
+      "dateOfBirth": time.timestamp(self.data.date_of_birth, False, True),
+      "dateJoined": time.timestamp(self.data.date_joined, False, True),
+      "lastActive": time.timestamp(self.data.last_active, True, True),
+      "invites": [{
+        "email": invite.email,
+        "data": invite.data,
+        "created_on": time.timestamp(invite.created_on, False, True)
+      } for invite in self.invites]
+    })
