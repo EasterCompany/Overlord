@@ -24,7 +24,7 @@ API.path(
 API.path(
   "delete",
   lambda req, *args, **kwargs: Users.delete(**api.get_json(req)),
-  "Deletes all data related to a specific uuid or email identifier"
+  "Deletes all user data related to a specific uuid"
 )
 
 API.path(

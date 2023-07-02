@@ -5,19 +5,21 @@ from io import BytesIO
 from datetime import timedelta, timezone
 from web.settings import SERVER_DATA
 from core.library import (
-  time, models, uuid, api,
-  encrypt, decrypt, console,
-  exists, mkdir, remove, base64,
+  time, models, uuid,
+  api, encrypt, decrypt,
+  exists, mkdir, remove, rmtree,
   DatabaseError, IntegrityError
 )
 
 
 class UserModel(models.Model):
   """
-  Inheritor class for user related models, contains the uuid primary key for joining user tables.
+  Inheritor class for user related models, contains the uuid primary key used for joining tables.
+  The uuid is a 32 hex digit string divided into 5 sections separated by 4 dashes totalling 36
+  characters which look like this:
 
-  [uuid] 32 hex digits divided into sections separated by 4 dashes totalling 36 characters
-      +   formatted in this layout 'xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx'
+  'xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx'
+
   """
   uuid = models.CharField(
       null=False,
@@ -32,20 +34,15 @@ class UserModel(models.Model):
     abstract = True
 
   def __str__(self, *args, **kwargs):
-    """
-    Return the selected users uuid as a string
-
-    :return str: uuid
-    """
+    ''' Returns the users uuid when converted to a string '''
     return str(self.uuid)
 
 
 class UserInvite(models.Model):
-  """
-  This model contains the structure for user invites which allow a user to
-  accept an invite to create their account based on a given email or sms
-  verification method.
-  """
+  '''
+  This model contains the structure for user invites which allows a user to
+  accept an invite and create an account using a specified email address
+  '''
   uuid = models.CharField(
     null=False,
     blank=False,
@@ -56,7 +53,6 @@ class UserInvite(models.Model):
   )
   data = models.JSONField(default=None)
   email = models.EmailField(default="")
-  sms = models.TextField(default="")
   sent = models.BooleanField(default=False)
   created_by = models.CharField(
     null=False,
@@ -75,9 +71,7 @@ class UserInvite(models.Model):
 
 
 class UserDetails(UserModel):
-  """
-  Contains general non-technical information about the user
-  """
+  ''' Contains general non-technical information about the user '''
   first_name = models.TextField(default="")
   middle_names = models.TextField(default="")
   last_name = models.TextField(default="")
@@ -88,12 +82,8 @@ class UserDetails(UserModel):
 
 
 class Users(UserModel):
-  """
-  Contains information to login and maintain a session with the session and
-  a new user session is generated upon each login or registration request.
-  """
+  ''' Core database model for user authentication & management '''
   email = models.TextField(unique=True)
-  sms = models.TextField(null=False, blank=False, default="")
   key = models.TextField(null=False, blank=False)
   permissions = models.IntegerField(null=False, blank=False, default=0)
   session = models.TextField(unique=True)
@@ -108,11 +98,12 @@ class Users(UserModel):
     date_of_birth,
     permissions:int=1
   ):
+    ''' Creates a new user with the minimum requirements '''
     try:
       # Verify Email Criteria
       email = email.lower()
       if not len(email) >= 5 or not '@' in email or not '.' in email:
-        return api.std(api.BAD, "Must use a valid email address")
+        return api.std(api.BAD, "Must use a valid email address.")
 
       # Verify Password Criteria
       if not len(password) >= 8:
@@ -138,7 +129,6 @@ class Users(UserModel):
         date_of_birth=date_of_birth,
         display_name=email.split('@')[0].title() if '@' in email else email
       )
-      console.log(f"New user created with email {email} and permission level of {permissions}")
 
     except IntegrityError as error:
       if str(error) == "UNIQUE constraint failed: core_users.email":
@@ -152,30 +142,24 @@ class Users(UserModel):
 
   @staticmethod
   def login(email:str, password:str):
-    '''
-    Login a user using a email & password combination
-    '''
+    ''' Login a user using an email & password combination '''
     try:
       user = Users.fetch(identifier=email.lower(), include_private_data=True)
       if password == decrypt(user['key']):
         return api.data(user)
-      return api.error()
+      return api.std(api.BAD, "Invalid email & password combination.")
     except Exception as exception:
-      print(exception, str(exception))
       return api.error(exception)
 
   @staticmethod
   def refresh(uuid:str, session:str):
-    '''
-    Resync the user data stored on the local device
-    '''
+    ''' Resync the user data stored on the local device '''
     try:
       user = Users.fetch(identifier=uuid, include_private_data=True)
       if session == user['session']:
         return api.data(user)
       return api.error()
     except Exception as exception:
-      print(exception, str(exception))
       return api.error(exception)
 
   @staticmethod
@@ -192,7 +176,6 @@ class Users(UserModel):
       "uuid": user.auth.uuid,
       "key": user.auth.key if include_private_data else None,
       "session": user.auth.session if include_private_data else None,
-      "sms": user.auth.sms,
       "email": user.auth.email,
       "permissions": user.auth.permissions,
       "firstName": user.details.first_name,
@@ -212,27 +195,28 @@ class Users(UserModel):
     }
 
   @staticmethod
-  def delete(uuid:str, session:str, password:str):
-    '''
-    Delete all user data related to a specific uuid.
-    requires a session token & password for verification.
-    '''
+  def delete(uuid:str = "", password:str = ""):
+    ''' Delete all records related to an existing uuid '''
     try:
-      DeleteUser(uuid=uuid, session=session, password=password)
+      user = User(uuid)
+      if not password == decrypt(user.auth.key):
+        return api.std(api.BAD, "Invalid password.")
+      user.delete()
       return api.success()
     except Exception as exception:
       return api.error(exception)
 
   @staticmethod
   def change_email(uuid:str, new_email:str, password:str):
-    '''
-    Update the email of an existing user based on uuid.
-    '''
+    ''' Update the email of an existing user based on uuid. '''
     try:
       user = User(uuid)
       if password == decrypt(user.auth.key):
-        user.auth.email = new_email
-        user.auth.save()
+        try:
+          user.auth.email = new_email
+          user.auth.save()
+        except Exception:
+          return api.std(api.BAD, "Encountered an error, email might already be registered.")
         return api.success()
       else:
         return api.std(api.BAD, "Invalid password.")
@@ -241,9 +225,7 @@ class Users(UserModel):
 
   @staticmethod
   def change_password(uuid:str, current_password:str, new_password:str, confirm_password:str):
-    '''
-    Update the password of an existing user based on uuid.
-    '''
+    ''' Update the password of an existing user based on uuid. '''
     try:
       if not len(new_password) >= 8:
         return api.error("Password must be at least 8 characters.")
@@ -267,9 +249,7 @@ class Users(UserModel):
     last_name:str|None = None,
     display_image:str|None = None
   ):
-    '''
-    Update the display image for an existing user based on uuid.
-    '''
+    ''' Update the display image for an existing user based on uuid. '''
     try:
       user = User(uuid)
       if user.auth.session != session:
@@ -304,6 +284,15 @@ class User:
     self.invites = UserInvite.objects.filter(created_by=self.auth.uuid)
     self.content_dir = f"{SERVER_DATA['MEDIA_DIR']}/{self.auth.uuid}"
 
+  def delete(self) -> None:
+    Users.objects.filter(uuid=self.auth.uuid).delete()
+    UserDetails.objects.filter(uuid=self.auth.uuid).delete()
+    invites = UserInvite.objects.filter(created_by=self.auth.uuid)
+    if invites.count() > 0:
+      invites.delete()
+    if exists(self.content_dir):
+      rmtree(self.content_dir)
+
   def create_file(self, name:str, content:bytes, resize:set|None = None) -> bool:
     file_path = f"{self.content_dir}/{name}"
     if not exists(self.content_dir):
@@ -316,13 +305,3 @@ class User:
       with open(file_path, "+wb") as new_file:
         new_file.write(content)
     return exists(file_path)
-
-
-class DeleteUser:
-
-  def __init__(self, uuid:str, session:str, password:str, *args, **kwargs) -> None:
-    self.auth = Users.objects.filter(uuid=uuid)
-    if session == self.auth.first().session and password == decrypt(self.auth.first().key):
-      UserDetails.objects.filter(uuid=self.auth.first().uuid).delete()
-      UserInvite.objects.filter(created_by=self.auth.first().uuid).delete()
-      self.auth.delete()
