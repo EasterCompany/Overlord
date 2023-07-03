@@ -1,4 +1,4 @@
-<h6 align="center" style="border-bottom:0px;padding:9px 0 0 0;"> [ v1.2.12 18/06/2023 ] </h6>
+<h6 align="center" style="border-bottom:0px;padding:9px 0 0 0;"> [ v1.2.14 --/--/---- ] </h6>
 <h1 align="center" style="margin-bottom:32px;border-bottom:0px;"> The Overlord Framework </h1>
 
 ### Welcome
@@ -54,7 +54,7 @@ however, if you are a well-seasoned professional you may prefer to just read the
 plan in-which Easter Company has designed, developed & deployed an application for you. Otherwise you will need to be
 **invited to the closed beta by an existing user**.
 
-### Donations
+### Support
 
-We aren't currently accepting donations, but if you're interested in helping out then please get in-touch via this email
+If you're interested in helping out then please get in-touch via this email
 [contact@easter.company](mailto:contact@easter.company)

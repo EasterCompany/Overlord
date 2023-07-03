@@ -5,14 +5,17 @@ import AsyncStorage from '@react-native-async-storage/async-storage';
 export const isNative = typeof window.location === 'undefined' || typeof document === 'undefined';
 export const isDev = process.env.REACT_APP_ENV === 'Dev';
 export const isPrd = process.env.REACT_APP_ENV === 'Prd';
-export const mock = isNative ? () => {
+export const mock = isNative ? (_url:string) => {
   return isDev ?
     _url.replace(_url.split('/')[2], `${process.env.API_DOMAIN}:8000`).replace('https://', 'http://') : _url
 } : (_url:string) => {
   return isDev ?
     _url.replace(_url.split('/')[2], '0.0.0.0:8000').replace('https://', 'http://') : _url
 }
-if (isNative) document = { cookie: {} };
+// eslint-disable-next-line no-global-assign
+if (isNative) {
+  const document = { cookie: {} };
+}
 
 
 // Defines the routing for this client & server environment
@@ -99,79 +102,76 @@ export const getEndpoints = isNative ? () => {
 
 // Request data from the Client Specific API
 export const api = async (API: string, BAD: any = null, OK: any = null) => {
-  const user = USER();
-  const _auth = `${user.UUID} ${user.SESH}`;
+  USER().then(async (user:any) => {
+    try {
+      const response = await fetch(clientAPI + API, {
+        method: 'POST',
+        headers: {
+          'Authorization': `Basic ${user.uuid} ${user.session}`,
+          'Content-Type': 'application/x-www-form-urlencoded'
+        }
+      });
 
-  try {
-    const response = await fetch(clientAPI + API, {
-      method: 'POST',
-      headers: {
-        'Authorization': `Basic ${_auth}`,
-        'Content-Type': 'application/x-www-form-urlencoded'
+      if (!response.ok) {
+        throw new Error(`Request failed with status ${response.status}`);
       }
-    });
 
-    if (!response.ok) {
-      throw new Error(`Request failed with status ${response.status}`);
-    }
+      const respJson = await response.json();
+      const respStatus = respJson['status'];
+      const respData = respJson['data'];
 
-    const respJson = await response.json();
-    const respStatus = respJson['status'];
-    const respData = respJson['data'];
+      if (respStatus === 'OK') {
+        return OK !== null ? OK(respData) : respData;
+      } else if (respStatus === 'BAD') {
+        return BAD !== null ? BAD(respData) : respData;
+      }
 
-    if (respStatus === 'OK') {
-      return OK !== null ? OK(respData) : respData;
-    } else if (respStatus === 'BAD') {
-      return BAD !== null ? BAD(respData) : respData;
-    }
-
-  } catch (error) {
-    console.log(`Error @ ${API}`);
-    console.log(error);
-    return BAD("Unexpected Server Error")
-  }
-
+    } catch (error) {
+      console.log(`Error @ ${API}`);
+      console.log(error);
+      return BAD("Unexpected Server Error")
+    };
+  });
 };
 
 
 // POST data to the client specific API
 export const POST = async (API: string, _POST: any, BAD: any = null, OK: any = null) => {
-  const user = USER();
-  const _auth = `${user.UUID} ${user.SESH}`;
+  USER().then(async (user:any) => {
+    await fetch(clientAPI + API, {
+      method: 'POST',
+      headers: new Headers({
+        'Authorization': `Basic ${user.uuid} ${user.session}`,
+        'Content-Type': 'application/json'
+      }),
+      body: _POST,
+    })
+    .then(resp => resp.json())
+    .then(respJson => {
 
-  await fetch(clientAPI + API, {
-    method: 'POST',
-    headers: new Headers({
-      'Authorization': `Basic ${_auth}`,
-      'Content-Type': 'application/json'
-    }),
-    body: _POST,
-  })
-  .then(resp => resp.json())
-  .then(respJson => {
+      const respStatus = respJson['status'];
+      const respData = respJson['data'];
 
-    const respStatus = respJson['status'];
-    const respData = respJson['data'];
-
-    // OK API RESULT HANDLER
-    if (respStatus === 'OK') {
-      try { return OK !== null ? OK(respData) : respData }
-      catch (error) {
-        console.log(`OK Callback Error @ ${API}`)
-        console.log({status:respStatus, data:respData, error:error})
+      // OK API RESULT HANDLER
+      if (respStatus === 'OK') {
+        try { return OK !== null ? OK(respData) : respData }
+        catch (error) {
+          console.log(`OK Callback Error @ ${API}`)
+          console.log({status:respStatus, data:respData, error:error})
+        }
       }
-    }
 
-    // BAD API RESULT HANDLER
-    else if (respStatus === 'BAD') {
-      try{ return BAD !== null ? BAD(respData) : respData }
-      catch (error) {
-        console.log(`BAD Callback Error @ ${API}`)
-        console.log({status:respStatus, data:respData, error:error})
+      // BAD API RESULT HANDLER
+      else if (respStatus === 'BAD') {
+        try{ return BAD !== null ? BAD(respData) : respData }
+        catch (error) {
+          console.log(`BAD Callback Error @ ${API}`)
+          console.log({status:respStatus, data:respData, error:error})
+        }
       }
-    }
-  })
-}
+    })
+  });
+};
 
 
 // Request data from an External API
@@ -202,7 +202,7 @@ export const oapi = async (API: string, BAD: any = null, OK: any = null, DATA: a
       fetch(`${serverAdr}api/o-core/${API}`, {
         method: 'POST',
         headers: new Headers({
-            'Authorization': `Basic ${user.UUID} ${user.SESH}`,
+            'Authorization': `Basic ${user.uuid} ${user.session}`,
             'Content-Type': DATA === null ? 'application/x-www-form-urlencoded' : 'application/json'
         }),
         body: JSON.stringify(DATA)
@@ -266,7 +266,6 @@ export const logout = async (noRefresh:boolean=false) => {
 export const __INIT_USER__ = async (resp:any) => {
   await createCookie('USR.uuid', resp.uuid);
   await createCookie('USR.email', resp.email);
-  await createCookie('USR.sms', resp.sms);
   await createCookie('USR.session', resp.session);
   await createCookie('USR.permissions', resp.permissions);
   await createCookie('USR.dateOfBirth', resp.dateOfBirth);
@@ -290,7 +289,9 @@ export const USER = async () => {
     permissions: await cookie('USR.permissions'),
     // Public
     displayName: await cookie('USR.displayName'),
-    displayImage: process.env.API_DOMAIN + await cookie('USR.displayImage'),
+    displayImage: process.env.API_DOMAIN ?
+      process.env.API_DOMAIN + await cookie('USR.displayImage') :
+      await cookie('USR.displayImage'),
     // Private
     firstName: await cookie('USR.firstName'),
     middleNames: await cookie('USR.middleNames'),
@@ -369,7 +370,7 @@ const deleteNativeCookie = async (key:string) => {
 // Delete cookie
 export const deleteCookie = async (key: string) => {
   if (isNative) {
-    deleteNativeCookie(key);
+    await deleteNativeCookie(key);
   } else {
     document.cookie = `${key}=;path=/;Secure;SameSite=None;Max-Age=0;expires=` + new Date(0).toUTCString();
   }
@@ -378,11 +379,14 @@ export const deleteCookie = async (key: string) => {
 
 // Delete all Local User data
 export const deleteAllCookies = async () => {
-  USER().then((userCookies) => {
-    Object.keys(userCookies).map((cookie) => {
+  if (isNative) {
+    const cookies = await AsyncStorage.getAllKeys();
+    await AsyncStorage.multiRemove(cookies);
+  } else {
+    USER().then((userCookies) => Object.keys(userCookies).map((cookie) => {
       deleteCookie(`USR.${cookie}`);
-    });
-  });
+    }));
+  };
 };
 
 

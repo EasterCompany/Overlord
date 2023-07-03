@@ -103,24 +103,24 @@ class Users(UserModel):
       # Verify Email
       email = email.lower()
       if not len(email) >= 5 or not '@' in email or not '.' in email:
-        return api.std(api.BAD, "Must use a valid email address.")
+        return api.fail("Must use a valid email address.")
 
       # Verify Password Criteria
       if not len(password) >= 8:
-        return api.std(api.BAD, "Password must be at least 8 characters.")
+        return api.fail("Password must be at least 8 characters.")
 
       # Verify First Name
       if not len(first_name) >= 1:
-        return api.std(api.BAD, "Must enter a valid first name.")
+        return api.fail("Must enter a valid first name.")
 
       # Verify Last Name
       if not len(last_name) >= 1:
-        return api.std(api.BAD, "Must enter a valid last name.")
+        return api.fail("Must enter a valid last name.")
 
       # Verify Date of Birth
       date_of_birth = time._datetime.strptime(date_of_birth, "%d/%m/%Y")
       if date_of_birth > time._datetime.now() - timedelta(days=365*13):
-        return api.std(api.BAD, "You must be at least 13 years old.")
+        return api.fail("You must be at least 13 years old.")
       date_of_birth = date_of_birth.replace(tzinfo=timezone.utc)
 
       # Create User
@@ -137,7 +137,7 @@ class Users(UserModel):
 
     except IntegrityError as error:
       if str(error) == "UNIQUE constraint failed: core_users.email":
-        return api.std(api.BAD, "Email address is already registered.")
+        return api.fail("Email address is already registered.")
       return api.error(error)
 
     except DatabaseError as error:
@@ -153,7 +153,7 @@ class Users(UserModel):
       user = User(email)
       if user.data is not None and password == user.password:
         return user.json(True)
-      return api.std(api.BAD, "Invalid email & password combination.")
+      return api.fail("Invalid email & password combination.")
     except Exception as exception:
       return api.error(exception)
 
@@ -171,13 +171,10 @@ class Users(UserModel):
   @staticmethod
   def purge(uuid:str, password:str):
     ''' Deletes all records related to an existing uuid '''
-    print("DELETE USER:", uuid, password)
     try:
       user = User(uuid)
-      print("FOUND USER:", user.data.email)
       if not password == user.password:
         return api.std(api.BAD, "Invalid password.")
-      print("PASSWORDS MATCH:", password, user.password)
       user.delete()
       return api.success()
     except Exception as exception:
@@ -187,16 +184,21 @@ class Users(UserModel):
   def change_email(uuid:str, new_email:str, password:str):
     ''' Update the email of an existing user based on uuid. '''
     try:
+      # Verify New Email
+      if not len(new_email) >= 5 or not '@' in new_email or not '.' in new_email:
+        return api.fail("Must use a valid email address.")
+
       user = User(uuid)
       if password == user.password:
         try:
           user.data.email = new_email.strip().lower()
           user.data.save()
         except Exception:
-          return api.std(api.BAD, "Encountered an error, email might already be registered.")
+          return api.fail("Encountered an error, email might already be registered.")
         return user.json(True)
       else:
-        return api.std(api.BAD, "Invalid password.")
+        return api.fail("Invalid password.")
+
     except Exception as exception:
       return api.error(exception)
 
@@ -205,13 +207,13 @@ class Users(UserModel):
     ''' Update the password of an existing user based on uuid. '''
     try:
       if not len(new_password) >= 8:
-        return api.error("Password must be at least 8 characters.")
+        return api.fail("Password must be at least 8 characters.")
       if not new_password == confirm_password:
-        return api.error("Passwords do not match.")
+        return api.fail("Passwords do not match.")
 
       user = User(uuid)
       if not current_password == user.password:
-        return api.error("Invalid current password.")
+        return api.fail("Invalid current password.")
 
       user.data.key = encrypt(new_password)
       user.data.save()
@@ -231,8 +233,8 @@ class Users(UserModel):
     ''' Update the display image for an existing user based on uuid. '''
     try:
       user = User(uuid)
-      if session != user.session:
-        return api.error()
+      if session != user.data.session:
+        return api.fail("Failed authentication, try logging out and then back in.")
 
       if first_name is not None:
         user.data.first_name = first_name
@@ -247,7 +249,7 @@ class Users(UserModel):
           user.data.display_image = f"{user.data.uuid}/{file_name}"
 
       user.data.save()
-      return api.data(user.json(True))
+      return user.json(True)
     except Exception as exception:
       return api.error(exception)
 
