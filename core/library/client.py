@@ -325,7 +325,7 @@ class NativeClient(WebClient):
     #   automatically generated file
     #   do not edit or delete
     API_DOMAIN={self.API_DOMAIN}
-    PUBLIC_URL=/static/{self.DIR}/
+    PUBLIC_URL=
     REACT_APP_ENV=Prd
     REACT_APP_NAME={self.NAME}
     REACT_APP_API={api}
