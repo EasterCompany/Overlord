@@ -55,6 +55,7 @@ def error(exception=None) -> JsonResponse:
   [{console.out("INTERNAL SERVER ERROR", "red", False)}]
   {exception}
   """)
+    return std(BAD, str(exception))
   return std(BAD, "[500] Internal server error.")
 
 
