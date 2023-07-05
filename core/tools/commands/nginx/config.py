@@ -77,14 +77,7 @@ def overwrite_nginx_conf() -> None:
   Removes any existing nginx.conf file and replaces it with Overlord's default one
   '''
   console.sudo("rm /etc/nginx/nginx.conf")
-  content = ""
-  current_user = getuser()
-  with open(f"{BASE_DIR}/core/tools/commands/nginx/assets/nginx.conf", "r") as file:
-    content = file.read()
-  with open(f"{BASE_DIR}/core/tools/commands/nginx/assets/nginx.conf.temp", "w+") as file:
-    file.write(content.replace('user www-data;', f'user {current_user};'))
-  console.sudo(f"cp {BASE_DIR}/core/tools/commands/nginx/assets/nginx.conf.temp /etc/nginx/nginx.conf")
-  console.sudo(f"rm {BASE_DIR}/core/tools/commands/nginx/assets/nginx.conf.temp")
+  console.sudo(f"cp {BASE_DIR}/core/tools/commands/nginx/assets/nginx.conf /etc/nginx/nginx.conf")
 
 
 def generate_site_files() -> bool:
