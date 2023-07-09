@@ -8,8 +8,8 @@ sites_enabled_dir = "/etc/nginx/sites-enabled"
 sites_available_dir = "/etc/nginx/sites-available"
 sites_enabled_file = f"{sites_enabled_dir}/{PROJECT_NAME}"
 sites_available_file = f"{sites_available_dir}/{PROJECT_NAME}"
-application_domain = SECRET_DATA['DOMAIN_URL'] if not SECRET_DATA['DOMAIN_URL'].startswith('www.') else\
-  SECRET_DATA['DOMAIN_URL'].replace('www.', '', 1)
+application_domain = SECRET_DATA['SERVER_URL'] if not SECRET_DATA['SERVER_URL'].startswith('www.') else\
+  SECRET_DATA['SERVER_URL'].replace('www.', '', 1)
 application_port = SECRET_DATA['LOCAL_PORT'] if 'LOCAL_PORT' in SECRET_DATA else 8000
 site_available_conf_no_ssl = lambda: shlex.quote('''
 server {
@@ -110,6 +110,6 @@ def generate_ssl_certificate() -> None:
   renews the certificates once per year before they expire
   '''
   if len(application_domain) == 0:
-    console.status("warn", "You have not set a DOMAIN_URL configuration in your\n  .config/secrets.json file")
+    console.status("warn", "You have not set a SERVER_URL configuration in your\n  .config/secrets.json file")
   console.input("sudo certbot --nginx", show_output=True)
   console.input("sudo certbot renew --dry-run")

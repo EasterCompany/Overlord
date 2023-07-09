@@ -4,7 +4,6 @@ from wsgiref.util import FileWrapper
 from web import settings
 from core.library import (
   HttpResponse,
-  RedirectView,
   re_path,
   render,
   html_loader,

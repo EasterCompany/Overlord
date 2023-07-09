@@ -10,7 +10,7 @@ from core import create_user, create_super_user
 from core.library import execute_from_command_line, console, git as GIT, url
 from core.library.version import Version
 from core.tools.library import gracefulExit, updater
-from core.tools.commands import install, git, django, node, pytest, pa, vscode, fs, nginx
+from core.tools.commands import install, git, django, node, pytest, pa, vscode, fs, nginx, server
 
 tools_path = '/'.join(__file__.split('/')[:-1])
 project_path = path[0]
@@ -324,10 +324,8 @@ def run_tool(command, index=0):
     else:
       exit("One or more unit tests failed")
 
-  elif command == 'server':
-
+  elif command == 'server' and len(SECRET_DATA['PA_USER_ID']) > 0 and len(SECRET_DATA['PA_API_KEY']) > 0:
     if arguments_remaining == 1:
-
       if arguments[0] == 'apps':
         return pa.apps.display()
       elif arguments[0] == 'consoles':
@@ -370,6 +368,13 @@ def run_tool(command, index=0):
           )
     else:
       return pa.api.error_message()
+
+  elif command.startswith('server'):
+    server_cmd = command.split('server:')[1]
+    if len(server_cmd) >= 1:
+      server.run_command([1], arguments)
+    else:
+      server.error_message()
 
   elif command == 'create':
     # Universal API
