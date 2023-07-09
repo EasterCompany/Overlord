@@ -114,13 +114,18 @@ class WebClient():
 
   def _url(self):
     ''' Client._url is a re_path pointing towards the clients app file '''
-    def_str = r"^(?!static)^(?!api)^(?!robots.txt)^(?!manifest.json)^(?!asset-manifest.json)^(?!sitemap.xml)"
-    pwa_str = r"^(?!service-worker.js)^(?!service-worker.js.map)"
-    app_str = r".*$"
+    def_str = \
+      r"^(?!static)^(?!api)^(?!robots.txt)^(?!manifest.json)^(?!asset-manifest.json)^(?!favicon.ico)^(?!sitemap.xml)"
+    pwa_str = \
+      r"^(?!service-worker.js)^(?!service-worker.js.map)"
+    app_str = \
+      r".*$"
+
     if self.PWA:
       re_path_str = def_str + self.URLS_re_paths + pwa_str + app_str
     else:
       re_path_str = def_str + self.URLS_re_paths + app_str
+
     return re_path(re_path_str, self.app, name=f"{self.NAME} App")
 
   def _env(self, prd=True):
@@ -174,69 +179,69 @@ class WebClient():
     return settings.BASE_DIR + f"/static/{self.DIR}/{file_name}"
 
   def path(self, endpoint:str, view, description:str = "Auto Generated Path", *args, **kwargs):
+    ''' Creates a new endpoint associated with this client '''
     _path = f"{self.DIR}/{endpoint}" if not self.IS_INDEX else f"{endpoint}"
     self.URLS_re_paths += rf"^(?!{endpoint})"
     return new_path(_path, view, name=description)
 
   def current_uri(self, req) -> str:
-    '''
-    Returns the current url including any queries
-    '''
+    ''' Returns the current url including any queries '''
     return req.build_absolute_uri('?')
 
   def current_url(self, req) -> str:
-    '''
-    Returns the current url
-    '''
+    ''' Returns the current url '''
     return req.build_absolute_uri('?')
 
   def current_domain(self, req) -> str:
-    '''
-    Returns the current domain name and protocol as a string
-    '''
+    ''' Returns the current domain name and protocol as a string '''
     return req.build_absolute_uri('/').strip('/')
 
   def current_path(self, req) -> list:
-    '''
-    Returns the current path from the url
-    '''
+    ''' Returns the current path from the url '''
     return req.build_absolute_uri('?').replace(self.current_domain(req), '').strip('/').split('/')
 
   def current_view(self, req) -> str:
-    '''
-    Returns the last item from the url path list as a string
-    '''
+    ''' Returns the last item from the url path list as a string '''
     return req.build_absolute_uri('?').split('/')[-1]
 
   def render_html(self, req, context:dict) -> HttpResponse:
-    '''
-    Returns rendered html from the loaded template file
-    '''
+    ''' Renders the default HTML file with a given context parameter '''
     if self.html is None:
       self.html = html_loader.get_template(self.html_path)
     return HttpResponse(self.html.render(context, req), content_type="text/html")
 
   def app(self, req, *args, **kwargs):
+    ''' Renders the main app file as HTML with or without provided contexts '''
     if self.__context__ is not None and callable(self.__context__):
       return self.render_html(req, self.__context__(req))
     return render(req, self._path(self.html_path), content_type='text/html')
 
+  def favicon(self, req, *args, **kwargs):
+    ''' Renders the associated client favicon '''
+    return render(req, self._path('favicon.ico'), content_type='image/x-icon')
+
   def sitemap(self, req, *args, **kwargs):
+    ''' Renders the associated client sitemap file '''
     return render(req, self._path('sitemap.xml'), content_type='text/html')
 
   def robots(self, req, *args, **kwargs):
+    ''' Renders the associated client robots file '''
     return render(req, self._path('robots.txt'), content_type='text/plain')
 
   def manifest(self, req, *args, **kwargs):
+    ''' Renders the associated client manifest file '''
     return render(req, self._path('manifest.json'), content_type='application/json')
 
   def assets(self, req, *args, **kwargs):
+    ''' Renders the associated client asset manifest file '''
     return render(req, self._path('asset-manifest.json'), content_type='application/json')
 
   def service_worker(self, req, *args, **kwargs):
+    ''' Renders the associated client service worker file '''
     return render(req, self._path('service-worker.js'), content_type='application/x-javascript')
 
   def service_worker_map(self, req, *args, **kwargs):
+    ''' Renders the associated client service worker map file '''
     return render(req, self._path('service-worker.js.map'), content_type='application/x-javascript')
 
   def serve_file(self, path:str, abspath:bool=False):
@@ -253,6 +258,8 @@ class WebClient():
       mime_type = 'video/mp4'
     elif path.endswith('.mp3'):
       mime_type = 'audio/mp3'
+    elif path.endswith('.ico'):
+      mime_type = 'image/x-icon'
     elif path.endswith('.png'):
       mime_type = 'image/png'
     elif path.endswith('.jpg'):
