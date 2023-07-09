@@ -3,8 +3,12 @@ from wsgiref.util import FileWrapper
 # Overlord library
 from web import settings
 from core.library import (
-  HttpResponse, re_path, render,
-  html_loader, path as new_path,
+  HttpResponse,
+  RedirectView,
+  re_path,
+  render,
+  html_loader,
+  path as new_path,
   local_ip
 )
 
@@ -120,12 +124,10 @@ class WebClient():
       r"^(?!service-worker.js)^(?!service-worker.js.map)"
     app_str = \
       r".*$"
-
     if self.PWA:
       re_path_str = def_str + self.URLS_re_paths + pwa_str + app_str
     else:
       re_path_str = def_str + self.URLS_re_paths + app_str
-
     return re_path(re_path_str, self.app, name=f"{self.NAME} App")
 
   def _env(self, prd=True):
@@ -218,7 +220,7 @@ class WebClient():
 
   def favicon(self, req, *args, **kwargs):
     ''' Renders the associated client favicon '''
-    return render(req, self._path('favicon.ico'), content_type='image/x-icon')
+    return RedirectView.as_view(url=f'static/{self.DIR}/favicon.ico')
 
   def sitemap(self, req, *args, **kwargs):
     ''' Renders the associated client sitemap file '''
@@ -252,42 +254,43 @@ class WebClient():
     :param abspath bool: indicates that the path parameter is an absolute path to anywhere on the system
     :return HttpResponse:
     '''
-    _file = FileWrapper(open(path if abspath else self._path(path), "rb"))
-    mime_type = None
-    if path.endswith('.mp4'):
-      mime_type = 'video/mp4'
-    elif path.endswith('.mp3'):
-      mime_type = 'audio/mp3'
-    elif path.endswith('.ico'):
-      mime_type = 'image/x-icon'
-    elif path.endswith('.png'):
-      mime_type = 'image/png'
-    elif path.endswith('.jpg'):
-      mime_type = 'image/jpeg'
-    elif path.endswith('.svg'):
-      mime_type = 'image/svg+xml'
-    elif path.endswith('.cur'):
-      mime_type = 'image/x-win-bitmap'
-    elif path.endswith('.wasm'):
-      mime_type = 'application/wasm'
-    elif path.endswith('.js'):
-      mime_type = 'application/x-javascript'
-    elif path.endswith('.json'):
-      mime_type = 'application/json'
-    elif path.endswith('.css'):
-      mime_type = 'text/css'
-    elif path.endswith('.txt'):
-      mime_type = 'text/plain'
-    elif path.endswith('.xml'):
-      mime_type = 'text/xml'
-    elif path.endswith('.html'):
-      mime_type = 'text/html'
-    elif path.endswith('.woff'):
-      mime_type = 'font/woff'
-    elif path.endswith('.ttf'):
-      mime_type = 'font/ttf'
-    elif path.endswith('.eot'):
-      mime_type = 'font/eot'
+    with open(path if abspath else self._path(path), "rb") as _bytes:
+      _file = FileWrapper(_bytes)
+      mime_type = None
+      if path.endswith('.mp4'):
+        mime_type = 'video/mp4'
+      elif path.endswith('.mp3'):
+        mime_type = 'audio/mp3'
+      elif path.endswith('.ico'):
+        mime_type = 'image/x-icon'
+      elif path.endswith('.png'):
+        mime_type = 'image/png'
+      elif path.endswith('.jpg'):
+        mime_type = 'image/jpeg'
+      elif path.endswith('.svg'):
+        mime_type = 'image/svg+xml'
+      elif path.endswith('.cur'):
+        mime_type = 'image/x-win-bitmap'
+      elif path.endswith('.wasm'):
+        mime_type = 'application/wasm'
+      elif path.endswith('.js'):
+        mime_type = 'application/x-javascript'
+      elif path.endswith('.json'):
+        mime_type = 'application/json'
+      elif path.endswith('.css'):
+        mime_type = 'text/css'
+      elif path.endswith('.txt'):
+        mime_type = 'text/plain'
+      elif path.endswith('.xml'):
+        mime_type = 'text/xml'
+      elif path.endswith('.html'):
+        mime_type = 'text/html'
+      elif path.endswith('.woff'):
+        mime_type = 'font/woff'
+      elif path.endswith('.ttf'):
+        mime_type = 'font/ttf'
+      elif path.endswith('.eot'):
+        mime_type = 'font/eot'
     return lambda req, *args, **kwargs: HttpResponse(_file, content_type=mime_type)
 
 

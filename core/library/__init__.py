@@ -51,6 +51,9 @@ from django.urls import path, re_path, include, URLResolver
 # Utils
 from django.utils.crypto import get_random_string
 
+# Views
+from django.views.generic.base import RedirectView
+
 
 def uuid() -> str:
   return str(uuid1())
