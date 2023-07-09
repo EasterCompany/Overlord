@@ -66,11 +66,11 @@ def acquire_client_api(client:str, git_ssh:str, api_dir:str, no_tab:bool = False
   :param api_dir str: the directory of the new api
   :return str: returns the import statements for this api
   """
-  console.out(f"    Cloning API for '{client}'", end=" ...\r")
+  console.out(f"  Cloning API for '{client}'", end=" ...\r")
   console.input(f"git clone {git_ssh} {client}", cwd=api_dir, show_output=False)
   if no_tab:
-    return console.out(f"✔️ Successfully cloned API for '{client}'              ", "green")
-  return console.out(f"    ✔️ Successfully cloned API for '{client}'              ", "green")
+    return console.out(f"{console.success} Successfully cloned API for '{client}'              ", "green")
+  return console.out(f"  {console.success} Successfully cloned API for '{client}'              ", "green")
 
 
 def acquire_all_apis(client_data:dict, cwd:str = '.', no_tab:bool = False) -> list:

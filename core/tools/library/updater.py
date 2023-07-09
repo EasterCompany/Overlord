@@ -1,5 +1,4 @@
 # Standard library
-import os
 import sys
 import time
 import atexit
@@ -144,23 +143,29 @@ def clone_latest_version() -> None:
   purge_temp_directory()
 
   try:
-    console.out("  Downloading Update ... ", end="\r")
+    console.out(f"  {console.wait} Downloading Update ... ", end="\r")
     mkdir(temp_directory)
     console.input(
       f"cd {temp_directory} && "
       f"git clone --quiet --single-branch --branch Prd --depth=1 git@github.com:EasterCompany/Overlord.git "
       f"{random_file_hash}"
     )
-    console.out("  ✅ Downloaded Update   ", "success")
-    console.out("  Installing Update ...  ")
+    console.out(f"  {console.success} Downloaded Update   ", "success")
+    console.out(f"  {console.wait} Installing Update ...  ")
     remove(f"{BASE_DIR}/setup.cfg")
     remove(f"{BASE_DIR}/core.py")
     shutil.rmtree(f"{BASE_DIR}/core")
     shutil.copytree(temp_update_path, BASE_DIR, ignore=_log_path, dirs_exist_ok=True)
     purge_temp_directory()
-    console.out("\n  ✅ Installed Update Successfully!\n", "success")
+
+    console.out(f"  {console.wait} Installing Dependencies ... ", end="\r")
+    console.input(f"{sys.executable} -m pip install -r core/requirements.txt")
+    console.out(f"  {console.success} Installed Dependencies   ", "success")
+
+    console.out(f"\n  {console.success} Installed Update Successfully!\n", "success")
     console.out("\n  You will need to exit and restart the CLI now.\n", "success")
     sys.exit()
+
   except Exception as update_error:
     purge_temp_directory()
     console.out(f"\n  Failed to update due an unexpected error\n  {update_error}")

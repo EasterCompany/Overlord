@@ -82,7 +82,7 @@ def client(app_data:dict = {}, build:bool = False, app_name:str = ""):
       text=True,
       universal_newlines=True
     )
-    console.out("  ✅ Installed     ", "success")
+    console.out(f"  {console.success} Installed     ", "success")
 
     console.out(f"  {console.wait} Compiling", end="\r")
     subprocess.run(
@@ -95,7 +95,7 @@ def client(app_data:dict = {}, build:bool = False, app_name:str = ""):
       text=True,
       universal_newlines=True
     )
-    console.out("  ✅ Compiled      ", "success")
+    console.out(f"  {console.success} Compiled      ", "success")
 
     if 'export:web' in app_data['build']:
       source_dir = f"{app_data['src']}/web-build"
@@ -121,7 +121,7 @@ def client(app_data:dict = {}, build:bool = False, app_name:str = ""):
 
     console.out(f"  {console.wait} Post-Processing", end="\r")
     update_client_meta_data(app_name, app_data)
-    console.out("  ✅ Post-Processed    ", "success")
+    console.out(f"  {console.success} Post-Processed    ", "success")
 
   elif not build and 'start' in app_data:
     if 'npx expo' in app_data['start']:
@@ -199,17 +199,17 @@ def install(target:str|None = None) -> None:
   def run_install(client_path):
     console.out(f"  {console.wait} Downloading Node Modules", end="\r")
     console.input("npm install", cwd=client_path)
-    console.out(f"  ✅ Downloaded Node Modules             ", "success")
+    console.out(f"  {console.success} Downloaded Node Modules             ", "success")
 
   def init_client(client):
     console.out(f"  {console.wait} Initializing", end="\r")
     initialize(client)
-    console.out(f"  ✅ Initialized             ", "success")
+    console.out(f"  {console.success} Initialized             ", "success")
 
   def share_code(client):
     console.out(f"  {console.wait} Distributing Shared Files", end="\r")
     __update_shared_files__()
-    console.out(f"  ✅ Distributed Shared Files             ", "success")
+    console.out(f"  {console.success} Distributed Shared Files             ", "success")
 
   load_clients_json()
 
@@ -271,7 +271,7 @@ def build_all():
   console.out("\n> Global Build Options")
   console.out(f"  {console.wait} Updating shared files", end="\r")
   __update_shared_files__()
-  console.out("  ✅ Updated Shared Files      ", "success")
+  console.out(f"  {console.success} Updated Shared Files      ", "success")
 
   for _ in clients_json:
     client(clients_json[_], build=True, app_name=_)
@@ -333,7 +333,7 @@ def create(name:str, native:bool = False, custom_repo:str|None = None):
   def download_repo(repo_link, name):
     console.out(f"  {console.wait} Downloading ... ", end="\r")
     console.input(f"git clone {repo_link} {name}", cwd=settings.BASE_DIR+'/clients')
-    console.out(f"  ✅ Downloaded                  ", "success")
+    console.out(f"  {console.success} Downloaded                  ", "success")
 
   def update_overlord_configuration():
     from core.library import url
@@ -357,7 +357,7 @@ def create(name:str, native:bool = False, custom_repo:str|None = None):
     __update_shared_files__()
     load_order = url.make_client_load_order(client_data, server_data['INDEX'])
     url.write_urls(load_order, settings.BASE_DIR + '/web/urls.py')
-    return console.out("  ✅ Updated .config/*        ", "success")
+    return console.out(f"  {console.success} Updated .config/*        ", "success")
 
   # Make directory checks
   if exists(f'clients/{name}'):
@@ -384,13 +384,13 @@ def create(name:str, native:bool = False, custom_repo:str|None = None):
   # De-git repository
   console.out(f"  {console.wait} Removing .git/*", end="\r")
   rmtree(f'{settings.BASE_DIR}/clients/{name}/.git')
-  console.out("  ✅ Removed .git/*              ", "success")
+  console.out(f"  {console.success} Removed .git/*              ", "success")
 
   # Update meta_data
   if exists(f'clients/{name}/public/static/app-name'):
     console.out(f"  {console.wait} Updating meta file", end="\r")
     rename(f'clients/{name}/public/static/app-name', f'clients/{name}/public/static/{name}')
-    console.out("  ✅ Updated meta file            ", "success")
+    console.out(f"  {console.success} Updated meta file            ", "success")
 
   if native:
     # Update app.json
@@ -400,7 +400,7 @@ def create(name:str, native:bool = False, custom_repo:str|None = None):
       content = content.replace('overlord_native_client', name)
       with open(f'clients/{name}/app.json', 'w') as new_file:
         new_file.write(content)
-    console.out("  ✅ Updated app.json              ", "success")
+    console.out(f"  {console.success} Updated app.json              ", "success")
 
   # Update index.html
   index_html_path = \
@@ -424,7 +424,7 @@ def create(name:str, native:bool = False, custom_repo:str|None = None):
     content = content.replace('app-name', name)
     with open(manifest_json_path, 'w') as new_file:
       new_file.write(content)
-  console.out("  ✅ Updated manifest.json              ", "success")
+  console.out(f"  {console.success} Updated manifest.json              ", "success")
 
   # Update package.json
   console.out(f"  {console.wait} Updating package.json", end="\r")
@@ -436,7 +436,7 @@ def create(name:str, native:bool = False, custom_repo:str|None = None):
       content = content.replace('app-name', name)
     with open(f'{settings.BASE_DIR}/clients/{name}/package.json', 'w') as new_file:
       new_file.write(content)
-  console.out("  ✅ Updated package.json              ", "success")
+  console.out(f"  {console.success} Updated package.json              ", "success")
 
   # Update shared.json
   if exists(f"{settings.BASE_DIR}/clients/{name}/shared.json"):
@@ -447,7 +447,7 @@ def create(name:str, native:bool = False, custom_repo:str|None = None):
       content = content.replace('overlord_native_client', name)
       with open(f'{settings.BASE_DIR}/clients/{name}/shared.json', 'w') as new_file:
         new_file.write(content)
-    console.out("  ✅ Updated shared.json              ", "success")
+    console.out(f"  {console.success} Updated shared.json              ", "success")
 
   if native:
     console.out(f"  {console.wait} Installing expo-cli", end="\r")
