@@ -502,8 +502,11 @@ def run_tool(command, index=0):
       return console.out("\n  [ERROR] `code` command takes 1 argument that must be a client name\n", "red")
 
   elif command == 'sh':
-    _process = subprocess.run(arguments, capture_output=True, text=True)
-    console.out('\n' + _process.stdout)
+    if arguments_remaining > 0:
+      console.out("\n> Execute shell command\n", "yellow")
+      console.input(' '.join(arguments), show_output=True)
+    else:
+      console.out("\n  `sh` command requires at least one argument.", "red")
 
   elif command == 'exit' or command == 'exit()':
     console.out("\nClosed Overlord-CLI\n", "red")

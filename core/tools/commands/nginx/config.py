@@ -53,6 +53,8 @@ def create_service() -> bool:
   console.sudo(f"echo {systemd_service_file} | sudo -S tee {PROJECT_NAME}.service", cwd="/etc/systemd/system")
   console.sudo(f"systemctl enable nginx")
   console.sudo(f"systemctl enable {PROJECT_NAME}")
+  console.sudo(f"git config --system --add safe.directory '{BASE_DIR}/*'")
+  console.sudo(f"cp ~/.ssh/* /root/.ssh/")
   if exists(f"/etc/systemd/system/{PROJECT_NAME}.service"):
     return True
   return False
