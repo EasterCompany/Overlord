@@ -503,10 +503,11 @@ def run_tool(command, index=0):
 
   elif command == 'sh':
     if arguments_remaining > 0:
-      console.out("\n> Execute shell command\n", "yellow")
+      console.out("\n> Execute shell command", "yellow")
       console.input(' '.join(arguments), show_output=True)
     else:
-      console.out("\n  `sh` command requires at least one argument.", "red")
+      sh_input = input("\n> ")
+      console.input(sh_input, show_output=True)
 
   elif command == 'exit' or command == 'exit()':
     console.out("\nClosed Overlord-CLI\n", "red")
