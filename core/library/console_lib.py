@@ -168,8 +168,8 @@ class Console:
         if output:
           print(output.strip().decode())
           self.append_log_cache([output, '\n'])
-      print(process.stdout.read())
-      return process.stdout.read()
+      print(str(process.stdout.read(), 'utf-8'))
+      return str(process.stdout.read(), 'utf-8')
     else:
       out = subprocess.run(
         command,
