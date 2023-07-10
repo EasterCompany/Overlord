@@ -32,9 +32,11 @@ def all():
 
     if os.path.exists(f"{source_api}/.git"):
       console.out(f"\n> {client.upper()} (API)", "amber")
-      os.chdir(source_api)
-      os.system(f'''git add . && git commit -m "{AUTO_COMMIT_MESSAGE}" && git push''')
-      os.chdir(BASE_DIR)
+      console.input(
+        f'''git add . && git commit -m "{AUTO_COMMIT_MESSAGE}" && git push''',
+        cwd=source_api,
+        show_output=True
+      )
       pushed_apis.append(client)
 
   potential_apis = listdir(api_dir)
