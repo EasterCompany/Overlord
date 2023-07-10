@@ -166,7 +166,7 @@ class Console:
         if output == b'' and process.poll() is not None:
           break
         if output:
-          print(output.strip().decode())
+          print(f"  {str(output.strip(), 'utf-8')}")
           self.append_log_cache([output, '\n'])
       return str(process.stdout.read(), 'utf-8')
     else:
