@@ -166,10 +166,9 @@ class Console:
         if output == b'' and process.poll() is not None:
           break
         if output:
-          print(output)
           output = "  " + str(output.strip(), 'utf-8')
-          print(output)
           self.append_log_cache([output, '\n'])
+          print(output)
       return str(process.stdout.read(), 'utf-8')
     else:
       out = subprocess.run(
