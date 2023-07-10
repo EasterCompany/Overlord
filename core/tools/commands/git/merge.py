@@ -71,14 +71,15 @@ def merge(repo_name:str, repo_path:str):
   else: return console.out(f"  [ERROR] Unexpected error while merging @ {repo_path}", "red")
   origin_label = console.out(origin, "amber", False)
   dest_label = console.out(dest, "green", False)
-  console.out(f"> {repo_name.upper()}: merge '{origin_label}' -> '{dest_label}'")
+  console.out(f"\n> {repo_name.upper()}: merge '{origin_label}' -> '{dest_label}'", "amber")
   console.input(
     f"git branch --set-upstream-to=origin/{origin} {origin}",
     cwd=repo_path
   )
   console.input(
     f"git checkout {dest} || git checkout -b {dest}",
-    cwd=repo_path
+    cwd=repo_path,
+    show_output=True
   )
   console.input(
     f"git branch --set-upstream-to=origin/{dest} {dest}",
@@ -86,13 +87,14 @@ def merge(repo_name:str, repo_path:str):
   )
   console.input(
     f"git pull && git pull origin {origin} && git push origin {dest}",
-    cwd=repo_path
+    cwd=repo_path,
+    show_output=True
   )
 
 
 def merge_all():
   ''' Recursively merges all repositories current branch into the next logical branch '''
-  print()
+  console.out('')
   merge_ready = check_branches_are_merge_ready()
   if not merge_ready:
     console.out("  [ERROR] One or more branches are out of sync", "red")
@@ -128,9 +130,11 @@ def error_message():
     FEATURE_BRANCH -> into -> LOCAL_BRANCH
     LOCAL_BRANCH -> into -> STAGING BRANCH
     STAGING_BRANCH -> into -> PRODUCTION_BRANCH
+    PRODUCTION_BRANCH -> into -> LOCAL_BRANCH
 
     Any branch which is not listed as a designated branch will
     be assumed as a feature branch while using the merge tool.
 
-    ./o merge
-  """)
+    ./o merge""",
+    "red"
+  )

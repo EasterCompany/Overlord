@@ -28,7 +28,7 @@ def switch(target:str, repo_name:str, repo_path:str) -> str:
 
 def switch_all(target:str) -> str:
   ''' Recursively switches all repositories within the project to a designated branch '''
-  print('')
+  console.out('')
 
   if target not in designated_branches:
     return console.out("  [ERROR] Target branch is not a designated branch", "red")
@@ -60,7 +60,7 @@ def switch_all(target:str) -> str:
 
 def list_all() -> None:
   ''' Recursively print the current branch for all repositories within the project '''
-  print('')
+  console.out('')
 
   if exists(f"{BASE_DIR}/.git"):
     cur_branch = GIT.branch(BASE_DIR)
