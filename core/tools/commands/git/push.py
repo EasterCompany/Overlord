@@ -12,23 +12,26 @@ AUTO_COMMIT_MESSAGE=f'🤖 [AUTO] {current_version} {time.timestamp()}'
 
 def all():
   ''' Pushes the latest changes to & from every repository found within this projects scope '''
-  os.chdir(BASE_DIR)
-
   console.out(f"\n> {PROJECT_NAME.upper()}", "amber")
-  os.system(f'''git add . && git commit -m "{AUTO_COMMIT_MESSAGE}" && git push''')
+  console.input(
+    f'''git add . && git commit -m "{AUTO_COMMIT_MESSAGE}" && git push''',
+    cwd=BASE_DIR,
+    show_output=True
+  )
 
   pushed_apis = []
   api_dir = f"{BASE_DIR}/api"
-
   for client in CLIENT_DATA:
     source_dir = CLIENT_DATA[client]["src"]
     source_api = BASE_DIR + f'/api/{client}'
 
     if os.path.exists(f"{source_dir}/.git"):
       console.out(f"\n> {client.upper()} (CLIENT)", "amber")
-      os.chdir(source_dir)
-      os.system(f'''git add . && git commit -m "{AUTO_COMMIT_MESSAGE}" && git push''')
-      os.chdir(BASE_DIR)
+      console.input(
+        f'''git add . && git commit -m "{AUTO_COMMIT_MESSAGE}" && git push''',
+        cwd=source_dir,
+        show_output=True
+      )
 
     if os.path.exists(f"{source_api}/.git"):
       console.out(f"\n> {client.upper()} (API)", "amber")
@@ -44,6 +47,8 @@ def all():
     if (dir_path := f"{BASE_DIR}/api/{dir}") and isdir(dir_path) and (contents := listdir(dir_path)):
       if '.git' in contents and dir not in pushed_apis:
         console.out(f"\n> {dir.upper()} (API)", "amber")
-        os.chdir(dir_path)
-        os.system(f'''git add . && git commit -m "{AUTO_COMMIT_MESSAGE}" && git push''')
-        os.chdir(BASE_DIR)
+        console.input(
+          f'''git add . && git commit -m "{AUTO_COMMIT_MESSAGE}" && git push''',
+          cwd=dir_path,
+          show_output=True
+        )
