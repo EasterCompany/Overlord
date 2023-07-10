@@ -15,9 +15,7 @@ def post_command(command:str, arguments:list|None = None) -> None:
   for index, arg in enumerate(arguments):
     if not arg.startswith('-'):
       arguments[index] = f'-{arg}'
-
   command_line = [ command, ] + arguments
-  print(command_line)
 
   response = requests.post(
     f"https://{SECRET_DATA['SERVER_URL']}/api/o-core/external-command",
@@ -26,7 +24,7 @@ def post_command(command:str, arguments:list|None = None) -> None:
     },
     json={
       "pub_key": SECRET_DATA['SERVER_KEY'],
-      "cmd_line": [ command, ] + arguments
+      "cmd_line": command_line
     }
   )
 
