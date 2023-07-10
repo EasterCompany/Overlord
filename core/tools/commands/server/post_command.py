@@ -20,7 +20,7 @@ def post_command(command, arguments) -> None:
     }
   )
 
-  status = response.status_code #if 'status' not in response.json else response.json['status']
+  status = response.status_code
   if response.headers['Content-Type'] == 'application/json':
     data = response.json()
     if 'status' in data:
@@ -28,7 +28,7 @@ def post_command(command, arguments) -> None:
     if 'data' in data:
       data = data['data']
   else:
-    data = response.content
+    data = str(response.content, 'utf-8')
 
   console.out(f"                           ", end="\r")
   console.out(
