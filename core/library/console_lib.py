@@ -160,11 +160,14 @@ class Console:
     :return str: the returncode if output was shown or the output if it was not shown
     """
     if show_output:
-      return subprocess.call(
-        command,
-        shell=True,
-        cwd=cwd
-      )
+      process = subprocess.Popen(command, shell=True, cwd=cwd, stdout=subprocess.PIPE)
+      while True:
+        output = process.stdout.readline()
+        if output == b'' and process.poll() is not None:
+          break
+        if output:
+          print(output.strip().decode())
+          self.append_log_cache([output, '\n'])
     else:
       out = subprocess.run(
         command,
