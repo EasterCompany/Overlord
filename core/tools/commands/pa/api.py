@@ -10,7 +10,7 @@ if exists(getcwd() + '/.config/secret.json'):
     secret_data = json.loads(secret_file.read())
 else:
   secret_data = {
-    'SERVER_KEY': '',
+    'SECRET_KEY': '',
     'PA_USER_ID': '',
     'PA_API_KEY': '',
     'SERVER_URL': ''

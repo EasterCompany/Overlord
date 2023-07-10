@@ -21,7 +21,7 @@ BASE_DIR = os.getcwd()
 PROJECT_NAME = os.path.basename(BASE_DIR)
 LOGGER_DIR = f"{BASE_DIR}/.logs/logger"
 SECRET_DATA = {
-    'SERVER_KEY': 'no secret key',
+    'ENCRYPTION': 'no secret key',
 }
 
 # Load JSON Configuration Files
@@ -48,8 +48,7 @@ with open(BASE_DIR + '/.config/secret.json', 'r') as SECRET_FILE:
 
 # Set Administration Configuration
 ROOT_EMAIL = SECRET_DATA['ROOT_EMAIL']
-SERVER_KEY = SECRET_DATA['SERVER_KEY']
-SECRET_KEY = SECRET_DATA['SERVER_KEY']
+SECRET_KEY = SECRET_DATA['SECRET_KEY']
 PUBLIC_KEY = SECRET_DATA['PUBLIC_KEY']
 
 # Set Server Configuration

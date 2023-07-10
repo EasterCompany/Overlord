@@ -180,11 +180,12 @@ def make_secrets_file(project_path=BASE_DIR):
     print('Generating secrets config...')
     token_data = {
       "ROOT_EMAIL": "root@example.com",
-      "SERVER_KEY": secrets.token_urlsafe(32) + '=',
+      "SECRET_KEY": secrets.token_urlsafe(32) + '=',
       "PUBLIC_KEY": secrets.token_urlsafe(32),
       "PA_USER_ID": "",
       "PA_API_KEY": "",
       "SERVER_URL": "",
+      "SERVER_KEY": "",
       "LOCAL_PORT": "8000",
       "EMAIL_USER": "",
       "EMAIL_PASS": "",

@@ -102,23 +102,23 @@ class Console:
     # HTTP Status Code Colors
     if isinstance(status, int):
       if 100 <= status <= 199:
-        return self.out(' [UNKNOWN] ' + txt, 'white')
+        return self.out(f'{txt}', 'white', False)
       elif 200 <= status <= 299:
-        return self.out(' [SUCCESS] ' + txt, 'green')
+        return self.out(f'{txt}', 'green', False)
       elif 300 <= status <= 399:
-        return self.out(' [WARNING] ' + txt, 'yellow')
+        return self.out(f'{txt}', 'yellow', False)
       else:
-        return self.out(' [ERROR] ' + txt, 'red')
+        return self.out(f'{txt}', 'red', False)
 
     # API Response Colors
     elif isinstance(status, str):
       status = status.lower()
       if status == 'bad' or status == 'error':
-        return self.out(' [ERROR] ' + txt, 'red')
+        return self.out(f'{txt}', 'red', False)
       elif status == 'ok':
-        return self.out(' [SUCCESS] ' + txt, 'green')
+        return self.out(f'{txt}', 'green', False)
       else:
-        return self.out(' [WARNING] ' + txt, 'yellow')
+        return self.out(f'{txt}', 'yellow', False)
 
   def verify(self, warning:str|None = None, message:str|None = None):
     """

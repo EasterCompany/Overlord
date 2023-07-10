@@ -370,9 +370,11 @@ def run_tool(command, index=0):
       return pa.api.error_message()
 
   elif command.startswith('server'):
-    server_cmd = command.split('server:')[1]
-    if len(server_cmd) >= 1:
-      server.run_command([1], arguments)
+    if command.startswith('server:server'):
+      server.no_server_cmd_error_message()
+    elif command.startswith('server:') and len(SECRET_DATA['SERVER_URL']) > 0:
+      server_cmd = command.replace('server:', '', 1)
+      server.post_command(server_cmd, arguments)
     else:
       server.error_message()
 
@@ -547,7 +549,8 @@ def run_tool(command, index=0):
   return print('')
 
 
-def run():
+def run(set_command_line:str|None = None):
+  global command_line
   if not version_info >= (3, 10):
     return console.out(
       "\n[ERROR] Python 3.10 or greater is required by Overlord\n"
@@ -561,6 +564,8 @@ def run():
       "        when calling 'python3' from the command line.\n",
       "red"
     ), exit()
+  if set_command_line is not None:
+    command_line = set_command_line
   if len(command_line) <= 0:
     return awaitInput()
   [run_tool(arg, index) if not arg == './o' else None for index, arg in enumerate(command_line)]
