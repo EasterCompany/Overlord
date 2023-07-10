@@ -42,26 +42,24 @@ ExecStart={BASE_DIR}/{PROJECT_NAME}.run
 WantedBy=default.target''')
 run_prd_template = lambda: shlex.quote(f'''#!/bin/bash
 cd {BASE_DIR}
-{executable} -m gunicorn --bind :{application_port} web.wsgi:application''')
+{executable} -m gunicorn --timeout 600 --bind :{application_port} web.wsgi:application''')
 
 
 def create_service() -> bool:
-  '''
-  Creates a systemd service for this server to use in production
-  '''
+  ''' Creates a systemd service for this server to use in production '''
   systemd_service_file = systemd_service_template()
   console.sudo(f"rm /etc/systemd/system/{PROJECT_NAME}.service")
   console.sudo(f"touch {PROJECT_NAME}.service", cwd="/etc/systemd/system")
   console.sudo(f"echo {systemd_service_file} | sudo -S tee {PROJECT_NAME}.service", cwd="/etc/systemd/system")
+  console.sudo(f"systemctl enable nginx")
+  console.sudo(f"systemctl enable {PROJECT_NAME}")
   if exists(f"/etc/systemd/system/{PROJECT_NAME}.service"):
     return True
   return False
 
 
 def create_runner() -> bool:
-  '''
-  Creates a bash script to run the server in production mode
-  '''
+  ''' Creates a bash script to run the server in production mode '''
   runner_file = run_prd_template()
   console.sudo(f"rm {BASE_DIR}/{PROJECT_NAME}.run")
   console.sudo(f"touch {PROJECT_NAME}.run", cwd=BASE_DIR)
@@ -73,9 +71,7 @@ def create_runner() -> bool:
 
 
 def overwrite_nginx_conf() -> None:
-  '''
-  Removes any existing nginx.conf file and replaces it with Overlord's default one
-  '''
+  ''' Removes any existing nginx.conf file and replaces it with Overlord's default one '''
   console.sudo("rm /etc/nginx/nginx.conf")
   console.sudo(f"cp {BASE_DIR}/core/tools/commands/nginx/assets/nginx.conf /etc/nginx/nginx.conf")
 

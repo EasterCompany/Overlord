@@ -7,8 +7,8 @@ from web.settings import SECRET_DATA
 
 def post_command(command:str, arguments:list|None = None) -> None:
   ''' Posts a command request to a remote servers external command endpoint '''
-  console.out("\n> Execute Server Command")
-  console.out(f"  {console.wait} waiting...", end="\r")
+  console.out("\n> Server Command")
+  console.out(f"  {console.wait} executing...", end="\r")
 
   if arguments is None:
     arguments = []
@@ -17,16 +17,21 @@ def post_command(command:str, arguments:list|None = None) -> None:
       arguments[index] = f'-{arg}'
   command_line = [ command, ] + arguments
 
-  response = requests.post(
-    f"https://{SECRET_DATA['SERVER_URL']}/api/o-core/external-command",
-    headers={
-      "Content-Type": "application/json; charset=utf-8"
-    },
-    json={
-      "pub_key": SECRET_DATA['SERVER_KEY'],
-      "cmd_line": command_line
-    }
-  )
+  try:
+    response = requests.post(
+      f"https://{SECRET_DATA['SERVER_URL']}/api/o-core/external-command",
+      headers={
+        "Content-Type": "application/json; charset=utf-8"
+      },
+      json={
+        "pub_key": SECRET_DATA['SERVER_KEY'],
+        "cmd_line": command_line
+      },
+      timeout=600
+    )
+  except requests.exceptions.Timeout:
+    console.out(f"  {console.failure} Connection to server timed out.")
+    return
 
   status = response.status_code
   if response.headers['Content-Type'] == 'application/json':
@@ -38,7 +43,7 @@ def post_command(command:str, arguments:list|None = None) -> None:
   else:
     data = str(response.content, 'utf-8')
 
-  console.out(f"                           ", end="\r")
+  console.out(f"                             ", end="\r")
   console.out(
     f"  STATUS: {console.status(status)}\n"
     f"  DATA: {console.status(status, data)}"

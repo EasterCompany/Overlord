@@ -17,7 +17,7 @@ def external_command(req, *args, **kwargs) -> JsonResponse:
     pub_key = json['pub_key'] if 'pub_key' in json else None
     cmd_line = json['cmd_line'] if 'cmd_line' in json else None
 
-    # Authenticate request
+    # Authenticate user
     if not pub_key == PUBLIC_KEY or PUBLIC_KEY is None or PUBLIC_KEY == '':
       return api.fail("Failed to authenticate user.")
 
