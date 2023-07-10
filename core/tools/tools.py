@@ -550,7 +550,6 @@ def run_tool(command, index=0):
 
 
 def run(set_command_line:str|None = None):
-  global command_line
   if not version_info >= (3, 10):
     return console.out(
       "\n[ERROR] Python 3.10 or greater is required by Overlord\n"
@@ -564,8 +563,12 @@ def run(set_command_line:str|None = None):
       "        when calling 'python3' from the command line.\n",
       "red"
     ), exit()
+
   if set_command_line is not None:
-    command_line = set_command_line
+    return [
+      run_tool(command, index) if not command == './o' else None for index, command in enumerate(set_command_line)
+    ]
+
   if len(command_line) <= 0:
     return awaitInput()
   [run_tool(arg, index) if not arg == './o' else None for index, arg in enumerate(command_line)]

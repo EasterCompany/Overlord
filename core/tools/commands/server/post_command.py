@@ -5,9 +5,10 @@ from core.library import console
 from web.settings import SECRET_DATA
 
 
-def post_command(command, arguments) -> None:
+def post_command(command:str, arguments:list|None = None) -> None:
   console.out("\n> Execute Server Command")
   console.out(f"  {console.wait} waiting...", end="\r")
+  if arguments is None: arguments = []
 
   response = requests.post(
     f"https://{SECRET_DATA['SERVER_URL']}/api/o-core/external-command",
