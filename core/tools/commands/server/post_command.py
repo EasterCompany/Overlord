@@ -6,6 +6,7 @@ from web.settings import SECRET_DATA
 
 
 def post_command(command:str, arguments:list|None = None) -> None:
+  ''' Posts a command request to a remote servers external command endpoint '''
   console.out("\n> Execute Server Command")
   console.out(f"  {console.wait} waiting...", end="\r")
   if arguments is None: arguments = []
