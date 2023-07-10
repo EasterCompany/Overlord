@@ -34,12 +34,18 @@ def post_command(command:str, arguments:list|None = None) -> None:
     return
 
   status = response.status_code
+  data = 500
+  output = None
+
   if response.headers['Content-Type'] == 'application/json':
     data = response.json()
     if 'status' in data:
       status = data['status']
     if 'data' in data:
       data = data['data']
+      if 'message' in data and 'output' in data:
+        data = data['message']
+        output = data['output']
   else:
     data = str(response.content, 'utf-8')
 
@@ -48,3 +54,7 @@ def post_command(command:str, arguments:list|None = None) -> None:
     f"  STATUS: {console.status(status)}\n"
     f"  DATA: {console.status(status, data)}"
   )
+
+  if output is not None:
+    for line in output:
+      print(line[0], end=line[1])

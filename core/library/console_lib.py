@@ -40,6 +40,7 @@ class Console:
   wait = "\33[5;33m🔶\33[0m"
   success = "✅"
   failure = "❌"
+  __log_cache__ = []
 
   def __init__(self, cmd=None, *args, **kwargs) -> None:
     """
@@ -55,6 +56,17 @@ class Console:
     self.input(f"cd {BASE_DIR}")
     if cmd is not None:
       self.input(cmd)
+
+    # Clear log cache
+    self.clear_log_cache()
+
+  def clear_log_cache(self):
+    ''' Clears the log cache '''
+    self.__log_cache__ = []
+
+  def append_log_cache(self, output):
+    ''' Appends output to the log cache '''
+    self.__log_cache__.append(output)
 
   def output(self, text="", colour:str = "white", print_to_console:bool = True, end:str = '\n') -> str:
     """ console.out alias function """
@@ -74,6 +86,7 @@ class Console:
     def p(t):
       t = t + self.default_col
       if print_to_console:
+        self.append_log_cache([t, end])
         print(t, end=end)
       return t
 

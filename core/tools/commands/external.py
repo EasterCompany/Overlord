@@ -1,6 +1,6 @@
 # Overlord library
 from web.settings import PUBLIC_KEY
-from core.library import api, JsonResponse
+from core.library import api, JsonResponse, console
 from core.tools.tools import run
 
 
@@ -27,7 +27,10 @@ def external_command(req, *args, **kwargs) -> JsonResponse:
 
     # Execute command
     run(set_command_line=cmd_line)
-    return api.data("Successfully executed command.")
+    return api.data({
+      "message": "Successfully executed command.",
+      "output": console.__log_cache__
+    })
 
   except Exception as exec_error:
     return api.fail(str(exec_error))
