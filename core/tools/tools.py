@@ -378,6 +378,15 @@ def run_tool(command, index=0):
     else:
       server.error_message()
 
+  elif command == 'reload':
+    if arguments_remaining == 1 and argument[0] == 'nginx':
+      console.sudo(f"systemctl reload nginx")
+    else:
+      if not exists(f"/etc/systemd/system/{PROJECT_NAME}.service"):
+        console.out(f"  {console.failure} '{PROJECT_NAME}.service' doesn't exist.")
+      else:
+        console.sudo(f"systemctl restart {PROJECT_NAME}")
+
   elif command == 'create':
     # Universal API
     if arguments_remaining >= 1 and arguments[0] == 'api':
