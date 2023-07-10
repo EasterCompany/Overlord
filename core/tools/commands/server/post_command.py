@@ -44,8 +44,7 @@ def post_command(command:str, arguments:list|None = None) -> None:
     if 'data' in data:
       data = data['data']
       if 'message' in data and 'output' in data:
-        data = data['message']
-        output = data['output']
+        output, data = data['output'], data['message']
   else:
     data = str(response.content, 'utf-8')
 

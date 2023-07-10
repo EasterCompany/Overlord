@@ -19,11 +19,11 @@ def ls_project(dirs:list|None = None):
 
     elif _dir == (".config"):
       if _dir in dirs or 'config' in dirs:
-        print(f"\n  \33[31;2;2m{_dir}\33[0m")
+        console.out(f"\n  \33[31;2;2m{_dir}\33[0m")
         if _dir == ".config":
           for _file in config_dir:
             if not isdir(BASE_DIR + '/.config/' + _file):
-              print(f"    \33[31;2;2m↳ {_file}\33[0m")
+              console.out(f"    \33[31;2;2m↳ {_file}\33[0m")
 
     elif _dir == "clients" and _dir in dirs:
       console.out(f"\n  {_dir}", "blue")
