@@ -9,7 +9,15 @@ def post_command(command:str, arguments:list|None = None) -> None:
   ''' Posts a command request to a remote servers external command endpoint '''
   console.out("\n> Execute Server Command")
   console.out(f"  {console.wait} waiting...", end="\r")
-  if arguments is None: arguments = []
+
+  if arguments is None:
+    arguments = []
+  for index, arg in enumerate(arguments):
+    if not arg.startswith('-'):
+      arguments[index] = f'-{arg}'
+
+  command_line = [ command, ] + arguments
+  print(command_line)
 
   response = requests.post(
     f"https://{SECRET_DATA['SERVER_URL']}/api/o-core/external-command",
