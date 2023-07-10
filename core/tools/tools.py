@@ -233,10 +233,6 @@ def run_tool(command, index=0):
   elif command == 'push':
     git.push.all()
 
-  elif command == 'sync':
-    GIT.sync(BASE_DIR)
-    GIT.sync_all_clients()
-
   elif command == 'merge':
     if arguments_remaining == 0:
       git.merge.merge_all()
@@ -246,7 +242,7 @@ def run_tool(command, index=0):
   elif command == 'branch':
     if not exists(f"{BASE_DIR}/.git"):
       console.out(f"\nProject is not contained within a repository", "red")
-    elif arguments_remaining == 1:
+    if arguments_remaining == 1:
       target_branch = arguments[0].title() if arguments[0].title() in [
           LOCAL_BRANCH, STAGING_BRANCH, PRODUCTION_BRANCH
       ] else arguments[0]

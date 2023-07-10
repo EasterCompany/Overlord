@@ -17,11 +17,12 @@ def switch(target:str, repo_name:str, repo_path:str) -> str:
   if GIT.branch(repo_path) == target:
     return console.out(
       f"> {repo_name.upper()}: branch "
-      f"'{console.out(origin, 'yellow', False)}' -> '{console.out(target, 'green', False)}'"
+      f"'{console.out(origin, 'yellow', False)}' -> '{console.out(target, 'green', False)}'",
+      print_to_console=True
     )
   return console.out(
-    f"> {repo_name.upper()} "
-    f"failed to checkout @ {target}"
+    f"> {repo_name.upper()} failed to checkout @ {target}",
+    print_to_console=True
   )
 
 
