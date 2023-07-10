@@ -16,10 +16,12 @@ def branch_origins(branch, repo=None):
 
 def all():
   ''' Pulls the latest changes to & from every repository found within this projects scope '''
-  os.chdir(BASE_DIR)
-
   console.out(f"\n> {PROJECT_NAME.upper()}", "amber")
-  os.system("git pull --recurse-submodules")
+  console.input(
+    "git pull --recurse-submodules",
+    cwd=BASE_DIR,
+    show_output=True
+  )
 
   pulled_apis = []
   api_dir = f"{BASE_DIR}/api"
@@ -30,16 +32,28 @@ def all():
 
     if os.path.exists(f"{source_dir}/.git"):
       console.out(f"\n> {client.upper()} (CLIENT)", "amber")
-      os.system(f"cd {source_dir} && git pull --recurse-submodules && cd {BASE_DIR}")
+      console.input(
+        f"git pull --recurse-submodules",
+        cwd=source_dir,
+        show_output=True
+      )
 
     if os.path.exists(f"{source_api}/.git"):
       pulled_apis.append(client)
       console.out(f"\n> {client.upper()} (API)", "amber")
-      os.system(f"cd {source_api} && git pull --recurse-submodules && cd {BASE_DIR}")
+      console.input(
+        f"git pull --recurse-submodules",
+        cwd=source_api,
+        show_output=True
+      )
 
   potential_apis = listdir(api_dir)
   for dir in potential_apis:
     if (dir_path := f"{BASE_DIR}/api/{dir}") and isdir(dir_path) and (contents := listdir(dir_path)):
       if '.git' in contents and dir not in pulled_apis:
         console.out(f"\n> {dir.upper()} (API)", "amber")
-        os.system(f"cd {dir_path} && git pull --recurse-submodules && cd {BASE_DIR}")
+        console.input(
+          f"git pull --recurse-submodules",
+          cwd=dir_path,
+          show_output=True
+        )
