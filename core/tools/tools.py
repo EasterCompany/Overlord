@@ -6,7 +6,7 @@ from os import system, getcwd, environ, mkdir
 from sys import argv, path, executable, version_info
 # Overlord library
 from web.settings import *
-from core import create_user, create_super_user
+from core import create_user
 from core.library import execute_from_command_line, console, git as GIT, url
 from core.library.version import Version
 from core.tools.library import gracefulExit, updater
@@ -526,10 +526,10 @@ def run_tool(command, index=0):
     exit()
 
   elif command == 'createsuperuser' or command == 'createadmin':
-    create_super_user()
+    create_user(99)
 
   elif command == 'createuser':
-    create_user()
+    create_user(1)
 
   elif command == 'update':
     update_status = updater.check_status(force=True)

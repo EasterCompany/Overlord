@@ -12,8 +12,8 @@ export const mock = isNative ? (_url:string) => {
   return isDev ?
     _url.replace(_url.split('/')[2], '0.0.0.0:8000').replace('https://', 'http://') : _url
 }
-// eslint-disable-next-line no-global-assign
 if (isNative) {
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
   const document = { cookie: {} };
 }
 
@@ -104,7 +104,7 @@ export const getEndpoints = isNative ? () => {
 export const api = async (API: string, BAD: any = null, OK: any = null) => {
   USER().then(async (user:any) => {
     try {
-      const response = await fetch(clientAPI + API, {
+      const response = await fetch(`${clientAPI}/${API}`, {
         method: 'POST',
         headers: {
           'Authorization': `Basic ${user.uuid} ${user.session}`,
@@ -138,7 +138,7 @@ export const api = async (API: string, BAD: any = null, OK: any = null) => {
 // POST data to the client specific API
 export const POST = async (API: string, _POST: any, BAD: any = null, OK: any = null) => {
   USER().then(async (user:any) => {
-    await fetch(clientAPI + API, {
+    await fetch(`${clientAPI}/${API}`, {
       method: 'POST',
       headers: new Headers({
         'Authorization': `Basic ${user.uuid} ${user.session}`,
@@ -384,15 +384,15 @@ export const deleteAllCookies = async () => {
     await AsyncStorage.multiRemove(cookies);
   } else {
     USER().then((userCookies) => Object.keys(userCookies).map((cookie) => {
-      deleteCookie(`USR.${cookie}`);
+      return deleteCookie(`USR.${cookie}`);
     }));
   };
 };
 
 
 // Check if User is logged in
-export const isLoggedIn = () => {
-  return cookie('USR.SESSION') !== undefined;
+export const isLoggedIn = (callback:any) => {
+  return cookie('USR.SESSION').then((session) => callback(session !== undefined))
 };
 
 
