@@ -28,9 +28,9 @@ if __name__ == '__main__':
   command = lambda x: len(argv) > 1 and argv[1] == x
 
   if command('createsuperuser') or command('createadmin'):
-    create_super_user()
+    create_user(99)
   elif command('createuser'):
-    create_user()
+    create_user(1)
   elif command('tools'):
     tools.run()
   else:
