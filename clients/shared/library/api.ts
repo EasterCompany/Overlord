@@ -27,18 +27,13 @@ export const getEndpoints = isNative ? () => {
     api: `${process.env.API_DOMAIN}/api/${process.env.REACT_APP_NAME}`
   }
 } : () => {
-
-  // Standalone Local Django Server
   if (window.location.host.endsWith(':3000')) {
     return {
       client: 'http://localhost:3000/',
       server: 'http://localhost:3000/',
       api: `http://localhost:3000/api/`
     };
-  }
-
-  // Localhost Server
-  else if (window.location.host.startsWith('localhost')) {
+  } else if (window.location.host.startsWith('localhost')) {
     const client_endpoint =
       process.env.REACT_APP_NAME === '' ?
         `http://localhost:8000/` :
@@ -46,12 +41,9 @@ export const getEndpoints = isNative ? () => {
     return {
       client: client_endpoint,
       server: `http://localhost:8000/`,
-      api: `http://localhost:8000/api/${process.env.REACT_APP_NAME}`
+      api: `http://localhost:8000/${process.env.REACT_APP_API}`
     };
-  }
-
-  // 0.0.0.0 Server
-  else if (window.location.host.startsWith('0.0.0.0')) {
+  } else if (window.location.host.startsWith('0.0.0.0')) {
     return {
       client: process.env.REACT_APP_NAME === '' ?
         `http://0.0.0.0:8000/` :
@@ -59,10 +51,7 @@ export const getEndpoints = isNative ? () => {
       server: `http://0.0.0.0:8000/`,
       api: `http://0.0.0.0:8000/${process.env.REACT_APP_API}`
     };
-  }
-
-  // Parent 127..:8000 & 127...:81XX Server
-  else if (window.location.host.startsWith('127.0.0.1')) {
+  } else if (window.location.host.startsWith('127.0.0.1')) {
     return {
       client: process.env.REACT_APP_NAME === '' ?
         `http://127.0.0.1:8000/` :
@@ -70,10 +59,7 @@ export const getEndpoints = isNative ? () => {
       server: `http://127.0.0.1:8000/`,
       api: `http://127.0.0.1:8000/${process.env.REACT_APP_API}`
     }
-  }
-
-  // Local Network React App (Mobile Testing)
-  else if (window.location.host.startsWith('192.168.')) {
+  } else if (window.location.host.startsWith('192.168.')) {
     const client_endpoint =
       process.env.REACT_APP_NAME === '' ?
         `http://${window.location.host.split(':')[0]}:8000/` :
@@ -83,10 +69,7 @@ export const getEndpoints = isNative ? () => {
       server: `http://${window.location.host.split(':')[0]}:8000/`,
       api: `http://${window.location.host.split(':')[0]}:8000/${process.env.REACT_APP_API}`
     };
-  }
-
-  // World Wide Web
-  else {
+  } else {
     const client_endpoint =
       process.env.REACT_APP_NAME === '' ?
         `https://${window.location.host}/` :
@@ -104,7 +87,7 @@ export const getEndpoints = isNative ? () => {
 export const api = async (API: string, BAD: any = null, OK: any = null) => {
   USER().then(async (user:any) => {
     try {
-      const response = await fetch(`${clientAPI}/${API}`, {
+      const response = await fetch(`${clientAPI}${API}`, {
         method: 'POST',
         headers: {
           'Authorization': `Basic ${user.uuid} ${user.session}`,
@@ -138,7 +121,7 @@ export const api = async (API: string, BAD: any = null, OK: any = null) => {
 // POST data to the client specific API
 export const POST = async (API: string, _POST: any, BAD: any = null, OK: any = null) => {
   USER().then(async (user:any) => {
-    await fetch(`${clientAPI}/${API}`, {
+    await fetch(`${clientAPI}${API}`, {
       method: 'POST',
       headers: new Headers({
         'Authorization': `Basic ${user.uuid} ${user.session}`,
@@ -392,7 +375,7 @@ export const deleteAllCookies = async () => {
 
 // Check if User is logged in
 export const isLoggedIn = (callback:any) => {
-  return cookie('USR.SESSION').then((session) => callback(session !== undefined))
+  return cookie('USR.session').then((session) => callback(session !== undefined))
 };
 
 

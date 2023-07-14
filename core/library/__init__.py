@@ -10,9 +10,9 @@ import secrets
 import subprocess
 from pathlib import Path
 from sys import executable
-from os import mkdir, rmdir, remove, walk, listdir, environ
-from os.path import exists, realpath, dirname, isdir
-from shutil import rmtree
+from os import mkdir, rmdir, remove, walk, listdir, environ, makedirs as mkdirs
+from os.path import exists, realpath, dirname, isdir, abspath
+from shutil import rmtree, copy
 from urllib.parse import unquote
 from uuid import uuid1
 from time import sleep
@@ -31,6 +31,7 @@ from core.library.cryptography import encrypt, decrypt
 from core.library.time import get_datetime_string
 from django.core.wsgi import get_wsgi_application as __wsgi_application__
 from django.core.management import execute_from_command_line
+from django.core.files.uploadedfile import InMemoryUploadedFile, TemporaryUploadedFile
 
 # Conf
 from django.conf import settings

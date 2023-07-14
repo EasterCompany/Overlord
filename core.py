@@ -20,7 +20,7 @@ if __name__ == '__main__':
     system(f"cd {root} && {root}.env/bin/python {root}core.py tools install")
     exit()
 
-  from core import create_super_user, create_user
+  from core import create_user
   from core.tools import tools
   from core.library import console, wsgi_interface
 
