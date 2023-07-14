@@ -59,8 +59,10 @@ def run() -> None:
     return
 
   console.out("\n> Restarting nginx service")
-  service.restart()
-  console.out(f"  {console.success} Restarted nginx service", "success")
+  service.stop()
+  console.out(f"  {console.success} Stopped nginx service", "success")
+  service.start()
+  console.out(f"  {console.success} Started nginx service", "success")
 
   console.out("\n> Generating SSL certificate")
   config.generate_ssl_certificate()

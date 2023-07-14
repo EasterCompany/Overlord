@@ -34,12 +34,12 @@ def create(name:str, git_repo:str = None, standalone:bool = False) -> None:
   # Existing Client Match / Standalone API
   if not exists(f"{BASE_DIR}/clients/{name}"):
     console.out(
-      f"\n[WARNING] Client with name `{name}` does not exist.\n"
-       "          This will create a standalone universal API\n"
-       "          enter 'Y' to continue or 'N' to cancel.",
+      f"\n  [WARNING] Client with name `{name}` does not exist.\n"
+       "  This will create a standalone universal API\n"
+       "  enter 'Y' to continue or 'N' to cancel.",
        "yellow"
     )
-    standalone = input("\nMake Standalone API & Continue (Y/N): ").lower() == 'y'
+    standalone = input("\n  Make Standalone API & Continue (Y/N): ").lower() == 'y'
     if not standalone: return None
 
   # Download API Template
