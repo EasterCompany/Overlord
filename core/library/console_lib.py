@@ -145,7 +145,7 @@ class Console:
     if message is None:
       message = "  Do you still wish to proceed? (Y/N): "
     if warning is not None:
-      console.status('warn', warning)
+      console.out(warning, "amber")
 
     response = input(message)
     print()

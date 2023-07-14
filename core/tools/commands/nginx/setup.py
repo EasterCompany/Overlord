@@ -7,16 +7,16 @@ from core.library import exists, console, package
 
 def run() -> None:
   if not console.verify(
-    warning='''Using the Nginx automation tool via Overlord-CLI will
-    overwrite any existing Nginx configurations on this system.
+    warning='''  [WARNING] Using the Nginx automation tool via Overlord-CLI will
+  overwrite any existing Nginx configurations on this system.
 
-    To generate SSL certificates, certbot will be used so that your
-    certificates will never expire and be renewed once per year
-    automatically.
+  To generate SSL certificates, certbot will be used so that your
+  certificates will never expire and be renewed once per year
+  automatically.
 
-    Some packages will be installed:
-    nginx, certbot & python3-certbot-nginx
-  '''): return
+  Some packages will be installed:
+  nginx, certbot & python3-certbot-nginx
+    '''): return
 
   service.stop(show=False)
   console.out("> Installing packages")
@@ -45,21 +45,9 @@ def run() -> None:
     console.status("error", "Cannot find Nginx on this system @ /etc/nginx")
     return
 
-  if service.stop() == 0:
-    console.out("\n> Generating nginx.conf file")
-    console.out(f"  {console.success} Stopped nginx service", "success")
-  else:
-    console.out(f"  {console.failure} Failed to stop nginx service", "error")
-    return
-
+  console.out("\n> Generating nginx.conf file")
   config.overwrite_nginx_conf()
   console.out(f"  {console.success} Created configuration files", "success")
-
-  if service.start() == 0:
-    console.out(f"  {console.success} Started nginx service", "success")
-  else:
-    console.out(f"  {console.failure} Failed to start nginx service", "error")
-    return
 
   console.out("\n> Generating site files")
   site_file_status = config.generate_site_files()
@@ -70,13 +58,9 @@ def run() -> None:
     console.out(f"  {console.failure} Failed to generate configuration files", "error")
     return
 
-  console.out("\n> Starting nginx service")
-  if service.start() == 0:
-    console.out(f"  {console.success} Successfully configured SSL", "success")
-    console.out(f"  {console.success} Started nginx service", "success")
-  else:
-    console.out(f"  {console.failure} Failed to restart nginx service", "error")
-    return
+  console.out("\n> Restarting nginx service")
+  service.restart()
+  console.out(f"  {console.success} Restarted nginx service", "success")
 
   console.out("\n> Generating SSL certificate")
   config.generate_ssl_certificate()
