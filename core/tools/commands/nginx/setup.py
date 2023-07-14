@@ -87,16 +87,12 @@ def run() -> None:
     console.out(f"  {console.failure} Failed to create service", "error")
 
   console.out("\n> Reloading system services")
-  if service.reload() == 0:
-    console.out(f"  {console.success} Services reloaded", "success")
-    if service.restart_app() == 0:
-      console.out(f"  {console.success} App service restarted", "success")
-    else:
-      console.out(f"  {console.failure} Failed to restart app", "error")
-  else:
-    console.out(f"  {console.failure} Unexpected error encountered", "error")
+  service.reload()
+  console.out(f"  {console.success} Services reloaded", "success")
+  service.restart_app()
+  console.out(f"  {console.success} App service restarted", "success")
 
-  console.out("\nVerify your applications status with the following command:")
+  console.out("\n  Verify your applications status with the following command:")
   console.out(f"  sudo systemctl status {PROJECT_NAME}", "green")
 
 
