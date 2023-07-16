@@ -119,7 +119,7 @@ export const api = async (API: string, BAD: any = null, OK: any = null) => {
 
 
 // POST data to the client specific API
-export const POST = async (API: string, _POST: any, BAD: any = null, OK: any = null) => {
+export const POST = async (API: string, BAD: any = null, OK: any = null, _POST: any,) => {
   USER().then(async (user:any) => {
     await fetch(`${clientAPI}${API}`, {
       method: 'POST',
@@ -127,7 +127,7 @@ export const POST = async (API: string, _POST: any, BAD: any = null, OK: any = n
         'Authorization': `Basic ${user.uuid} ${user.session}`,
         'Content-Type': 'application/json'
       }),
-      body: _POST,
+      body: JSON.stringify(_POST),
     })
     .then(resp => resp.json())
     .then(respJson => {
