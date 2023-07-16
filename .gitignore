@@ -33,6 +33,7 @@ __pycache__
 # Web
 /web/*
 !web/wsgi.py
+!web/asgi.py
 !web/__init__.py
 
 # Static
