@@ -122,7 +122,6 @@ def make_server_config():
       'django.contrib.staticfiles',
       'django_extensions',
       'corsheaders',
-      'background_task',
     ],
     "MIDDLEWARE": [
       "corsheaders.middleware.CorsMiddleware",
