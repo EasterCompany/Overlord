@@ -36,6 +36,7 @@ from django.core.wsgi import get_wsgi_application as __wsgi_application__
 from django.core.asgi import get_asgi_application as __asgi_application__
 from django.core.management import execute_from_command_line
 from django.core.files.uploadedfile import InMemoryUploadedFile, TemporaryUploadedFile
+from django.core.files.storage import default_storage
 
 # Conf
 from django.conf import settings
