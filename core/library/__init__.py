@@ -23,9 +23,6 @@ from django.shortcuts import render
 # App
 from django.apps import AppConfig
 
-# Background
-from background_task import background as background_task
-
 # Core
 from core.library.regex import is_alphanumeric, to_alphanumeric
 from core.library.console_lib import console
