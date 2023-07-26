@@ -291,7 +291,7 @@ export const USER = async () => {
 // Read AsyncStorage key value
 const nativeCookie = async (key:string) => {
   try {
-    const cookieValue = await AsyncStorage.getItem(key).then((value) => value);
+    const cookieValue = await AsyncStorage.getItem(key).then((value:any) => value);
     return cookieValue
   } catch (e) {
     console.log(`Database Error while reading key(${key}): ${e}`);
