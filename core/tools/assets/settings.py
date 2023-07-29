@@ -21,7 +21,7 @@ BASE_DIR = os.getcwd()
 PROJECT_NAME = os.path.basename(BASE_DIR)
 LOGGER_DIR = f"{BASE_DIR}/.logs/logger"
 SECRET_DATA = {
-    'ENCRYPTION': 'no secret key',
+    'SECRET_KEY': 'no secret key',
 }
 
 # Load JSON Configuration Files
