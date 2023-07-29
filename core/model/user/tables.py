@@ -76,6 +76,7 @@ class Users(UserModel):
   email = models.TextField(unique=True)
   key = models.TextField(null=False, blank=False)
   session = models.TextField(unique=True)
+  groups = models.JSONField(default=dict)
   permissions = models.IntegerField(null=False, blank=False, default=0)
   # Details
   first_name = models.TextField(default="")
@@ -84,9 +85,9 @@ class Users(UserModel):
   display_name = models.TextField(default="")
   display_image = models.ImageField()
   # Datetimes
-  date_of_birth = models.DateTimeField(blank=False, default=time._datetime.now)
-  date_joined = models.DateTimeField(blank=False, default=time._datetime.now)
-  last_active = models.DateTimeField(default=time._datetime.now)
+  date_of_birth = models.DateTimeField(blank=False, null=False)
+  date_joined = models.DateTimeField(blank=False, default=time.now)
+  last_active = models.DateTimeField(default=time.now)
 
   @staticmethod
   def create(
@@ -291,6 +292,7 @@ class User:
       "uuid": self.data.uuid,
       "session": self.data.session if include_private_data else None,
       "email": self.data.email,
+      "groups": self.data.groups,
       "permissions": self.data.permissions,
       "firstName": self.data.first_name,
       "middleNames": self.data.middle_names,

@@ -11,11 +11,11 @@ export const mock = isNative ? (_url:string) => {
 } : (_url:string) => {
   return isDev ?
     _url.replace(_url.split('/')[2], '0.0.0.0:8000').replace('https://', 'http://') : _url
-}
+};
 if (isNative) {
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
   const document = { cookie: {} };
-}
+};
 
 
 // Defines the routing for this client & server environment
@@ -25,7 +25,7 @@ export const getEndpoints = isNative ? () => {
     client: isDev ? '/' : client_endpoint,
     server: `${process.env.API_DOMAIN}/`,
     api: `${process.env.API_DOMAIN}/api/${process.env.REACT_APP_NAME}`
-  }
+  };
 } : () => {
   if (window.location.host.endsWith(':3000')) {
     return {
@@ -80,7 +80,7 @@ export const getEndpoints = isNative ? () => {
       api: `https://${window.location.host}/${process.env.REACT_APP_API}`
     };
   }
-}
+};
 
 
 // Request data from the Client Specific API
@@ -175,7 +175,7 @@ export const xapi = async (
   })
   .then(resp => resp.json())
   .then(respJson => CALLBACK(respJson))
-}
+};
 
 
 // Post/Request data to/from an Overlord Built-in API
@@ -231,7 +231,7 @@ export const login = (BAD:any, OK:any, email:string, password:string, ) => {
       password: password
     }
   );
-}
+};
 
 
 // Log Out of Current Session
@@ -247,16 +247,20 @@ export const logout = async (noRefresh:boolean=false) => {
 
 // Create local user data
 export const __INIT_USER__ = async (resp:any) => {
+  // Auth
   await createCookie('USR.uuid', resp.uuid);
   await createCookie('USR.email', resp.email);
   await createCookie('USR.session', resp.session);
+  await createCookie('USR.groups', JSON.stringify(resp.groups));
   await createCookie('USR.permissions', resp.permissions);
-  await createCookie('USR.dateOfBirth', resp.dateOfBirth);
-  await createCookie('USR.displayName', resp.displayName);
-  await createCookie('USR.displayImage', resp.displayImage);
+  // Details
   await createCookie('USR.firstName', resp.firstName);
   await createCookie('USR.middleNames', resp.middleNames);
   await createCookie('USR.lastName', resp.lastName);
+  await createCookie('USR.displayName', resp.displayName);
+  await createCookie('USR.displayImage', resp.displayImage);
+  await createCookie('USR.dateOfBirth', resp.dateOfBirth);
+  // Status
   await createCookie('USR.dateJoined', resp.dateJoined);
   await createCookie('USR.lastActive', resp.lastActive);
 };
@@ -269,13 +273,13 @@ export const USER = async () => {
     uuid: await cookie('USR.uuid'),
     email: await cookie('USR.email'),
     session: await cookie('USR.session'),
+    groups: await cookie('USR.groups'),
     permissions: await cookie('USR.permissions'),
-    // Public
+    // Details
     displayName: await cookie('USR.displayName'),
     displayImage: process.env.API_DOMAIN ?
       process.env.API_DOMAIN + await cookie('USR.displayImage') :
       await cookie('USR.displayImage'),
-    // Private
     firstName: await cookie('USR.firstName'),
     middleNames: await cookie('USR.middleNames'),
     lastName: await cookie('USR.lastName'),
@@ -284,6 +288,10 @@ export const USER = async () => {
     dateJoined: await cookie('USR.dateJoined'),
     lastActive: await cookie('USR.lastActive'),
   };
+
+  // Parse USER.groups JSON
+  userData.groups === undefined || userData.groups === null ? userData.groups = {} : JSON.parse(userData.groups)
+
   return userData;
 };
 

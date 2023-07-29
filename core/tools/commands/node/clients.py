@@ -289,7 +289,7 @@ def remove(name:str):
 
   console.out(f'\n> Remove client `{name}`')
   if not console.verify(
-    f'The following action will remove all data\n           related to the `{name}` client'
+    f'  The following action will remove all data\n  related to the `{name}` client'
   ): return None
 
   try:

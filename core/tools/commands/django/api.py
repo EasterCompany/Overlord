@@ -1,6 +1,6 @@
 # Overlord library
 from web.settings import BASE_DIR
-from core.library import rmtree, console, exists, is_alphanumeric, to_alphanumeric
+from core.library import rmtree, console, exists, is_alphanumeric, to_alphanumeric, executable
 
 
 def download_repo(repo_link:str, name:str) -> None:
@@ -46,6 +46,10 @@ def create(name:str, git_repo:str = None, standalone:bool = False) -> None:
   if git_repo is not None:
     console.out(f"\n> Download `{name}` API")
     download_repo(git_repo, name)
+    if exists(f"{BASE_DIR}/api/{name}/requirements.txt"):
+      console.out(f"  {console.wait} Installing requirements.txt", end="\r")
+      console.input(f"{executable} -m pip install -r {BASE_DIR}/api/{name}/requirements.txt")
+      console.out(f"  {console.success} Installed requirements.txt        ", "green")
   else:
     console.out(f"\n> Download API Template")
     download_repo("git@github.com:EasterCompany/Overlord-Universal-API.git", name)
