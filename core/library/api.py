@@ -106,28 +106,28 @@ def get_arg(_arg) -> str:
   return str(parse.unquote(_arg)).strip()
 
 
-def get_user(req) -> tuple:
+def get_user(req):
   """
   Acquires the user uuid and session token from the authorization header
-  passed by api, POST & xapi client side functions
-
-  :param req obj: default django request object
-  :return list: [ user_uuid, user_token ]
+  passed by api, POST & oapi client side functions
   """
+  from core.model.user.tables import User
   try:
     auth_token = req.headers.get('Authorization').split("[:~OLT~:]")
-    return auth_token[0].split('Basic ')[1].strip(), auth_token[1]
+    uuid = auth_token[0].split('Basic ')[1].strip()
+    session = "[:~OLT~:]" + auth_token[1]
+    user = User(identifier=uuid)
+    if user.data.session == session:
+      return user
+    return None
   except:
-    return '', ''
+    return None
 
 
 def get_body(req) -> str:
   """
   Consumes the request input and returns a decoded utf-8 string containing
   the content of the body
-
-  :param req obj: default django request object
-  :return str: body content
   """
   return req.body.decode('utf-8')
 

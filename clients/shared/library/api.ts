@@ -165,16 +165,22 @@ export const xapi = async (
   AUTH: any = "",
   MOCK: boolean = true
 ) => {
-  await fetch(MOCK ? mock(API) : API, {
-    method: 'POST',
-    headers: new Headers({
-      'Authorization': `Basic ${AUTH}`,
-      'Content-Type': DATA === null ? 'application/x-www-form-urlencoded' : 'application/json'
-    }),
-    body: DATA,
-  })
-  .then(resp => resp.json())
-  .then(respJson => CALLBACK(respJson))
+  try {
+    await fetch(MOCK ? mock(API) : API, {
+      method: 'POST',
+      headers: new Headers({
+        'Authorization': `${AUTH}`,
+        'Content-Type': DATA === null ? 'application/x-www-form-urlencoded' : 'application/json'
+      }),
+      body: DATA,
+    })
+    .then(resp => resp.json())
+    .then(respJson => CALLBACK(respJson))
+  } catch (error) {
+    console.log(`Error @ ${API}`);
+    console.log(error);
+    return
+  }
 };
 
 
