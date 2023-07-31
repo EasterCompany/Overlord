@@ -238,10 +238,14 @@ class Users(UserModel):
         return api.fail("Failed authentication, try logging out and then back in.")
 
       if first_name is not None:
+        if len(first_name) == 0:
+          return api.fail('User must have a first name.')
         user.data.first_name = first_name
       if middle_names is not None:
         user.data.middle_names = middle_names
       if last_name is not None:
+        if len(last_name) == 0:
+          return api.fail('User must have a last name.')
         user.data.last_name = last_name
       if display_image is not None:
         file_name, file_content = api.get_decoded_base64_file("display_image", display_image)

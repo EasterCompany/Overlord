@@ -289,6 +289,9 @@ export const USER = async () => {
     lastActive: await cookie('USR.lastActive'),
   };
 
+  // middlesNames is never undefined
+  if (userData.middleNames === undefined) userData.middleNames = ''
+
   // Parse USER.groups JSON
   userData.groups === undefined || userData.groups === null ? userData.groups = {} : JSON.parse(userData.groups)
 
