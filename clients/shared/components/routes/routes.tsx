@@ -3,7 +3,8 @@ import {
   Route as NewRoute,
   Link as NewLink,
   Routes as Index,
-  useLocation
+  useLocation,
+  useParams
 } from "react-router-dom";
 
 
@@ -75,5 +76,5 @@ export const Link = ({ to, name, children } : any) => {
 }
 
 
-export { Index, NewLink, useLocation }
+export { Index, NewLink, useLocation, useParams }
 export default goto;
