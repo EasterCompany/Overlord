@@ -121,38 +121,44 @@ export const api = async (API: string, BAD: any = null, OK: any = null) => {
 // POST data to the client specific API
 export const POST = async (API: string, BAD: any = null, OK: any = null, _POST: any,) => {
   USER().then(async (user:any) => {
-    await fetch(`${clientAPI}${API}`, {
-      method: 'POST',
-      headers: new Headers({
-        'Authorization': `Basic ${user.uuid} ${user.session}`,
-        'Content-Type': 'application/json'
-      }),
-      body: JSON.stringify(_POST),
-    })
-    .then(resp => resp.json())
-    .then(respJson => {
+    try {
+      await fetch(`${clientAPI}${API}`, {
+        method: 'POST',
+        headers: new Headers({
+          'Authorization': `Basic ${user.uuid} ${user.session}`,
+          'Content-Type': 'application/json'
+        }),
+        body: JSON.stringify(_POST),
+      })
+      .then(resp => resp.json())
+      .then(respJson => {
 
-      const respStatus = respJson['status'];
-      const respData = respJson['data'];
+        const respStatus = respJson['status'];
+        const respData = respJson['data'];
 
-      // OK API RESULT HANDLER
-      if (respStatus === 'OK') {
-        try { return OK !== null ? OK(respData) : respData }
-        catch (error) {
-          console.log(`OK Callback Error @ ${API}`)
-          console.log({status:respStatus, data:respData, error:error})
+        // OK API RESULT HANDLER
+        if (respStatus === 'OK') {
+          try { return OK !== null ? OK(respData) : respData }
+          catch (error) {
+            console.log(`OK Callback Error @ ${API}`);
+            console.log({status:respStatus, data:respData, error:error});
+          }
         }
-      }
 
-      // BAD API RESULT HANDLER
-      else if (respStatus === 'BAD') {
-        try{ return BAD !== null ? BAD(respData) : respData }
-        catch (error) {
-          console.log(`BAD Callback Error @ ${API}`)
-          console.log({status:respStatus, data:respData, error:error})
+        // BAD API RESULT HANDLER
+        else if (respStatus === 'BAD') {
+          try{ return BAD !== null ? BAD(respData) : respData }
+          catch (error) {
+            console.log(`BAD Callback Error @ ${API}`);
+            console.log({status:respStatus, data:respData, error:error});
+          }
         }
-      }
-    })
+      })
+    } catch (error) {
+      console.log(`BAD Callback Error @ ${API}`);
+      console.log(error);
+      return BAD(`${error}`);
+    }
   });
 };
 
