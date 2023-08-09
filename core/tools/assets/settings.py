@@ -9,11 +9,11 @@ from json import loads
 
 # Overlord library
 from core.tools.commands.install import (
-    __init_config_directory__,
-    __init_logs_directory__,
-    make_clients_config,
-    make_server_config,
-    make_secrets_file
+  __init_config_directory__,
+  __init_logs_directory__,
+  make_clients_config,
+  make_server_config,
+  make_secrets_file
 )
 
 # Default Project Configuration
@@ -21,7 +21,7 @@ BASE_DIR = os.getcwd()
 PROJECT_NAME = os.path.basename(BASE_DIR)
 LOGGER_DIR = f"{BASE_DIR}/.logs/logger"
 SECRET_DATA = {
-    'SECRET_KEY': 'no secret key',
+  'SECRET_KEY': 'no secret key',
 }
 
 # Load JSON Configuration Files
@@ -30,21 +30,21 @@ __init_logs_directory__()
 
 # Initialize Server File
 if not os.path.exists(BASE_DIR + '/.config/server.json'):
-    make_server_config()
+  make_server_config()
 with open(BASE_DIR + '/.config/server.json', 'r') as SERVER_FILE:
-    SERVER_DATA = loads(SERVER_FILE.read())
+  SERVER_DATA = loads(SERVER_FILE.read())
 
 # Initialize Clients File
 if not os.path.exists(BASE_DIR + '/.config/clients.json'):
-    make_clients_config()
+  make_clients_config()
 with open(BASE_DIR + '/.config/clients.json', 'r') as CLIENT_FILE:
-    CLIENT_DATA = loads(CLIENT_FILE.read())
+  CLIENT_DATA = loads(CLIENT_FILE.read())
 
 # Initialize Secrets Files
 if not os.path.exists(BASE_DIR + '/.config/secret.json'):
-    make_secrets_file()
+  make_secrets_file()
 with open(BASE_DIR + '/.config/secret.json', 'r') as SECRET_FILE:
-    SECRET_DATA = loads(SECRET_FILE.read())
+  SECRET_DATA = loads(SECRET_FILE.read())
 
 # Set Administration Configuration
 ROOT_EMAIL = SECRET_DATA['ROOT_EMAIL']
@@ -69,53 +69,55 @@ ROOT_URLCONF = SERVER_DATA['ROOT_URLCONF']
 WSGI_APPLICATION = SERVER_DATA['WSGI_APPLICATION']
 
 TEMPLATES = [
-    {
-        'BACKEND': SERVER_DATA['BACKEND_TEMPLATE'],
-        'DIRS': [f"{BASE_DIR}/static/{client}" for client in CLIENT_DATA],
-        'APP_DIRS': SERVER_DATA['APP_DIRS_TEMPLATE'],
-        'OPTIONS': SERVER_DATA['OPTIONS_TEMPLATE']
-    },
+  {
+    'BACKEND': SERVER_DATA['BACKEND_TEMPLATE'],
+    'DIRS': [f"{BASE_DIR}/static/{client}" for client in CLIENT_DATA],
+    'APP_DIRS': SERVER_DATA['APP_DIRS_TEMPLATE'],
+    'OPTIONS': SERVER_DATA['OPTIONS_TEMPLATE']
+  },
 ]
 
 DATABASES = {
-    'default': {
-        'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': os.path.join(BASE_DIR, 'db.sqlite3'),
-    }
+  'default': {
+    'ENGINE': 'django.db.backends.sqlite3',
+    'NAME': os.path.join(BASE_DIR, 'db.sqlite3'),
+  }
 }
 
 AUTH_PASSWORD_VALIDATORS = [
-    {
-        'NAME': 'django.contrib.auth.password_validation.UserAttributeSimilarityValidator',
-    },
-    {
-        'NAME': 'django.contrib.auth.password_validation.MinimumLengthValidator',
-    },
-    {
-        'NAME': 'django.contrib.auth.password_validation.CommonPasswordValidator',
-    },
-    {
-        'NAME': 'django.contrib.auth.password_validation.NumericPasswordValidator',
-    },
+  {
+    'NAME': 'django.contrib.auth.password_validation.UserAttributeSimilarityValidator',
+  },
+  {
+    'NAME': 'django.contrib.auth.password_validation.MinimumLengthValidator',
+  },
+  {
+    'NAME': 'django.contrib.auth.password_validation.CommonPasswordValidator',
+  },
+  {
+    'NAME': 'django.contrib.auth.password_validation.NumericPasswordValidator',
+  },
 ]
 
+STATIC_FILES = BASE_DIR + '/static'
+STATIC_ROOT = STATIC_FILES if not DEBUG else None
 STATIC_URL = SERVER_DATA['STATIC_URL']
-STATICFILES_DIRS = [ SERVER_DATA['STATIC_DIR'], ]
+STATICFILES_DIRS = [] if not DEBUG else [ STATIC_FILES ]
 
 MEDIA_ROOT = SERVER_DATA['MEDIA_DIR']
 MEDIA_URL = SERVER_DATA['MEDIA_URL']
 DATA_UPLOAD_MAX_MEMORY_SIZE = 20000000000
 
-if not os.path.exists(SERVER_DATA['STATIC_DIR']):
-    os.mkdir(SERVER_DATA['STATIC_DIR'])
+if not os.path.exists(STATIC_FILES):
+  os.mkdir(STATIC_FILES)
 
-if not os.path.exists(SERVER_DATA['MEDIA_DIR']):
-    os.mkdir(SERVER_DATA['MEDIA_DIR'])
+if not os.path.exists(MEDIA_ROOT):
+  os.mkdir(MEDIA_ROOT)
 
 CORS_ORIGIN_ALLOW_ALL = True if DEBUG else SERVER_DATA['CORS_ORIGIN_ALLOW_ALL']
 CORS_ORIGIN_WHITELIST = SERVER_DATA['CORS_ORIGIN_WHITELIST']
 
 # Set default mime type assumptions
 mimetypes.add_type("text/html", "", True)
-mimetypes.add_type("text/javascript", ".js", True)
 mimetypes.add_type("text/css", ".css", True)
+mimetypes.add_type("application/x-javascript", ".js", True)
