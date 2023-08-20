@@ -1,5 +1,8 @@
+channels>=4.0.0
+channels_redis>=4.1.0
 cors>=1.0.1
 cryptography>=37.0.4
+daphne>=4.0.0
 django>=4.1.2
 django-cors-headers>=3.11.0
 django-extensions>=3.1.5

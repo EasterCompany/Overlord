@@ -114,14 +114,16 @@ def make_server_config():
       '.localhost',
     ],
     "INSTALLED_APPS": [
+      'daphne',
+      'channels',
+      'corsheaders',
       'django.contrib.admin',
       'django.contrib.auth',
       'django.contrib.contenttypes',
       'django.contrib.sessions',
       'django.contrib.messages',
       'django.contrib.staticfiles',
-      'django_extensions',
-      'corsheaders',
+      'django_extensions'
     ],
     "MIDDLEWARE": [
       "corsheaders.middleware.CorsMiddleware",
@@ -134,6 +136,7 @@ def make_server_config():
     ],
     "ROOT_URLCONF": 'web.urls',
     "WSGI_APPLICATION": 'web.wsgi.application',
+    "ASGI_APPLICATION": 'web.asgi.application',
     "BACKEND_TEMPLATE": 'django.template.backends.django.DjangoTemplates',
     "OPTIONS_TEMPLATE": {
       'context_processors': [

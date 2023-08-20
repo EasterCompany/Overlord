@@ -35,6 +35,11 @@ from django.core.management import execute_from_command_line
 from django.core.files.uploadedfile import InMemoryUploadedFile, TemporaryUploadedFile
 from django.core.files.storage import default_storage
 
+# Channels
+from channels.routing import ProtocolTypeRouter, URLRouter
+from channels.generic.websocket import WebsocketConsumer, JsonWebsocketConsumer, AsyncWebsocketConsumer, \
+  AsyncJsonWebsocketConsumer
+
 # Conf
 from django.conf import settings
 from django.conf.urls.static import static
@@ -70,6 +75,14 @@ def wsgi_interface():
 def asgi_interface():
   environ.setdefault('DJANGO_SETTINGS_MODULE', 'web.settings')
   return __asgi_application__()
+
+
+def asgi_with_channels_interface(urlpatterns:list) -> ProtocolTypeRouter:
+  environ.setdefault('DJANGO_SETTINGS_MODULE', 'web.settings')
+  return ProtocolTypeRouter({
+    'http': __asgi_application__(),
+    'websocket': URLRouter(urlpatterns),
+  })
 
 
 hostname = socket.gethostname()
