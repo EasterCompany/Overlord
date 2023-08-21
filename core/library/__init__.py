@@ -89,5 +89,8 @@ hostname = socket.gethostname()
 local_ip = None
 
 with socket.socket(socket.AF_INET, socket.SOCK_DGRAM) as _s:
-  _s.connect(("8.8.8.8", 80))
-  local_ip = _s.getsockname()[0]
+  try:
+    _s.connect(("8.8.8.8", 80))
+    local_ip = _s.getsockname()[0]
+  except:
+    local_ip = None

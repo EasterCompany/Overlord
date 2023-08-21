@@ -10,6 +10,7 @@ from hashlib import md5
 from web.settings import BASE_DIR
 from core.library.version import Version
 from core.library import exists, mkdir, json, console, remove
+
 version = Version()
 update_logger:dict|None = None
 update_logger_dir = f'{BASE_DIR}/.logs'
@@ -75,7 +76,10 @@ def get_latest_version_label(force:bool = False) -> list:
   if update_logger['last_check'][0] + 10800 > time.time() and not force:
     return last_version
 
-  response = requests.get("https://raw.githubusercontent.com/EasterCompany/RDFS/Prd/Overlord/latest_ver")
+  try:
+    response = requests.get("https://raw.githubusercontent.com/EasterCompany/RDFS/Prd/Overlord/latest_ver")
+  except:
+    return [0, 0, 0]
 
   if not response.status_code == 200:
     return last_version
@@ -116,11 +120,7 @@ def check_status(force:bool = False) -> list:
 
 
 def purge_temp_directory() -> None:
-  """
-  If the temporary directory exists then it is deleted
-
-  :return None:
-  """
+  """ If the temporary directory exists then it is deleted """
   if exists(temp_update_path):
     shutil.rmtree(temp_update_path)
   if exists(temp_directory):
