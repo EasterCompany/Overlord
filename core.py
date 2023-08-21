@@ -4,6 +4,7 @@ from shutil import rmtree
 from sys import argv, executable
 
 if __name__ == '__main__':
+
   if argv[1] == 'venv' or argv[1] == 'env':
     root = __file__.replace('core.py', '')
     env_path = __file__.replace('core.py', '.env')
@@ -22,9 +23,9 @@ if __name__ == '__main__':
 
   from core import create_user
   from core.tools import tools
-  from core.library import console, wsgi_interface
+  from core.library import console, asgi_interface
 
-  application = wsgi_interface()
+  application = asgi_interface()
   command = lambda x: len(argv) > 1 and argv[1] == x
 
   if command('createsuperuser') or command('createadmin'):

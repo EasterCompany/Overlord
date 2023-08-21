@@ -89,7 +89,8 @@ def acquire_all_apis(client_data:dict, cwd:str = '.', no_tab:bool = False) -> li
       statements.append({
         'urls_import': f'from api.{client}.urls import API as __{client}__',
         'models_import': f'from api.{client}.tables import *',
-        'urls_access': "+ \\" + f'\n  __{client}__.URLS'
+        'urls_access': "+ \\" + f'\n  __{client}__.URLS',
+        'socket_access': "+ \\" + f'\n  __{client}__.SOCKETS',
       })
       if not exists(f"{api_dir}/{client}"):
         acquire_client_api(client, client_data[client]['api'], api_dir, no_tab)
@@ -101,7 +102,8 @@ def acquire_all_apis(client_data:dict, cwd:str = '.', no_tab:bool = False) -> li
         statements.append({
           'urls_import': f'from api.{dir}.urls import API as __{dir}__',
           'models_import': f'from api.{dir}.tables import *',
-          'urls_access': "+ \\" + f'\n  __{dir}__.URLS'
+          'urls_access': "+ \\" + f'\n  __{dir}__.URLS',
+          'socket_access': "+ \\" + f'\n  __{dir}__.SOCKETS',
         })
 
   return statements
@@ -116,16 +118,19 @@ def write_api_urls(statements:list, cwd:str = '.') -> None:
   :return None:
   """
   imports = []
-  access = ""
+  url_access = ""
+  socket_access = ""
 
   for client in statements:
     imports.append(client['urls_import'])
-    access += client['urls_access']
+    url_access += client['urls_access']
+    socket_access += client['socket_access']
 
   with open(f'{cwd}/core/tools/assets/api_urls.py', 'r') as temp_f, open(f'{cwd}/api/urls.py', 'w') as new_f:
     template = temp_f.read()
     template = template.replace('# __imports_tag__', '\n'.join(imports))
-    template = template.replace('# __urls_tag__', access)
+    template = template.replace('# __urls_tag__', url_access)
+    template = template.replace('# __sockets_tag__', socket_access)
     new_f.write(template)
 
 

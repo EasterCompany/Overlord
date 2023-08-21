@@ -11,3 +11,6 @@ from core.model.posts.urls import URLS as ol__posts
 
 # Generated Endpoints
 URLS = ol__user.URLS + ol__posts # __urls_tag__
+
+# Generated Sockets
+SOCKETS = [] # __sockets_tag__

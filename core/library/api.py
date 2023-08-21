@@ -6,9 +6,9 @@ import imghdr
 import base64
 from urllib import parse
 # Overlord library
-from web.settings import DEBUG
-from django.urls import path as new_path
 from django.http import JsonResponse
+from django.urls import path as new_path, re_path as new_re_path
+from web.settings import DEBUG
 from core.library import console
 
 OK = 'OK'
@@ -17,13 +17,7 @@ BAD = 'BAD'
 
 # Overlord Standard Response Function ----------------------------------------------------------------------------------
 def std(status:str, message:list|tuple|int|str|float|dict = "Invalid Status Response"):
-  """
-  Standard API Response Method
-
-  :param status (OK/BAD): api.OK or api.BAD type
-  :param message dict: contains api response data
-  :return dict: {status, message}
-  """
+  """ Standard API Response Method """
   if isinstance(message, Exception):
     message = str(message)
   return JsonResponse({
@@ -34,21 +28,23 @@ def std(status:str, message:list|tuple|int|str|float|dict = "Invalid Status Resp
 
 # Overlord API Specific Response Types ---------------------------------------------------------------------------------
 def success() -> JsonResponse:
-  ''' Request was executed successfully response '''
+  """ Request was executed successfully response """
   return std(OK, "Request was executed successfully.")
 
 
 def fail(message:str) -> JsonResponse:
-  ''' Request was denied or failed to execute '''
+  """ Request failed with an error message """
   return std(BAD, message)
 
 
 def error(exception=None) -> JsonResponse:
   """
-  Internal server error standard response method
+  Request resulted in an internal server error, that will only
+  return an error message in development or staging environments
+  with DEBUG mode enabled.
 
-  :param exception str: message caught upon error exception
-  :return: api.std showing a HTTP 500 Error
+  In a production environment with DEBUG mode disabled, returns
+  a generic '500 internal server error' response instead.
   """
   if exception is not None and DEBUG:
     print(f"""
@@ -60,12 +56,7 @@ def error(exception=None) -> JsonResponse:
 
 
 def data(JSON:dict) -> JsonResponse:
-  """
-  Request has successfully produced data to return to the user
-
-  :param JSON dict: usually a dictionary containing fields and values
-  :return: api.std with OK status and dictionary as the message parameter.
-  """
+  """ Request has successfully produced JSON data to return to the user """
   return std(OK, JSON)
 
 
@@ -97,12 +88,7 @@ def table(Table, Headers, Body, filter={ "order_by": str() }):
 
 # Overlord API View Tools ----------------------------------------------------------------------------------------------
 def get_arg(_arg) -> str:
-  """
-  Unquotes an argument from the request and strips it
-
-  :param _arg str: any string
-  :return str: unquoted and stripped string
-  """
+  """ Unquotes an argument from the request and strips it """
   return str(parse.unquote(_arg)).strip()
 
 
@@ -136,14 +122,15 @@ def get_json(req) -> dict:
   """
   Consumes the request input and returns a dictionary containing
   the content of the body which is expected to be stringified json
-
-  :param req obj: default django request object
-  :return dict: body content as json
   """
   return json.loads(req.body.decode('utf-8'))
 
 
 def get_decoded_base64_file(file_name:str, data:str) -> str|bytes:
+  """
+  Consumes base64 encoded image file from JSON or Text Data and returns
+  a standard decoded image file with the appropriate extension
+  """
 
   def get_file_extension(file_name, decoded_file):
     extension = imghdr.what(file_name, decoded_file)
@@ -192,6 +179,9 @@ class UniversalAPI:
   # API.URLS records custom endpoints added by new api
   URLS:list = []
 
+  # API.SOCKETS records custom web sockets added by new api
+  SOCKETS:list = []
+
   # API.NAME records the interface name for this new api
   NAME:str|None = None
 
@@ -200,21 +190,30 @@ class UniversalAPI:
 
   def __init__(self) -> None:
     self.URLS = []
+    self.SOCKETS = []
 
-  def abspath(self,
-    endpoint:str, view, prefix:str|None = None,
-    description:str = "Auto Generated Absolute Path",
-    *args, **kwargs
-  ):
+  def abspath(self, endpoint:str, view, prefix:str|None = None, description:str = "Auto Generated Path") -> None:
+    """ Creates a rest API endpoint without a relative path """
     _path = f"{self.CLIENT_NAME}/{endpoint}" if prefix == "client" else \
       f"{self.NAME}/{endpoint}" if prefix == "name" else f"{endpoint}"
     return self.URLS.append(new_path(_path, view, name=description))
 
-  def path(self, endpoint, view, description="Auto Generated Path", *args, **kwargs):
+  def path(self, endpoint:str, view, description:str = "Auto Generated Path", *args, **kwargs) -> None:
+    """ Creates a rest API endpoint associated with this API """
     if self.NAME is None:
       _path = f"api/{endpoint}"
     else:
       _path = f"api/{self.NAME}/{endpoint}"
     return self.URLS.append(
       new_path(_path, view, name=description)
+    )
+
+  def socket(self, endpoint:str, view, description:str = "Auto Generated Socket", *args, **kwargs) -> None:
+    """ Creates a new web socket channel associated with this API """
+    if self.NAME is None:
+      _path = f"api/{endpoint}"
+    else:
+      _path = f"api/{self.NAME}/{endpoint}"
+    return self.SOCKETS.append(
+      new_re_path(_path, view, name=description)
     )

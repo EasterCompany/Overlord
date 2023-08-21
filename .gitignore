@@ -4,7 +4,6 @@
 # Overlord -------------------------------------------------------------------------------------------------------------
 /o
 /.env
-/*.key
 /.logs
 /.config
 /.vscode
@@ -30,11 +29,11 @@ __pycache__
 /core/migrations
 !core/migrations/__init__.py
 
+# Static
+/static/*
+
 # Web
 /web/*
 !web/wsgi.py
 !web/asgi.py
 !web/__init__.py
-
-# Static
-/static/*
