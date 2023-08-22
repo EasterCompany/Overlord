@@ -49,7 +49,7 @@ def create(name:str, git_repo:str = None, standalone:bool = False) -> None:
     if exists(f"{BASE_DIR}/api/{name}/requirements.txt"):
       console.out(f"  {console.wait} Installing requirements.txt", end="\r")
       console.input(f"{executable} -m pip install -r {BASE_DIR}/api/{name}/requirements.txt")
-      console.out(f"  {console.success} Installed requirements.txt        ", "green")
+      console.out(f"  {console.success} Installed requirements.txt        ", "success")
   else:
     console.out(f"\n> Download API Template")
     download_repo("git@github.com:EasterCompany/Overlord-Universal-API.git", name)
