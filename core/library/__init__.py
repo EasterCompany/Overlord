@@ -71,11 +71,12 @@ def asgi_interface():
   return __asgi_application__()
 
 
-def asgi_with_channels_interface(sockets:list) -> ProtocolTypeRouter:
+def asgi_with_channels_interface() -> ProtocolTypeRouter:
   environ.setdefault('DJANGO_SETTINGS_MODULE', 'web.settings')
+  from api.urls import SOCKETS
   return ProtocolTypeRouter({
     'http': __asgi_application__(),
-    'websocket': URLRouter(sockets),
+    'websocket': URLRouter(SOCKETS),
   })
 
 
