@@ -66,6 +66,11 @@ def uuid() -> str:
   return str(uuid1())
 
 
+def __sockets__() -> URLResolver:
+  from api.urls import SOCKETS
+  return URLResolver(SOCKETS)
+
+
 def asgi_interface():
   environ.setdefault('DJANGO_SETTINGS_MODULE', 'web.settings')
   return __asgi_application__()
@@ -73,10 +78,9 @@ def asgi_interface():
 
 def asgi_with_channels_interface() -> ProtocolTypeRouter:
   environ.setdefault('DJANGO_SETTINGS_MODULE', 'web.settings')
-  from api.urls import SOCKETS
   return ProtocolTypeRouter({
     'http': __asgi_application__(),
-    'websocket': URLRouter(SOCKETS),
+    'websocket': __sockets__(),
   })
 
 
