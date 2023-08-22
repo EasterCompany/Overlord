@@ -77,7 +77,9 @@ def asgi_interface():
 
 
 def asgi_with_channels_interface() -> ProtocolTypeRouter:
+  import django
   environ.setdefault('DJANGO_SETTINGS_MODULE', 'web.settings')
+  django.setup(set_prefix=False)
   return ProtocolTypeRouter({
     'http': __asgi_application__(),
     'websocket': __sockets__(),

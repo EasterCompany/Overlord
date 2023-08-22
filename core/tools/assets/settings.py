@@ -69,10 +69,20 @@ ROOT_URLCONF = SERVER_DATA['ROOT_URLCONF']
 WSGI_APPLICATION = SERVER_DATA['WSGI_APPLICATION']
 ASGI_APPLICATION = SERVER_DATA['ASGI_APPLICATION']
 
+if not DEBUG:
+  from . import redis
+
 CHANNEL_LAYERS = {
   'default': {
     'BACKEND': 'channels.layers.InMemoryChannelLayer'
   }
+} if DEBUG else {
+  "default": {
+    "BACKEND": "channels_redis.core.RedisChannelLayer",
+    "CONFIG": {
+      "hosts": [(redis.host, redis.port)],
+    },
+  },
 }
 
 TEMPLATES = [

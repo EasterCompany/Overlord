@@ -36,4 +36,5 @@ __pycache__
 /web/*
 !web/wsgi.py
 !web/asgi.py
+!web/redis.py
 !web/__init__.py
