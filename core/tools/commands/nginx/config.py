@@ -1,5 +1,4 @@
 import shlex
-from getpass import getuser
 from sys import executable
 from core.library import console, exists
 from web.settings import BASE_DIR, SECRET_DATA, PROJECT_NAME

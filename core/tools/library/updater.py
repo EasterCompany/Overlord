@@ -6,6 +6,7 @@ import random
 import shutil
 import requests
 from hashlib import md5
+from getpass import getuser
 # Overlord library
 from web.settings import BASE_DIR
 from core.library.version import Version
@@ -152,6 +153,7 @@ def clone_latest_version() -> None:
     )
     console.out(f"  {console.success} Downloaded Update   ", "success")
     console.out(f"  {console.wait} Installing Update ...  ")
+    console.sudo(f"chown -R {getuser()} ./*")
     remove(f"{BASE_DIR}/setup.cfg")
     remove(f"{BASE_DIR}/core.py")
     shutil.rmtree(f"{BASE_DIR}/core")

@@ -189,12 +189,11 @@ def make_secrets_file(project_path=BASE_DIR):
       "PA_API_KEY": "",
       "SERVER_URL": "",
       "SERVER_KEY": "",
-      "LOCAL_PORT": "8000",
+      "LOCAL_PORT": "8999",
       "EMAIL_USER": "",
       "EMAIL_PASS": "",
-      "REDIS-USER": "",
-      "REDIS-PASS": "",
-      "REDIS-HTTP": ""
+      "REDIS_HOST": "localhost",
+      "REDIS_PORT": "6379"
     }
     return dump_json('secret', token_data, project_path)
 
