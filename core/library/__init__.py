@@ -68,7 +68,10 @@ def uuid() -> str:
 
 def __sockets__() -> URLResolver:
   from api.urls import SOCKETS
-  return URLResolver(SOCKETS)
+  return URLResolver(
+    pattern=SOCKETS,
+    urlconf_name='api.urls'
+  )
 
 
 def asgi_interface():
