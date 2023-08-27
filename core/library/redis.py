@@ -5,6 +5,10 @@ host=SECRET_DATA['REDIS_HOST']
 port=SECRET_DATA['REDIS_PORT']
 
 try:
-  redis = __redis__.Redis(host=host, port=port, db=0)
+  redis = __redis__.Redis(
+    host=host,
+    port=port,
+    db=0
+  )
 except:
-  pass
+  redis = None

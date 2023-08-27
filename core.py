@@ -5,7 +5,7 @@ from sys import argv, executable
 
 if __name__ == '__main__':
 
-  if argv[1] == 'venv' or argv[1] == 'env':
+  if argv[1] == 'install':
     root = __file__.replace('core.py', '')
     env_path = __file__.replace('core.py', '.env')
 
@@ -38,7 +38,7 @@ if __name__ == '__main__':
     from core.library import execute_from_command_line
     execute_from_command_line(argv)
     if len(argv) == 1 or argv[-1] == './core.py': console.out(
-      '\n[WARNING]\n    You are interacting with an Overlord underlayer known as Django\n'
+      '\n[WARNING]\n    You are interacting with an Overlord underlayer called Django\n'
       '    Even if you know what you are doing, please avoid this if possible.\n',
       'yellow'
     )

@@ -70,7 +70,7 @@ WSGI_APPLICATION = SERVER_DATA['WSGI_APPLICATION']
 ASGI_APPLICATION = SERVER_DATA['ASGI_APPLICATION']
 
 if not DEBUG:
-  from web import redis
+  from core.library import redis
 
 CHANNEL_LAYERS = {
   'default': {

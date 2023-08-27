@@ -562,7 +562,7 @@ def run_tool(command, index=0):
   return print('')
 
 
-def run(set_command_line:str|None = None):
+def run(set_command_line:str|None = None) -> None:
   global command_line
   if not version_info >= (3, 10):
     console.out(
