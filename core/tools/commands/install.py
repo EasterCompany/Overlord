@@ -219,7 +219,7 @@ def o_file(project_path=BASE_DIR):
     inter = '/usr/bin/python3'
 
   with open(f"{project_path}/o", "w") as o_file:
-    o_file.write(f"""#!/bin/bash
+    o_file.write(f"""#!/bin/sh
 cd {project_path}
 clear
 {inter} -c "

@@ -1,4 +1,3 @@
-#! /usr/bin/python3
 from os import system, path
 from shutil import rmtree
 from sys import argv, executable
@@ -17,6 +16,7 @@ if __name__ == '__main__':
       print('')
 
     system(f"cd {root} && {executable} -m venv .env")
+    system(f"cd {root} && {root}.env/bin/python -m pip install --upgrade pip")
     system(f"cd {root} && {root}.env/bin/python -m pip install -r core/requirements.txt")
     system(f"cd {root} && {root}.env/bin/python {root}core.py tools install")
     exit()
@@ -28,7 +28,7 @@ if __name__ == '__main__':
   application = asgi_interface()
   command = lambda x: len(argv) > 1 and argv[1] == x
 
-  if command('createsuperuser') or command('createadmin'):
+  if command('createadmin'):
     create_user(99)
   elif command('createuser'):
     create_user(1)
@@ -42,3 +42,4 @@ if __name__ == '__main__':
       '    Even if you know what you are doing, please avoid this if possible.\n',
       'yellow'
     )
+

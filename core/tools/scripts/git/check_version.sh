@@ -1,4 +1,4 @@
-#!/bin/bash
+#!/bin/sh
 UPSTREAM=${1:-'@{u}'}
 LOCAL=$(git rev-parse @)
 REMOTE=$(git rev-parse "$UPSTREAM")
@@ -13,3 +13,4 @@ elif [ $REMOTE = $BASE ]; then
 else
   echo "3"
 fi
+
