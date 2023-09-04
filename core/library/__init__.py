@@ -43,6 +43,9 @@ from channels.generic.websocket import WebsocketConsumer, JsonWebsocketConsumer,
 from django.conf import settings
 from django.conf.urls.static import static
 
+# Contrib
+from django.contrib.staticfiles.handlers import ASGIStaticFilesHandler
+
 # Database
 from django.db import models, DatabaseError, IntegrityError
 
@@ -68,7 +71,7 @@ def uuid() -> str:
 
 def asgi_interface():
   environ.setdefault('DJANGO_SETTINGS_MODULE', 'web.settings')
-  return __asgi_application__()
+  return ASGIStaticFilesHandler(__asgi_application__())
 
 
 def asgi_with_channels_interface() -> ProtocolTypeRouter:
@@ -77,7 +80,7 @@ def asgi_with_channels_interface() -> ProtocolTypeRouter:
   django.setup(set_prefix=False)
   from api.urls import SOCKETS
   return ProtocolTypeRouter({
-    'http': __asgi_application__(),
+    'http': ASGIStaticFilesHandler(__asgi_application__()),
     'websocket': URLRouter(SOCKETS),
   })
 
