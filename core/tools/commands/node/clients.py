@@ -1,6 +1,6 @@
 # Standard library
+import json
 import subprocess
-from json import loads
 from time import sleep
 from shutil import rmtree, move
 from os.path import exists
@@ -151,8 +151,8 @@ def load_clients_json() -> dict:
   global clients_json
 
   if exists(settings.BASE_DIR + '/.config/clients.json'):
-    with open(settings.BASE_DIR + '/.config/clients.json') as clients_file:
-      clients_json = loads(clients_file.read())
+    with open(settings.BASE_DIR + '/.config/clients.json', 'r') as clients_file:
+      clients_json = json.loads(clients_file.read())
   else:
     clients_json = {}
 
@@ -168,9 +168,6 @@ def generate_clients_json() -> dict:
   """
   make_clients_config()
   return load_clients_json()
-
-
-load_clients_json()
 
 
 # Initialize client
@@ -349,7 +346,7 @@ def create(name:str, native:bool = False, custom_repo:str|None = None):
 
     if exists(server_data):
       with open(server_data) as server_data_file:
-        server_data = loads(server_data_file.read())
+        server_data = json.loads(server_data_file.read())
     else:
       server_data = make_server_config()
 

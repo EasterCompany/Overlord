@@ -4,8 +4,8 @@
 
 # Standard library
 import os
+import json
 import mimetypes
-from json import loads
 
 # Overlord library
 from core.tools.commands.install import (
@@ -32,19 +32,19 @@ __init_logs_directory__()
 if not os.path.exists(BASE_DIR + '/.config/server.json'):
   make_server_config()
 with open(BASE_DIR + '/.config/server.json', 'r') as SERVER_FILE:
-  SERVER_DATA = loads(SERVER_FILE.read())
+  SERVER_DATA = json.loads(SERVER_FILE.read())
 
 # Initialize Clients File
 if not os.path.exists(BASE_DIR + '/.config/clients.json'):
   make_clients_config()
 with open(BASE_DIR + '/.config/clients.json', 'r') as CLIENT_FILE:
-  CLIENT_DATA = loads(CLIENT_FILE.read())
+  CLIENT_DATA = json.loads(CLIENT_FILE.read())
 
 # Initialize Secrets Files
 if not os.path.exists(BASE_DIR + '/.config/secret.json'):
   make_secrets_file()
 with open(BASE_DIR + '/.config/secret.json', 'r') as SECRET_FILE:
-  SECRET_DATA = loads(SECRET_FILE.read())
+  SECRET_DATA = json.loads(SECRET_FILE.read())
 
 # Set Administration Configuration
 ROOT_EMAIL = SECRET_DATA['ROOT_EMAIL']

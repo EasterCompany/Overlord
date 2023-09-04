@@ -29,55 +29,55 @@ export const getEndpoints = isNative ? () => {
 } : () => {
   if (window.location.host.endsWith(':3000')) {
     return {
-      client: 'http://localhost:3000/',
-      server: 'http://localhost:3000/',
-      api: `http://localhost:3000/api/`
+      client: `${window.location.protocol}//localhost:3000/`,
+      server: `${window.location.protocol}//localhost:3000/`,
+      api: `${window.location.protocol}//localhost:3000/${process.env.REACT_APP_API}`
     };
   } else if (window.location.host.startsWith('localhost')) {
     const client_endpoint =
       process.env.REACT_APP_NAME === '' ?
-        `http://localhost:8000/` :
-        `http://localhost:8000/${process.env.REACT_APP_NAME}/`
+        `${window.location.protocol}//localhost:8000/` :
+        `${window.location.protocol}//localhost:8000/${process.env.REACT_APP_NAME}/`
     return {
       client: client_endpoint,
-      server: `http://localhost:8000/`,
-      api: `http://localhost:8000/${process.env.REACT_APP_API}`
+      server: `${window.location.protocol}//localhost:8000/`,
+      api: `${window.location.protocol}//localhost:8000/${process.env.REACT_APP_API}`
     };
   } else if (window.location.host.startsWith('0.0.0.0')) {
     return {
       client: process.env.REACT_APP_NAME === '' ?
-        `http://0.0.0.0:8000/` :
-        `http://0.0.0.0:8000/${process.env.REACT_APP_NAME}/`,
-      server: `http://0.0.0.0:8000/`,
-      api: `http://0.0.0.0:8000/${process.env.REACT_APP_API}`
+        `${window.location.protocol}//0.0.0.0:8000/` :
+        `${window.location.protocol}//0.0.0.0:8000/${process.env.REACT_APP_NAME}/`,
+      server: `${window.location.protocol}//0.0.0.0:8000/`,
+      api: `${window.location.protocol}//0.0.0.0:8000/${process.env.REACT_APP_API}`
     };
   } else if (window.location.host.startsWith('127.0.0.1')) {
     return {
       client: process.env.REACT_APP_NAME === '' ?
-        `http://127.0.0.1:8000/` :
-        `http://127.0.0.1:8000/${process.env.REACT_APP_NAME}/`,
-      server: `http://127.0.0.1:8000/`,
-      api: `http://127.0.0.1:8000/${process.env.REACT_APP_API}`
+        `${window.location.protocol}//127.0.0.1:8000/` :
+        `${window.location.protocol}//127.0.0.1:8000/${process.env.REACT_APP_NAME}/`,
+      server: `${window.location.protocol}//127.0.0.1:8000/`,
+      api: `${window.location.protocol}//127.0.0.1:8000/${process.env.REACT_APP_API}`
     }
   } else if (window.location.host.startsWith('192.168.')) {
     const client_endpoint =
       process.env.REACT_APP_NAME === '' ?
-        `http://${window.location.host.split(':')[0]}:8000/` :
-        `http://${window.location.host.split(':')[0]}:8000/${process.env.REACT_APP_NAME}/`
+        `${window.location.protocol}//${window.location.host.split(':')[0]}:8000/` :
+        `${window.location.protocol}//${window.location.host.split(':')[0]}:8000/${process.env.REACT_APP_NAME}/`
     return {
       client: client_endpoint,
-      server: `http://${window.location.host.split(':')[0]}:8000/`,
-      api: `http://${window.location.host.split(':')[0]}:8000/${process.env.REACT_APP_API}`
+      server: `${window.location.protocol}//${window.location.host.split(':')[0]}:8000/`,
+      api: `${window.location.protocol}//${window.location.host.split(':')[0]}:8000/${process.env.REACT_APP_API}`
     };
   } else {
     const client_endpoint =
       process.env.REACT_APP_NAME === '' ?
-        `https://${window.location.host}/` :
-        `https://${window.location.host}/${process.env.REACT_APP_NAME}/`
+        `${window.location.protocol}//${window.location.host}/` :
+        `${window.location.protocol}//${window.location.host}/${process.env.REACT_APP_NAME}/`
     return {
       client: client_endpoint,
-      server: `https://${window.location.host}/`,
-      api: `https://${window.location.host}/${process.env.REACT_APP_API}`
+      server: `${window.location.protocol}//${window.location.host}/`,
+      api: `${window.location.protocol}//${window.location.host}/${process.env.REACT_APP_API}`
     };
   }
 };

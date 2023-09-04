@@ -46,18 +46,18 @@ GROUP=root
 DIR={BASE_DIR}
 EXE={executable}
 TIMEOUT=3600
-WORKERS=$(( 1 * `nproc` + 1 ))
+WORKERS=$(( 2 * `nproc` + 1 ))
 WORKER_CLASS=uvicorn.workers.UvicornWorker
 cd $DIR
-$EXE -m pip install -r requirements.txt
+$EXE -m pip install -r core/requirements.txt
 exec $EXE -m gunicorn web.asgi:application \
-  -b 127.0.0.1:{application_port} \
-  --name $NAME \
-  --user=$USER \
-  --group=$GROUP \
-  --timeout $TIMEOUT \
-  --workers $WORKERS \
-  --worker-class $WORKER_CLASS
+-b 127.0.0.1:{application_port} \
+--name $NAME \
+--user=$USER \
+--group=$GROUP \
+--timeout $TIMEOUT \
+--workers $WORKERS \
+--worker-class $WORKER_CLASS
 ''')
 
 
