@@ -7,4 +7,4 @@ from core.library import AppConfig
 
 
 class ApiConfig(AppConfig):
-    name = 'api'
+  name = 'api'

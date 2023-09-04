@@ -66,14 +66,6 @@ def uuid() -> str:
   return str(uuid1())
 
 
-def __sockets__() -> URLResolver:
-  from api.urls import SOCKETS
-  return URLResolver(
-    pattern=SOCKETS,
-    urlconf_name='api.urls'
-  )
-
-
 def asgi_interface():
   environ.setdefault('DJANGO_SETTINGS_MODULE', 'web.settings')
   return __asgi_application__()
@@ -83,9 +75,10 @@ def asgi_with_channels_interface() -> ProtocolTypeRouter:
   import django
   environ.setdefault('DJANGO_SETTINGS_MODULE', 'web.settings')
   django.setup(set_prefix=False)
+  from api.urls import SOCKETS
   return ProtocolTypeRouter({
     'http': __asgi_application__(),
-    'websocket': __sockets__(),
+    'websocket': URLRouter(SOCKETS),
   })
 
 
