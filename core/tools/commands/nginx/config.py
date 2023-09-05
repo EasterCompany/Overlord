@@ -30,6 +30,16 @@ server {
     autoindex on;
     alias ''' + BASE_DIR + '''/static/;
   }
+
+  location /api/ws/ {
+    proxy_pass http://127.0.0.1:''' + str(application_port) + ''';
+    proxy_http_version 1.1;
+    proxy_set_header Upgrade $http_upgrade;
+    proxy_set_header Connection "upgrade";
+    proxy_set_header Host $host;
+    proxy_set_header Origin $scheme://$host;
+  }
+
 }
 ''')
 systemd_service_template = lambda: shlex.quote(f'''[Unit]
@@ -40,24 +50,8 @@ ExecStart={BASE_DIR}/{PROJECT_NAME}.run
 [Install]
 WantedBy=default.target''')
 run_prd_template = lambda: shlex.quote(f'''#!/bin/sh
-NAME={PROJECT_NAME}
-USER=root
-GROUP=root
-DIR={BASE_DIR}
-EXE={executable}
-TIMEOUT=3600
-WORKERS=$(( 2 * `nproc` + 1 ))
-WORKER_CLASS=uvicorn.workers.UvicornWorker
-cd $DIR
-$EXE -m pip install -r core/requirements.txt
-exec $EXE -m gunicorn web.asgi:application \
--b 127.0.0.1:{application_port} \
---name $NAME \
---user=$USER \
---group=$GROUP \
---timeout $TIMEOUT \
---workers $WORKERS \
---worker-class $WORKER_CLASS
+cd {BASE_DIR}
+exec {executable} -m daphne -b 127.0.0.1 -p {application_port} web.asgi:application
 ''')
 
 
