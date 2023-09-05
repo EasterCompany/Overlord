@@ -211,9 +211,9 @@ class UniversalAPI:
   def socket(self, endpoint:str, view, description:str = "Auto Generated Socket", *args, **kwargs) -> None:
     """ Creates a new web socket channel associated with this API """
     if self.NAME is None:
-      _path = f"ws/{endpoint}"
+      _path = f"api/ws/{endpoint}"
     else:
-      _path = f"ws/{self.NAME}/{endpoint}"
+      _path = f"api/ws/{self.NAME}/{endpoint}"
     return self.SOCKETS.append(
       new_re_path(_path, view, name=description)
     )
