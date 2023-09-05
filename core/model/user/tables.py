@@ -261,13 +261,13 @@ class Users(UserModel):
 
 class User:
 
-  def __init__(self, identifier:str, *args, **kwargs) -> None:
+  def __init__(self, identifier:str, no_decrypt=False, *args, **kwargs) -> None:
     if '@' in identifier:
       self.data = Users.objects.filter(email=identifier).first()
     else:
       self.data = Users.objects.filter(uuid=identifier).first()
     if self.data is not None:
-      self.password = decrypt(self.data.key)
+      self.password = self.data.key if no_decrypt else decrypt(self.data.key)
       self.invites = UserInvite.objects.filter(created_by=self.data.uuid)
       self.content_dir = f"{SERVER_DATA['MEDIA_DIR']}/{self.data.uuid}"
 
