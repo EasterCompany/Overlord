@@ -35,7 +35,9 @@ from django.core.files.uploadedfile import InMemoryUploadedFile, TemporaryUpload
 from django.core.files.storage import default_storage
 
 # Channels
+from channels.auth import AuthMiddlewareStack
 from channels.routing import ProtocolTypeRouter, URLRouter
+from channels.security.websocket import AllowedHostsOriginValidator
 from channels.generic.websocket import WebsocketConsumer, JsonWebsocketConsumer, AsyncWebsocketConsumer, \
   AsyncJsonWebsocketConsumer
 
@@ -81,7 +83,7 @@ def asgi_with_channels_interface() -> ProtocolTypeRouter:
   from api.urls import SOCKETS
   return ProtocolTypeRouter({
     'http': ASGIStaticFilesHandler(__asgi_application__()),
-    'websocket': URLRouter(SOCKETS),
+    'websocket': AllowedHostsOriginValidator(AuthMiddlewareStack(URLRouter(SOCKETS))),
   })
 
 
