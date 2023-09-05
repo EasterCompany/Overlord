@@ -215,5 +215,5 @@ class UniversalAPI:
     else:
       _path = f"api/ws/{self.NAME}/{endpoint}"
     return self.SOCKETS.append(
-      new_re_path(_path, view, name=description)
+      new_re_path(_path, view.as_asgi(), name=description)
     )
