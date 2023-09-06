@@ -9,7 +9,7 @@ if __name__ == '__main__':
     env_path = __file__.replace('core.py', '.env')
 
     if path.exists(env_path):
-      i = input("\nA virtual environment already exists for this project, would you like delete it? (Y/n): ")
+      i = input("\nA virtual environment already exists for this project, would you like to delete it? (Y/n): ")
       if not i.lower() == 'y':
         exit()
       rmtree(env_path)
@@ -42,4 +42,3 @@ if __name__ == '__main__':
       '    Even if you know what you are doing, please avoid this if possible.\n',
       'yellow'
     )
-
