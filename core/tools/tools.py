@@ -9,6 +9,7 @@ from web.settings import *
 from core import create_user
 from core.library import execute_from_command_line, console, git as GIT, url
 from core.library.version import Version
+from core.tools import banner
 from core.tools.library import gracefulExit, updater
 from core.tools.commands import install, git, django, node, pytest, pa, vscode, fs, nginx, server, redis
 
@@ -23,21 +24,7 @@ def awaitInput(ascii_art=True):
   global command_line
 
   if ascii_art:
-    print(f'''
-  -------------------------------------------------------------------
-
-   ██████╗ ██╗   ██╗███████╗██████╗ ██╗      ██████╗ ██████╗ ██████╗
-  ██╔═══██╗██║   ██║██╔════╝██╔══██╗██║     ██╔═══██╗██╔══██╗██╔══██╗
-  ██║   ██║██║   ██║█████╗  ██████╔╝██║     ██║   ██║██████╔╝██║  ██║
-  ██║   ██║╚██╗ ██╔╝██╔══╝  ██╔══██╗██║     ██║   ██║██╔══██╗██║  ██║
-  ╚██████╔╝ ╚████╔╝ ███████╗██║  ██║███████╗╚██████╔╝██║  ██║██████╔╝
-   ╚═════╝   ╚═══╝  ╚══════╝╚═╝  ╚═╝╚══════╝ ╚═════╝ ╚═╝  ╚═╝╚═════╝
-                               Ver {_version.major}.{_version.minor}.{_version.patch}
-                         {git.check.version_status_label()}
-          To get help & information read the documentation here
-                  https://www.easter.company/overlord
-
-  -------------------------------------------------------------------''')
+    banner.display()
 
   # Check for updates
   update_status = updater.check_status()
