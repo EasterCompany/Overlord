@@ -9,7 +9,7 @@ export const mock = isNative ? (_url:string) => {
   return isDev ?
     _url.replace(_url.split('/')[2], `${process.env.API_DOMAIN}:8000`).replace('https://', 'http://') : _url
 } : (_url:string) => {
-  return isDev ?
+  return isDev && !_url.startsWith('/') ?
     _url.replace(_url.split('/')[2], '0.0.0.0:8000').replace('https://', 'http://') : _url
 };
 if (isNative) {
