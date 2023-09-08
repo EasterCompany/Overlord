@@ -9,7 +9,7 @@ try:
 except ImportError:
     from core.tools.assets import settings
     from core.tools.commands.install import install_file
-    install_file('settings.py', '/web', settings.BASE_DIR)
+    install_file('settings.py', '/web', settings.BASE_DIR, log=False)
     try:
         from . import settings
     except ImportError as exception:
