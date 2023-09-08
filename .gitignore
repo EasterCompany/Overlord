@@ -3,18 +3,12 @@
 
 # Overlord -------------------------------------------------------------------------------------------------------------
 /o
-/.env
-/.logs
-/.config
-/.vscode
-/.idea
-/.vimrc
-/.temp-overlord-update
+/.*
 *.sqlite3
 *.sqlite3-journal
+*.run
 .pytest_cache
 __pycache__
-*.run
 
 # API
 /api/*

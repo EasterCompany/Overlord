@@ -69,7 +69,10 @@ def make_clients_config(project_path=BASE_DIR):
 
     if node:
       package = open(client + "/package.json")
-      package_json = json.load(package)
+      try:
+        package_json = json.load(package)
+      except:
+        package_json = {}
 
       if 'version' in package_json:
         scripts['version'] = package_json['version']
@@ -77,9 +80,10 @@ def make_clients_config(project_path=BASE_DIR):
       if 'api-git' in package_json:
         scripts['api-git'] = package_json['api-git']
 
-      for key in package_json["scripts"]:
-        if key in scripts:
-          scripts[key] = package_json["scripts"][key]
+      if 'scripts' in package_json:
+        for key in package_json["scripts"]:
+          if key in scripts:
+            scripts[key] = package_json["scripts"][key]
 
     if client.split("/")[-1] != 'shared':
       clients[client.split("/")[-1]] = {
@@ -87,10 +91,10 @@ def make_clients_config(project_path=BASE_DIR):
         "api": scripts["api-git"],
         "static": f'{path[0]}/static/{client.split("/")[-1]}',
         "node": node,
-        "test": scripts["test"],
-        "start": scripts["start"],
-        "build": scripts["build"],
-        "version": scripts["version"]
+        "test": scripts["test"] if "test" in scripts else None,
+        "start": scripts["start"] if "start" in scripts else None,
+        "build": scripts["build"] if "build" in scripts else None,
+        "version": scripts["version"] if "version" in scripts else None
       }
 
   dump_json('clients', clients, project_path)
