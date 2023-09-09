@@ -260,7 +260,7 @@ def run_all(none_on_main_thread=False):
 
 # Build specific client on the main thread
 def build(name):
-  client(clients_json[name], build=True, app_name=name)
+  client(load_clients_json()[name], build=True, app_name=name)
 
 
 # Build all clients on the main thread

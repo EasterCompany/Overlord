@@ -21,33 +21,35 @@ __version_control__ = {
 }
 __version__ = Version(version_data=__version_control__)
 
-# Setup environment
-__init_config_directory__()
-__init_logs_directory__()
 
-# Default environment configuration
-client_data = make_clients_config(getcwd())
-server_data = getcwd() + '/.config/server.json'
+def initialize_configurations():
+    # Setup environment
+    __init_config_directory__()
+    __init_logs_directory__()
 
-if exists(server_data):
-    with open(server_data) as server_data_file:
-        server_data = json.loads(server_data_file.read())
-else:
-    server_data = make_server_config()
+    # Default environment configuration
+    client_data = make_clients_config(getcwd())
+    server_data = getcwd() + '/.config/server.json'
 
-# Default start-up behavior
-__update_shared_files__()
+    if exists(server_data):
+        with open(server_data) as server_data_file:
+            server_data = json.loads(server_data_file.read())
+    else:
+        server_data = make_server_config()
 
-# Setup (web/urls.py)
-from core.library import url
-install_file('urls.py', '/web', getcwd(), log=False)
-load_order = url.make_client_load_order(client_data, server_data['INDEX'])
-url.write_urls(load_order, getcwd() + '/web/urls.py')
+    # Default start-up behavior
+    __update_shared_files__()
 
-# Generate (api/urls.py)
-statements = url.acquire_all_apis(client_data, getcwd())
-url.write_api_urls(statements, getcwd())
-url.write_api_models(statements, getcwd())
+    # Setup (web/urls.py)
+    from core.library import url
+    install_file('urls.py', '/web', getcwd(), log=False)
+    load_order = url.make_client_load_order(client_data, server_data['INDEX'])
+    url.write_urls(load_order, getcwd() + '/web/urls.py')
 
-# Initialize updater
-from core.tools.library import updater as __updater__
+    # Generate (api/urls.py)
+    statements = url.acquire_all_apis(client_data, getcwd())
+    url.write_api_urls(statements, getcwd())
+    url.write_api_models(statements, getcwd())
+
+    # Initialize updater
+    from core.tools.library import updater as __updater__

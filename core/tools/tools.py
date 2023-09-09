@@ -9,7 +9,7 @@ from web.settings import *
 from core import create_user
 from core.library import execute_from_command_line, console, git as GIT, url
 from core.library.version import Version
-from core.tools import banner
+from core.tools import banner, initialize_configurations
 from core.tools.library import gracefulExit, updater
 from core.tools.commands import install, git, django, node, pytest, pa, vscode, fs, nginx, server, redis
 
@@ -22,6 +22,7 @@ environ.setdefault('DJANGO_SETTINGS_MODULE', 'web.settings')
 
 def awaitInput(ascii_art=True):
   global command_line
+  initialize_configurations()
 
   if ascii_art:
     banner.display()

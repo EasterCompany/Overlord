@@ -5,9 +5,10 @@ from os.path import exists
 from sys import executable
 from subprocess import getoutput
 from web.settings import BASE_DIR
+from core.tools import __version__ as ver
 
 window_width = int(getoutput("tput cols"))
-draw_width = 60
+draw_width = 65
 margin = " " * int((window_width - draw_width) / 2)
 divider = "-" * int(draw_width)
 status = {
@@ -51,7 +52,7 @@ def ascii_banner(color:str = 'orange') -> str:
         lines = raw.split('\n')
         banner_draw_width = len(max(lines))
         banner_margin_width = int((window_width - banner_draw_width) / 2)
-        banner_margin = " " * banner_margin_width if banner_margin_width % 2 == 0 else " " * (banner_margin_width - 1)
+        banner_margin = " " * banner_margin_width
         banner = "\n".join([banner_margin + line + banner_margin for line in lines])
       else:
         banner = margin + raw + margin
@@ -74,9 +75,18 @@ def label(key:str = "", value:str = "") -> str:
   return f"|{left_pad}{key.upper()}: {value}{right_pad}|"
 
 
+def version() -> str:
+  version_string = f"v{ver.major}.{ver.minor}.{ver.patch}"
+  left_pad = " " * int((window_width - len(version_string)) / 2)
+  right_pad = " " * int((window_width - len(version_string)) / 2)
+  return f"{left_pad}{version_string}{right_pad}"
+
+
 def display(show_status_table:bool = True, show_ascii_banner:bool = True, ascii_banner_color:str = 'orange'):
   system('clear')
   if show_ascii_banner:
     print(ascii_banner(color=ascii_banner_color))
+    print(version())
+    print("")
   if show_status_table:
     print(status_table())

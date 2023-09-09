@@ -48,15 +48,11 @@ def install_file(filename, destination, project_path=BASE_DIR, log=True, rename=
 
 
 def make_clients_config(project_path=BASE_DIR):
-  client_paths = sorted([
-    f.path for f in scandir(project_path + "/clients") if f.is_dir()
-  ])
+  client_paths = sorted([f.path for f in scandir(project_path + "/clients") if f.is_dir()])
   clients = {}
 
   for client in client_paths:
-    files = [
-      f.path.split("/")[-1] for f in scandir(client) if not f.is_dir()
-    ]
+    files = [f.path.split("/")[-1] for f in scandir(client) if not f.is_dir()]
 
     node = "package.json" in files
     scripts = {

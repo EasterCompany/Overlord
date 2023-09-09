@@ -1,6 +1,5 @@
 '''
-
-React (Client) Code Sharing Tool
+React Native & Web (Client) Code Sharing Tool
 
 Share your apps, assets, components and libraries across multiple React clients.
 All sharable components will be housed in `clients/shared` directory and any client they
@@ -30,9 +29,7 @@ Example Usage (working example):
     or for a single file
 
   ./o share -library/server/request.ts -e_panel
-
 '''
-# Std library
 import json
 import threading
 from time import sleep
@@ -40,11 +37,11 @@ from shutil import copy
 from os import mkdir, remove, walk
 from os.path import exists, isdir, getmtime
 from distutils.dir_util import copy_tree
-# Overlord library
 from core.library import console
-from web.settings import CLIENT_DATA, BASE_DIR
+from web import settings
+from web.settings import BASE_DIR
 
-client_log = lambda client: CLIENT_DATA[client]['src'] + '/shared.json'
+client_log = lambda client: settings.CLIENT_DATA[client]['src'] + '/shared.json'
 
 
 def get_client_log(client):
@@ -67,7 +64,7 @@ def get_client_log(client):
 
 def get_log():
   _log = {}
-  for client in CLIENT_DATA:
+  for client in settings.CLIENT_DATA:
     try:
       _log[client] = get_client_log(client)
     except:
@@ -217,7 +214,7 @@ def __update_clients_files__(client, logs, spath):
   from this function we check for updated /shared/... files and then
   re-share them with their targeted clients within this servers scope.
   """
-  if client not in logs or client not in CLIENT_DATA or 'path' not in logs[client]:
+  if client not in logs or client not in settings.CLIENT_DATA or 'path' not in logs[client]:
     return None
 
   cpath = BASE_DIR + '/' + logs[client]['path'] + '/'
