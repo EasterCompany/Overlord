@@ -276,7 +276,10 @@ def __update_clients_files__(client, logs, spath):
 def __update_shared_files__():
   logs = get_log()
   spath = BASE_DIR + '/clients/shared/'
+  print(logs)
+  print(spath)
   for client in logs:
+    print(client)
     __update_clients_files__(client, logs, spath)
 
 
