@@ -28,7 +28,7 @@ def initialize_configurations():
     __init_logs_directory__()
 
     # Default environment configuration
-    client_data = make_clients_config(getcwd())
+    client_data = make_clients_config()
     server_data = getcwd() + '/.config/server.json'
 
     if exists(server_data):
