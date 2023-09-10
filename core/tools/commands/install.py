@@ -85,7 +85,7 @@ def make_clients_config(project_path=BASE_DIR):
       clients[client.split("/")[-1]] = {
         "src": client,
         "api": scripts["api-git"],
-        "static": f'{path[0]}/static/{client.split("/")[-1]}',
+        "static": f'{project_path}/static/{client.split("/")[-1]}',
         "node": node,
         "test": scripts["test"] if "test" in scripts else None,
         "start": scripts["start"] if "start" in scripts else None,
