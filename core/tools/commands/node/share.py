@@ -273,13 +273,13 @@ def __update_clients_files__(client, logs, spath):
     do_copy(spath + fls, cpath + fls, False)
 
 
-def __update_shared_files__():
+def __update_shared_files__(force_update_clients_json=False):
+  if force_update_clients_json:
+    from core.tools import make_clients_config
+    settings.CLIENT_DATA = make_clients_config(BASE_DIR)
   logs = get_log()
   spath = BASE_DIR + '/clients/shared/'
-  print(logs)
-  print(spath)
   for client in logs:
-    print(client)
     __update_clients_files__(client, logs, spath)
 
 
