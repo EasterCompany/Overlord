@@ -60,7 +60,7 @@ def update_client_meta_data(app_name:str, app_data:dict) -> None:
     rm_file(app_data['static'] + '/404.html')
 
 
-def client(app_data:dict = {}, build:bool = False, app_name:str = ""):
+def client(app_data:dict = {}, build:bool = False, app_name:str = "", no_browser=False):
   """
   Runs a client using npm in development mode, not to be used on a live server unless using the 'build'
   parameter which builds the client for production
@@ -127,15 +127,19 @@ def client(app_data:dict = {}, build:bool = False, app_name:str = ""):
     if 'npx expo' in app_data['start']:
       system(f"cd {app_data['src']} && npm run start && cd {settings.BASE_DIR}")
     else:
-      subprocess.call("npm run start", shell=True, cwd=app_data['src'])
+      subprocess.call(
+        "BROWSER=none npm run start" if no_browser else "npm run start",
+        shell=True,
+        cwd=app_data['src']
+      )
 
 
 # Create client thread
-new_client = lambda app_name, app_data, build: Thread(
+new_client = lambda app_name, app_data, build, no_browser: Thread(
   None,
   client,
   app_name + '-client',
-  (app_data, build)
+  (app_data, build, app_name, no_browser)
 )
 
 clients_json = {}
@@ -224,7 +228,7 @@ def install(target:str|None = None) -> None:
 
 
 # Run client
-def run(name:str, build:bool, new_thread:bool):
+def run(name:str, build:bool, new_thread:bool, no_browser:bool=False):
   if name not in clients_json:
     print(f'\n    Client `{name}` does not exist\n')
     x = [ clients_json.keys(), None ]
@@ -238,19 +242,19 @@ def run(name:str, build:bool, new_thread:bool):
 
   client_data = clients_json[name]
   if new_thread:
-    thread = new_client(name, client_data, build)
+    thread = new_client(name, client_data, build, no_browser)
     thread.start()
     sleep(3)
     return chdir(settings.BASE_DIR)
 
-  return client(client_data, build)
+  return client(client_data, build, name, no_browser)
 
 
 # Run all clients on a separate thread except the last one
 def run_all(none_on_main_thread=False):
   for index, client in enumerate(clients_json):
     if index < len(clients_json) - 1 or none_on_main_thread:
-      run(client, build=False, new_thread=True)
+      run(client, build=False, new_thread=True, no_browser=False if client == settings.INDEX else True)
     else:
       run(client, build=False, new_thread=False)
   sleep(5)
