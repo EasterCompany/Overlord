@@ -81,9 +81,8 @@ def asgi_with_channels_interface() -> ProtocolTypeRouter:
   environ.setdefault('DJANGO_SETTINGS_MODULE', 'web.settings')
   django.setup(set_prefix=False)
   from api.urls import SOCKETS
-  from web.settings import DEBUG
   return ProtocolTypeRouter({
-    'http': __asgi_application__() if DEBUG else ASGIStaticFilesHandler(__asgi_application__()),
+    'http': __asgi_application__(),
     'websocket': AllowedHostsOriginValidator(AuthMiddlewareStack(URLRouter(SOCKETS))),
   })
 
