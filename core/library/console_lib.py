@@ -1,5 +1,6 @@
 # Standard library
 import os
+import platform
 import subprocess
 from getpass import getpass
 # Overlord library
@@ -43,11 +44,11 @@ class Console:
   __log_cache__ = []
 
   def __init__(self, cmd=None, *args, **kwargs) -> None:
-    """
+    '''
     INITIALIZE OVERLORD CONSOLE
       - Set default colour
       - Run initial input (if any)
-    """
+    '''
 
     # Style Settings
     self.default_col = self.colours["white"]
@@ -68,12 +69,16 @@ class Console:
     ''' Appends output to the log cache '''
     self.__log_cache__.append(output)
 
+  def clear(self) -> None:
+    ''' Clears the system console window '''
+    os.system('cls') if platform.system() == "Windows" else os.system('clear')
+
   def output(self, text="", colour:str = "white", print_to_console:bool = True, end:str = '\n') -> str:
-    """ console.out alias function """
+    ''' console.out alias function '''
     return self.out(text, colour, print_to_console, end)
 
   def out(self, text="", colour:str = "white", print_to_console:bool = True, end:str = '\n') -> str:
-    """
+    '''
     Returns a string converted variable [text] wrapped in colour
     tags to the console which also end by defaulting back to
     the selected default colour option [self.default_col]
@@ -81,7 +86,7 @@ class Console:
     :param text any: stringified variable for colour context
     :param colour str: name of colour 'key' from colour pallet [self.out]
     :return str: string wrapped in colour tags ie; "\33[31m Example \33[0m"
-    """
+    '''
 
     def p(t):
       t = t + self.default_col
@@ -103,13 +108,13 @@ class Console:
     )
 
   def status(self, status:str, message=None) -> str:
-    """
+    '''
     Using the type of the status to determine the input (int == http status code // str == api response)
     returns a string with the appropriate colour for the status code.
 
     :param status any: HTTP status code (int) or API response (str)
     :return str:
-    """
+    '''
     txt = status if message is None else str(message)
 
     # HTTP Status Code Colors
@@ -134,12 +139,12 @@ class Console:
         return self.out(f'{txt}', 'yellow', False)
 
   def verify(self, warning:str|None = None, message:str|None = None):
-    """
+    '''
     Prints a message asking for the user to verify using the options (Y/N) whether not
     the user wishes to proceed with the current action.
 
     :return bool: true if the user verifies, false if not
-    """
+    '''
     print()
 
     if message is None:
@@ -152,13 +157,13 @@ class Console:
     return True if response.lower() == 'y' or response.lower() == 'yes' else False
 
   def input(self, command:str, cwd:str = BASE_DIR, show_output:bool = False) -> str|int:
-    """
+    '''
     Using the os.system() method execute the command (a string) in a sub-shell.
     This method is implemented by calling the standard C function system(), and has the same limitations.
 
     :param command str: the input command(s) to send to the system
     :return str: the returncode if output was shown or the output if it was not shown
-    """
+    '''
     if show_output:
       process = subprocess.Popen(command, shell=True, cwd=cwd, stdout=subprocess.PIPE)
       while True:
@@ -182,10 +187,10 @@ class Console:
 
   @sudo
   def sudo(self, command:str, cwd:str = BASE_DIR, show_output:bool = False, *args, **kwargs) -> str|int:
-    """
+    '''
     Using the console.input method combined with the sudo decorator we can correctly handle
     the use of sudo via the console library.
-    """
+    '''
     if command.strip().startswith('sudo ') and not command.strip().startswith('sudo -S '):
       command.replace('sudo ', 'sudo -S ', 1)
     if not command.strip().startswith('sudo'):
@@ -195,22 +200,22 @@ class Console:
     return console.input(command=f'''echo {kwargs['sudo_pass']} | {command}''', cwd=cwd, show_output=show_output)
 
   def run_script(self, path:str) -> object:
-    """
+    '''
     Using the console.input method; run a script from the tools/scripts directory.
 
     :param path str: path to the script from within "tools/scripts"
     :return None:
-    """
+    '''
     return subprocess.call(['sh', f'{BASE_DIR}/tools/scripts/{path}.sh'])
 
   @staticmethod
   def log(_input, print_to_console:bool = False) -> None:
-    """
+    '''
     Writes output to the logger file and then also prints it into the console
 
     :param input any: converts what ever is given into a string to be logged
     :return None:
-    """
+    '''
     if print_to_console:
       print(_input)
 

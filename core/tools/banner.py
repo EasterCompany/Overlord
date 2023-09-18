@@ -1,5 +1,6 @@
 # Displays the system status when the CLI opens.
 # To add more details, insert them into the 'status' dictionary.
+import platform
 from os import system
 from os.path import exists
 from sys import executable
@@ -7,7 +8,8 @@ from subprocess import getoutput
 from web.settings import BASE_DIR
 from core.tools import __version__ as ver
 
-window_width = int(getoutput("tput cols"))
+is_windows = platform.system() == "Windows"
+window_width = 128 if is_windows else int(getoutput("tput cols"))
 draw_width = 65
 margin = " " * int((window_width - draw_width) / 2)
 divider = "-" * int(draw_width)
@@ -46,7 +48,7 @@ colors = {
 def ascii_banner(color:str = 'orange') -> str:
   file_path = f"{BASE_DIR}/.banner"
   if exists(file_path):
-    with open(file_path, 'r') as f:
+    with open(file_path, 'r', encoding="utf-8") as f:
       raw = f.read()
       if '\n' in raw:
         lines = raw.split('\n')
@@ -83,10 +85,10 @@ def version() -> str:
 
 
 def display(show_status_table:bool = True, show_ascii_banner:bool = True, ascii_banner_color:str = 'orange'):
-  system('clear')
+  system('cls') if is_windows else system('clear')
   if show_ascii_banner:
     print(ascii_banner(color=ascii_banner_color))
     print(version())
     print("")
-  if show_status_table:
+  if show_status_table and not is_windows:
     print(status_table())

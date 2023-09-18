@@ -1,6 +1,7 @@
 # Standard library
 import json
 import secrets
+import platform
 import subprocess
 from sys import path, executable
 from os import scandir, mkdir, system, getcwd
@@ -123,7 +124,9 @@ def make_server_config():
       'django.contrib.sessions',
       'django.contrib.messages',
       'django.contrib.staticfiles',
-      'django_extensions'
+      'django_extensions',
+      'api',
+      'core'
     ],
     "MIDDLEWARE": [
       "corsheaders.middleware.CorsMiddleware",
@@ -158,7 +161,7 @@ def make_server_config():
   }
 
   def is_app(f):
-    ignored_dirs = ('clients', 'static', 'web')
+    ignored_dirs = ('clients', 'static', 'web', 'core', 'api')
     if f.is_dir() and not f.name.startswith('.') and not f.name in ignored_dirs:
       return True
     return False
@@ -218,6 +221,26 @@ def o_file(project_path=BASE_DIR):
   except:
     inter = '/usr/bin/python3'
 
+  if platform.system() == "Windows":
+    with open(f"{project_path}/o.py", "w") as o_file:
+      return o_file.write(f"""#!{project_path}\.env\Scripts\python.exe
+try:
+  from sys import path
+  from os import environ
+  from core.tools import tools
+except ImportError:
+  from os import system
+  system('{project_path}\.env\Scripts\python.exe -m pip install -r core/requirements.txt')
+from sys import path
+from os import environ
+from core.tools import tools
+if '{project_path}' not in path:
+  path.insert(0, '{project_path}');
+from django.core.wsgi import get_wsgi_application;
+application = get_wsgi_application();
+tools.run()
+""")
+
   with open(f"{project_path}/o", "w") as o_file:
     o_file.write(f"""#!/bin/sh
 cd {project_path}
@@ -234,7 +257,7 @@ application = get_wsgi_application();
 tools.run()
 "
 """)
-  system("chmod +x ./o")
+  return system("chmod +x ./o")
 
 
 def setup_cfg(project_path=BASE_DIR):

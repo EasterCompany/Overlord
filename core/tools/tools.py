@@ -1,5 +1,5 @@
 # Standard library
-import readline
+import platform
 import subprocess
 from os.path import exists
 from os import system, getcwd, environ, mkdir
@@ -12,6 +12,13 @@ from core.library.version import Version
 from core.tools import initialize_configurations
 from core.tools.library import gracefulExit, updater
 from core.tools.commands import install, git, django, node, pytest, pa, vscode, fs, nginx, server, redis
+# OS specific modules
+is_windows = platform.system() == 'Windows'
+if is_windows:
+  from pyreadline3 import Readline
+  readline = Readline()
+else:
+  import readline
 
 tools_path = '/'.join(__file__.split('/')[:-1])
 project_path = path[0]
@@ -335,7 +342,7 @@ def run_tool(command, index=0):
         cur_branch = GIT.branch(BASE_DIR)
         if cur_branch == STAGING_BRANCH or cur_branch == PRODUCTION_BRANCH:
           if cur_branch == STAGING_BRANCH:
-            system('clear')
+            console.clear()
             console.out(f"\n======== Building All Clients ========", "yellow")
             node.clients.build_all()
             console.out(f"\n========= Sync API & Clients =========", "yellow")
@@ -483,7 +490,7 @@ def run_tool(command, index=0):
         git.status.clients(_arg)
 
   elif command == 'clear':
-    system('clear')
+    console.clear()
 
   elif command == 'code':
     if arguments_remaining == 0:

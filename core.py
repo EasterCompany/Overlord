@@ -1,24 +1,29 @@
-from os import system, path
+import platform
+import subprocess
+from pathlib import Path
 from shutil import rmtree
 from sys import argv, executable
 
 if __name__ == '__main__':
 
   if argv[1] == 'install':
-    root = __file__.replace('core.py', '')
-    env_path = __file__.replace('core.py', '.env')
+    is_windows = platform.system() == "Windows"
+    root = Path(__file__.replace('core.py', ''))
+    env_path = Path(__file__.replace('core.py', '.env'))
+    env_exe = f"{env_path}\Scripts\python.exe" if is_windows else f"{env_path}/bin/python"
 
-    if path.exists(env_path):
+    if env_path.exists():
       i = input("\nA virtual environment already exists for this project, would you like to delete it? (Y/n): ")
       if not i.lower() == 'y':
         exit()
       rmtree(env_path)
-      print('')
 
-    system(f"cd {root} && {executable} -m venv .env")
-    system(f"cd {root} && {root}.env/bin/python -m pip install --upgrade pip")
-    system(f"cd {root} && {root}.env/bin/python -m pip install -r core/requirements.txt")
-    system(f"cd {root} && {root}.env/bin/python {root}core.py tools install")
+    subprocess.run(f'''"{executable}" -m venv .env''', shell=True, cwd=root)
+    subprocess.run(f'''"{env_exe}" -m pip install --upgrade pip''', shell=True, cwd=root)
+    subprocess.run(f'''"{env_exe}" -m pip install -r core/requirements.txt''', shell=True, cwd=root)
+    if is_windows:
+      subprocess.run(f'''"{env_exe}" -m pip install pyreadline3''', shell=True, cwd=root)
+    subprocess.run(f'''"{env_exe}" "{root}/core.py" tools install''', shell=True, cwd=root)
     exit()
 
   from core import create_user

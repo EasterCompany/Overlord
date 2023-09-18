@@ -174,14 +174,18 @@ def generate_clients_json() -> dict:
 
 
 # Initialize client
-def initialize(target=None):
-  return console.input(
-    f'''{executable} -c "try:\n  '''
-    f'''from core.tools import tools;from clients import {target};{target}.Client();\n'''
-    f'''except Exception as e: print('  > Error occurred when initializing {target}', '\\n   ', e)"''',
-    cwd=settings.BASE_DIR,
-    show_output=True
-  )
+initialize = lambda target=None: console.input(f'''
+{executable} -c "
+try:
+  from core.tools import tools
+  from clients import {target}
+  {target}.Client()
+except Exception as e:
+  print('  > Error occurred when initializing {target}', '\\n   ', e)
+"''',
+  cwd=settings.BASE_DIR,
+  show_output=True
+)
 
 
 def install(target:str|None = None) -> None:
@@ -257,7 +261,7 @@ def run_all(none_on_main_thread=False):
     else:
       run(client, build=False, new_thread=False)
   sleep(5)
-  system('clear')
+  console.clear()
   return print('Running all clients ...\n')
 
 
