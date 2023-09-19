@@ -3,9 +3,10 @@ import json
 import secrets
 import platform
 import subprocess
+from pathlib import Path
 from sys import path, executable
 from os import scandir, mkdir, system, getcwd
-from os.path import exists, join as pathjoin
+from os.path import exists, join as pathjoin, basename
 # Overlord library
 from core.library.time import timestamp
 
@@ -49,11 +50,12 @@ def install_file(filename, destination, project_path=BASE_DIR, log=True, rename=
 
 
 def make_clients_config(project_path=BASE_DIR):
-  client_paths = sorted([f.path for f in scandir(project_path + "/clients") if f.is_dir()])
+  clients_dir = Path(project_path + "/clients")
+  client_paths = sorted([f.path for f in scandir(clients_dir) if f.is_dir()])
   clients = {}
 
   for client in client_paths:
-    files = [f.path.split("/")[-1] for f in scandir(client) if not f.is_dir()]
+    files = [basename(f.path) for f in scandir(client) if not f.is_dir()]
 
     node = "package.json" in files
     scripts = {
@@ -82,11 +84,11 @@ def make_clients_config(project_path=BASE_DIR):
           if key in scripts:
             scripts[key] = package_json["scripts"][key]
 
-    if client.split("/")[-1] != 'shared':
-      clients[client.split("/")[-1]] = {
+    if basename(client) != 'shared':
+      clients[basename(client)] = {
         "src": client,
         "api": scripts["api-git"],
-        "static": f'{project_path}/static/{client.split("/")[-1]}',
+        "static": f'{project_path}/static/{basename(client)}',
         "node": node,
         "test": scripts["test"] if "test" in scripts else None,
         "start": scripts["start"] if "start" in scripts else None,

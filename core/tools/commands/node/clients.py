@@ -1,4 +1,5 @@
 # Standard library
+import stat
 import json
 import subprocess
 from time import sleep
@@ -6,7 +7,7 @@ from shutil import rmtree, move
 from os.path import exists
 from threading import Thread
 from datetime import datetime
-from os import chdir, system, rename, remove as rm_file
+from os import chdir, system, rename, remove as rm_file, chmod
 # Overlord library
 from ..install import (
   __init_config_directory__,
@@ -316,6 +317,15 @@ def remove(name:str):
   return print()
 
 
+def make_dir_writable(function, path, exception):
+  """
+  The path on Windows cannot be gracefully removed due to being read-only,
+  so we make the directory writable on a failure and retry the original function.
+  """
+  chmod(path, stat.S_IWRITE)
+  function(path)
+
+
 def create(name:str, native:bool = False, custom_repo:str|None = None):
   """
   Create a new client from the basic web or native client templates or download a custom repo
@@ -387,7 +397,7 @@ def create(name:str, native:bool = False, custom_repo:str|None = None):
 
   # De-git repository
   console.out(f"  {console.wait} Removing .git/*", end="\r")
-  rmtree(f'{settings.BASE_DIR}/clients/{name}/.git')
+  rmtree(f'{settings.BASE_DIR}/clients/{name}/.git', onerror=make_dir_writable)
   console.out(f"  {console.success} Removed .git/*              ", "success")
 
   # Update meta_data
