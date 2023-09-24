@@ -17,7 +17,7 @@ from .commands.node.share import __update_shared_files__
 __version_control__ = {
   'major': 1,
   'minor': 2,
-  'patch': 18
+  'patch': 19
 }
 __version__ = Version(version_data=__version_control__)
 
@@ -36,6 +36,10 @@ def initialize_configurations():
       server_data = json.loads(server_data_file.read())
   else:
     server_data = make_server_config()
+
+  from web import settings
+  settings.CLIENT_DATA = client_data
+  settings.SERVER_DATA = server_data
 
   # Default start-up behavior
   __update_shared_files__()

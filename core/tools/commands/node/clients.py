@@ -350,12 +350,12 @@ def create(name:str, native:bool = False, custom_repo:str|None = None):
     console.out(f"  {console.success} Downloaded                  ", "success")
 
   def update_overlord_configuration():
+    from core.tools import initialize_configurations
     from core.library import url
 
     # Setup environment
     console.out(f"  {console.wait} Updating .config/*", end="\r")
-    __init_config_directory__()
-    __init_logs_directory__()
+    initialize_configurations()
 
     # Default environment configuration
     client_data = make_clients_config(settings.BASE_DIR)
