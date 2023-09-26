@@ -36,6 +36,7 @@ from django.core.files.storage import default_storage
 
 # Channels
 from channels.auth import AuthMiddlewareStack
+from channels.db import database_sync_to_async
 from channels.routing import ProtocolTypeRouter, URLRouter
 from channels.security.websocket import AllowedHostsOriginValidator
 from channels.generic.websocket import WebsocketConsumer, JsonWebsocketConsumer, AsyncWebsocketConsumer, \
