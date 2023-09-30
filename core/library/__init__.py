@@ -10,9 +10,9 @@ import secrets
 import subprocess
 from pathlib import Path
 from sys import executable
-from os import mkdir, rmdir, remove, walk, listdir, environ, makedirs as mkdirs
-from os.path import exists, realpath, dirname, isdir, abspath
-from shutil import rmtree, copy, make_archive
+from os import mkdir, rmdir, remove, walk, listdir, environ, makedirs as mkdirs, rename
+from os.path import exists, realpath, dirname, isdir, abspath, basename, getsize, splitext
+from shutil import rmtree, copy, make_archive, move
 from urllib.parse import unquote
 from uuid import uuid1
 from time import sleep
