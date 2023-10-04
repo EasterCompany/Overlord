@@ -41,6 +41,7 @@ from channels.routing import ProtocolTypeRouter, URLRouter
 from channels.security.websocket import AllowedHostsOriginValidator
 from channels.generic.websocket import WebsocketConsumer, JsonWebsocketConsumer, AsyncWebsocketConsumer, \
   AsyncJsonWebsocketConsumer
+from channels.exceptions import StopConsumer, InvalidChannelLayerError
 
 # Conf
 from django.conf import settings
