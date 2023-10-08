@@ -7,10 +7,11 @@ from sys import executable
 from subprocess import getoutput
 from web.settings import BASE_DIR
 from core.tools import __version__ as ver
+from core.tools.library import updater
 
 is_windows = platform.system() == "Windows"
 window_width = 128 if is_windows else int(getoutput("tput cols"))
-draw_width = 68
+draw_width = 64
 margin = " " * int((window_width - draw_width) / 2)
 divider = "-" * int(draw_width)
 status = {
@@ -50,16 +51,22 @@ def ascii_banner(color:str = 'orange') -> str:
   if exists(file_path):
     with open(file_path, 'r', encoding="utf-8") as f:
       raw = f.read()
-      if '\n' in raw:
-        lines = raw.split('\n')
-        banner_draw_width = len(max(lines))
-        banner_margin_width = int((window_width - banner_draw_width) / 2)
-        banner_margin = " " * banner_margin_width
-        banner = "\n".join([banner_margin + line + banner_margin for line in lines])
-      else:
-        banner = margin + raw + margin
-      return f"{colors[color]}\n" + banner + colors['white']
-  return ""
+  else:
+    raw = """ ██████╗ ██╗   ██╗███████╗██████╗ ██╗      ██████╗ ██████╗ ██████╗
+██╔═══██╗██║   ██║██╔════╝██╔══██╗██║     ██╔═══██╗██╔══██╗██╔══██╗
+██║   ██║██║   ██║█████╗  ██████╔╝██║     ██║   ██║██████╔╝██║  ██║
+██║   ██║╚██╗ ██╔╝██╔══╝  ██╔══██╗██║     ██║   ██║██╔══██╗██║  ██║
+╚██████╔╝ ╚████╔╝ ███████╗██║  ██║███████╗╚██████╔╝██║  ██║██████╔╝
+ ╚═════╝   ╚═══╝  ╚══════╝╚═╝  ╚═╝╚══════╝ ╚═════╝ ╚═╝  ╚═╝╚═════╝"""
+  if '\n' in raw:
+    lines = raw.split('\n')
+    banner_draw_width = len(max(lines))
+    banner_margin_width = int((window_width - banner_draw_width) / 2)
+    banner_margin = " " * banner_margin_width
+    banner = "\n".join([banner_margin + line + banner_margin for line in lines])
+  else:
+    banner = margin + raw + margin
+  return f"{colors[color]}\n" + banner + colors['white']
 
 
 def status_table() -> str:
@@ -84,11 +91,31 @@ def version() -> str:
   return f"{left_pad}{version_string}{right_pad}"
 
 
-def display(show_status_table:bool = True, show_ascii_banner:bool = True, ascii_banner_color:str = 'orange'):
+def update_available_warning() -> str:
+  update_status = updater.check_status(force=False)
+  update_available_str = f"{colors['orange']}Update Available {update_status[1]}{colors['white']}"
+  if not update_status[0]:
+    return ""
+  left_pad = " " * int((window_width - len(update_available_str)) / 2)
+  right_pad = " " * int((window_width - len(update_available_str)) / 2)
+  return f"{left_pad}{update_available_str}{right_pad}"
+
+
+def display(
+  show_status_table:bool = True,
+  show_ascii_banner:bool = True,
+  show_update_available:bool = True,
+  ascii_banner_color:str = 'orange'
+):
   system('cls') if is_windows else system('clear')
+
   if show_ascii_banner:
     print(ascii_banner(color=ascii_banner_color))
     print(version())
     print("")
+
   if show_status_table and not is_windows:
     print(status_table())
+
+  if show_update_available:
+    print(update_available_warning())

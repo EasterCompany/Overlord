@@ -9,6 +9,7 @@ from web.settings import *
 from core import create_user
 from core.library import execute_from_command_line, console, git as GIT, url
 from core.library.version import Version
+from core.tools import banner
 from core.tools import initialize_configurations
 from core.tools.library import gracefulExit, updater
 from core.tools.commands import install, git, django, node, pytest, pa, vscode, fs, nginx, server, redis
@@ -31,14 +32,9 @@ def awaitInput(ascii_art=True):
   global command_line
   initialize_configurations()
 
+  # Display ASCII & Status Banner
   if ascii_art:
-    from core.tools import banner
     banner.display()
-
-  # Check for updates
-  update_status = updater.check_status()
-  if update_status[0]:
-    console.out(f"                 Update Available {update_status[1]}", "yellow")
 
   # Initialize Clients
   for _client in node.clients.load_clients_json():
@@ -50,7 +46,6 @@ def awaitInput(ascii_art=True):
     django.server.migrate_database()
 
   # Initialize Static Directories
-  print('')
   for _dir in STATICFILES_DIRS:
     if not exists(_dir):
       try:

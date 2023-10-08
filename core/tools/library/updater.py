@@ -130,7 +130,13 @@ def purge_temp_directory() -> None:
 
 def _log_path(path, names):
   console.out(f'  Installing {path}')
-  return [ '.git', '.gitignore', 'README.md', 'SECURITY.md' ]
+  return [
+    '.git',
+    '.gitignore',
+    '.banner',
+    'README.md',
+    'SECURITY.md',
+  ]
 
 
 def clone_latest_version() -> None:
@@ -154,9 +160,12 @@ def clone_latest_version() -> None:
     console.out(f"  {console.success} Downloaded Update   ", "success")
     console.out(f"  {console.wait} Installing Update ...  ")
     console.sudo(f"chown -R {getuser()} ./*")
-    remove(f"{BASE_DIR}/setup.cfg")
-    remove(f"{BASE_DIR}/core.py")
-    shutil.rmtree(f"{BASE_DIR}/core")
+    if exists(f"{BASE_DIR}/setup.cfg"):
+      remove(f"{BASE_DIR}/setup.cfg")
+    if exists(f"{BASE_DIR}/core.py"):
+      remove(f"{BASE_DIR}/core.py")
+    if exists(f"{BASE_DIR}/core"):
+      shutil.rmtree(f"{BASE_DIR}/core")
     shutil.copytree(temp_update_path, BASE_DIR, ignore=_log_path, dirs_exist_ok=True)
     purge_temp_directory()
 
