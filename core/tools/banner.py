@@ -10,7 +10,7 @@ from core.tools import __version__ as ver
 
 is_windows = platform.system() == "Windows"
 window_width = 128 if is_windows else int(getoutput("tput cols"))
-draw_width = 65
+draw_width = 68
 margin = " " * int((window_width - draw_width) / 2)
 divider = "-" * int(draw_width)
 status = {
