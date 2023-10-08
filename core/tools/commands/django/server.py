@@ -6,6 +6,7 @@ from threading import Thread
 # Overlord library
 from web.settings import BASE_DIR
 from core.library import console
+from core.tools.library import fix_migrations
 from django.core.management import call_command
 
 
@@ -24,6 +25,7 @@ def _server(start:bool = True, migrate:bool = False, collectstatic:bool = False)
     if migrate:
         console.log("Migrating database")
         call_command('makemigrations')
+        fix_migrations.apply_fixtures()
         call_command('migrate')
         console.log("Successfully migrated database")
 

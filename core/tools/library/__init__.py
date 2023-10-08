@@ -1,1 +1,1 @@
-from . import gracefulExit, updater
+from . import gracefulExit, updater, fix_migrations
