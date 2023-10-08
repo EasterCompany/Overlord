@@ -7,10 +7,10 @@ export const isDev = process.env.REACT_APP_ENV === 'Dev';
 export const isPrd = process.env.REACT_APP_ENV === 'Prd';
 export const mock = isNative ? (_url:string) => {
   return isDev ?
-    _url.replace(_url.split('/')[2], `${process.env.API_DOMAIN}:8000`).replace('https://', 'http://') : _url
+    _url.replace(_url.split('/')[2], `${process.env.API_DOMAIN}:${process.env.REACT_APP_DEV_PORT}`).replace('https://', 'http://') : _url
 } : (_url:string) => {
   return isDev && !_url.startsWith('/') ?
-    _url.replace(_url.split('/')[2], '0.0.0.0:8000').replace('https://', 'http://') : _url
+    _url.replace(_url.split('/')[2], `0.0.0.0:${process.env.REACT_APP_DEV_PORT}`).replace('https://', 'http://') : _url
 };
 if (isNative) {
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
@@ -36,38 +36,38 @@ export const getEndpoints = isNative ? () => {
   } else if (window.location.host.startsWith('localhost')) {
     const client_endpoint =
       process.env.REACT_APP_NAME === '' ?
-        `${window.location.protocol}//localhost:8000/` :
-        `${window.location.protocol}//localhost:8000/${process.env.REACT_APP_NAME}/`
+        `${window.location.protocol}//localhost:${process.env.REACT_APP_DEV_PORT}/` :
+        `${window.location.protocol}//localhost:${process.env.REACT_APP_DEV_PORT}/${process.env.REACT_APP_NAME}/`
     return {
       client: client_endpoint,
-      server: `${window.location.protocol}//localhost:8000/`,
-      api: `${window.location.protocol}//localhost:8000/${process.env.REACT_APP_API}`
+      server: `${window.location.protocol}//localhost:${process.env.REACT_APP_DEV_PORT}/`,
+      api: `${window.location.protocol}//localhost:${process.env.REACT_APP_DEV_PORT}/${process.env.REACT_APP_API}`
     };
   } else if (window.location.host.startsWith('0.0.0.0')) {
     return {
       client: process.env.REACT_APP_NAME === '' ?
-        `${window.location.protocol}//0.0.0.0:8000/` :
-        `${window.location.protocol}//0.0.0.0:8000/${process.env.REACT_APP_NAME}/`,
-      server: `${window.location.protocol}//0.0.0.0:8000/`,
-      api: `${window.location.protocol}//0.0.0.0:8000/${process.env.REACT_APP_API}`
+        `${window.location.protocol}//0.0.0.0:${process.env.REACT_APP_DEV_PORT}/` :
+        `${window.location.protocol}//0.0.0.0:${process.env.REACT_APP_DEV_PORT}/${process.env.REACT_APP_NAME}/`,
+      server: `${window.location.protocol}//0.0.0.0:${process.env.REACT_APP_DEV_PORT}/`,
+      api: `${window.location.protocol}//0.0.0.0:${process.env.REACT_APP_DEV_PORT}/${process.env.REACT_APP_API}`
     };
   } else if (window.location.host.startsWith('127.0.0.1')) {
     return {
       client: process.env.REACT_APP_NAME === '' ?
-        `${window.location.protocol}//127.0.0.1:8000/` :
-        `${window.location.protocol}//127.0.0.1:8000/${process.env.REACT_APP_NAME}/`,
-      server: `${window.location.protocol}//127.0.0.1:8000/`,
-      api: `${window.location.protocol}//127.0.0.1:8000/${process.env.REACT_APP_API}`
+        `${window.location.protocol}//127.0.0.1:${process.env.REACT_APP_DEV_PORT}/` :
+        `${window.location.protocol}//127.0.0.1:${process.env.REACT_APP_DEV_PORT}/${process.env.REACT_APP_NAME}/`,
+      server: `${window.location.protocol}//127.0.0.1:${process.env.REACT_APP_DEV_PORT}/`,
+      api: `${window.location.protocol}//127.0.0.1:${process.env.REACT_APP_DEV_PORT}/${process.env.REACT_APP_API}`
     }
   } else if (window.location.host.startsWith('192.168.')) {
     const client_endpoint =
       process.env.REACT_APP_NAME === '' ?
-        `${window.location.protocol}//${window.location.host.split(':')[0]}:8000/` :
-        `${window.location.protocol}//${window.location.host.split(':')[0]}:8000/${process.env.REACT_APP_NAME}/`
+        `${window.location.protocol}//${window.location.host.split(':')[0]}:${process.env.REACT_APP_DEV_PORT}/` :
+        `${window.location.protocol}//${window.location.host.split(':')[0]}:${process.env.REACT_APP_DEV_PORT}/${process.env.REACT_APP_NAME}/`
     return {
       client: client_endpoint,
-      server: `${window.location.protocol}//${window.location.host.split(':')[0]}:8000/`,
-      api: `${window.location.protocol}//${window.location.host.split(':')[0]}:8000/${process.env.REACT_APP_API}`
+      server: `${window.location.protocol}//${window.location.host.split(':')[0]}:${process.env.REACT_APP_DEV_PORT}/`,
+      api: `${window.location.protocol}//${window.location.host.split(':')[0]}:${process.env.REACT_APP_DEV_PORT}/${process.env.REACT_APP_API}`
     };
   } else {
     const client_endpoint =

@@ -65,6 +65,10 @@ class WebClient():
   # otherwise you can specify a port number as a string.
   PORT:int|None = RPU()
 
+  # Client.DEV_PORT is an overridable variable which tells the client which
+  # port the API is accessible on when in a development environment
+  DEV_PORT:str = settings.SECRET_DATA['LOCAL_PORT']
+
   # Client.ENDPOINT controls which `base url` will host your application
   # By default, only the INDEX client can connect to the root (http..com/) url
   # Also, all paths beginning with this ENDPOINT will instead be forwarded to
@@ -170,6 +174,7 @@ class WebClient():
     REACT_APP_STATIC={dev_url}
     REACT_APP_ENDPOINT={self.ENDPOINT}
     REACT_APP_IS_INDEX={str(self.IS_INDEX).lower()}
+    REACT_APP_DEV_PORT={self.DEV_PORT}
     '''.replace('    ', '')
 
   def _path(self, file_name):
@@ -311,7 +316,11 @@ class NativeClient(WebClient):
   # Client.API_DOMAIN is an overridable variable which tells the client where
   # the api will be hosted in production. This is essential for native clients
   # as they won't have a relative domain to access when deployed to Android/iOS.
-  API_DOMAIN:str = f"http://{local_ip}:8000"
+  API_DOMAIN:str = f"http://{local_ip}:{settings.SECRET_DATA['LOCAL_PORT']}"
+
+  # Client.DEV_PORT is an overridable variable which tells the client which
+  # port the API is accessible on when in a development environment
+  DEV_PORT:str = settings.SECRET_DATA['LOCAL_PORT']
 
   # Client.is_native is an non-overridable variable which indicates weather or not
   # this client is a react-native based client or not.
@@ -347,7 +356,7 @@ class NativeClient(WebClient):
     return f'''# .env.dev
     #   automatically generated file
     #   do not edit or delete
-    API_DOMAIN=http://{local_ip}:8000
+    API_DOMAIN=http://{local_ip}:{settings.SECRET_DATA['LOCAL_PORT']}
     PUBLIC_URL={dev_url}
     REACT_APP_ENV=Dev
     REACT_APP_NAME={self.NAME}
@@ -356,4 +365,5 @@ class NativeClient(WebClient):
     REACT_APP_STATIC={dev_url}
     REACT_APP_ENDPOINT={self.ENDPOINT}
     REACT_APP_IS_INDEX={str(self.IS_INDEX).lower()}
+    REACT_APP_DEV_PORT={self.DEV_PORT}
     '''.replace('    ', '')

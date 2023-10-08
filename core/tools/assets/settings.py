@@ -6,6 +6,7 @@
 import os
 import json
 import mimetypes
+from pathlib import Path
 
 # Overlord library
 from core.tools.commands.install import (
@@ -130,6 +131,13 @@ if not os.path.exists(STATIC_FILES):
 
 if not os.path.exists(MEDIA_ROOT):
   os.mkdir(MEDIA_ROOT)
+
+if not os.path.exists(Path(f"{STATIC_FILES}{MEDIA_URL}")):
+  os.symlink(
+    Path(MEDIA_ROOT),
+    Path(f"{STATIC_FILES}{MEDIA_URL}"),
+    target_is_directory=True
+  )
 
 CORS_ORIGIN_ALLOW_ALL = True if DEBUG else SERVER_DATA['CORS_ORIGIN_ALLOW_ALL']
 CORS_ORIGIN_WHITELIST = SERVER_DATA['CORS_ORIGIN_WHITELIST']
