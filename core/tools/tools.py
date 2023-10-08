@@ -28,7 +28,7 @@ _version = Version()
 environ.setdefault('DJANGO_SETTINGS_MODULE', 'web.settings')
 
 
-def awaitInput(ascii_art=True):
+def awaitInput(ascii_art=DEBUG):
   global command_line
   initialize_configurations()
 
@@ -44,6 +44,7 @@ def awaitInput(ascii_art=True):
   if not exists(f'{BASE_DIR}/db.sqlite3'):
     console.out("\n> Creating Database & Making Migrations\n")
     django.server.migrate_database()
+    print('')
 
   # Initialize Static Directories
   for _dir in STATICFILES_DIRS:

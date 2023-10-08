@@ -111,6 +111,7 @@ def make_server_config():
     "LOCAL_BRANCH": 'main',
     "STAGING_BRANCH": 'main',
     "PRODUCTION_BRANCH": 'main',
+    "DATABASE": pathjoin(path[0], 'db.sqlite3'),
     "ALLOWED_HOSTS": [
       '.0.0.0.0',
       '.127.0.0.1',
