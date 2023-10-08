@@ -97,7 +97,7 @@ class WebClient():
 
   # Client.is_native is an non-overridable variable which indicates weather or not
   # this client is a react-native based client or not.
-  is_native:bool = True
+  is_native:bool = False
 
   def __init__(self):
     # User setup dependent options
@@ -108,10 +108,11 @@ class WebClient():
     self.IS_INDEX = self.ENDPOINT == ''
     # Generate production environment file
     with open(self.ENV, 'w') as prd_env:
-      prd_env.write(self._env(prd=True))
-    # Generate development environment file
-    with open(self.ENV + '.dev', 'w') as dev_env:
-      dev_env.write(self._env(prd=False))
+      prd_env.write(self._env(prd=True if not self.is_native else not settings.DEBUG))
+    if not self.is_native:
+      # Generate development environment file
+      with open(self.ENV + '.dev', 'w') as dev_env:
+        dev_env.write(self._env(prd=False))
     # Build the url structure
     self.URL = self._url()
     self.URLS = self.__urls__() if callable(self.__urls__) else None

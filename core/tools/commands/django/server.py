@@ -33,7 +33,7 @@ def _server(start:bool = True, migrate:bool = False, collectstatic:bool = False)
         call_command('collectstatic', '--noinput', '-i admin')
 
     if start:
-        system(f"cd {BASE_DIR} && {sys.executable} core.py runserver localhost:{SECRET_DATA['LOCAL_PORT']}")
+        system(f"cd {BASE_DIR} && {sys.executable} core.py runserver 0.0.0.0:{SECRET_DATA['LOCAL_PORT']}")
 
 
 # Server database migration shortcut
