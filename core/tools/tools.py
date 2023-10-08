@@ -41,7 +41,7 @@ def awaitInput(ascii_art=DEBUG):
     node.clients.initialize(_client)
 
   # Initialize Database
-  if not exists(f'{BASE_DIR}/db.sqlite3'):
+  if not exists(SERVER_DATA['DATABASE']):
     console.out("\n> Creating Database & Making Migrations\n")
     django.server.migrate_database()
     print('')
