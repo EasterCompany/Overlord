@@ -1,0 +1,3 @@
+#!/bin/sh
+GOOS=linux GOARCH=amd64 go build -o build/macos/install.app install.go
+GOOS=linux GOARCH=amd64 go build -o build/macos/olt.app olt.go
