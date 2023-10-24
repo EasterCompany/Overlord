@@ -1,60 +1,37 @@
-<h6 align="center" style="border-bottom:0px;padding:9px 0 0 0;"> [ v1.2.18 19/09/2023 ] </h6>
-<h1 align="center" style="margin-bottom:32px;border-bottom:0px;"> The Overlord Framework </h1>
+# Overlord 1.3
+Cross platform command line interface for interacting with the overlord tools api.
 
-### Welcome
+## Introduction
+This project aims to unify an entire organizational infrastructure into one interface, so a developer can easily
+replicate server environments, develop projects, merge and deploy with a full integrated and stress free pipeline and
+much more.
 
-The Overlord Framework, developed by Easter Company, is the one true full stack framework for developing
-Python/Typescript Web & Mobile applications. General updates are released on an unscheduled basis and LTS
-(long-term-support) versions are released annually.
-[Watch a short introduction video here.](https://www.easter.company/overlord/introduction)
+## Utils
+The utils directory located at `./utils` contains scripts for developers of this repository to use to ease-development.
 
-### Install
+## Builds & Versions
+This section describes the build & versioning structure of Overlord Tools.
 
-You can either download the contents of this repository and start building your project that way, or you can install
-Overlord's `create-app` command. Which will allow you to create an Overlord App from your terminal. To do so, just copy
-the code below into your terminal and hit enter.
+### LTS
+Current long term support version does not exist. The initial targeted LTS version will be 1.0 and maintain support
+for mainstream linux, mac & windows operating systems.
 
-```bash
-sudo rm /bin/create-app &>/dev/null
-sudo wget -P /bin/ https://raw.githubusercontent.com/EasterCompany/RDFS/Prd/Overlord/create-app
-sudo chmod +x /bin/create-app
-```
+Long Term Support version refers to the major & minor release numbers of a version label,
+in this case, 1 is the major release number and 0 is the minor release number. The third number in the version label
+is the Patch number and LTS users will still receive these updates.
 
-### Install Without Sudo
+Patch updates to a LTS version will only ever include bug fixes. Each LTS version will be supported for 1 year starting
+on the *31st of January* each year. Upon the release of a new LTS version at the start of a year the previous version
+will become archived.
 
-If you don't have sudo permissions or you don't want to install the `create-app` command globally on your system you can
-use this as an alternative.
+The current LTS version will exist on the LTS branch of this repository.
 
-```bash
-rm ~/create-app &>/dev/null
-wget -P ~/ https://raw.githubusercontent.com/EasterCompany/RDFS/Prd/Overlord/create-app
-mv ~/create-app ~/.create-app
-chmod +x ~/.create-app
-echo 'alias create-app="~/.create-app"' >> ~/.bashrc
-```
+### Archived
+Supported archive versions are within in the `./dist` and should be updated within the merge request when relevant.
+Updating a build version that already exists is known as a 'Hot Patch', these kind of releases do not require patch
+notes or github release archives associated with them. Hot Patches will effect users with auto-updates enabled, who
+force update or who recently installed.
 
-### Documentation
-
-If you're looking for our beautifully crafted and detailed documentation then you should
-[visit our website](https://www.easter.company/overlord).
-
-The documentation also includes a full series of tutorial style videos to guide you in a more entertaining fashion;
-however, if you are a well-seasoned professional you may prefer to just read the written format on each page.
-
-### FAQS
-
-**Q:** How do I get started?<br/>
-**A:** Check out the [getting started](https://www.easter.company/overlord/getting_started) page in the documentation.
-
-**Q:** How can I make a feature request?<br/>
-**A:** Email us at [contact@easter.company](mailto:contact@easter.company)
-
-**Q:** How do I use E-Panel with my app?<br/>
-**A:** Until further notice, E-Panel is free-to-use if you've subscribed to a an Easter Company custom app development
-plan in-which Easter Company has designed, developed & deployed an application for you. Otherwise you will need to be
-**invited to the closed beta by an existing user**.
-
-### Support
-
-If you're interested in helping out then please get in-touch via this email
-[contact@easter.company](mailto:contact@easter.company)
+### Build
+The local build directory, sometimes called the development build, located at `./build` will be overwritten every time
+you run the build command and is useful for testing changes locally.
