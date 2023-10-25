@@ -1,3 +1,0 @@
-#!/bin/sh
-GOOS=darwin GOARCH=amd64 go build -o build/macos/install-amd64-darwin install.go
-GOOS=darwin GOARCH=amd64 go build -o build/macos/app-amd64-darwin app.go
