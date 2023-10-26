@@ -5,6 +5,16 @@ import (
 	"strings"
 )
 
+type REFRESH_REQUEST struct {
+	Uuid    string `json:"uuid"`
+	Session string `json:"session"`
+}
+
+type API_RESPONSE struct {
+	Status string      `json:"status"`
+	Data   interface{} `json:"data"`
+}
+
 var header = func(title string) string {
 	return "[" + "\033[34m" + strings.ToUpper(title) + "\033[0m" + "]"
 }

@@ -3,22 +3,11 @@ package main
 import (
 	"bytes"
 	"encoding/json"
-	"fmt"
 	"io"
 	"net/http"
 	"os"
 	"strconv"
 )
-
-type LOGIN_REQUEST struct {
-	Email    string `json:"email"`
-	Password string `json:"password"`
-}
-
-type LOGIN_RESPONSE struct {
-	Status string      `json:"status"`
-	Data   interface{} `json:"data"`
-}
 
 type __SERVER__ struct {
 	ssl_enabled bool
@@ -77,24 +66,20 @@ var user = __USER__{
 	exists:        false,
 }
 
-func login() {
-	if user.email != "null" && user.uuid != "null" && user.session != "null" {
-		print("User already logged in.")
-		return
+func login(uuid string, session string) string {
+	if user.logged_in {
+		return "You are already logged in."
 	}
-	print("No user profile found.")
 
-	var loginRequest LOGIN_REQUEST
-	print("\nEnter your eProfile email:\r")
-	fmt.Scanln(&loginRequest.Email)
-	print("\nEnter Password:\r")
-	fmt.Scanln(&loginRequest.Password)
-	print("")
-
-	requestBody, err := json.Marshal(loginRequest)
+	request_json := REFRESH_REQUEST{
+		Uuid:    uuid,
+		Session: session,
+	}
+	requestBody, err := json.Marshal(request_json)
 	handle_error(err)
 
-	req, err := http.NewRequest("POST", "/o-core/user/login", bytes.NewReader(requestBody))
+	print("Sending authentication request...")
+	req, err := http.NewRequest("POST", "/o-core/user/refresh", bytes.NewReader(requestBody))
 	handle_error(err)
 	req.Header.Set("Content-Type", "application/json")
 	login_client := http.Client{}
@@ -105,11 +90,11 @@ func login() {
 	responseBody, err := io.ReadAll(resp.Body)
 	handle_error(err)
 
-	var loginResponse LOGIN_RESPONSE
-	err = json.Unmarshal(responseBody, &loginResponse)
+	var response_json API_RESPONSE
+	err = json.Unmarshal(responseBody, &response_json)
 	handle_error(err)
 
-	if resp.StatusCode == http.StatusOK && loginResponse.Status != "OK" {
+	if resp.StatusCode == http.StatusOK && response_json.Status != "OK" {
 		print("Authentication Failed.")
 		os.Exit(0)
 	} else if resp.StatusCode != http.StatusOK {
@@ -118,27 +103,17 @@ func login() {
 		os.Exit(0)
 	}
 
-	user.date_joined = loginResponse.Data.(map[string]interface{})["dateJoined"].(string)
-	user.date_of_birth = loginResponse.Data.(map[string]interface{})["dateOfBirth"].(string)
-	user.display_image = loginResponse.Data.(map[string]interface{})["displayImage"].(string)
-	user.display_name = loginResponse.Data.(map[string]interface{})["displayName"].(string)
-	user.email = loginResponse.Data.(map[string]interface{})["email"].(string)
-	user.first_name = loginResponse.Data.(map[string]interface{})["firstName"].(string)
-	user.middles_names = loginResponse.Data.(map[string]interface{})["middleNames"].(string)
-	user.last_name = loginResponse.Data.(map[string]interface{})["lastName"].(string)
-	user.permissions = loginResponse.Data.(map[string]interface{})["permissions"].(int)
-	user.session = loginResponse.Data.(map[string]interface{})["session"].(string)
-	print("Login successful.")
-	print("hello, " + user.display_name)
-	print_2fa_required_warning()
-	complete_2fa_login_step("Failed Connection /w Server")
-	complete_2fa_login_step("Verified Connection /w Server")
-	complete_2fa_login_step("Created 2FA Request")
-	complete_2fa_login_step("Failed to create 2FA Request")
-	complete_2fa_login_step("User Accepted Request")
-	complete_2fa_login_step("Connection Successfully Authorized")
-	complete_2fa_login_step("User Blocked Connection")
-	complete_2fa_login_step("Request Timed Out")
+	user.date_joined = response_json.Data.(map[string]interface{})["dateJoined"].(string)
+	user.date_of_birth = response_json.Data.(map[string]interface{})["dateOfBirth"].(string)
+	user.display_image = response_json.Data.(map[string]interface{})["displayImage"].(string)
+	user.display_name = response_json.Data.(map[string]interface{})["displayName"].(string)
+	user.email = response_json.Data.(map[string]interface{})["email"].(string)
+	user.first_name = response_json.Data.(map[string]interface{})["firstName"].(string)
+	user.middles_names = response_json.Data.(map[string]interface{})["middleNames"].(string)
+	user.last_name = response_json.Data.(map[string]interface{})["lastName"].(string)
+	user.permissions = response_json.Data.(map[string]interface{})["permissions"].(int)
+	user.session = response_json.Data.(map[string]interface{})["session"].(string)
+	return "Authorized user."
 }
 
 var _2FA_LS int = 0
