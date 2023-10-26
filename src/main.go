@@ -1,23 +1,13 @@
 package main
 
-import (
-	"bytes"
-	"encoding/json"
-	"fmt"
-	"io"
-	"net/http"
-	"os"
-	"runtime"
-	"strconv"
-	"strings"
-)
+import "os"
 
 func main() {
-	init_version()
-	init_server()
-  args := os.Args[1:]
-  if len(args) > 0 {
-    execute(args)
-  }
+	__init__()
+	args := os.Args[1:]
+	if len(args) == 0 {
+		print("Overlord " + version.label)
+	} else {
+		print(process_cmd_line(args))
+	}
 }
-

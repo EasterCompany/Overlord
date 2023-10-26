@@ -1,5 +1,15 @@
 package main
 
+import (
+	"bytes"
+	"encoding/json"
+	"fmt"
+	"io"
+	"net/http"
+	"os"
+	"strconv"
+)
+
 type LOGIN_REQUEST struct {
 	Email    string `json:"email"`
 	Password string `json:"password"`
@@ -10,104 +20,101 @@ type LOGIN_RESPONSE struct {
 	Data   interface{} `json:"data"`
 }
 
+type __SERVER__ struct {
+	ssl_enabled bool
+	host        string
+	port        int
+	uuid        string
+	name        string
+	label       string
+	description string
+	image       string
+	branch      string
+}
+
+type __GROUP__ struct {
+	uuid    string
+	name    string
+	level   int
+	servers []__SERVER__
+}
+
 type __USER__ struct {
 	uuid          string
 	display_image string
 	display_name  string
 	email         string
 	session       string
-	permissions   float64
+	permissions   int
+	groups        []__GROUP__
 	first_name    string
 	middles_names string
 	last_name     string
 	last_active   string
 	date_joined   string
 	date_of_birth string
+	logged_in     bool
+	is_active     bool
+	exists        bool
 }
 
 var user = __USER__{
-	uuid:          "null",
-	display_image: "null",
-	display_name:  "null",
-	email:         "null",
-	session:       "null",
+	uuid:          "",
+	display_image: "",
+	display_name:  "",
+	email:         "",
+	session:       "",
 	permissions:   0,
-	first_name:    "null",
-	middles_names: "null",
-	last_name:     "null",
-	last_active:   "null",
-	date_joined:   "null",
-	date_of_birth: "null",
-}
-
-type __ORG__ struct {
-	uuid          string
-	tier          string
-	local_port    string
-	display_image string
-	display_name  string
-	contact_email string
-	permissions   string
-}
-
-var org = __ORG__{
-	uuid:          "0",
-	tier:          "Local Host",
-	local_port:    "8999",
-	display_image: "null",
-	display_name:  user.first_name + "'s Local Network",
-	contact_email: user.first_name + "@local.network",
-	permissions:   "99",
+	groups:        []__GROUP__{},
+	first_name:    "",
+	middles_names: "",
+	last_name:     "",
+	last_active:   "",
+	date_joined:   "",
+	date_of_birth: "",
+	logged_in:     false,
+	is_active:     false,
+	exists:        false,
 }
 
 func login() {
 	if user.email != "null" && user.uuid != "null" && user.session != "null" {
-		fmt.Println("User already logged in.")
-	}
-	fmt.Println("No user profile found.")
-
-	var loginRequest LOGIN_REQUEST
-	fmt.Println("\nEnter your eProfile email:\r")
-	fmt.Scanln(&loginRequest.Email)
-	fmt.Println("\nEnter Password:\r")
-	fmt.Scanln(&loginRequest.Password)
-	fmt.Println("")
-
-	requestBody, err := json.Marshal(loginRequest)
-	if err != nil {
-		fmt.Println(err)
+		print("User already logged in.")
 		return
 	}
+	print("No user profile found.")
 
-	req, err := http.NewRequest("POST", server.http_uri+"/o-core/user/login", bytes.NewReader(requestBody))
-	if err != nil {
-		log.Fatalln(err)
-	}
+	var loginRequest LOGIN_REQUEST
+	print("\nEnter your eProfile email:\r")
+	fmt.Scanln(&loginRequest.Email)
+	print("\nEnter Password:\r")
+	fmt.Scanln(&loginRequest.Password)
+	print("")
+
+	requestBody, err := json.Marshal(loginRequest)
+	handle_error(err)
+
+	req, err := http.NewRequest("POST", "/o-core/user/login", bytes.NewReader(requestBody))
+	handle_error(err)
 	req.Header.Set("Content-Type", "application/json")
 	login_client := http.Client{}
 	resp, err := login_client.Do(req)
-	if err != nil {
-		log.Fatalln(err)
-	}
+	handle_error(err)
 	defer resp.Body.Close()
 
 	responseBody, err := io.ReadAll(resp.Body)
-	if err != nil {
-		log.Fatalln(err)
-	}
+	handle_error(err)
 
 	var loginResponse LOGIN_RESPONSE
 	err = json.Unmarshal(responseBody, &loginResponse)
-	if err != nil {
-		log.Fatalln(err)
-	}
+	handle_error(err)
 
 	if resp.StatusCode == http.StatusOK && loginResponse.Status != "OK" {
-		fmt.Println("Authentication Failed.")
+		print("Authentication Failed.")
 		os.Exit(0)
 	} else if resp.StatusCode != http.StatusOK {
-		fmt.Println("\nSorry! Something went wrong with your login attempt.")
-		fmt.Println("It looks like it's something wrong with the server, please try again later.")
+		print("\nSorry! Something went wrong with your login attempt.")
+		print("It looks like it's something wrong with the server, please try again later.")
 		os.Exit(0)
 	}
 
@@ -119,30 +126,30 @@ func login() {
 	user.first_name = loginResponse.Data.(map[string]interface{})["firstName"].(string)
 	user.middles_names = loginResponse.Data.(map[string]interface{})["middleNames"].(string)
 	user.last_name = loginResponse.Data.(map[string]interface{})["lastName"].(string)
-	user.permissions = loginResponse.Data.(map[string]interface{})["permissions"].(float64)
+	user.permissions = loginResponse.Data.(map[string]interface{})["permissions"].(int)
 	user.session = loginResponse.Data.(map[string]interface{})["session"].(string)
-	fmt.Println("Login successful.")
-	fmt.Println("hello, " + user.display_name)
-	console.print_2fa_required_warning()
-	console.complete_2fa_login_step("Failed Connection /w Server")
-	console.complete_2fa_login_step("Verified Connection /w Server")
-	console.complete_2fa_login_step("Created 2FA Request")
-	console.complete_2fa_login_step("Failed to create 2FA Request")
-	console.complete_2fa_login_step("User Accepted Request")
-	console.complete_2fa_login_step("Connection Successfully Authorized")
-	console.complete_2fa_login_step("User Blocked Connection")
-	console.complete_2fa_login_step("Request Timed Out")
+	print("Login successful.")
+	print("hello, " + user.display_name)
+	print_2fa_required_warning()
+	complete_2fa_login_step("Failed Connection /w Server")
+	complete_2fa_login_step("Verified Connection /w Server")
+	complete_2fa_login_step("Created 2FA Request")
+	complete_2fa_login_step("Failed to create 2FA Request")
+	complete_2fa_login_step("User Accepted Request")
+	complete_2fa_login_step("Connection Successfully Authorized")
+	complete_2fa_login_step("User Blocked Connection")
+	complete_2fa_login_step("Request Timed Out")
 }
 
 var _2FA_LS int = 0
 
 func complete_2fa_login_step(label string) {
 	_2FA_LS++
-	fmt.Println("[" + strconv.Itoa(int(_2FA_LS)) + "]" + label)
+	print("[" + strconv.Itoa(int(_2FA_LS)) + "]" + label)
 }
 
 func print_2fa_required_warning() {
-	fmt.Println(`
+	print(`
   This is a one-time 2FA login requirement.
 
   Open the OLT Dashboard in either:
