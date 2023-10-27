@@ -1,8 +1,104 @@
 package main
 
-var user USER = User("local", "local")
+import "strconv"
+
+func _user(args []string) string {
+	if len(args) > 0 {
+		switch args[0] {
+		case "help":
+			return _user_help()
+		case "list":
+			return _user_list()
+		}
+	}
+	return _user_error("invalid options")
+}
+
+var _user_help = func() string {
+	return "command <user> help:\n"
+}
+
+var _user_list = func() string {
+	exit_if_not_logged_in()
+	return header("user") +
+		"\nuuid: " + user.Identifier +
+		"\nemail: " + user.email +
+		"\npermissions: " + user.permissions +
+		"\ndisplay name: " + user.display_name +
+		"\nfirst name: " + user.first_name +
+		"\nmiddles names: " + user.middles_names +
+		"\nlast names: " + user.last_name +
+		"\nlast active: " + user.last_active +
+		"\ndate joined: " + user.date_joined +
+		"\ndate of birth: " + user.date_of_birth +
+		"\nimage: " + user.display_image +
+		"\ngroups: " + strconv.Itoa(len(user.groups)) +
+		"\nservers: " + strconv.Itoa(len(user.groups))
+}
+
+var _user_error = func(msg string) string {
+	return "command <user> error: " + msg
+}
+
+type USER struct {
+	Identifier string
+	Session    string
+	_APIToken  API_TOKEN_REQUEST
+
+	connected    bool
+	logged_in    bool
+	permissions  string
+	last_active  string
+	account_type string
+
+	is_disabled  bool
+	is_active    bool
+	is_user      bool
+	is_staff     bool
+	is_developer bool
+	is_admin     bool
+	is_super     bool
+
+	groups []USER_GROUP
+
+	display_image string
+	display_name  string
+	first_name    string
+	middles_names string
+	last_name     string
+	date_joined   string
+	date_of_birth string
+
+	addresses       string
+	billing_address string
+
+	email             string
+	other_emails      string
+	unverified_emails string
+	sms               string
+	other_sms         string
+	unverified_sms    string
+
+	_2FA_method             string
+	_2FA_secret             string
+	_OTA_preference         string
+	_CONTACT_preference     string
+	_ADVERTISING_preference string
+}
+
+var user USER = User("root", "root")
 
 func User(user_id string, session string) USER {
+	return _User(user_id, session)
+}
+
+func _User(user_id string, session string) USER {
+
+	account_type := "free"
+	if user_id == "root" && session == "root" {
+		account_type = "local"
+	}
+
 	return USER{
 		Identifier: user_cache_default(user_id+".user.identifier", user_id),
 		Session:    user_cache_default(user_id+".user.session", session),
@@ -11,12 +107,13 @@ func User(user_id string, session string) USER {
 			Session: session,
 		},
 
-		connected:   user_cache_default(user_id+".user.connected", "false") == "true",
-		logged_in:   user_cache_default(user_id+".user.logged_in", "false") == "true",
-		permissions: user_cache_default(user_id+".user.permissions", "0"),
-		last_active: user_cache_default(user_id+".user.last_active", "0"),
+		account_type: user_cache_default(user_id+".user.account_type", account_type),
+		connected:    user_cache_default(user_id+".user.connected", "false") == "true",
+		logged_in:    user_cache_default(user_id+".user.logged_in", "false") == "true",
+		permissions:  user_cache_default(user_id+".user.permissions", "0"),
+		last_active:  user_cache_default(user_id+".user.last_active", "0"),
 
-		is_disabled:  user_cache_default(user_id+".user.is_disabled", "true") == "true",
+		is_disabled:  user_cache_default(user_id+".user.is_disabled", "false") == "true",
 		is_active:    user_cache_default(user_id+".user.is_active", "false") == "true",
 		is_user:      user_cache_default(user_id+".user.is_user", "false") == "true",
 		is_staff:     user_cache_default(user_id+".user.is_staff", "false") == "true",

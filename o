@@ -7,9 +7,9 @@ package="ox_"$version"-"$build"_"$arch
 project_dir="$(pwd)"
 src_dir="$project_dir/src"
 build_dir="$project_dir/build"
-rm -rf $build_dir
 
 clear
+sudo rm -rf $build_dir
 echo " "
 echo "> [CONFIG] System Settings"
 echo "  os: $os"
@@ -30,7 +30,18 @@ binary="$bundle/usr/bin/ox"
 mkdir -p "$build_dir"
 mkdir -p "$bundle"
 mkdir -p "$bundle/bin"
+mkdir -p "$bundle/usr"
 mkdir -p "$bundle/usr/bin"
+mkdir -p "$bundle/usr/lib"
+mkdir -p "$bundle/usr/lib/ox"
+mkdir -p "$bundle/usr/lib/ox/redis"
+mkdir -p "$bundle/usr/lib/ox/conf"
+mkdir -p "$bundle/usr/lib/ox/shared"
+mkdir -p "$bundle/usr/local"
+mkdir -p "$bundle/usr/local/lib"
+mkdir -p "$bundle/usr/local/lib/ox/redis"
+mkdir -p "$bundle/usr/local/lib/ox/conf"
+mkdir -p "$bundle/usr/local/lib/ox/shared"
 mkdir -p "$bundle/DEBIAN"
 
 echo "> [CONFIG] Build Options"
@@ -57,16 +68,45 @@ else
   exit
 fi
 
-echo "> Bundle Debian Package"
-sudo dpkg --build "$bundle"
-sudo dpkg-deb --info "$deb"
-sudo dpkg-deb --contents "$deb"
+echo "> Removing existing installations"
+if test -f "/usr/bin/ox"; then
+  sudo rm -rf /usr/bin/ox
+  echo "  [DELETED] /usr/bin/ox"
+fi
+if test -d "/usr/lib/ox"; then
+  sudo rm -rf /usr/lib/ox
+  echo "  [DELETED] /usr/lib/ox"
+fi
 echo " "
+if test -d "/usr/local/lib/ox"; then
+  sudo rm -rf /usr/local/lib/ox
+  echo "  [DELETED] /usr/local/lib/ox"
+fi
+echo " "
+
+echo "> Creating symlinks"
+sudo ln -s "$binary" /usr/bin/ox
+echo "  [LINKED] /usr/bin/ox -> $binary"
+sudo ln -s "$bundle/usr/lib/ox" /usr/lib/ox
+echo "  [LINKED] /usr/lib/ox -> $bundle/usr/lib/ox"
+sudo ln -s "$bundle/usr/local/lib/ox" /usr/local/lib/ox
+echo "  [LINKED] /usr/local/lib/ox -> $bundle/usr/local/lib/ox"
+echo " "
+
+/usr/bin/ox $@
+echo " "
+exit
 
 echo "> Remove Existing Installation"
 sudo apt remove ox -y
 echo " "
 
+echo "> Bundle Debian Package"
+sudo dpkg --build "$bundle"
+sudo dpkg-deb --info "$package"
+sudo dpkg-deb --contents "$package"
+echo " "
+
 echo "> Install New Package"
-sudo apt-get install -f "$deb"
+sudo apt-get install -f "$package"
 echo " "

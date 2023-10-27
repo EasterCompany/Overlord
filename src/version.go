@@ -6,41 +6,59 @@ import (
 	"strings"
 )
 
-type __VERSION__ struct {
+func _version(args []string) string {
+	if len(args) > 0 {
+		switch args[0] {
+		case "help":
+			return _version_help()
+		case "list":
+			return _version_list()
+		}
+	}
+	return _version_error("invalid options")
+}
+
+var _version_help = func() string {
+	return "command <version> help:\n"
+}
+
+var _version_list = func() string {
+	return header("version") +
+		"\nlabel: " + version.label +
+		"\nchannel: " + version.channel +
+		"\nsystem: " + version.system
+}
+
+var _version_error = func(msg string) string {
+	return "command <version> error: " + msg
+}
+
+type Version struct {
 	channel string
-	branch  string
-	system  string
 	major   int
 	minor   int
 	patch   int
 	hotfix  int
-	build   string
 	label   string
+	system  string
 }
 
-var version = __VERSION__{
-	channel: "alpha",
-	branch:  "",
+var version = Version{
+	channel: "latest",
 	major:   1,
 	minor:   3,
 	patch:   0,
-	hotfix:  0,
-	build:   "",
+	hotfix:  1,
 	label:   "",
 	system:  strings.ToUpper(string(runtime.GOOS[0])) + string(runtime.GOOS[1:]),
 }
 
 func __init__() {
-	version.branch = strconv.Itoa(version.major) + "." + strconv.Itoa(version.minor) + "-" + version.channel
-	version.build =
-		strconv.Itoa(version.major*100) +
-			strconv.Itoa(version.minor*100) +
-			strconv.Itoa(version.patch)
 	version.label =
 		strconv.Itoa(int(version.major)) + "." +
 			strconv.Itoa(version.minor) + "." +
-			strconv.Itoa(version.patch) + " " +
-			version.build + " " +
-			version.channel + " " +
-			version.system
+			strconv.Itoa(version.patch)
+	if version.hotfix > 0 {
+		version.label = version.label + "-" + strconv.Itoa(version.hotfix)
+	}
 }

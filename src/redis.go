@@ -2,11 +2,35 @@ package main
 
 import (
 	"context"
+	"time"
 
 	"github.com/redis/go-redis/v9"
 )
 
-// dump db
+func _redis(args []string) string {
+	if len(args) > 0 {
+		switch args[0] {
+		case "help":
+			return _redis_help()
+		case "list":
+			return _redis_list()
+		}
+	}
+	return _redis_error("invalid options")
+}
+
+var _redis_help = func() string {
+	return "command <redis> help:\n"
+}
+
+var _redis_list = func() string {
+	return "nothing to see here..."
+}
+
+var _redis_error = func(msg string) string {
+	return "command <redis> error: " + msg
+}
+
 var __dump_cache_client__ = redis.NewClient(&redis.Options{
 	Addr:     "localhost:6379",
 	Password: "",
@@ -24,7 +48,6 @@ func recycle(key string) {
 	handle_error(err)
 }
 
-// user db
 var __user_cache_client__ = redis.NewClient(&redis.Options{
 	Addr:     "localhost:6379",
 	Password: "",
@@ -33,14 +56,17 @@ var __user_cache_client__ = redis.NewClient(&redis.Options{
 var __user_cache_ctx__ = context.Background()
 
 func user_cache_default(key string, value string) string {
-	current := user_cache_get(key)
-	print("user.cache.default." + key + " = (" + current + " -> " + value + ")")
-	user_cache_set(key, value)
-	return value
+	var current string = user_cache_get(key)
+	if current == "" && value != "" {
+		warn("defaulting user_cache >> " + key + ": " + value)
+		user_cache_set(key, value)
+		return value
+	}
+	return current
 }
 
-func user_cache_set(key string, value interface{}) {
-	err := __user_cache_client__.Set(__user_cache_ctx__, key, value, 0).Err()
+func user_cache_set(key string, value string) {
+	err := __user_cache_client__.Set(__user_cache_ctx__, key, value, 10*time.Minute).Err()
 	handle_error(err)
 }
 
@@ -48,7 +74,6 @@ func user_cache_get(key string) string {
 	return __user_cache_client__.Get(__user_cache_ctx__, key).Val()
 }
 
-// rdfs db
 var __rdfs_cache_client__ = redis.NewClient(&redis.Options{
 	Addr:     "localhost:6379",
 	Password: "",
