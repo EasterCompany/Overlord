@@ -5,7 +5,72 @@ import (
 	"strings"
 )
 
-type REFRESH_REQUEST struct {
+type USER struct {
+	Identifier string
+	Session    string
+	_APIToken  API_TOKEN_REQUEST
+
+	connected    bool
+	logged_in    bool
+	permissions  string
+	last_active  string
+	account_type string
+
+	is_disabled  bool
+	is_active    bool
+	is_user      bool
+	is_staff     bool
+	is_developer bool
+	is_admin     bool
+	is_super     bool
+
+	groups []USER_GROUP
+
+	display_image string
+	display_name  string
+	first_name    string
+	middles_names string
+	last_name     string
+	date_joined   string
+	date_of_birth string
+
+	addresses       string
+	billing_address string
+
+	email             string
+	other_emails      string
+	unverified_emails string
+	sms               string
+	other_sms         string
+	unverified_sms    string
+
+	_2FA_method             string
+	_2FA_secret             string
+	_OTA_preference         string
+	_CONTACT_preference     string
+	_ADVERTISING_preference string
+}
+
+type USER_GROUP struct {
+	uuid    string
+	name    string
+	level   int
+	servers []USER_GROUP_SERVER
+}
+
+type USER_GROUP_SERVER struct {
+	ssl_enabled bool
+	host        string
+	port        int
+	uuid        string
+	name        string
+	label       string
+	description string
+	image       string
+	branch      string
+}
+
+type API_TOKEN_REQUEST struct {
 	Uuid    string `json:"uuid"`
 	Session string `json:"session"`
 }
@@ -31,9 +96,9 @@ var display_version = func() string {
 
 var display_user = func() string {
 	return header("user") +
-		"\nuuid: " + user.uuid +
+		"\nuuid: " + user.Identifier +
 		"\nemail: " + user.email +
-		"\npermissions: " + strconv.Itoa(user.permissions) +
+		"\npermissions: " + user.permissions +
 		"\ndisplay name: " + user.display_name +
 		"\nfirst name: " + user.first_name +
 		"\nmiddles names: " + user.middles_names +

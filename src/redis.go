@@ -32,14 +32,20 @@ var __user_cache_client__ = redis.NewClient(&redis.Options{
 })
 var __user_cache_ctx__ = context.Background()
 
+func user_cache_default(key string, value string) string {
+	current := user_cache_get(key)
+	print("user.cache.default." + key + " = (" + current + " -> " + value + ")")
+	user_cache_set(key, value)
+	return value
+}
+
 func user_cache_set(key string, value interface{}) {
 	err := __user_cache_client__.Set(__user_cache_ctx__, key, value, 0).Err()
 	handle_error(err)
 }
 
-func user_cache_get(key string) {
-	err := __user_cache_client__.Get(__user_cache_ctx__, key).Err()
-	handle_error(err)
+func user_cache_get(key string) string {
+	return __user_cache_client__.Get(__user_cache_ctx__, key).Val()
 }
 
 // rdfs db
