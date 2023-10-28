@@ -1,6 +1,6 @@
 package main
 
-func process_cmd_line(args []string) string {
+func _cmd(args []string) string {
 	s := args[1:]
 	switch args[0] {
 	case "help":

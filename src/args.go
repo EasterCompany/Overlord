@@ -2,7 +2,7 @@ package main
 
 import "strings"
 
-func process_global_args_from_cmd_line(args []string) {
+func _args(args []string) {
 	execute_match_cases := func(arg string) string {
 		switch arg {
 		case "v":

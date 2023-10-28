@@ -6,12 +6,20 @@ OX_WORKING_DIR="$5"
 OX_PACKAGE="ox_"$OX_VERSION"-"$OX_BUILD"_"$OX_ARCH
 OX_SOURCE_DIR="$OX_WORKING_DIR/src"
 OX_BUILD_DIR="$OX_WORKING_DIR/build"
-OX_BUNDLE_DIR="$OX_BUILD_DIR/$PACKAGE"
+OX_BUNDLE_DIR="$OX_WORKING_DIR/build/$OX_PACKAGE"
 OX_DEB_FILE="$OX_BUILD_DIR/$OX_PACKAGE.deb"
+OX_ARGS="$@"
+
+if [ $OX_OS == "linux" ]; then
+  OX_BINARY="$OX_BUNDLE/usr/bin/ox"
+else
+  OX_BINARY="$OX_BUILD_DIR/ox"
+fi
 
 clear
 echo " "
 echo "> [BUILD CONFIG] "
+echo "  Args: $OX_ARGS"
 echo "  OS: $OX_OS"
 echo "  ARCH: $OX_ARCH"
 echo "  VERSION: $OX_VERSION"
@@ -21,7 +29,9 @@ echo "  WORKING DIR: $OX_WORKING_DIR"
 echo "  SOURCE DIR: $OX_SOURCE_DIR"
 echo "  BUILD DIR: $OX_BUILD_DIR"
 echo "  BUNDLE DIR: $OX_BUNDLE_DIR"
+echo "  BINARY: $OX_BINARY"
 echo " "
+
 if test -f "$OX_BUILD_DIR"; then
   echo "  deleting pre-existing build contents..."
   sudo rm -rf $OX_BUILD_DIR
@@ -30,22 +40,13 @@ fi
 
 if [ "$OX_OS" == "linux" ]; then
   if [ "$OX_ARCH" == "amd64" ]; then
-    $OX_GO_BINARY="$OX_BUNDLE/usr/bin/ox"
-    mkdir -p "$OX_BUILD_DIR"
-    mkdir -p "$OX_BUNDLE"
-    mkdir -p "$OX_BUNDLE/bin"
-    mkdir -p "$OX_BUNDLE/usr"
-    mkdir -p "$OX_BUNDLE/usr/bin"
-    mkdir -p "$OX_BUNDLE/usr/lib"
-    mkdir -p "$OX_BUNDLE/usr/lib/ox"
-    mkdir -p "$OX_BUNDLE/usr/lib/ox/redis"
-    mkdir -p "$OX_BUNDLE/usr/lib/ox/conf"
-    mkdir -p "$OX_BUNDLE/usr/lib/ox/shared"
-    mkdir -p "$OX_BUNDLE/usr/local"
-    mkdir -p "$OX_BUNDLE/usr/local/lib"
-    mkdir -p "$OX_BUNDLE/usr/local/lib/ox/redis"
-    mkdir -p "$OX_BUNDLE/usr/local/lib/ox/conf"
-    mkdir -p "$OX_BUNDLE/usr/local/lib/ox/shared"
+    echo "> Creating new build diretories"
+    sudo mkdir -p "$OX_BUILD_DIR"
+    sudo mkdir -p "$OX_BUNDLE"
+    sudo mkdir -p "$OX_BUNDLE/bin"
+    sudo mkdir -p "$OX_BUNDLE/usr"
+    sudo mkdir -p "$OX_BUNDLE/usr/bin"
+    echo "  Done."
     mkdir -p "$OX_BUNDLE/DEBIAN"
     echo "  creating package control file..."
     echo "Package: ox
@@ -56,18 +57,20 @@ Architecture: $OX_ARCH
 Homepage: https://overlord.easter.company
 Description: ox command line interface, package manager, server, and more" > "$OX_BUNDLE/DEBIAN/control"
     echo " "
-
     echo "> Compile binaries from source"
-    GOOS="$OX_OS" GOARCH="$OX_ARCH" go build -o "$binary" "$OX_SOURCE_DIR"
-    if test -f $binary; then
+    GOOS="$OX_OS"
+    GOARCH="$OX_ARCH"
+    go build -o "$OX_BINARY" "$OX_SOURCE_DIR"
+    if test -f $OX_BINARY; then
       echo "  Successfully compiled"
       echo " "
     else
       echo " "
       exit
     fi
+    echo " "
 
-    echo "> Removing existing installations"
+    echo "> Removing Existing Symlinks"
     if test -f "/usr/bin/ox"; then
       sudo rm -rf /usr/bin/ox
       echo "  [DELETED] /usr/bin/ox"
@@ -76,49 +79,42 @@ Description: ox command line interface, package manager, server, and more" > "$O
       sudo rm -rf /usr/lib/ox
       echo "  [DELETED] /usr/lib/ox"
     fi
-    echo " "
-
     if test -d "/usr/local/lib/ox"; then
       sudo rm -rf /usr/local/lib/ox
       echo "  [DELETED] /usr/local/lib/ox"
     fi
     echo " "
 
-    echo "> Creating symlinks"
-    sudo ln -s "$binary" /usr/bin/ox
-    echo "  [LINKED] /usr/bin/ox -> $binary"
-    sudo ln -s "$OX_BUNDLE/usr/lib/ox" /usr/lib/ox
-    echo "  [LINKED] /usr/lib/ox -> $OX_BUNDLE/usr/lib/ox"
-    sudo ln -s "$OX_BUNDLE/usr/local/lib/ox" /usr/local/lib/ox
-    echo "  [LINKED] /usr/local/lib/ox -> $OX_BUNDLE/usr/local/lib/ox"
+    echo "> Remove Existing Installation"
+    sudo apt remove ox -y
     echo " "
 
-    if [ "$6" == "pkg" ]; then
-      echo "> Remove Existing Installation"
-      sudo apt remove ox -y
-      echo " "
-      echo "> Bundle Debian Package"
-      sudo dpkg --build "$OX_BUNDLE"
-      sudo dpkg-deb --info "$OX_PACKAGE"
-      sudo dpkg-deb --contents "$OX_PACKAGE"
-      echo " "
-      echo "> Install New Package"
-      sudo apt-get install -f "$OX_PACKAGE"
-      echo " "
-    fi
+    echo "> Bundle Debian Package"
+    sudo dpkg --build "$OX_BUNDLE"
+    sudo dpkg-deb --info "$OX_PACKAGE"
+    sudo dpkg-deb --contents "$OX_PACKAGE"
+    echo " "
 
-    if [ "$7" == "deploy" ]; then
-      echo "> Deploy Package"
-      echo " ..."
-      echo " "
-    fi
-
-    exit
+    echo "> Install New Package"
+    sudo apt-get install -f "$OX_PACKAGE"
+    echo " "
   fi
+  exit
 fi
 
 if [ "$OX_OS" == "darwin" ]; then
   if [ "$OX_ARCH" == "amd64" ]; then
-
+    echo "> Compile binaries from source"
+    GOOS="$OX_OS"
+    GOARCH="$OX_ARCH"
+    go build -o "$OX_BINARY" "$OX_SOURCE_DIR"
+    if test -f "$OX_BINARY"; then
+      echo "  Successfully compiled"
+      echo " "
+    else
+      echo " "
+      exit
+    fi
   fi
+  exit
 fi
