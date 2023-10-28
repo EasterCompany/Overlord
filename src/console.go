@@ -17,6 +17,41 @@ func _console(args []string) string {
 	return _console_error("invalid options")
 }
 
+func log(msg string) string {
+	fmt.Println(msg)
+	return msg
+}
+
+var __warnings__ []string = []string{}
+
+func logWarning(process string, msg string) string {
+	var _new_warning_ string = "WARN: (" + process + ") " + msg
+	__warnings__ = append(__warnings__, _new_warning_)
+	return log(_new_warning_)
+}
+
+var __errors__ []string = []string{}
+
+func logError(process string, msg string) string {
+	var _new_error_ string = "ERROR: (" + process + ") " + msg
+	__errors__ = append(__errors__, _new_error_)
+	return log(_new_error_)
+}
+
+func logInput() string {
+	i := ""
+	fmt.Scanln(&i)
+	return i
+}
+
+func logConfirmationInput() bool {
+	i := strings.ToLower(logInput())
+	if i == "y" || i == "yes" || i == "confirm" || i == "ok" || i == "agree" {
+		return true
+	}
+	return false
+}
+
 var _console_help = func() string {
 	return "command <console> help:\n"
 }
@@ -27,41 +62,4 @@ var _console_list = func() string {
 
 var _console_error = func(msg string) string {
 	return "command <console> error: " + msg
-}
-
-var __logs__ []string = []string{}
-
-func print(msg string) {
-	fmt.Println(msg)
-	__logs__ = append(__logs__, msg)
-}
-
-var __warnings__ []string = []string{}
-
-func warn(msg string) {
-	fmt.Println("WARN: " + msg)
-	__warnings__ = append(__warnings__, msg)
-}
-
-var __errors__ []string = []string{}
-
-func handle_error(err error) {
-	if err != nil {
-		fmt.Println("\nERROR: " + err.Error())
-		__errors__ = append(__errors__, err.Error())
-	}
-}
-
-func input() string {
-	i := ""
-	fmt.Scanln(&i)
-	return i
-}
-
-func confirm_input() bool {
-	i := strings.ToLower(input())
-	if i == "y" || i == "yes" || i == "confirm" || i == "ok" || i == "agree" {
-		return true
-	}
-	return true
 }

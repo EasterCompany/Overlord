@@ -86,65 +86,55 @@ type USER struct {
 	_ADVERTISING_preference string
 }
 
-var user USER = User("root", "root")
+var user USER = User("local", "local")
 
 func User(user_id string, session string) USER {
-	return _User(user_id, session)
-}
-
-func _User(user_id string, session string) USER {
-
-	account_type := "free"
-	if user_id == "root" && session == "root" {
-		account_type = "local"
-	}
-
 	return USER{
-		Identifier: user_cache_default(user_id+".user.identifier", user_id),
-		Session:    user_cache_default(user_id+".user.session", session),
+		Identifier: redis_default("user", user_id+".user.identifier", user_id),
+		Session:    redis_default("user", user_id+".user.session", session),
 		_APIToken: API_TOKEN_REQUEST{
 			Uuid:    user_id,
 			Session: session,
 		},
 
-		account_type: user_cache_default(user_id+".user.account_type", account_type),
-		connected:    user_cache_default(user_id+".user.connected", "false") == "true",
-		logged_in:    user_cache_default(user_id+".user.logged_in", "false") == "true",
-		permissions:  user_cache_default(user_id+".user.permissions", "0"),
-		last_active:  user_cache_default(user_id+".user.last_active", "0"),
+		account_type: redis_default("user", user_id+".user.account_type", "free"),
+		connected:    redis_default("user", user_id+".user.connected", "false") == "true",
+		logged_in:    redis_default("user", user_id+".user.logged_in", "false") == "true",
+		permissions:  redis_default("user", user_id+".user.permissions", "0"),
+		last_active:  redis_default("user", user_id+".user.last_active", "0"),
 
-		is_disabled:  user_cache_default(user_id+".user.is_disabled", "false") == "true",
-		is_active:    user_cache_default(user_id+".user.is_active", "false") == "true",
-		is_user:      user_cache_default(user_id+".user.is_user", "false") == "true",
-		is_staff:     user_cache_default(user_id+".user.is_staff", "false") == "true",
-		is_developer: user_cache_default(user_id+".user.is_developer", "false") == "true",
-		is_admin:     user_cache_default(user_id+".user.is_admin", "false") == "true",
-		is_super:     user_cache_default(user_id+".user.is_super", "false") == "true",
+		is_disabled:  redis_default("user", user_id+".user.is_disabled", "false") == "true",
+		is_active:    redis_default("user", user_id+".user.is_active", "false") == "true",
+		is_user:      redis_default("user", user_id+".user.is_user", "false") == "true",
+		is_staff:     redis_default("user", user_id+".user.is_staff", "false") == "true",
+		is_developer: redis_default("user", user_id+".user.is_developer", "false") == "true",
+		is_admin:     redis_default("user", user_id+".user.is_admin", "false") == "true",
+		is_super:     redis_default("user", user_id+".user.is_super", "false") == "true",
 
 		groups: []USER_GROUP{},
 
-		display_image: user_cache_default(user_id+".user.display_image", ""),
-		display_name:  user_cache_default(user_id+".user.display_name", ""),
-		first_name:    user_cache_default(user_id+".user.first_name", ""),
-		middles_names: user_cache_default(user_id+".user.middle_names", ""),
-		last_name:     user_cache_default(user_id+".user.last_name", ""),
-		date_joined:   user_cache_default(user_id+".user.date_joined", ""),
-		date_of_birth: user_cache_default(user_id+".user.date_of_birth", ""),
+		display_image: redis_default("user", user_id+".user.display_image", ""),
+		display_name:  redis_default("user", user_id+".user.display_name", ""),
+		first_name:    redis_default("user", user_id+".user.first_name", ""),
+		middles_names: redis_default("user", user_id+".user.middle_names", ""),
+		last_name:     redis_default("user", user_id+".user.last_name", ""),
+		date_joined:   redis_default("user", user_id+".user.date_joined", ""),
+		date_of_birth: redis_default("user", user_id+".user.date_of_birth", ""),
 
-		addresses:       user_cache_default(user_id+".user.addresses", ""),
-		billing_address: user_cache_default(user_id+".user.billing_address", ""),
+		addresses:       redis_default("user", user_id+".user.addresses", ""),
+		billing_address: redis_default("user", user_id+".user.billing_address", ""),
 
-		email:             user_cache_default(user_id+".user.email", ""),
-		other_emails:      user_cache_default(user_id+".user.other_emails", ""),
-		unverified_emails: user_cache_default(user_id+".user.unverified_emails", ""),
-		sms:               user_cache_default(user_id+".user.sms", ""),
-		other_sms:         user_cache_default(user_id+".user.other_sms", ""),
-		unverified_sms:    user_cache_default(user_id+".user.unverified_sms", ""),
+		email:             redis_default("user", user_id+".user.email", ""),
+		other_emails:      redis_default("user", user_id+".user.other_emails", ""),
+		unverified_emails: redis_default("user", user_id+".user.unverified_emails", ""),
+		sms:               redis_default("user", user_id+".user.sms", ""),
+		other_sms:         redis_default("user", user_id+".user.other_sms", ""),
+		unverified_sms:    redis_default("user", user_id+".user.unverified_sms", ""),
 
-		_2FA_method:             user_cache_default(user_id+".user._2FA_method", "none"),
-		_2FA_secret:             user_cache_default(user_id+".user._2FA_secret", ""),
-		_OTA_preference:         user_cache_default(user_id+".user._OTA_preference", "none"),
-		_CONTACT_preference:     user_cache_default(user_id+".user._CONTACT_preference", "none"),
-		_ADVERTISING_preference: user_cache_default(user_id+".user._ADVERTISING_preference", "none"),
+		_2FA_method:             redis_default("user", user_id+".user._2FA_method", "none"),
+		_2FA_secret:             redis_default("user", user_id+".user._2FA_secret", ""),
+		_OTA_preference:         redis_default("user", user_id+".user._OTA_preference", "none"),
+		_CONTACT_preference:     redis_default("user", user_id+".user._CONTACT_preference", "none"),
+		_ADVERTISING_preference: redis_default("user", user_id+".user._ADVERTISING_preference", "none"),
 	}
 }
