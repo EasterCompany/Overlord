@@ -74,5 +74,4 @@ func _process_cmd_line_input(args []string) {
 	default:
 		print("Invalid command: " + args[0])
 	}
-	os.Exit(0)
 }

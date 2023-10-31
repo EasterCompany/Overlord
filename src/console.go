@@ -38,6 +38,12 @@ func logError(process string, msg string) string {
 	return log(_new_error_)
 }
 
+func handleError(process string, msg string) string {
+	var _new_error_ string = "ERROR: (" + process + ") " + msg
+	__errors__ = append(__errors__, _new_error_)
+	return _new_error_
+}
+
 func logInput() string {
 	i := ""
 	fmt.Scanln(&i)
